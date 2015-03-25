@@ -7,10 +7,10 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace ZDCharts {
+namespace ZDCharts.ChartViews {
     
     
-    public partial class Index {
+    public partial class WebForm1 {
         
         /// <summary>
         /// form1 控件。
