@@ -12,8 +12,7 @@
 <body>
     <form id="f1" runat="server">
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="loadingdiv" />
-        <div id="main" style="height:500px;"></div>
+        <div id="main" style="height: 500px;"></div>
         <!-- ECharts单文件引入 -->
         <script type="text/javascript">
             // 路径配置
@@ -22,7 +21,6 @@
                     echarts: '../dist/'
                 }
             });
-
             // 使用
             require(
                 [
@@ -36,41 +34,13 @@
                        text: "图表数据正在努力加载...",
                        effect: "spin"
                    });
-                   var option = {
-                       tooltip: {
-                           show: true
-                       },
-                       legend: {
-                           data: ['销量']
-                       },
-                       xAxis: [
-                           {
-                               type: 'category',
-                               data: []
-                           }
-                       ],
-                       yAxis: [
-                           {
-                               type: 'value'
-                           }
-                       ],
-                       series: [
-                           {
-                               "name": "销量",
-                               "type": "bar",
-                               "data": [5, 20, 40, 10, 10, 20]
-                           }
-                       ]
-                   };
-
                    // 为echarts对象加载数据 
                    $.ajax({
                        type: 'POST',
                        url: '../Handlers/Handler1.ashx',
                        data: {},
                        success: function suc(result) {
-                           option.xAxis[0].data = result;
-                           myChart.setOption(option);
+                           myChart.setOption(result);
                            myChart.hideLoading();
                        },
                        dataType: 'JSON'
