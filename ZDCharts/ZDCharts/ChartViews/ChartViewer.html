@@ -14,19 +14,61 @@
 <body>
     <!-- Single button -->
     <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <button id="itembtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
             选择 <span class="caret"></span>
         </button>
         <ul id="dropdownmenu" class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
+            <li><a href="javascript:doselectli('合同签订情况表','../Handlers/Handler1.ashx')">合同签订情况表</a></li>
+            <li><a href="javascript:doselectli('回款情况表','../Handlers/Handler2.ashx')">回款情况表</a></li>
+            <li><a href="javascript:doselectli('发票情况表','../Handlers/Handler1.ashx')">发票情况表</a></li>
 
         </ul>
     </div>
+    <button id="b1" onclick="drawchart()">绘图</button>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="height: 500px;"></div>
+    <!-- ECharts单文件引入 -->
+
+
 </body>
 </html>
 <script type="text/javascript">
-  
- 
+    function doselectli(s,u) {
+        $("#itembtn").html(s);
+        $("#itembtn").attr("url", u);
+    }
+    function drawchart() {
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: '../dist/'
+            }
+        });
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+            ],
+           function (ec) {
+               // 基于准备好的dom，初始化echarts图表
+               var myChart = ec.init(document.getElementById('main'));
+               myChart.showLoading({
+                   text: "图表数据正在努力加载...",
+                   effect: "spin"
+               });
+               // 为echarts对象加载数据
+               $.ajax({
+                   type: 'POST',
+                   url: $("#itembtn").attr("url"),
+                   data: {},
+                   success: function suc(result) {
+                       myChart.setOption(result);
+                       myChart.hideLoading();
+                   },
+                   dataType: 'JSON'
+               });
+           }
+    );
+    }
 </script>

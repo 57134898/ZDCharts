@@ -25,35 +25,11 @@ namespace ZDCharts.Handlers
             opt.Add("yAxis", new JArray(new JObject(new JProperty("type", "value"))));
             opt.Add("series", new JArray(new JObject(new JProperty("name", "销量"), new JProperty("type", "bar"), new JProperty("data", new JArray(5, 20, 40, 10, 10, 20)))));
             context.Response.Write(opt.ToString());
+            List<string> list = new List<string>();
+
         }
 
 
-        //        var option = {
-        //    tooltip: {
-        //        show: true
-        //    },
-        //    legend: {
-        //        data: ['销量']
-        //    },
-        //    xAxis: [
-        //        {
-        //            type: 'category',
-        //            data: []
-        //        }
-        //    ],
-        //    yAxis: [
-        //        {
-        //            type: 'value'
-        //        }
-        //    ],
-        //    series: [
-        //        {
-        //            "name": "销量",
-        //            "type": "bar",
-        //            "data": [5, 20, 40, 10, 10, 20]
-        //        }
-        //    ]
-        //};
         public bool IsReusable
         {
             get
