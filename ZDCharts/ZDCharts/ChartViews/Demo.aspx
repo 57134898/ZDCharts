@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Demo.aspx.cs" Inherits="ZDCharts.ChartViews.WebForm1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Demo.aspx.cs" Inherits="ZDCharts.ChartViews.Demo" %>
 
 <!DOCTYPE html>
 
@@ -13,7 +13,7 @@
     <form id="f1" runat="server">
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
         <div id="loadingdiv" />
-        <div id="main" style="height: 400px;"></div>
+        <div id="main" style="height:500px;"></div>
         <!-- ECharts单文件引入 -->
         <script type="text/javascript">
             // 路径配置

@@ -10,7 +10,7 @@
 namespace ZDCharts.ChartViews {
     
     
-    public partial class WebForm1 {
+    public partial class Demo {
         
         /// <summary>
         /// f1 控件。

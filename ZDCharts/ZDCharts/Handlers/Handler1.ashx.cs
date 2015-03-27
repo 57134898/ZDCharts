@@ -15,12 +15,8 @@ namespace ZDCharts.Handlers
         {
             context.Response.ContentType = "text/plain";
             //context.Response.Write("Hello World");
-            int a = 0;
-            for (int i = 0; i < 1000000000; i++)
-            {
-                a += i; ;
-            }
-            Newtonsoft.Json.Linq.JArray jArr = new Newtonsoft.Json.Linq.JArray(new string[] { "老刘" + a.ToString(), "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子" });
+
+            Newtonsoft.Json.Linq.JArray jArr = new Newtonsoft.Json.Linq.JArray(new string[] { "老刘", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子" });
             context.Response.Write(jArr.ToString());
         }
 
