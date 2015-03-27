@@ -10,7 +10,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <a href="ChartViews/WebForm1.aspx">点这里1</a>
+            <a href="ChartViews/Demo.aspx">点这里1</a>
         </div>
     </form>
 </body>

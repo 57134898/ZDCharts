@@ -67,7 +67,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ChartViews\WebForm1.aspx" />
+    <Content Include="ChartViews\Demo.aspx" />
     <Content Include="dist\chart\bar.js" />
     <Content Include="dist\chart\chord.js" />
     <Content Include="dist\chart\eventRiver.js" />
@@ -117,12 +117,12 @@
     <Content Include="Scripts\jquery-2.1.3.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChartViews\WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
+    <Compile Include="ChartViews\Demo.aspx.cs">
+      <DependentUpon>Demo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ChartViews\WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
+    <Compile Include="ChartViews\Demo.aspx.designer.cs">
+      <DependentUpon>Demo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
