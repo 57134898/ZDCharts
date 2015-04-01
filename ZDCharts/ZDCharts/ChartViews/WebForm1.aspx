@@ -40,7 +40,7 @@
                            label:
                                {
                                    formatter: function (s) {
-                                       return s.slice(0, 6);
+                                       return s.slice(0, 8);
                                    }
                                },
                            autoPlay: true,
@@ -143,20 +143,6 @@
                            }
                        ]
                    };
-                   //    formatter: function (s) {
-                   //        return s.slice(0, 6);
-                   //    }
-                   //alert(option.timeline.playInterval);
-
-                   //function myfunction(s) {
-                   //    return s.slice(0, 6);
-                   //};
-                   //option.timeline.label.formatter =eval(' (  function (s) { return s.slice(0, 6); };   )');
-
-
-
-                   //alert(option.timeline.label.toString());
-                   //alert(option.timeline.label.formatter.toString());
                    myChart.setOption(option);
                }
         );
