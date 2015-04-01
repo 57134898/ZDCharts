@@ -21,7 +21,7 @@
                     echarts: '../dist/'
                 }
             });
-            
+
             // 使用
             require(
                 [
@@ -31,16 +31,18 @@
                function (ec) {
                    var myChart = ec.init(document.getElementById('main'));
                    var dataArr = ['500', '400', '600', '300'];
+
                    option = {
                        timeline: {
                            data: [
                                '2002-01-01', '2003-01-01', '2004-01-01'
                            ],
-                           label: {
-                               formatter: function (s) {
-                                   return s.slice(0, 4);
-                               }
-                           },
+                           label:
+                               {
+                                   formatter: function (s) {
+                                       return s.slice(0, 6);
+                                   }
+                               },
                            autoPlay: true,
                            playInterval: 1000
                        },
@@ -114,11 +116,11 @@
                                        'data': dataArr
                                    },
                                    {
-                                       'name': '金融',  'type': 'bar',
+                                       'name': '金融', 'type': 'bar',
                                        'data': dataArr
                                    },
                                    {
-                                       'name': '房地产',  'type': 'bar',
+                                       'name': '房地产', 'type': 'bar',
                                        'data': dataArr
                                    }
                                ]
@@ -141,7 +143,20 @@
                            }
                        ]
                    };
+                   //    formatter: function (s) {
+                   //        return s.slice(0, 6);
+                   //    }
+                   //alert(option.timeline.playInterval);
 
+                   //function myfunction(s) {
+                   //    return s.slice(0, 6);
+                   //};
+                   //option.timeline.label.formatter =eval(' (  function (s) { return s.slice(0, 6); };   )');
+
+
+
+                   //alert(option.timeline.label.toString());
+                   //alert(option.timeline.label.formatter.toString());
                    myChart.setOption(option);
                }
         );
