@@ -16,6 +16,7 @@ namespace ZDCharts.Handlers
         {
             context.Response.ContentType = "text/plain";
             //context.Response.Write("Hello World");
+            //var dt = DBHelper.ExecuteDataTable("select top 10 * from acontract");
 
             JArray jArr = new JArray(new string[] { "老刘", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子" });
             JObject opt = new JObject();

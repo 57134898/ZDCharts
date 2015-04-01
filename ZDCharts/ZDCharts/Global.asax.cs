@@ -9,8 +9,10 @@ namespace ZDCharts
 {
     public class Global : System.Web.HttpApplication
     {
+
         protected void Application_Start(object sender, EventArgs e)
         {
+            DBHelper.DBHelperInit(1);
         }
     }
 }
