@@ -12,7 +12,8 @@ namespace ZDCharts
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            DBHelper.DBHelperInit(1);
+            //DBHelper.DBHelperInit(1);
+            DBHelper.DBHelperInit(2);
         }
     }
 }
