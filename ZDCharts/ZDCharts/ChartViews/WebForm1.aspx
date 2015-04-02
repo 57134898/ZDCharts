@@ -6,11 +6,22 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
+
     <script src="../Scripts/jquery-2.1.3.min.js"></script>
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <link href="../Content/bootstrap-select.min.css" rel="stylesheet" />
+    <script src="../Scripts/bootstrap-select.min.js"></script>
     <script src="../dist/echarts.js"></script>
+
 </head>
 <body>
     <form id="form1" runat="server">
+        <select class="selectpicker" data-style="btn-warning">
+            <option>Mustard</option>
+            <option>Ketchup</option>
+            <option>Relish</option>
+        </select>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
         <div id="main" style="height: 500px;"></div>
         <!-- ECharts单文件引入 -->
