@@ -17,7 +17,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <select class="selectpicker" data-style="btn-primary">
+            <select class="selectpicker" data-width="100%" data-style="btn-info">
                 <option>2012</option>
                 <option>2013</option>
                 <option>2014</option>
@@ -25,14 +25,18 @@
                 <option>2016</option>
                 <option>2017</option>
             </select>
-
-            <select class="selectpicker" data-style="btn-warning">
+        </div>
+        <div>
+            <select class="selectpicker" data-width="100%" data-style="btn-warning">
                 <option>2014</option>
                 <option>2015</option>
                 <option>2016</option>
                 <option>2017</option>
             </select>
-            <button class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询 </button>
+        </div>
+        <br />
+        <div>
+            <button class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询 </button>
         </div>
 
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
@@ -54,9 +58,12 @@
                     'echarts/chart/line'
                 ],
                function (ec) {
-                   $('#main').css('height', $(window).height()/2);
+                   $('#main').css('height', $(window).height() / 2);
                    var myChart = ec.init(document.getElementById('main'));
-               
+                   myChart.showLoading({
+                       text: "图表数据正在努力加载...",
+                       effect: "spin"
+                   });
                    option = {
                        timeline: {
                            data: [
@@ -198,7 +205,7 @@
                                        option.options[0].series[2].data = d3.data;
                                        //传人X轴DATA ，公司信息
                                        option.options[0].xAxis[0].data = result.jArrrx_xAxis_Data
-                                       
+
                                        //option.options[0].series[0].markLine = mark;
                                        //option.options[0].series[1].markLine = mark;
                                        //option.options[0].series[2].markLine = mark;

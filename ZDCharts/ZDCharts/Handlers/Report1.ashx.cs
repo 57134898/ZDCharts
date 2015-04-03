@@ -33,7 +33,7 @@ namespace ZDCharts.Handlers
             //X轴
             foreach (DataRow r in dt_companys.Rows)
             {
-                jArrrx_xAxis_Data.Add(r["cname"].ToString().Substring(10));
+                jArrrx_xAxis_Data.Add(r["cname"].ToString().Substring(10).Replace("公司", ""));
             }
 
 
