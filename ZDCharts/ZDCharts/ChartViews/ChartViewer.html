@@ -26,7 +26,7 @@
     </div>
     <button id="b1" onclick="drawchart()">绘图</button>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div id="main" style="height: 500px;"></div>
+    <div id="main"></div>
     <!-- ECharts单文件引入 -->
 
 
@@ -52,6 +52,7 @@
             ],
            function (ec) {
                // 基于准备好的dom，初始化echarts图表
+               //$('main').css('height', "20px");
                var myChart = ec.init(document.getElementById('main'));
                myChart.showLoading({
                    text: "图表数据正在努力加载...",

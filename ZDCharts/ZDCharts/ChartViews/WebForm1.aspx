@@ -6,7 +6,7 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi" />
-    <title>签订合同情况表</title>
+    <title>签订销售合同情况表</title>
     <script src="../Scripts/jquery-2.1.3.min.js"></script>
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
     <script src="../Scripts/bootstrap.min.js"></script>
@@ -36,7 +36,7 @@
         </div>
 
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="height: 500px;"></div>
+        <div id="main"></div>
         <!-- ECharts单文件引入 -->
         <script type="text/javascript">
             // 路径配置
@@ -54,9 +54,9 @@
                     'echarts/chart/line'
                 ],
                function (ec) {
+                   $('#main').css('height', $(window).height()/2);
                    var myChart = ec.init(document.getElementById('main'));
-                   var dataArr = ['500', '400', '600', '300'];
-
+               
                    option = {
                        timeline: {
                            data: [
@@ -69,7 +69,7 @@
                                    }
                                },
                            autoPlay: true,
-                           playInterval: 1000
+                           playInterval: 3000
                        },
                        options: [
                            {
@@ -84,7 +84,7 @@
                                    'selected': {
                                        '签订': true,
                                        '回款': true,
-                                       '发票': false
+                                       '发票': true
                                    }
                                },
                                toolbox: {
@@ -112,32 +112,32 @@
                                yAxis: [
                                    {
                                        'type': 'value',
-                                       'name': '金额',
-                                       'max': 60000
+                                       'name': '金额(万元)',
+                                       'max': 40000
                                    }
                                ],
                                series: [
                                    {
                                        'name': '签订合同',
                                        'type': 'bar',
-                                       'markLine': {
-                                           symbol: ['arrow', 'none'],
-                                           symbolSize: [4, 2],
-                                           itemStyle: {
-                                               normal: {
-                                                   lineStyle: { color: 'orange' },
-                                                   barBorderColor: 'orange',
-                                                   label: {
-                                                       position: 'left',
-                                                       formatter: function (params) {
-                                                           return Math.round(params.value);
-                                                       },
-                                                       textStyle: { color: 'orange' }
-                                                   }
-                                               }
-                                           },
-                                           'data': [{ 'type': 'max', 'name': '最大值' }]
-                                       },
+                                       //'markLine': {
+                                       //    symbol: ['arrow', 'none'],
+                                       //    symbolSize: [4, 2],
+                                       //    itemStyle: {
+                                       //        normal: {
+                                       //            lineStyle: { color: 'orange' },
+                                       //            barBorderColor: 'orange',
+                                       //            label: {
+                                       //                position: 'left',
+                                       //                formatter: function (params) {
+                                       //                    return Math.round(params.value);
+                                       //                },
+                                       //                textStyle: { color: 'orange' }
+                                       //            }
+                                       //        }
+                                       //    },
+                                       //    'data': [{ 'type': 'max', 'name': '最大值' }]
+                                       //},
                                        'data': []
                                    },
                                    {
@@ -170,24 +170,24 @@
                            //alert(result.jArr_options[0].series[0].data[1]);
                            try {
                                for (var i = 0; i < result.jArr_options.length; i++) {
-                                   var mark = {
-                                       symbol: ['arrow', 'none'],
-                                       symbolSize: [4, 2],
-                                       itemStyle: {
-                                           normal: {
-                                               lineStyle: { color: 'orange' },
-                                               barBorderColor: 'orange',
-                                               label: {
-                                                   position: 'left',
-                                                   formatter: function (params) {
-                                                       return Math.round(params.value);
-                                                   },
-                                                   textStyle: { color: 'orange' }
-                                               }
-                                           }
-                                       },
-                                       'data': [{ 'type': 'max', 'name': '最大值' }]
-                                   };
+                                   //var mark = {
+                                   //    symbol: ['arrow', 'none'],
+                                   //    symbolSize: [4, 2],
+                                   //    itemStyle: {
+                                   //        normal: {
+                                   //            lineStyle: { color: 'orange' },
+                                   //            barBorderColor: 'orange',
+                                   //            label: {
+                                   //                position: 'left',
+                                   //                formatter: function (params) {
+                                   //                    return Math.round(params.value);
+                                   //                },
+                                   //                textStyle: { color: 'orange' }
+                                   //            }
+                                   //        }
+                                   //    },
+                                   //    'data': [{ 'type': 'max', 'name': '最大值' }]
+                                   //};
                                    if (i == 0) {
                                        option.options[i].title.text = result.jArr_options[i].text;
                                        var d1 = result.jArr_options[0].series[0];
