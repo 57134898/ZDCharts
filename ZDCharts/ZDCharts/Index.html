@@ -12,12 +12,14 @@
 
     <script src="Scripts/bootstrap.min.js"></script>
     <script src="Scripts/bootstrap-select.min.js"></script>
-
+    <link href="Content/myStyle.css" rel="stylesheet" />
 </head>
 <body>
+
+
     <div id="nav1" class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" onclick="navtopage('CashViews/NewMsg.html')">新消息<span class="badge">6</span></button>
+            <button type="button" class="btn btn-default isActive" onclick="navtopage('CashViews/NewMsg.html')">新消息<span class="badge">6</span></button>
         </div>
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-default">图表</button>
@@ -39,6 +41,8 @@
     });
     function navtopage(url) {
         $("#mainform").attr("src", url);
+
+      
         //
     }
 </script>

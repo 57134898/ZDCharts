@@ -1,40 +1,12 @@
 ﻿body {
 }
 
-.home-sub-nav {
-    position: relative;
-    z-index: 1;
-    margin-bottom: 10px;
-    width: 100%;
-    background: #f5f5f5;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    -wekbit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-    box-shadow: 0 1px 2px rgba(0,0,0,.15);
-}
-
-.layout-box {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flexbox
-}
-
-.item.isActive::before {
+.isActive::before {
     content: ' ';
     position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 5px;
+    height: 2px;
     background: #FF8200;
-}
-
-.box-col {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    width: 100%;
 }
