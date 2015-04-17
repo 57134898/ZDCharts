@@ -10,3 +10,6 @@
     height: 2px;
     background: #FF8200;
 }
+.numFormat{
+    text-align:right;
+}

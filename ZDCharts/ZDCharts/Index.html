@@ -36,13 +36,16 @@
 <!-- JavaScript Test Zone -->
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.full-width').horizontalNav({});
+        $('.full-width').horizontalNav
         $('#mainform').height($(window).height() - $('#nav1').height() - 10);
+                setInterval(function () {
+            $('#mainform').height($(window).height() - $('#nav1').height() - 10);
+        }, 1000)
     });
     function navtopage(url) {
         $("#mainform").attr("src", url);
+        //alert($(window).height() + "|" + $('#nav1').height());
 
-      
         //
     }
 </script>
