@@ -167,6 +167,7 @@
     <Content Include="Content\bootstrap-select.css.map" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />
+    <Content Include="Handlers\WFFlow.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -285,6 +286,9 @@
     <Compile Include="Handlers\Report1.ashx.cs">
       <DependentUpon>Report1.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\WFFlow.ashx.cs">
+      <DependentUpon>WFFlow.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -298,6 +302,16 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\COMN\COMN.csproj">
+      <Project>{4688ffbc-140c-4ca8-979e-b80f0ad93f69}</Project>
+      <Name>COMN</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{65adcfa7-755d-4e97-a332-6695bac105f2}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

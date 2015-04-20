@@ -17,6 +17,34 @@
                     showmodal($(this).attr('nodeid'));
                 }
             });
+            $.ajax({
+                type: 'POST',
+                url: '../Handlers/WFFlow.ashx',
+                data: {},
+                success: function suc(result) {
+                    for (var i = 0; i < result.length; i++) {
+                        var shtml = "";
+                        shtml = shtml.concat("<a href='#' class='list-group-item' nodeid='" + result[i].FID + "'>");
+                        shtml = shtml.concat("<div class='panel panel-primary'>");
+                        shtml = shtml.concat("<div class='panel-heading'>" + result[i].Customer + "</div>");
+                        shtml = shtml.concat("<div class='panel-body'>");
+                        shtml = shtml.concat("<table class='table  table-striped'>");
+                        shtml = shtml.concat("<tr><td>合同号:</td><td class='numFormat'>" + result[i].HCode + "</td></tr>");
+                        shtml = shtml.concat("<tr><td>金额:</td><td class='numFormat'>" + result[i].CTotal + "</td></tr>");
+                        shtml = shtml.concat("<tr><td>已付:</td><td class='numFormat'>" + result[i].Rmb + "</td></tr>");
+                        shtml = shtml.concat("<tr><td>发票:</td><td class='numFormat'>" + result[i].Voice + "</td></tr>");
+                        shtml = shtml.concat("<tr><td>本次:</td><td class='numFormat'><h4><span class='label label-success'>" + result[i].CurRmb + "</span></h4></td></tr>");
+                        shtml = shtml.concat("<tr><td>标号:</td><td class='numFormat'>" + result[i].BidCode + "</td></tr>");
+                        shtml = shtml.concat("<tr><td>申请人:</td><td class='numFormat'>" + result[i].Creater + "</td></tr>");
+                        shtml = shtml.concat("<tr><td>日期:</td><td class='numFormat'>" + result[i].CreatedDate + "</td></tr>");
+                        shtml = shtml.concat("</table></div>");
+                        shtml = shtml.concat("<div class='panel-footer'>" + result[i].FName + "</div>");
+                        shtml = shtml.concat("</div></a>");
+                        $("#listdiv").append(shtml);
+                    }
+                },
+                dataType: 'JSON'
+            });
         });
         function showmodal(id) {
             $("#myModal").modal();
@@ -45,8 +73,9 @@
             </div>
         </div>
     </div>
-    <div class="list-group">
-        <a href="#" class="list-group-item" nodeid="node1">
+    <div class="list-group" id="listdiv">
+        <!--行模板-->
+        <!--<a href="#" class="list-group-item" nodeid="node1">
             <div class="panel panel-primary">
                 <div class="panel-heading">辽宁艾美集团生物疫苗有限公司</div>
                 <div class="panel-body">
@@ -63,43 +92,7 @@
                 </div>
                 <div class="panel-footer">备注:着急发货，已备案</div>
             </div>
-        </a>
-        <a href="#" class="list-group-item" nodeid="node2">
-            <div class="panel panel-primary">
-                <div class="panel-heading">辽宁艾美集团生物疫苗有限公司</div>
-                <div class="panel-body">
-                    <table class="table  table-striped">
-                        <tr><td>合同号:</td><td class="numFormat">AM2015-00021</td></tr>
-                        <tr><td>金额:</td><td class="numFormat">3,600,000</td></tr>
-                        <tr><td>已付:</td><td class="numFormat">1,600,000</td></tr>
-                        <tr><td>发票:</td><td class="numFormat">2,000.000</td></tr>
-                        <tr><td>本次:</td><td class="numFormat"><h4><span class="label label-success">400,000</span></h4></td></tr>
-                        <tr><td>标号:</td><td class="numFormat">AM2015-11212</td></tr>
-                        <tr><td>申请人:</td><td class="numFormat">张三</td></tr>
-                        <tr><td>日期:</td><td class="numFormat">2015-1-2</td></tr>
-                    </table>
-                </div>
-                <div class="panel-footer">备注:着急发货，已备案</div>
-            </div>
-        </a>
-        <a href="#" class="list-group-item" nodeid="node3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">辽宁艾美集团生物疫苗有限公司</div>
-                <div class="panel-body">
-                    <table class="table  table-striped">
-                        <tr><td>合同号:</td><td class="numFormat">AM2015-00021</td></tr>
-                        <tr><td>金额:</td><td class="numFormat">3,600,000</td></tr>
-                        <tr><td>已付:</td><td class="numFormat">1,600,000</td></tr>
-                        <tr><td>发票:</td><td class="numFormat">2,000.000</td></tr>
-                        <tr><td>本次:</td><td class="numFormat"><h4><span class="label label-success">400,000</span></h4></td></tr>
-                        <tr><td>标号:</td><td class="numFormat">AM2015-11212</td></tr>
-                        <tr><td>申请人:</td><td class="numFormat">张三</td></tr>
-                        <tr><td>日期:</td><td class="numFormat">2015-1-2</td></tr>
-                    </table>
-                </div>
-                <div class="panel-footer">备注:着急发货，已备案</div>
-            </div>
-        </a>
+        </a>-->
     </div>
 </body>
 </html>
