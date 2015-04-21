@@ -17,10 +17,10 @@
 <body>
     <div id="nav1" class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default isActive" onclick="navtopage('CashViews/NewMsg.html')">新消息<span class="badge">6</span></button>
+            <button type="button" class="btn btn-default isActive" urlstr="CashViews/NewMsg.html">新消息<span class="badge">6</span></button>
         </div>
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default">图表</button>
+            <button type="button" class="btn btn-default" urlstr="ChartViews/WebForm1.aspx">图表</button>
         </div>
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-default">其他</button>
@@ -37,11 +37,13 @@
         setInterval(function () {
             $('#mainform').height($(window).height() - $('#nav1').height() - 10);
         }, 1000)
+        $(".btn-default").click(function () {
+            $(".btn-default").each(function () {
+                $(this).removeClass("isActive");
+            });
+            $(this).addClass("isActive");
+            $("#mainform").attr("src", $(this).attr("urlstr"));
+        });
+        $(".btn-default")[0].click();
     });
-    function navtopage(url) {
-        $("#mainform").attr("src", url);
-        //alert($(window).height() + "|" + $('#nav1').height());
-
-        //
-    }
 </script>

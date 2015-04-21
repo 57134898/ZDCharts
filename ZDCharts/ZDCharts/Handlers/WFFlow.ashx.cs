@@ -10,13 +10,12 @@ namespace ZDCharts.Handlers
     /// </summary>
     public class WFFlow : Tools.ABSHttpHandler
     {
-        public override void ProcessRequest(HttpContext context)
+        public object GetList()
         {
-            context.Response.ContentType = "text/plain";
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 var fList = db.V_Flows.ToList();
-                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(fList));
+                return fList;
             }
         }
     }

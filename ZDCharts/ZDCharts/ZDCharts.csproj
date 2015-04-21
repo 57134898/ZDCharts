@@ -150,6 +150,7 @@
     <Content Include="dist\chart\scatter.js" />
     <Content Include="dist\echarts-all.js" />
     <Content Include="dist\echarts.js" />
+    <Content Include="ErrorPage.aspx" />
     <Content Include="Icon.png" />
     <Content Include="Index.html" />
     <Content Include="packages.config" />
@@ -277,6 +278,13 @@
       <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
     <Compile Include="DBHelper.cs" />
+    <Compile Include="ErrorPage.aspx.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage.aspx.designer.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
