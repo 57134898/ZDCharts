@@ -69,6 +69,21 @@
     <Compile Include="V_Flows.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="WF_Flow1.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WF_Flows.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WF_Nodes.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WF_TemRows.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WF_Tems.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

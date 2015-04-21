@@ -43,7 +43,6 @@
                         shtml = shtml.concat("</div></a>");
                         $("#listdiv").append(shtml);
                         $(".list-group-item").click(function () {
-                            alert($(this).attr('nodeid'));
                             if ($(this).attr('nodeid') != null) {
                                 showmodal($(this).attr('nodeid'));
                             }
@@ -56,7 +55,45 @@
         });
         function showmodal(id) {
             $("#myModal").modal();
-            $("#mydiv").html(id);
+            $("#curnodeid").val(id);
+        }
+        function agree() {
+            var curnodeid = $("#curnodeid").val();
+            var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('agreebtn'));
+            $.ajax({
+                type: 'POST',
+                url: '../Handlers/WFFlow.ashx',
+                data: { action: 'Agree', curnodeid: curnodeid },
+                success: function suc(result) {
+                    if (result.code != "0") {
+                        redirecToErrorPage(result);
+                        return;
+                    }
+                    location.reload()
+                    spinner1.stop();
+                    $('#myModal').modal('hide');
+                },
+                dataType: 'JSON'
+            });
+        }
+        function refuse() {
+            var curnodeid = $("#curnodeid").val();
+            var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('agreebtn'));
+            $.ajax({
+                type: 'POST',
+                url: '../Handlers/WFFlow.ashx',
+                data: { action: 'Refuse', curnodeid: curnodeid },
+                success: function suc(result) {
+                    if (result.code != "0") {
+                        redirecToErrorPage(result);
+                        return;
+                    }
+                    location.reload()
+                    spinner1.stop();
+                    $('#myModal').modal('hide');
+                },
+                dataType: 'JSON'
+            });
         }
     </script>
 </head>
@@ -70,10 +107,10 @@
                     <h3 class="modal-title" id="myModalLabel">确认</h3>
                 </div>
                 <div class="modal-body">
-                    <div id="mydiv"></div>
-                    <button type="button" class="btn btn-success btn-lg btn-block">通过</button>
+                    <input id="curnodeid" type="hidden" />
+                    <button id="agreebtn" type="button" class="btn btn-success btn-lg btn-block" onclick="agree()">通过</button>
                     <br />
-                    <button type="button" class="btn btn-danger btn-lg btn-block">拒绝</button>
+                    <button type="button" class="btn btn-danger btn-lg btn-block" onclick="refuse()">拒绝</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>

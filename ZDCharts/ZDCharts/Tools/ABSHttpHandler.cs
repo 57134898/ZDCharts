@@ -7,33 +7,34 @@ namespace ZDCharts.Tools
 {
     public class ABSHttpHandler : IHttpHandler
     {
+        protected HttpContext context;
         public virtual void ProcessRequest(HttpContext context)
         {
+            this.context = context;
             string action = context.Request.Form["Action"];
+            Tools.JsonResponse tr;
             if (action == null || action == "")
             {
-                DoResponse("1001", "action为空", null, context);
-                return;
+                tr = new Tools.JsonResponse() { Code = "1001", Msg = "action为空" };
             }
             var method = this.GetType().GetMethod(action);
             if (method == null)
             {
-                DoResponse("1002", "未找到action对应的方法", null, context);
-                return;
+                tr = new Tools.JsonResponse() { Code = "1002", Msg = "未找到action对应的方法" };
             }
-            object data = this.GetType().GetMethod(action).Invoke(this, null);
-            DoResponse("0", "操作成功", data, context);
+            tr = (Tools.JsonResponse)this.GetType().GetMethod(action).Invoke(this, null);
+            this.DoResponse(tr, context);
         }
 
-        public void DoResponse(string code, string msg, object data, HttpContext context)
+        public void DoResponse(Tools.JsonResponse jresp, HttpContext context)
         {
             context.Response.ContentType = "text/plain";
             Newtonsoft.Json.Linq.JObject jo = new Newtonsoft.Json.Linq.JObject();
-            jo.Add("code", code);
-            jo.Add("msg", msg);
-            if (data != null)
+            jo.Add("code", jresp.Code);
+            jo.Add("msg", jresp.Msg);
+            if (jresp.Data != null)
             {
-                jo.Add("data", Newtonsoft.Json.Linq.JToken.FromObject(data));
+                jo.Add("data", Newtonsoft.Json.Linq.JToken.FromObject(jresp.Data));
             }
             context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(jo));
         }

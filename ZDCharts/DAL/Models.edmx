@@ -4,7 +4,57 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ContractModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ContractModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="WF_Flow1">
+          <Key>
+            <PropertyRef Name="FID" />
+          </Key>
+          <Property Name="FID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rmb" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="HCode" Type="varchar" MaxLength="50" />
+          <Property Name="FlowID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="WF_Flows">
+          <Key>
+            <PropertyRef Name="FID" />
+          </Key>
+          <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CurNode" Type="int" />
+          <Property Name="IsFinished" Type="varchar" MaxLength="1" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Creater" Type="varchar" MaxLength="20" />
+          <Property Name="TemID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="WF_Nodes">
+          <Key>
+            <PropertyRef Name="NID" />
+          </Key>
+          <Property Name="NID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TemRowID" Type="int" />
+          <Property Name="Result" Type="varchar" MaxLength="1" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="EmpID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="WF_TemRows">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RID" Type="int" />
+          <Property Name="TemID" Type="uniqueidentifier" />
+          <Property Name="RName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PreID" Type="int" />
+          <Property Name="NextID" Type="int" />
+        </EntityType>
+        <EntityType Name="WF_Tems">
+          <Key>
+            <PropertyRef Name="TemID" />
+          </Key>
+          <Property Name="TemID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TemName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsEnabled" Type="varchar" MaxLength="1" />
+        </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Flows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Flows">
@@ -47,6 +97,11 @@
           <Property Name="PreNode" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityContainer Name="ContractModelStoreContainer">
+          <EntitySet Name="WF_Flow1" EntityType="Self.WF_Flow1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WF_Flows" EntityType="Self.WF_Flows" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WF_Nodes" EntityType="Self.WF_Nodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WF_TemRows" EntityType="Self.WF_TemRows" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WF_Tems" EntityType="Self.WF_Tems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="V_Flows" EntityType="Self.V_Flows" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_Flows].[FID] AS [FID], 
@@ -83,8 +138,7 @@
     FROM [dbo].[V_Flows] AS [V_Flows]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ContractModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -129,7 +183,62 @@
         </EntityType>
         <EntityContainer Name="ContractEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="V_Flows" EntityType="Self.V_Flows" />
+          <EntitySet Name="WF_Flow1" EntityType="ContractModel.WF_Flow1" />
+          <EntitySet Name="WF_Flows" EntityType="ContractModel.WF_Flows" />
+          <EntitySet Name="WF_Nodes" EntityType="ContractModel.WF_Nodes" />
+          <EntitySet Name="WF_TemRows" EntityType="ContractModel.WF_TemRows" />
+          <EntitySet Name="WF_Tems" EntityType="ContractModel.WF_Tems" />
         </EntityContainer>
+        <EntityType Name="WF_Flow1">
+          <Key>
+            <PropertyRef Name="FID" />
+          </Key>
+          <Property Name="FID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="HCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlowID" Type="Guid" />
+        </EntityType>
+        <EntityType Name="WF_Flows">
+          <Key>
+            <PropertyRef Name="FID" />
+          </Key>
+          <Property Name="FID" Type="Guid" Nullable="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CurNode" Type="Int32" />
+          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TemID" Type="Guid" />
+        </EntityType>
+        <EntityType Name="WF_Nodes">
+          <Key>
+            <PropertyRef Name="NID" />
+          </Key>
+          <Property Name="NID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemRowID" Type="Int32" />
+          <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="EmpID" Type="Guid" />
+        </EntityType>
+        <EntityType Name="WF_TemRows">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RID" Type="Int32" />
+          <Property Name="TemID" Type="Guid" />
+          <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PreID" Type="Int32" />
+          <Property Name="NextID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="WF_Tems">
+          <Key>
+            <PropertyRef Name="TemID" />
+          </Key>
+          <Property Name="TemID" Type="Guid" Nullable="false" />
+          <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -170,6 +279,61 @@
                 <ScalarProperty Name="PreID" ColumnName="PreID" />
                 <ScalarProperty Name="NextNode" ColumnName="NextNode" />
                 <ScalarProperty Name="PreNode" ColumnName="PreNode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_Flow1">
+            <EntityTypeMapping TypeName="ContractModel.WF_Flow1">
+              <MappingFragment StoreEntitySet="WF_Flow1">
+                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
+                <ScalarProperty Name="HCode" ColumnName="HCode" />
+                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
+                <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_Flows">
+            <EntityTypeMapping TypeName="ContractModel.WF_Flows">
+              <MappingFragment StoreEntitySet="WF_Flows">
+                <ScalarProperty Name="TemID" ColumnName="TemID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="CurNode" ColumnName="CurNode" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_Nodes">
+            <EntityTypeMapping TypeName="ContractModel.WF_Nodes">
+              <MappingFragment StoreEntitySet="WF_Nodes">
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="TemRowID" ColumnName="TemRowID" />
+                <ScalarProperty Name="NID" ColumnName="NID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_TemRows">
+            <EntityTypeMapping TypeName="ContractModel.WF_TemRows">
+              <MappingFragment StoreEntitySet="WF_TemRows">
+                <ScalarProperty Name="NextID" ColumnName="NextID" />
+                <ScalarProperty Name="PreID" ColumnName="PreID" />
+                <ScalarProperty Name="RName" ColumnName="RName" />
+                <ScalarProperty Name="TemID" ColumnName="TemID" />
+                <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_Tems">
+            <EntityTypeMapping TypeName="ContractModel.WF_Tems">
+              <MappingFragment StoreEntitySet="WF_Tems">
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="TemName" ColumnName="TemName" />
+                <ScalarProperty Name="TemID" ColumnName="TemID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
