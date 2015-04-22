@@ -151,7 +151,9 @@
     <Content Include="dist\echarts-all.js" />
     <Content Include="dist\echarts.js" />
     <Content Include="ErrorPage.aspx" />
+    <Content Include="ErrorPages\404.html" />
     <Content Include="Icon.png" />
+    <Content Include="Images\crying.png" />
     <Content Include="Index.html" />
     <Content Include="packages.config" />
     <Content Include="Handlers\Handler1.ashx" />

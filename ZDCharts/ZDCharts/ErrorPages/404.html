@@ -1,12 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ErrorPage.aspx.cs" Inherits="ZDCharts.ErrorPage" %>
-
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>出错了</title>
+    <title>找不到了</title>
     <style type="text/css">
         * {
             margin: 0;
@@ -40,25 +37,22 @@
     </style>
 </head>
 <body>
-    <form id="form1" runat="server">
-        <p class="img">
-            <img src="Images/crying.png" alt="555555...">
-        </p>
-        <h2>哎呀...您访问的页面出现了问题</h2>
-        <div>
+    <p class="img"><img src="../Images/crying.png" alt="555555..."></p>
+    <h2>哎呀...您访问的页面出现了问题</h2>
+    <div>
+        仔细找过啦，没有发现你要找的页面。
+        </br>
+        </br>
+        点击以下链接继续浏览本站上的其它内容
+        <p>
+            <a href="Index.html">
+                <h3>返回首页</h3>
+            </a>
             <br />
-            <p>
-                <a href="Index.html">
-                    <h3>返回首页</h3>
-                </a>
-                <br />
-                <a href="javascript :history.back(-1)">
-                    <h3>返回上一页</h3>
-                </a>
-            </p>
-            <div id="codediv" runat="server"></div>
-            <div id="msgdiv" runat="server"></div>
-        </div>
-    </form>
+            <a href="javascript :history.back(-1)">
+                <h3>返回上一页</h3>
+            </a>
+        </p>
+    </div>
 </body>
 </html>
