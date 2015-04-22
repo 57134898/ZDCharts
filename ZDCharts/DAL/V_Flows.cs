@@ -45,5 +45,6 @@ namespace DAL
         public Nullable<int> PreID { get; set; }
         public string NextNode { get; set; }
         public string PreNode { get; set; }
+        public string Company { get; set; }
     }
 }
