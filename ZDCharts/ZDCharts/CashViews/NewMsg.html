@@ -43,8 +43,8 @@
                         shtml = shtml.concat("<tr><td>日期:</td><td class='numFormat'>" + result.data[i].CreatedDate + "</td></tr>");
                         shtml = shtml.concat("</table></div>");
                         shtml = shtml.concat("<div class='panel-footer'>");
-                        shtml = shtml.concat("<input  avalue='Y' name='c'" + i.toString() + " data-label-text='同意' type='radio' flowid='" + result.data[i].FID + "'>&nbsp;&nbsp;");
-                        shtml = shtml.concat("<input  avalue='N' name='c'" + i.toString() + " data-label-text='拒绝' type='radio' flowid='" + result.data[i].FID + "'>");
+                        shtml = shtml.concat("<input  avalue='Y' name='c" + i.toString() + "' data-label-text='同意' type='radio' flowid='" + result.data[i].FID + "'>&nbsp;&nbsp;");
+                        shtml = shtml.concat("<input  avalue='N' name='c" + i.toString() + "' data-label-text='拒绝' type='radio' flowid='" + result.data[i].FID + "'>");
                         shtml = shtml.concat("</div></div></a>");
                         $("#listdiv").append(shtml);
                         $("input[type='radio']").bootstrapSwitch();
@@ -53,21 +53,22 @@
                             sp.removeClass("glyphicon glyphicon-asterisk");
                             sp.removeClass("glyphicon glyphicon-ok");
                             sp.removeClass("glyphicon glyphicon-remove");
+
                             if ($(this).attr('avalue') == "Y") {
                                 sp.addClass("glyphicon glyphicon-ok");
                             }
                             if ($(this).attr('avalue') == "N") {
                                 sp.addClass("glyphicon glyphicon-remove");
                             }
+                            var pcount = $(".glyphicon-ok").length;
+                            if (pcount == 0) {
+                                $(window.parent.document).find("#pendspan").text("");
+                            } else {
+                                $(window.parent.document).find("#pendspan").text($(".glyphicon-ok").length);
+                            }
                         });
-
-                        //$(".list-group-item").click(function () {
-                        //    if ($(this).attr('nodeid') != null) {
-                        //        showmodal($(this).attr('nodeid'));
-                        //    }
-                        //});
-                        spinner.stop();
                     }
+                    spinner.stop();
                 },
                 dataType: 'JSON'
             });

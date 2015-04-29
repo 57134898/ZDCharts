@@ -9,6 +9,6 @@ namespace COMN
     public class MyVars
     {
         public readonly static string Yes = "Y";
-        public readonly static string No = "Y";
+        public readonly static string No = "N";
     }
 }

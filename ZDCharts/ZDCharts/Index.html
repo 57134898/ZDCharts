@@ -17,7 +17,7 @@
 <body>
     <div id="nav1" class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default isActive" urlstr="CashViews/NewMsg.html">新消息<span class="badge">6</span></button>
+            <button type="button" class="btn btn-default isActive" urlstr="CashViews/NewMsg.html">新消息</button>
         </div>
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-default" urlstr="ChartViews/WebForm1.aspx">图表</button>
@@ -27,15 +27,18 @@
         </div>
     </div>
     <iframe id="mainform" frameborder="0" scrolling="auto" marginheight="0" marginwidth="0" width="100%" style="overflow-x:hidden"></iframe>
+    <div id="d1" style="background-color:red">
+        <button id="commitbtn" type="button" class="btn btn-info btn-lg btn-block">提交&nbsp;&nbsp;<span id="pendspan" class="badge"></span></button>
+    </div>
 </body>
 </html>
 <!-- JavaScript Test Zone -->
 <script type="text/javascript">
     $(document).ready(function () {
         $('.full-width').horizontalNav
-        $('#mainform').height($(window).height() - $('#nav1').height() - 10);
+        $('#mainform').height($(window).height() - $('#nav1').height() - $('#d1').height() - 10);
         setInterval(function () {
-            $('#mainform').height($(window).height() - $('#nav1').height() - 10);
+            $('#mainform').height($(window).height() - $('#nav1').height() - $('#d1').height() - 10);
         }, 1000)
         $(".btn-default").click(function () {
             $(".btn-default").each(function () {

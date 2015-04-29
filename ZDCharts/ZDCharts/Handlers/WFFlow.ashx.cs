@@ -14,7 +14,7 @@ namespace ZDCharts.Handlers
         {
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
-                var fList = db.V_Flows.Where(p => p.IsFinished == COMN.MyVars.Yes).ToList();
+                var fList = db.V_Flows.Where(p => p.IsFinished == COMN.MyVars.No).ToList();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = fList };
             }
         }
