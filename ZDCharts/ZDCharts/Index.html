@@ -27,7 +27,7 @@
         </div>
     </div>
     <iframe id="mainform" frameborder="0" scrolling="auto" marginheight="0" marginwidth="0" width="100%" style="overflow-x:hidden"></iframe>
-    <div id="d1" style="background-color:red">
+    <div id="d1">
         <button id="commitbtn" type="button" class="btn btn-info btn-lg btn-block">提交&nbsp;&nbsp;<span id="pendspan" class="badge"></span></button>
     </div>
 </body>
@@ -35,18 +35,31 @@
 <!-- JavaScript Test Zone -->
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.full-width').horizontalNav
+        //初始化IFRAME高度
         $('#mainform').height($(window).height() - $('#nav1').height() - $('#d1').height() - 10);
+        //定时更新IFRAME高度，间隔1000毫秒
         setInterval(function () {
             $('#mainform').height($(window).height() - $('#nav1').height() - $('#d1').height() - 10);
         }, 1000)
+        //添加导航选项卡点击事件
         $(".btn-default").click(function () {
+            //设置所有选项卡为不激活样式
             $(".btn-default").each(function () {
                 $(this).removeClass("isActive");
             });
+            //设置选中选项卡为激活样式
             $(this).addClass("isActive");
+            //设置URL加载IFRAME内容
             $("#mainform").attr("src", $(this).attr("urlstr"));
         });
+        //默认选中第一个选项卡
         $(".btn-default")[0].click();
+        //提交按钮点击事件
+        $("#commitbtn").click(function () {
+            if ($("#pendspan").text() == "")
+                return;
+            //调用子NewMsg.html页面方法
+            $("#mainform")[0].contentWindow.showmodal();
+        });
     });
 </script>

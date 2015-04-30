@@ -15,21 +15,25 @@
     <script src="../Scripts/myjs.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            //加载中动画开启
             var spinner = new Spinner(getSpinOpts()).spin(document.getElementById('listdiv'));
+            //获取待审批单据，绑定到列表
             $.ajax({
                 type: 'POST',
                 url: '../Handlers/WFFlow.ashx',
                 data: { action: 'GetList' },
                 success: function suc(result) {
+                    //请求失败跳转到错误页
                     if (result.code != "0") {
                         redirecToErrorPage(result);
                         return;
                     }
+                    //绑定数据
                     for (var i = 0; i < result.data.length; i++) {
                         var shtml = "";
                         shtml = shtml.concat("<a class='list-group-item' nodeid='" + result.data[i].FID + "'>");
                         shtml = shtml.concat("<div class='panel panel-primary'>");
-                        shtml = shtml.concat("<div class='panel-heading'> <span fid='" + result.data[i].FID + "' class='glyphicon glyphicon-asterisk' aria-hidden='true' result='o'></span>&nbsp;" + result.data[i].Customer + "</div>");
+                        shtml = shtml.concat("<div class='panel-heading'> <span fid='" + result.data[i].FID + "' class='glyphicon glyphicon-asterisk' aria-hidden='true' result='O'></span>&nbsp;" + result.data[i].Customer + "</div>");
                         shtml = shtml.concat("<div class='panel-body'>");
                         shtml = shtml.concat("<table class='table  table-striped'>");
                         shtml = shtml.concat("<tr><td>公司:</td><td class='numFormat'>" + result.data[i].Company + "</td></tr>");
@@ -47,24 +51,31 @@
                         shtml = shtml.concat("<input  avalue='N' name='c" + i.toString() + "' data-label-text='拒绝' type='radio' flowid='" + result.data[i].FID + "'>");
                         shtml = shtml.concat("</div></div></a>");
                         $("#listdiv").append(shtml);
+                        //switch按钮样式设置
                         $("input[type='radio']").bootstrapSwitch();
+                        //switch按钮事件
                         $("input[type='radio']").on('switchChange.bootstrapSwitch', function (event, state) {
+                            //客户前符号清除
                             var sp = $("span[fid='" + $(this).attr('flowid') + "']");
                             sp.removeClass("glyphicon glyphicon-asterisk");
                             sp.removeClass("glyphicon glyphicon-ok");
                             sp.removeClass("glyphicon glyphicon-remove");
-
+                            //设置对号
                             if ($(this).attr('avalue') == "Y") {
                                 sp.addClass("glyphicon glyphicon-ok");
+                                sp.attr("result", "Y");
                             }
+                            //设置叉
                             if ($(this).attr('avalue') == "N") {
                                 sp.addClass("glyphicon glyphicon-remove");
+                                sp.attr("result", "N");
                             }
-                            var pcount = $(".glyphicon-ok").length;
+                            //设置首页提交确认按钮数字图标
+                            var pcount = $(".glyphicon-ok,.glyphicon-remove").length;
                             if (pcount == 0) {
                                 $(window.parent.document).find("#pendspan").text("");
                             } else {
-                                $(window.parent.document).find("#pendspan").text($(".glyphicon-ok").length);
+                                $(window.parent.document).find("#pendspan").text($(".glyphicon-ok,.glyphicon-remove").length);
                             }
                         });
                     }
@@ -72,48 +83,50 @@
                 },
                 dataType: 'JSON'
             });
+            //commit按钮事件
+            $("#commitBtn").click(function commit() {
+                var pendingdata = $("#curnodeid").val();
+                var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('agreebtn'));
+                $.ajax({
+                    type: 'POST',
+                    url: '../Handlers/WFFlow.ashx',
+                    data: { action: 'Commit', pendingdata: pendingdata },
+                    success: function suc(result) {
+                        if (result.code != "0") {
+                            redirecToErrorPage(result);
+                            return;
+                        }
+                        location.reload()
+                        spinner1.stop();
+                        $('#myModal').modal('hide');
+                    },
+                    dataType: 'JSON'
+                });
+            });
+            //cannel按钮事件
+            $("#cannelBtn").click(function () {
+                $('#myModal').modal('hide');
+            });
         });
-        function showmodal(id) {
+        //弹出审批确认框
+        function showmodal() {
+            //显示弹出框
             $("#myModal").modal();
-            $("#curnodeid").val(id);
-        }
-        function agree() {
-            var curnodeid = $("#curnodeid").val();
-            var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('agreebtn'));
-            $.ajax({
-                type: 'POST',
-                url: '../Handlers/WFFlow.ashx',
-                data: { action: 'Agree', curnodeid: curnodeid },
-                success: function suc(result) {
-                    if (result.code != "0") {
-                        redirecToErrorPage(result);
-                        return;
-                    }
-                    location.reload()
-                    spinner1.stop();
-                    $('#myModal').modal('hide');
-                },
-                dataType: 'JSON'
+            //待审批单据编号与状态获取
+            var pendArr = [];
+            $("span.glyphicon-ok,.glyphicon-remove").each(function (i, item) {
+                var f = {};
+                f.fid = $(item).attr("fid");
+                if ($(item).attr("result") == "Y") {
+                    f.result = "Y";
+                }
+                if ($(item).attr("result") == "N") {
+                    f.result = "N";
+                }
+                pendArr.push(f);
             });
-        }
-        function refuse() {
-            var curnodeid = $("#curnodeid").val();
-            var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('agreebtn'));
-            $.ajax({
-                type: 'POST',
-                url: '../Handlers/WFFlow.ashx',
-                data: { action: 'Refuse', curnodeid: curnodeid },
-                success: function suc(result) {
-                    if (result.code != "0") {
-                        redirecToErrorPage(result);
-                        return;
-                    }
-                    location.reload()
-                    spinner1.stop();
-                    $('#myModal').modal('hide');
-                },
-                dataType: 'JSON'
-            });
+            //审批需要数据绑定到curnodeid
+            $("#curnodeid").val(JSON.stringify(pendArr));
         }
     </script>
 </head>
@@ -128,9 +141,9 @@
                 </div>
                 <div class="modal-body">
                     <input id="curnodeid" type="hidden" />
-                    <button id="agreebtn" type="button" class="btn btn-success btn-lg btn-block" onclick="agree()">通过</button>
+                    <button id="commitBtn" type="button" class="btn btn-success btn-lg btn-block" onclick="agree()">确定</button>
                     <br />
-                    <button type="button" class="btn btn-danger btn-lg btn-block" onclick="refuse()">拒绝</button>
+                    <button id="cannelBtn" type="button" class="btn btn-danger btn-lg btn-block" onclick="refuse()">取消</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
