@@ -15,6 +15,10 @@
     <link href="Content/myStyle.css" rel="stylesheet" />
 </head>
 <body>
+    <div id="userinfodiv">
+        <a href="#">张三</a>
+        <input id="inputUser" type="text" />
+    </div>
     <div id="nav1" class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-default isActive" urlstr="CashViews/NewMsg.html">新消息</button>
@@ -34,12 +38,26 @@
 </html>
 <!-- JavaScript Test Zone -->
 <script type="text/javascript">
+    //扩展jquray获取URL参数方法
+    (function ($) {
+        $.getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+    })(jQuery);
+    //USER赋值
+    var u = {};
+    u.uid = $.getUrlParam("uid");
+    u.psw = $.getUrlParam("psw")
+    $("#inputUser").val(JSON.stringify(u));
+    //alert($.getUrlParam("uid"));
     $(document).ready(function () {
         //初始化IFRAME高度
-        $('#mainform').height($(window).height() - $('#nav1').height() - $('#d1').height() - 10);
+        $('#mainform').height($(window).height() - $('#userinfodiv').height() - $('#nav1').height() - $('#d1').height() - 10);
         //定时更新IFRAME高度，间隔1000毫秒
         setInterval(function () {
-            $('#mainform').height($(window).height() - $('#nav1').height() - $('#d1').height() - 10);
+            $('#mainform').height($(window).height() - $('#userinfodiv').height() - $('#nav1').height() - $('#d1').height() - 10);
         }, 1000)
         //添加导航选项卡点击事件
         $(".btn-default").click(function () {

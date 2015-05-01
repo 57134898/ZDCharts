@@ -272,6 +272,7 @@
     <Content Include="Icon.png" />
     <Content Include="Images\crying.png" />
     <Content Include="Index.html" />
+    <Content Include="LogInPage.html" />
     <Content Include="packages.config" />
     <Content Include="Handlers\Handler1.ashx" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

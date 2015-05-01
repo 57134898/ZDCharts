@@ -9,11 +9,11 @@
         <EntityTypeShape EntityType="ContractModel.WF_Flows" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="ContractModel.WF_Nodes" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="ContractModel.WF_Tems" Width="1.5" PointX="2.75" PointY="3.75" />
-        <EntityTypeShape EntityType="ContractModel.Org_Depts" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ContractModel.Org_Emps" Width="1.5" PointX="5.75" PointY="3.75" />
-        <EntityTypeShape EntityType="ContractModel.WF_TemRows" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="ContractModel.V_Emps" Width="1.5" PointX="2.75" PointY="6.75" />
-        <EntityTypeShape EntityType="ContractModel.V_Flows" Width="1.5" PointX="4.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ContractModel.Org_Depts" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ContractModel.Org_Emps" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ContractModel.WF_TemRows" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ContractModel.V_Emps" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ContractModel.V_Flows" Width="1.5" PointX="2.75" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
