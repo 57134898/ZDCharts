@@ -21,7 +21,7 @@
             $.ajax({
                 type: 'POST',
                 url: '../Handlers/WFFlow.ashx',
-                data: { action: 'GetList' },
+                data: { action: 'GetList', UserInfo: $(window.parent.document).find("#inputUser").val() },
                 success: function suc(result) {
                     //请求失败跳转到错误页
                     if (result.code != "0") {

@@ -25,5 +25,6 @@ namespace DAL
         public string ParDeptID { get; set; }
         public string ParRoleID { get; set; }
         public string CompanyName { get; set; }
+        public string Psw { get; set; }
     }
 }

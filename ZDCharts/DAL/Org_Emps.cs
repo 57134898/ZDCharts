@@ -20,5 +20,6 @@ namespace DAL
         public string RoleID { get; set; }
         public string CompanyID { get; set; }
         public string IsEnabled { get; set; }
+        public string Psw { get; set; }
     }
 }

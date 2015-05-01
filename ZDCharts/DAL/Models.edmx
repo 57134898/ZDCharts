@@ -23,14 +23,8 @@
           <Property Name="RoleID" Type="varchar" MaxLength="20" />
           <Property Name="CompanyID" Type="varchar" MaxLength="20" />
           <Property Name="IsEnabled" Type="varchar" MaxLength="1" />
+          <Property Name="Psw" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--生成过程中发现错误:
-警告 6013: 表/视图“contract1.dbo.Org_Roles”未定义主键，并且无法推断有效的主键。已排除了此表/视图。若要使用实体，将需要检查您的架构、添加正确的键并取消对实体的注释。
-        <EntityType Name="Org_Roles">
-          <Property Name="RoleID" Type="varchar" MaxLength="20" />
-          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
-          <Property Name="ParID" Type="varchar" MaxLength="20" />
-        </EntityType>-->
         <EntityType Name="WF_Flow1">
           <Key>
             <PropertyRef Name="FID" />
@@ -101,6 +95,7 @@
           <Property Name="ParDeptID" Type="varchar" MaxLength="20" />
           <Property Name="ParRoleID" Type="varchar" MaxLength="20" />
           <Property Name="CompanyName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Psw" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Flows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -168,7 +163,8 @@
     [V_Emps].[RoleName] AS [RoleName], 
     [V_Emps].[ParDeptID] AS [ParDeptID], 
     [V_Emps].[ParRoleID] AS [ParRoleID], 
-    [V_Emps].[CompanyName] AS [CompanyName]
+    [V_Emps].[CompanyName] AS [CompanyName], 
+    [V_Emps].[Psw] AS [Psw]
     FROM [dbo].[V_Emps] AS [V_Emps]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Flows" EntityType="Self.V_Flows" store:Type="Views" store:Schema="dbo">
@@ -285,6 +281,7 @@
           <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="CompanyID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Psw" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="WF_TemRows">
           <Key>
@@ -314,6 +311,7 @@
           <Property Name="ParDeptID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ParRoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Psw" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Flows">
           <Key>
@@ -421,6 +419,7 @@
           <EntitySetMapping Name="Org_Emps">
             <EntityTypeMapping TypeName="ContractModel.Org_Emps">
               <MappingFragment StoreEntitySet="Org_Emps">
+                <ScalarProperty Name="Psw" ColumnName="Psw" />
                 <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
@@ -447,6 +446,7 @@
           <EntitySetMapping Name="V_Emps">
             <EntityTypeMapping TypeName="ContractModel.V_Emps">
               <MappingFragment StoreEntitySet="V_Emps">
+                <ScalarProperty Name="Psw" ColumnName="Psw" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="ParRoleID" ColumnName="ParRoleID" />
                 <ScalarProperty Name="ParDeptID" ColumnName="ParDeptID" />
