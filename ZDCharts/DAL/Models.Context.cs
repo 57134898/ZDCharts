@@ -25,11 +25,14 @@ namespace DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<V_Flows> V_Flows { get; set; }
         public virtual DbSet<WF_Flow1> WF_Flow1 { get; set; }
         public virtual DbSet<WF_Flows> WF_Flows { get; set; }
         public virtual DbSet<WF_Nodes> WF_Nodes { get; set; }
-        public virtual DbSet<WF_TemRows> WF_TemRows { get; set; }
         public virtual DbSet<WF_Tems> WF_Tems { get; set; }
+        public virtual DbSet<Org_Depts> Org_Depts { get; set; }
+        public virtual DbSet<Org_Emps> Org_Emps { get; set; }
+        public virtual DbSet<WF_TemRows> WF_TemRows { get; set; }
+        public virtual DbSet<V_Emps> V_Emps { get; set; }
+        public virtual DbSet<V_Flows> V_Flows { get; set; }
     }
 }

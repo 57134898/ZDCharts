@@ -12,15 +12,13 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class WF_TemRows
+    public partial class Org_Emps
     {
-        public int ID { get; set; }
-        public Nullable<int> RID { get; set; }
-        public Nullable<System.Guid> TemID { get; set; }
-        public string RName { get; set; }
-        public Nullable<int> PreID { get; set; }
-        public Nullable<int> NextID { get; set; }
+        public string EmpID { get; set; }
+        public string EmpName { get; set; }
         public string DeptID { get; set; }
         public string RoleID { get; set; }
+        public string CompanyID { get; set; }
+        public string IsEnabled { get; set; }
     }
 }

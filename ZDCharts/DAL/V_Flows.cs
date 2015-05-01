@@ -46,5 +46,9 @@ namespace DAL
         public string NextNode { get; set; }
         public string PreNode { get; set; }
         public string Company { get; set; }
+        public string DeptID { get; set; }
+        public string RoleID { get; set; }
+        public string DeptName { get; set; }
+        public string RoleName { get; set; }
     }
 }

@@ -4,7 +4,33 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ContractModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ContractModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Org_Depts">
+          <Key>
+            <PropertyRef Name="DeptID" />
+          </Key>
+          <Property Name="DeptID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DeptName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParID" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Org_Emps">
+          <Key>
+            <PropertyRef Name="EmpID" />
+          </Key>
+          <Property Name="EmpID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmpName" Type="varchar" MaxLength="50" />
+          <Property Name="DeptID" Type="varchar" MaxLength="20" />
+          <Property Name="RoleID" Type="varchar" MaxLength="20" />
+          <Property Name="CompanyID" Type="varchar" MaxLength="20" />
+          <Property Name="IsEnabled" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6013: 表/视图“contract1.dbo.Org_Roles”未定义主键，并且无法推断有效的主键。已排除了此表/视图。若要使用实体，将需要检查您的架构、添加正确的键并取消对实体的注释。
+        <EntityType Name="Org_Roles">
+          <Property Name="RoleID" Type="varchar" MaxLength="20" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParID" Type="varchar" MaxLength="20" />
+        </EntityType>-->
         <EntityType Name="WF_Flow1">
           <Key>
             <PropertyRef Name="FID" />
@@ -47,6 +73,8 @@
           <Property Name="RName" Type="nvarchar" MaxLength="50" />
           <Property Name="PreID" Type="int" />
           <Property Name="NextID" Type="int" />
+          <Property Name="DeptID" Type="varchar" MaxLength="20" />
+          <Property Name="RoleID" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="WF_Tems">
           <Key>
@@ -55,6 +83,24 @@
           <Property Name="TemID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TemName" Type="nvarchar" MaxLength="50" />
           <Property Name="IsEnabled" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“contract1.dbo.V_Emps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Emps">
+          <Key>
+            <PropertyRef Name="EmpID" />
+          </Key>
+          <Property Name="EmpID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmpName" Type="varchar" MaxLength="50" />
+          <Property Name="DeptID" Type="varchar" MaxLength="20" />
+          <Property Name="RoleID" Type="varchar" MaxLength="20" />
+          <Property Name="CompanyID" Type="varchar" MaxLength="20" />
+          <Property Name="IsEnabled" Type="varchar" MaxLength="1" />
+          <Property Name="DeptName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParDeptID" Type="varchar" MaxLength="20" />
+          <Property Name="ParRoleID" Type="varchar" MaxLength="20" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Flows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -72,7 +118,7 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="Creater" Type="varchar" MaxLength="20" />
           <Property Name="TemID" Type="uniqueidentifier" />
-          <Property Name="Expr1" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Expr1" Type="int" Nullable="false" />
           <Property Name="HCode" Type="varchar" MaxLength="50" />
           <Property Name="CurRmb" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Customer" Type="nvarchar" MaxLength="50" />
@@ -97,13 +143,34 @@
           <Property Name="NextNode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PreNode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Company" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DeptID" Type="varchar" MaxLength="20" />
+          <Property Name="RoleID" Type="varchar" MaxLength="20" />
+          <Property Name="DeptName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="ContractModelStoreContainer">
+          <EntitySet Name="Org_Depts" EntityType="Self.Org_Depts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Org_Emps" EntityType="Self.Org_Emps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Flow1" EntityType="Self.WF_Flow1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Flows" EntityType="Self.WF_Flows" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Nodes" EntityType="Self.WF_Nodes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_TemRows" EntityType="Self.WF_TemRows" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Tems" EntityType="Self.WF_Tems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_Emps" EntityType="Self.V_Emps" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Emps].[EmpID] AS [EmpID], 
+    [V_Emps].[EmpName] AS [EmpName], 
+    [V_Emps].[DeptID] AS [DeptID], 
+    [V_Emps].[RoleID] AS [RoleID], 
+    [V_Emps].[CompanyID] AS [CompanyID], 
+    [V_Emps].[IsEnabled] AS [IsEnabled], 
+    [V_Emps].[DeptName] AS [DeptName], 
+    [V_Emps].[RoleName] AS [RoleName], 
+    [V_Emps].[ParDeptID] AS [ParDeptID], 
+    [V_Emps].[ParRoleID] AS [ParRoleID], 
+    [V_Emps].[CompanyName] AS [CompanyName]
+    FROM [dbo].[V_Emps] AS [V_Emps]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_Flows" EntityType="Self.V_Flows" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_Flows].[FID] AS [FID], 
@@ -137,7 +204,11 @@
     [V_Flows].[PreID] AS [PreID], 
     [V_Flows].[NextNode] AS [NextNode], 
     [V_Flows].[PreNode] AS [PreNode], 
-    [V_Flows].[Company] AS [Company]
+    [V_Flows].[Company] AS [Company], 
+    [V_Flows].[DeptID] AS [DeptID], 
+    [V_Flows].[RoleID] AS [RoleID], 
+    [V_Flows].[DeptName] AS [DeptName], 
+    [V_Flows].[RoleName] AS [RoleName]
     FROM [dbo].[V_Flows] AS [V_Flows]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
@@ -145,53 +216,16 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ContractModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="V_Flows">
-          <Key>
-            <PropertyRef Name="FID" />
-            <PropertyRef Name="Expr1" />
-            <PropertyRef Name="NextNode" />
-            <PropertyRef Name="PreNode" />
-          </Key>
-          <Property Name="FID" Type="Guid" Nullable="false" />
-          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CurNode" Type="Int32" />
-          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TemID" Type="Guid" />
-          <Property Name="Expr1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="HCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CurRmb" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CDate" Type="DateTime" Precision="3" />
-          <Property Name="CTotal" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="CType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Voice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Saleman" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CTypeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SalemanID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BidCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BidType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TemIsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="RID" Type="Int32" />
-          <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NextID" Type="Int32" />
-          <Property Name="PreID" Type="Int32" />
-          <Property Name="NextNode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PreNode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Company" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityContainer Name="ContractEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="V_Flows" EntityType="Self.V_Flows" />
           <EntitySet Name="WF_Flow1" EntityType="ContractModel.WF_Flow1" />
           <EntitySet Name="WF_Flows" EntityType="ContractModel.WF_Flows" />
           <EntitySet Name="WF_Nodes" EntityType="ContractModel.WF_Nodes" />
-          <EntitySet Name="WF_TemRows" EntityType="ContractModel.WF_TemRows" />
           <EntitySet Name="WF_Tems" EntityType="ContractModel.WF_Tems" />
+          <EntitySet Name="Org_Depts" EntityType="ContractModel.Org_Depts" />
+          <EntitySet Name="Org_Emps" EntityType="ContractModel.Org_Emps" />
+          <EntitySet Name="WF_TemRows" EntityType="ContractModel.WF_TemRows" />
+          <EntitySet Name="V_Emps" EntityType="ContractModel.V_Emps" />
+          <EntitySet Name="V_Flows" EntityType="ContractModel.V_Flows" />
         </EntityContainer>
         <EntityType Name="WF_Flow1">
           <Key>
@@ -225,6 +259,33 @@
           <Property Name="EmpID" Type="Guid" />
           <Property Name="FlowID" Type="Guid" />
         </EntityType>
+        <EntityType Name="WF_Tems">
+          <Key>
+            <PropertyRef Name="TemID" />
+          </Key>
+          <Property Name="TemID" Type="Guid" Nullable="false" />
+          <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Org_Depts">
+          <Key>
+            <PropertyRef Name="DeptID" />
+          </Key>
+          <Property Name="DeptID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Org_Emps">
+          <Key>
+            <PropertyRef Name="EmpID" />
+          </Key>
+          <Property Name="EmpID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmpName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeptID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="WF_TemRows">
           <Key>
             <PropertyRef Name="ID" />
@@ -235,14 +296,68 @@
           <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PreID" Type="Int32" />
           <Property Name="NextID" Type="Int32" />
+          <Property Name="DeptID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="WF_Tems">
+        <EntityType Name="V_Emps">
           <Key>
-            <PropertyRef Name="TemID" />
+            <PropertyRef Name="EmpID" />
           </Key>
-          <Property Name="TemID" Type="Guid" Nullable="false" />
-          <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmpID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmpName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeptID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParDeptID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ParRoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_Flows">
+          <Key>
+            <PropertyRef Name="FID" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="NextNode" />
+            <PropertyRef Name="PreNode" />
+          </Key>
+          <Property Name="FID" Type="Guid" Nullable="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CurNode" Type="Int32" />
+          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TemID" Type="Guid" />
+          <Property Name="Expr1" Type="Int32" Nullable="false" />
+          <Property Name="HCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CurRmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CDate" Type="DateTime" Precision="3" />
+          <Property Name="CTotal" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="CType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Voice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Saleman" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CTypeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SalemanID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BidCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BidType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TemIsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="RID" Type="Int32" />
+          <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NextID" Type="Int32" />
+          <Property Name="PreID" Type="Int32" />
+          <Property Name="NextNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PreNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Company" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DeptID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -250,44 +365,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ContractModelStoreContainer" CdmEntityContainer="ContractEntities">
-          <EntitySetMapping Name="V_Flows">
-            <EntityTypeMapping TypeName="ContractModel.V_Flows">
-              <MappingFragment StoreEntitySet="V_Flows">
-                <ScalarProperty Name="Company" ColumnName="Company" />
-                <ScalarProperty Name="FID" ColumnName="FID" />
-                <ScalarProperty Name="FName" ColumnName="FName" />
-                <ScalarProperty Name="CurNode" ColumnName="CurNode" />
-                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Creater" ColumnName="Creater" />
-                <ScalarProperty Name="TemID" ColumnName="TemID" />
-                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
-                <ScalarProperty Name="HCode" ColumnName="HCode" />
-                <ScalarProperty Name="CurRmb" ColumnName="CurRmb" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-                <ScalarProperty Name="CDate" ColumnName="CDate" />
-                <ScalarProperty Name="CTotal" ColumnName="CTotal" />
-                <ScalarProperty Name="CType" ColumnName="CType" />
-                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
-                <ScalarProperty Name="Voice" ColumnName="Voice" />
-                <ScalarProperty Name="Saleman" ColumnName="Saleman" />
-                <ScalarProperty Name="CTypeID" ColumnName="CTypeID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="SalemanID" ColumnName="SalemanID" />
-                <ScalarProperty Name="BidCode" ColumnName="BidCode" />
-                <ScalarProperty Name="BidType" ColumnName="BidType" />
-                <ScalarProperty Name="TemName" ColumnName="TemName" />
-                <ScalarProperty Name="TemIsEnabled" ColumnName="TemIsEnabled" />
-                <ScalarProperty Name="RID" ColumnName="RID" />
-                <ScalarProperty Name="RName" ColumnName="RName" />
-                <ScalarProperty Name="NextID" ColumnName="NextID" />
-                <ScalarProperty Name="PreID" ColumnName="PreID" />
-                <ScalarProperty Name="NextNode" ColumnName="NextNode" />
-                <ScalarProperty Name="PreNode" ColumnName="PreNode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="WF_Flow1">
             <EntityTypeMapping TypeName="ContractModel.WF_Flow1">
               <MappingFragment StoreEntitySet="WF_Flow1">
@@ -323,9 +400,41 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="WF_Tems">
+            <EntityTypeMapping TypeName="ContractModel.WF_Tems">
+              <MappingFragment StoreEntitySet="WF_Tems">
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="TemName" ColumnName="TemName" />
+                <ScalarProperty Name="TemID" ColumnName="TemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Org_Depts">
+            <EntityTypeMapping TypeName="ContractModel.Org_Depts">
+              <MappingFragment StoreEntitySet="Org_Depts">
+                <ScalarProperty Name="ParID" ColumnName="ParID" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Org_Emps">
+            <EntityTypeMapping TypeName="ContractModel.Org_Emps">
+              <MappingFragment StoreEntitySet="Org_Emps">
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="WF_TemRows">
             <EntityTypeMapping TypeName="ContractModel.WF_TemRows">
               <MappingFragment StoreEntitySet="WF_TemRows">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
                 <ScalarProperty Name="NextID" ColumnName="NextID" />
                 <ScalarProperty Name="PreID" ColumnName="PreID" />
                 <ScalarProperty Name="RName" ColumnName="RName" />
@@ -335,12 +444,62 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WF_Tems">
-            <EntityTypeMapping TypeName="ContractModel.WF_Tems">
-              <MappingFragment StoreEntitySet="WF_Tems">
+          <EntitySetMapping Name="V_Emps">
+            <EntityTypeMapping TypeName="ContractModel.V_Emps">
+              <MappingFragment StoreEntitySet="V_Emps">
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="ParRoleID" ColumnName="ParRoleID" />
+                <ScalarProperty Name="ParDeptID" ColumnName="ParDeptID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
                 <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Flows">
+            <EntityTypeMapping TypeName="ContractModel.V_Flows">
+              <MappingFragment StoreEntitySet="V_Flows">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="PreNode" ColumnName="PreNode" />
+                <ScalarProperty Name="NextNode" ColumnName="NextNode" />
+                <ScalarProperty Name="PreID" ColumnName="PreID" />
+                <ScalarProperty Name="NextID" ColumnName="NextID" />
+                <ScalarProperty Name="RName" ColumnName="RName" />
+                <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="TemIsEnabled" ColumnName="TemIsEnabled" />
                 <ScalarProperty Name="TemName" ColumnName="TemName" />
+                <ScalarProperty Name="BidType" ColumnName="BidType" />
+                <ScalarProperty Name="BidCode" ColumnName="BidCode" />
+                <ScalarProperty Name="SalemanID" ColumnName="SalemanID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CTypeID" ColumnName="CTypeID" />
+                <ScalarProperty Name="Saleman" ColumnName="Saleman" />
+                <ScalarProperty Name="Voice" ColumnName="Voice" />
+                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
+                <ScalarProperty Name="CType" ColumnName="CType" />
+                <ScalarProperty Name="CTotal" ColumnName="CTotal" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="CurRmb" ColumnName="CurRmb" />
+                <ScalarProperty Name="HCode" ColumnName="HCode" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
                 <ScalarProperty Name="TemID" ColumnName="TemID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="CurNode" ColumnName="CurNode" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="FID" ColumnName="FID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
