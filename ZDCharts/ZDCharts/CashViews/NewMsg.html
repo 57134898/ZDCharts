@@ -14,10 +14,84 @@
     <script src="../Scripts/spin.min.js"></script>
     <script src="../Scripts/myjs.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
+        function listclear() {
+            $("#listdiv").empty();
+        }
+        function loadcompany() {
             //加载中动画开启
             var spinner = new Spinner(getSpinOpts()).spin(document.getElementById('listdiv'));
             //获取待审批单据，绑定到列表
+            $.ajax({
+                type: 'POST',
+                url: '../Handlers/WFFlow.ashx',
+                data: { action: 'GetListGbCompany', UserInfo: $(window.parent.document).find("#inputUser").val() },
+                success: function suc(result) {
+                    //请求失败跳转到错误页
+                    if (result.code != "0") {
+                        redirecToErrorPage(result);
+                        return;
+                    }
+                    //绑定数据
+                    if (result.data == null || result.data.length <= 0) {
+                        $("#listdiv").append("无数据");
+                        spinner.stop();
+                        return;
+                    }
+                    listclear();
+                    for (var i = 0; i < result.data.length; i++) {
+                        var shtml = "";
+                        shtml = shtml.concat("<a id='" + "a" + i.toString() + "' href='#' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].Company + "</a>");
+                        $("#listdiv").append(shtml);
+                        //公司列表单击事件
+                        $("#a" + i.toString()).click(function () {
+                            loadcustomer();
+                        });
+                    }
+                    spinner.stop();
+                },
+                dataType: 'JSON'
+            });
+        }
+        function loadcustomer() {
+            listclear();
+            //加载中动画开启
+            var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('listdiv'));
+            //获取待审批单据，绑定到列表
+            $.ajax({
+                type: 'POST',
+                url: '../Handlers/WFFlow.ashx',
+                data: { action: 'GetListGbCustomer', UserInfo: $(window.parent.document).find("#inputUser").val() },
+                success: function suc(result) {
+                    //请求失败跳转到错误页
+                    if (result.code != "0") {
+                        redirecToErrorPage(result);
+                        return;
+                    }
+                    if (result.data == null || result.data.length <= 0) {
+                        $("#listdiv").append("无数据");
+                        spinner1.stop();
+                        return;
+                    }
+                    listclear();
+                    //绑定数据
+                    for (var i = 0; i < result.data.length; i++) {
+                        var shtml = "<a href='javascript:loadcompany();' class='list-group-item list-group-item-success'>返回上级</a>";
+                        shtml = shtml.concat("<a id='" + "aa" + i.toString() + "' href='#' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].Customer + "</a>");
+                        $("#listdiv").append(shtml);
+                        //switch按钮样式设置
+                        $("#aa" + i.toString()).click(function () {
+                            loadcontract();
+                        });
+                    }
+                    spinner1.stop();
+                },
+                dataType: 'JSON'
+            });
+        }
+        function loadcontract() {
+            listclear();
+            var spinner2 = new Spinner(getSpinOpts()).spin(document.getElementById('listdiv'));
+            //获取待审批单据，绑定到列表,客户列表事件
             $.ajax({
                 type: 'POST',
                 url: '../Handlers/WFFlow.ashx',
@@ -28,9 +102,15 @@
                         redirecToErrorPage(result);
                         return;
                     }
+                    if (result.data == null || result.data.length <= 0) {
+                        $("#listdiv").append("无数据");
+                        spinner1.stop();
+                        return;
+                    }
+                    listclear();
                     //绑定数据
                     for (var i = 0; i < result.data.length; i++) {
-                        var shtml = "";
+                        var shtml = "<a href='javascript:loadcustomer();' class='list-group-item list-group-item-success'>返回上级</a>";
                         shtml = shtml.concat("<a class='list-group-item' nodeid='" + result.data[i].FID + "'>");
                         shtml = shtml.concat("<div class='panel panel-primary'>");
                         shtml = shtml.concat("<div class='panel-heading'> <span fid='" + result.data[i].FID + "' class='glyphicon glyphicon-asterisk' aria-hidden='true' result='O'></span>&nbsp;" + result.data[i].Customer + "</div>");
@@ -79,10 +159,17 @@
                             }
                         });
                     }
-                    spinner.stop();
+                    spinner2.stop();
                 },
                 dataType: 'JSON'
             });
+        }
+
+        $(document).ready(function () {
+
+            loadcompany();
+            return;
+
             //commit按钮事件
             $("#commitBtn").click(function commit() {
                 var pendingdata = $("#curnodeid").val();
@@ -96,7 +183,7 @@
                             redirecToErrorPage(result);
                             return;
                         }
-                        location.reload()
+                        loadcustomer();
                         spinner1.stop();
                         $('#myModal').modal('hide');
                     },
@@ -152,6 +239,12 @@
         </div>
     </div>
     <div class="list-group" id="listdiv">
+
+
+        <a href="#" class="list-group-item active">
+            Cras justo odio
+        </a>
+
         <!--行模板-->
         <!--<a href="#" class="list-group-item" nodeid="node1">
             <div class="panel panel-primary">

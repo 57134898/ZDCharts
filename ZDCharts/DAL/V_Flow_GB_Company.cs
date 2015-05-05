@@ -12,12 +12,11 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class WF_Flow1
+    public partial class V_Flow_GB_Company
     {
-        public int FID { get; set; }
-        public Nullable<decimal> Rmb { get; set; }
-        public string HCode { get; set; }
-        public Nullable<System.Guid> FlowID { get; set; }
-        public Nullable<System.Guid> CashID { get; set; }
+        public string Company { get; set; }
+        public string CompanyID { get; set; }
+        public string RoleID { get; set; }
+        public decimal Total { get; set; }
     }
 }

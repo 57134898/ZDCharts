@@ -29,10 +29,59 @@ namespace ZDCharts.Handlers
                     return new Tools.JsonResponse() { Code = "1000", Msg = "用户名或密码错误" };
                 }
                 //根据部门与角色查找用户可以审批的节点
-                var fList = db.V_Flows.Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == user.RoleID && p.DeptID == user.DeptID).ToList();
+                var fList = db.V_Flows.Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == user.RoleID).ToList();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = fList };
             }
         }
+
+        public Tools.JsonResponse GetListGbCompany()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                string jsonStr = context.Request.Form["UserInfo"];
+                if (jsonStr == null || jsonStr == "")
+                {
+                    return new Tools.JsonResponse() { Code = "9000", Msg = "UserInfo不能为空" };
+                }
+                //用户验证
+                Newtonsoft.Json.Linq.JObject jo = Newtonsoft.Json.Linq.JObject.Parse(jsonStr);
+                string uid = jo["uid"].ToString();
+                string psw = jo["psw"].ToString();
+                var user = db.V_Emps.SingleOrDefault(p => p.EmpID == uid && p.Psw == psw);
+                if (user == null)
+                {
+                    return new Tools.JsonResponse() { Code = "1000", Msg = "用户名或密码错误" };
+                }
+                //根据部门与角色查找用户可以审批的节点
+                var fList = db.V_Flow_GB_Company.Where(p => p.RoleID == user.RoleID).ToList();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = fList };
+            }
+        }
+
+        public Tools.JsonResponse GetListGbCustomer()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                string jsonStr = context.Request.Form["UserInfo"];
+                if (jsonStr == null || jsonStr == "")
+                {
+                    return new Tools.JsonResponse() { Code = "9000", Msg = "UserInfo不能为空" };
+                }
+                //用户验证
+                Newtonsoft.Json.Linq.JObject jo = Newtonsoft.Json.Linq.JObject.Parse(jsonStr);
+                string uid = jo["uid"].ToString();
+                string psw = jo["psw"].ToString();
+                var user = db.V_Emps.SingleOrDefault(p => p.EmpID == uid && p.Psw == psw);
+                if (user == null)
+                {
+                    return new Tools.JsonResponse() { Code = "1000", Msg = "用户名或密码错误" };
+                }
+                //根据部门与角色查找用户可以审批的节点
+                var fList = db.V_Flow_GB_Customer.Where(p => p.RoleID == user.RoleID).ToList();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = fList };
+            }
+        }
+
         public Tools.JsonResponse Commit()
         {
             string jsonStr = context.Request.Form["pendingdata"];

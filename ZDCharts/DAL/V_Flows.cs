@@ -21,7 +21,7 @@ namespace DAL
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string Creater { get; set; }
         public Nullable<System.Guid> TemID { get; set; }
-        public int Expr1 { get; set; }
+        public int F1ID { get; set; }
         public string HCode { get; set; }
         public Nullable<decimal> CurRmb { get; set; }
         public string Customer { get; set; }
@@ -50,5 +50,6 @@ namespace DAL
         public string RoleID { get; set; }
         public string DeptName { get; set; }
         public string RoleName { get; set; }
+        public Nullable<System.Guid> CashID { get; set; }
     }
 }
