@@ -17,6 +17,8 @@
         <EntityTypeShape EntityType="ContractModel.Org_Roles" Width="1.5" PointX="5.375" PointY="8.75" />
         <EntityTypeShape EntityType="ContractModel.V_Flow_GB_Company" Width="1.5" PointX="7.375" PointY="8.75" />
         <EntityTypeShape EntityType="ContractModel.V_Flow_GB_Customer" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ContractModel.ACash" Width="1.5" PointX="9.375" PointY="3.75" />
+        <EntityTypeShape EntityType="ContractModel.AFKXX" Width="1.5" PointX="9.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

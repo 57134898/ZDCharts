@@ -37,5 +37,7 @@ namespace DAL
         public virtual DbSet<Org_Roles> Org_Roles { get; set; }
         public virtual DbSet<V_Flow_GB_Company> V_Flow_GB_Company { get; set; }
         public virtual DbSet<V_Flow_GB_Customer> V_Flow_GB_Customer { get; set; }
+        public virtual DbSet<ACash> ACash { get; set; }
+        public virtual DbSet<AFKXX> AFKXX { get; set; }
     }
 }

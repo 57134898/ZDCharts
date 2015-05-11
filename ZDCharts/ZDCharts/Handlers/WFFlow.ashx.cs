@@ -109,7 +109,20 @@ namespace ZDCharts.Handlers
                         return new Tools.JsonResponse() { Code = "9001", Msg = "未找到待审批数据" };
                     //如果没有下一节点则审批借宿
                     if (temrow.NextID < 0)
+                    {
                         f.IsFinished = "Y";
+                        //审批完成，生成记录到合同软件
+                        db.ACash.Add(new DAL.ACash()
+                        {
+                            //应该写到循环外 --待改
+                        });
+
+
+                        //审批完成，生成记录到资金池
+
+                        //,,,,未完
+                    }
+
                     f.CurNode = temrow.NextID;
                     db.WF_Nodes.Add(new DAL.WF_Nodes()
                     {

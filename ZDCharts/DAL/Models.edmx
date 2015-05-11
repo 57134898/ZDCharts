@@ -5,6 +5,50 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ContractModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ACash">
+          <Key>
+            <PropertyRef Name="CID" />
+          </Key>
+          <Property Name="CID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExchangeDate" Type="datetime" />
+          <Property Name="Cash" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Note" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Mz" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="VoucherId" Type="int" />
+          <Property Name="VoucherType" Type="nvarchar" MaxLength="10" />
+          <Property Name="VoucherYear" Type="int" />
+          <Property Name="VoucherMonth" Type="int" />
+          <Property Name="VoucherFlag" Type="bit" Nullable="false" />
+          <Property Name="ZJBL1" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ZJBL2" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ZJBL3" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Ccode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDTEMP" Type="int" />
+          <Property Name="HDW" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="AFKXX">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="datetime" />
+          <Property Name="rmb" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="hth" Type="nvarchar" MaxLength="50" />
+          <Property Name="xshth" Type="nvarchar" MaxLength="50" />
+          <Property Name="type" Type="nvarchar" MaxLength="50" />
+          <Property Name="fkfs" Type="nvarchar" MaxLength="50" />
+          <Property Name="fklx" Type="nvarchar" MaxLength="50" />
+          <Property Name="flag" Type="bit" />
+          <Property Name="vid" Type="int" />
+          <Property Name="vtype" Type="nvarchar" MaxLength="50" />
+          <Property Name="vyear" Type="int" />
+          <Property Name="vmonth" Type="int" />
+          <Property Name="bl1" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="bl2" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="bl3" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="CID" Type="int" />
+        </EntityType>
         <EntityType Name="Org_Depts">
           <Key>
             <PropertyRef Name="DeptID" />
@@ -25,14 +69,13 @@
           <Property Name="IsEnabled" Type="varchar" MaxLength="1" />
           <Property Name="Psw" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <!--生成过程中发现错误:
+警告 6013: 表/视图“contract1.dbo.Org_Roles”未定义主键，并且无法推断有效的主键。已排除了此表/视图。若要使用实体，将需要检查您的架构、添加正确的键并取消对实体的注释。
         <EntityType Name="Org_Roles">
-          <Key>
-            <PropertyRef Name="RoleID" />
-          </Key>
-          <Property Name="RoleID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="RoleID" Type="varchar" MaxLength="20" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="ParID" Type="varchar" MaxLength="20" />
-        </EntityType>
+        </EntityType>-->
         <EntityType Name="WF_Flow1">
           <Key>
             <PropertyRef Name="FID" />
@@ -42,6 +85,7 @@
           <Property Name="HCode" Type="varchar" MaxLength="50" />
           <Property Name="FlowID" Type="uniqueidentifier" />
           <Property Name="CashID" Type="uniqueidentifier" />
+          <Property Name="XSHcode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="WF_Flows">
           <Key>
@@ -134,7 +178,7 @@
         <EntityType Name="V_Flows">
           <Key>
             <PropertyRef Name="FID" />
-            <PropertyRef Name="F1ID" />
+            <PropertyRef Name="Expr1" />
             <PropertyRef Name="NextNode" />
             <PropertyRef Name="PreNode" />
           </Key>
@@ -145,7 +189,7 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="Creater" Type="varchar" MaxLength="20" />
           <Property Name="TemID" Type="uniqueidentifier" />
-          <Property Name="F1ID" Type="int" Nullable="false" />
+          <Property Name="Expr1" Type="int" Nullable="false" />
           <Property Name="HCode" Type="varchar" MaxLength="50" />
           <Property Name="CurRmb" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Customer" Type="nvarchar" MaxLength="50" />
@@ -177,9 +221,10 @@
           <Property Name="CashID" Type="uniqueidentifier" />
         </EntityType>
         <EntityContainer Name="ContractModelStoreContainer">
+          <EntitySet Name="ACash" EntityType="Self.ACash" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AFKXX" EntityType="Self.AFKXX" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Depts" EntityType="Self.Org_Depts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Emps" EntityType="Self.Org_Emps" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Org_Roles" EntityType="Self.Org_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Flow1" EntityType="Self.WF_Flow1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Flows" EntityType="Self.WF_Flows" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Nodes" EntityType="Self.WF_Nodes" Schema="dbo" store:Type="Tables" />
@@ -227,7 +272,7 @@
     [V_Flows].[CreatedDate] AS [CreatedDate], 
     [V_Flows].[Creater] AS [Creater], 
     [V_Flows].[TemID] AS [TemID], 
-    [V_Flows].[F1ID] AS [F1ID], 
+    [V_Flows].[Expr1] AS [Expr1], 
     [V_Flows].[HCode] AS [HCode], 
     [V_Flows].[CurRmb] AS [CurRmb], 
     [V_Flows].[Customer] AS [Customer], 
@@ -277,6 +322,8 @@
           <EntitySet Name="Org_Roles" EntityType="ContractModel.Org_Roles" />
           <EntitySet Name="V_Flow_GB_Company" EntityType="ContractModel.V_Flow_GB_Company" />
           <EntitySet Name="V_Flow_GB_Customer" EntityType="ContractModel.V_Flow_GB_Customer" />
+          <EntitySet Name="ACash" EntityType="ContractModel.ACash" />
+          <EntitySet Name="AFKXX" EntityType="ContractModel.AFKXX" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -307,6 +354,7 @@
           <Property Name="HCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FlowID" Type="Guid" />
           <Property Name="CashID" Type="Guid" />
+          <Property Name="XSHcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="WF_Flows">
           <Key>
@@ -375,6 +423,7 @@
             <PropertyRef Name="F1ID" />
             <PropertyRef Name="NextNode" />
             <PropertyRef Name="PreNode" />
+            <PropertyRef Name="Expr1" />
           </Key>
           <Property Name="FID" Type="Guid" Nullable="false" />
           <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -413,6 +462,7 @@
           <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CashID" Type="Guid" />
+          <Property Name="Expr1" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Org_Roles">
           <Key>
@@ -440,6 +490,50 @@
           <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Total" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="ACash">
+          <Key>
+            <PropertyRef Name="CID" />
+          </Key>
+          <Property Name="CID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExchangeDate" Type="DateTime" Precision="3" />
+          <Property Name="Cash" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Mz" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="VoucherId" Type="Int32" />
+          <Property Name="VoucherType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="VoucherYear" Type="Int32" />
+          <Property Name="VoucherMonth" Type="Int32" />
+          <Property Name="VoucherFlag" Type="Boolean" Nullable="false" />
+          <Property Name="ZJBL1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ZJBL2" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ZJBL3" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Ccode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDTEMP" Type="Int32" />
+          <Property Name="HDW" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AFKXX">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <Property Name="rmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="hth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="xshth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fkfs" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fklx" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="flag" Type="Boolean" />
+          <Property Name="vid" Type="Int32" />
+          <Property Name="vtype" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="vyear" Type="Int32" />
+          <Property Name="vmonth" Type="Int32" />
+          <Property Name="bl1" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="bl2" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="bl3" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="CID" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -472,6 +566,7 @@
           <EntitySetMapping Name="WF_Flow1">
             <EntityTypeMapping TypeName="ContractModel.WF_Flow1">
               <MappingFragment StoreEntitySet="WF_Flow1">
+                <ScalarProperty Name="XSHcode" ColumnName="XSHcode" />
                 <ScalarProperty Name="CashID" ColumnName="CashID" />
                 <ScalarProperty Name="FlowID" ColumnName="FlowID" />
                 <ScalarProperty Name="HCode" ColumnName="HCode" />
@@ -549,6 +644,7 @@
           <EntitySetMapping Name="V_Flows">
             <EntityTypeMapping TypeName="ContractModel.V_Flows">
               <MappingFragment StoreEntitySet="V_Flows">
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
                 <ScalarProperty Name="CashID" ColumnName="CashID" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="DeptName" ColumnName="DeptName" />
@@ -578,7 +674,6 @@
                 <ScalarProperty Name="Customer" ColumnName="Customer" />
                 <ScalarProperty Name="CurRmb" ColumnName="CurRmb" />
                 <ScalarProperty Name="HCode" ColumnName="HCode" />
-                <ScalarProperty Name="F1ID" ColumnName="F1ID" />
                 <ScalarProperty Name="TemID" ColumnName="TemID" />
                 <ScalarProperty Name="Creater" ColumnName="Creater" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
@@ -586,15 +681,6 @@
                 <ScalarProperty Name="CurNode" ColumnName="CurNode" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Org_Roles">
-            <EntityTypeMapping TypeName="ContractModel.Org_Roles">
-              <MappingFragment StoreEntitySet="Org_Roles">
-                <ScalarProperty Name="ParID" ColumnName="ParID" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -616,6 +702,52 @@
                 <ScalarProperty Name="Customer" ColumnName="Customer" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="CashID" ColumnName="CashID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACash">
+            <EntityTypeMapping TypeName="ContractModel.ACash">
+              <MappingFragment StoreEntitySet="ACash">
+                <ScalarProperty Name="HDW" ColumnName="HDW" />
+                <ScalarProperty Name="IDTEMP" ColumnName="IDTEMP" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Ccode" ColumnName="Ccode" />
+                <ScalarProperty Name="ZJBL3" ColumnName="ZJBL3" />
+                <ScalarProperty Name="ZJBL2" ColumnName="ZJBL2" />
+                <ScalarProperty Name="ZJBL1" ColumnName="ZJBL1" />
+                <ScalarProperty Name="VoucherFlag" ColumnName="VoucherFlag" />
+                <ScalarProperty Name="VoucherMonth" ColumnName="VoucherMonth" />
+                <ScalarProperty Name="VoucherYear" ColumnName="VoucherYear" />
+                <ScalarProperty Name="VoucherType" ColumnName="VoucherType" />
+                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
+                <ScalarProperty Name="Mz" ColumnName="Mz" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Cash" ColumnName="Cash" />
+                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AFKXX">
+            <EntityTypeMapping TypeName="ContractModel.AFKXX">
+              <MappingFragment StoreEntitySet="AFKXX">
+                <ScalarProperty Name="CID" ColumnName="CID" />
+                <ScalarProperty Name="bl3" ColumnName="bl3" />
+                <ScalarProperty Name="bl2" ColumnName="bl2" />
+                <ScalarProperty Name="bl1" ColumnName="bl1" />
+                <ScalarProperty Name="vmonth" ColumnName="vmonth" />
+                <ScalarProperty Name="vyear" ColumnName="vyear" />
+                <ScalarProperty Name="vtype" ColumnName="vtype" />
+                <ScalarProperty Name="vid" ColumnName="vid" />
+                <ScalarProperty Name="flag" ColumnName="flag" />
+                <ScalarProperty Name="fklx" ColumnName="fklx" />
+                <ScalarProperty Name="fkfs" ColumnName="fkfs" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="xshth" ColumnName="xshth" />
+                <ScalarProperty Name="hth" ColumnName="hth" />
+                <ScalarProperty Name="rmb" ColumnName="rmb" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
