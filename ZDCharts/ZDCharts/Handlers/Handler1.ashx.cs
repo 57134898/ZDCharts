@@ -15,19 +15,17 @@ namespace ZDCharts.Handlers
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
-            //context.Response.Write("Hello World");
-            //var dt = DBHelper.ExecuteDataTable("select top 10 * from acontract");
-
-            JArray jArr = new JArray(new string[] { "老刘", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子" });
-            JObject opt = new JObject();
-            opt.Add("tooltip", new JObject(new JProperty("show", true)));
-            opt.Add("legend", new JObject(new JProperty("data", new JArray("销量lol"))));
-            opt.Add("xAxis", new JArray(new JObject(new JProperty("type", "category"), new JProperty("data", jArr))));
-            opt.Add("yAxis", new JArray(new JObject(new JProperty("type", "value"))));
-            opt.Add("series", new JArray(new JObject(new JProperty("name", "销量"), new JProperty("type", "bar"), new JProperty("data", new JArray(5, 20, 40, 10, 10, 20)))));
-            context.Response.Write(opt.ToString());
-            List<string> list = new List<string>();
-
+            var list = new List<MODEL.CashDraft>();
+            for (int i = 0; i < 1500; i++)
+            {
+                list.Add(new MODEL.CashDraft() { ID = "A" + i.ToString(), Name = "JACK" + i.ToString() });
+            }
+            JObject jo = new JObject();
+            jo.Add("data", JToken.FromObject(list));
+            jo.Add("draw", 6);
+            jo.Add("recordsTotal", 1500);
+            jo.Add("recordsFiltered", 1500);
+            context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(jo));
         }
 
 

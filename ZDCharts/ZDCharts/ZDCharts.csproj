@@ -69,6 +69,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CashViews\CashDraft.html" />
     <Content Include="CashViews\NewMsg.html" />
     <Content Include="ChartViews\ChartViewer.aspx" />
     <Content Include="ChartViews\ChartViewer.html" />
@@ -447,6 +448,10 @@
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{65adcfa7-755d-4e97-a332-6695bac105f2}</Project>
       <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MODEL\MODEL.csproj">
+      <Project>{22c5c7c6-66de-4833-b1be-7c158cb9df40}</Project>
+      <Name>MODEL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -69,13 +69,14 @@
           <Property Name="IsEnabled" Type="varchar" MaxLength="1" />
           <Property Name="Psw" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--生成过程中发现错误:
-警告 6013: 表/视图“contract1.dbo.Org_Roles”未定义主键，并且无法推断有效的主键。已排除了此表/视图。若要使用实体，将需要检查您的架构、添加正确的键并取消对实体的注释。
         <EntityType Name="Org_Roles">
-          <Property Name="RoleID" Type="varchar" MaxLength="20" />
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="ParID" Type="varchar" MaxLength="20" />
-        </EntityType>-->
+        </EntityType>
         <EntityType Name="WF_Flow1">
           <Key>
             <PropertyRef Name="FID" />
@@ -178,7 +179,7 @@
         <EntityType Name="V_Flows">
           <Key>
             <PropertyRef Name="FID" />
-            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="F1ID" />
             <PropertyRef Name="NextNode" />
             <PropertyRef Name="PreNode" />
           </Key>
@@ -189,7 +190,7 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="Creater" Type="varchar" MaxLength="20" />
           <Property Name="TemID" Type="uniqueidentifier" />
-          <Property Name="Expr1" Type="int" Nullable="false" />
+          <Property Name="F1ID" Type="int" Nullable="false" />
           <Property Name="HCode" Type="varchar" MaxLength="50" />
           <Property Name="CurRmb" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Customer" Type="nvarchar" MaxLength="50" />
@@ -225,6 +226,7 @@
           <EntitySet Name="AFKXX" EntityType="Self.AFKXX" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Depts" EntityType="Self.Org_Depts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Emps" EntityType="Self.Org_Emps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Org_Roles" EntityType="Self.Org_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Flow1" EntityType="Self.WF_Flow1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Flows" EntityType="Self.WF_Flows" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Nodes" EntityType="Self.WF_Nodes" Schema="dbo" store:Type="Tables" />
@@ -272,7 +274,7 @@
     [V_Flows].[CreatedDate] AS [CreatedDate], 
     [V_Flows].[Creater] AS [Creater], 
     [V_Flows].[TemID] AS [TemID], 
-    [V_Flows].[Expr1] AS [Expr1], 
+    [V_Flows].[F1ID] AS [F1ID], 
     [V_Flows].[HCode] AS [HCode], 
     [V_Flows].[CurRmb] AS [CurRmb], 
     [V_Flows].[Customer] AS [Customer], 
@@ -318,12 +320,12 @@
           <EntitySet Name="WF_TemRows" EntityType="ContractModel.WF_TemRows" />
           <EntitySet Name="WF_Tems" EntityType="ContractModel.WF_Tems" />
           <EntitySet Name="V_Emps" EntityType="ContractModel.V_Emps" />
-          <EntitySet Name="V_Flows" EntityType="ContractModel.V_Flows" />
-          <EntitySet Name="Org_Roles" EntityType="ContractModel.Org_Roles" />
           <EntitySet Name="V_Flow_GB_Company" EntityType="ContractModel.V_Flow_GB_Company" />
           <EntitySet Name="V_Flow_GB_Customer" EntityType="ContractModel.V_Flow_GB_Customer" />
           <EntitySet Name="ACash" EntityType="ContractModel.ACash" />
           <EntitySet Name="AFKXX" EntityType="ContractModel.AFKXX" />
+          <EntitySet Name="V_Flows" EntityType="ContractModel.V_Flows" />
+          <EntitySet Name="Org_Roles" EntityType="ContractModel.Org_Roles" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -417,61 +419,6 @@
           <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Psw" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="V_Flows">
-          <Key>
-            <PropertyRef Name="FID" />
-            <PropertyRef Name="F1ID" />
-            <PropertyRef Name="NextNode" />
-            <PropertyRef Name="PreNode" />
-            <PropertyRef Name="Expr1" />
-          </Key>
-          <Property Name="FID" Type="Guid" Nullable="false" />
-          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CurNode" Type="Int32" />
-          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TemID" Type="Guid" />
-          <Property Name="F1ID" Type="Int32" Nullable="false" />
-          <Property Name="HCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CurRmb" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CDate" Type="DateTime" Precision="3" />
-          <Property Name="CTotal" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="CType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Voice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Saleman" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CTypeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SalemanID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BidCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BidType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TemIsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="RID" Type="Int32" />
-          <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NextID" Type="Int32" />
-          <Property Name="PreID" Type="Int32" />
-          <Property Name="NextNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PreNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Company" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="DeptID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CashID" Type="Guid" />
-          <Property Name="Expr1" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Org_Roles">
-          <Key>
-            <PropertyRef Name="RoleID" />
-          </Key>
-          <Property Name="RoleID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ParID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="V_Flow_GB_Company">
           <Key>
             <PropertyRef Name="Total" />
@@ -534,6 +481,59 @@
           <Property Name="bl2" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="bl3" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="CID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="V_Flows">
+          <Key>
+            <PropertyRef Name="FID" />
+            <PropertyRef Name="F1ID" />
+            <PropertyRef Name="NextNode" />
+            <PropertyRef Name="PreNode" />
+          </Key>
+          <Property Name="FID" Type="Guid" Nullable="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CurNode" Type="Int32" />
+          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TemID" Type="Guid" />
+          <Property Name="F1ID" Type="Int32" Nullable="false" />
+          <Property Name="HCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CurRmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CDate" Type="DateTime" Precision="3" />
+          <Property Name="CTotal" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="CType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Voice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Saleman" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CTypeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SalemanID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BidCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BidType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TemIsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="RID" Type="Int32" />
+          <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NextID" Type="Int32" />
+          <Property Name="PreID" Type="Int32" />
+          <Property Name="NextNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PreNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Company" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DeptID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CashID" Type="Guid" />
+        </EntityType>
+        <EntityType Name="Org_Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -641,49 +641,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="V_Flows">
-            <EntityTypeMapping TypeName="ContractModel.V_Flows">
-              <MappingFragment StoreEntitySet="V_Flows">
-                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
-                <ScalarProperty Name="CashID" ColumnName="CashID" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
-                <ScalarProperty Name="Company" ColumnName="Company" />
-                <ScalarProperty Name="PreNode" ColumnName="PreNode" />
-                <ScalarProperty Name="NextNode" ColumnName="NextNode" />
-                <ScalarProperty Name="PreID" ColumnName="PreID" />
-                <ScalarProperty Name="NextID" ColumnName="NextID" />
-                <ScalarProperty Name="RName" ColumnName="RName" />
-                <ScalarProperty Name="RID" ColumnName="RID" />
-                <ScalarProperty Name="TemIsEnabled" ColumnName="TemIsEnabled" />
-                <ScalarProperty Name="TemName" ColumnName="TemName" />
-                <ScalarProperty Name="BidType" ColumnName="BidType" />
-                <ScalarProperty Name="BidCode" ColumnName="BidCode" />
-                <ScalarProperty Name="SalemanID" ColumnName="SalemanID" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CTypeID" ColumnName="CTypeID" />
-                <ScalarProperty Name="Saleman" ColumnName="Saleman" />
-                <ScalarProperty Name="Voice" ColumnName="Voice" />
-                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
-                <ScalarProperty Name="CType" ColumnName="CType" />
-                <ScalarProperty Name="CTotal" ColumnName="CTotal" />
-                <ScalarProperty Name="CDate" ColumnName="CDate" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-                <ScalarProperty Name="CurRmb" ColumnName="CurRmb" />
-                <ScalarProperty Name="HCode" ColumnName="HCode" />
-                <ScalarProperty Name="TemID" ColumnName="TemID" />
-                <ScalarProperty Name="Creater" ColumnName="Creater" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
-                <ScalarProperty Name="CurNode" ColumnName="CurNode" />
-                <ScalarProperty Name="FName" ColumnName="FName" />
-                <ScalarProperty Name="FID" ColumnName="FID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="V_Flow_GB_Company">
             <EntityTypeMapping TypeName="ContractModel.V_Flow_GB_Company">
               <MappingFragment StoreEntitySet="V_Flow_GB_Company">
@@ -748,6 +705,58 @@
                 <ScalarProperty Name="rmb" ColumnName="rmb" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Flows">
+            <EntityTypeMapping TypeName="ContractModel.V_Flows">
+              <MappingFragment StoreEntitySet="V_Flows">
+                <ScalarProperty Name="CashID" ColumnName="CashID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="PreNode" ColumnName="PreNode" />
+                <ScalarProperty Name="NextNode" ColumnName="NextNode" />
+                <ScalarProperty Name="PreID" ColumnName="PreID" />
+                <ScalarProperty Name="NextID" ColumnName="NextID" />
+                <ScalarProperty Name="RName" ColumnName="RName" />
+                <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="TemIsEnabled" ColumnName="TemIsEnabled" />
+                <ScalarProperty Name="TemName" ColumnName="TemName" />
+                <ScalarProperty Name="BidType" ColumnName="BidType" />
+                <ScalarProperty Name="BidCode" ColumnName="BidCode" />
+                <ScalarProperty Name="SalemanID" ColumnName="SalemanID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CTypeID" ColumnName="CTypeID" />
+                <ScalarProperty Name="Saleman" ColumnName="Saleman" />
+                <ScalarProperty Name="Voice" ColumnName="Voice" />
+                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
+                <ScalarProperty Name="CType" ColumnName="CType" />
+                <ScalarProperty Name="CTotal" ColumnName="CTotal" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="CurRmb" ColumnName="CurRmb" />
+                <ScalarProperty Name="HCode" ColumnName="HCode" />
+                <ScalarProperty Name="F1ID" ColumnName="F1ID" />
+                <ScalarProperty Name="TemID" ColumnName="TemID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="CurNode" ColumnName="CurNode" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Org_Roles">
+            <EntityTypeMapping TypeName="ContractModel.Org_Roles">
+              <MappingFragment StoreEntitySet="Org_Roles">
+                <ScalarProperty Name="ParID" ColumnName="ParID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

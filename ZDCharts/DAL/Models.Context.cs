@@ -33,11 +33,11 @@ namespace DAL
         public virtual DbSet<WF_TemRows> WF_TemRows { get; set; }
         public virtual DbSet<WF_Tems> WF_Tems { get; set; }
         public virtual DbSet<V_Emps> V_Emps { get; set; }
-        public virtual DbSet<V_Flows> V_Flows { get; set; }
-        public virtual DbSet<Org_Roles> Org_Roles { get; set; }
         public virtual DbSet<V_Flow_GB_Company> V_Flow_GB_Company { get; set; }
         public virtual DbSet<V_Flow_GB_Customer> V_Flow_GB_Customer { get; set; }
         public virtual DbSet<ACash> ACash { get; set; }
         public virtual DbSet<AFKXX> AFKXX { get; set; }
+        public virtual DbSet<V_Flows> V_Flows { get; set; }
+        public virtual DbSet<Org_Roles> Org_Roles { get; set; }
     }
 }
