@@ -15,17 +15,43 @@ namespace ZDCharts.Handlers
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
-            var list = new List<MODEL.CashDraft>();
-            for (int i = 0; i < 1500; i++)
+            string pStr = context.Request.Params["p"];
+            if (string.IsNullOrEmpty(pStr))
             {
-                list.Add(new MODEL.CashDraft() { ID = "A" + i.ToString(), Name = "JACK" + i.ToString() });
+                JObject jo = new JObject();
+                jo.Add("data", "");
+                jo.Add("recordsTotal", 0);
+                jo.Add("recordsFiltered", 0);
+                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(jo));
+                return;
             }
-            JObject jo = new JObject();
-            jo.Add("data", JToken.FromObject(list));
-            jo.Add("draw", 6);
-            jo.Add("recordsTotal", 1500);
-            jo.Add("recordsFiltered", 1500);
-            context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(jo));
+            else
+            {
+                JArray pJArr = JArray.Parse(pStr);
+                var pageStartJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "start");
+                var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
+
+                int pStart = int.Parse(pageStartJo["value"].ToString());
+                int pLength = int.Parse(pageLengthJo["value"].ToString());
+
+                var list = new List<MODEL.CashDraft>();
+                //list.Add(new MODEL.CashDraft() { ID = "A", Name =decimal.Parse("12212.223") });
+                for (int i = 0; i < 150; i++)
+                {
+                    list.Add(new MODEL.CashDraft() { ID = "A" + i.ToString(), Name = (i * 1000).ToString("N4")});
+                }
+                var pageList = list.OrderBy(p => p.ID).Skip(pStart).Take(pLength).ToList();
+                JObject jo = new JObject();
+                jo.Add("data", JToken.FromObject(pageList));
+                //jo.Add("draw", 2);
+                jo.Add("recordsTotal", list.Count);
+                jo.Add("recordsFiltered", list.Count);
+
+
+
+
+                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(jo));
+            }
         }
 
 
