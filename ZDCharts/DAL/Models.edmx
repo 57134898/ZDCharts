@@ -27,6 +27,33 @@
           <Property Name="IDTEMP" Type="int" />
           <Property Name="HDW" Type="nvarchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="ACLIENTS">
+          <Key>
+            <PropertyRef Name="CCODE" />
+          </Key>
+          <Property Name="CID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CCODE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CNAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="CSHORTCODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="CADDRESS" Type="nvarchar" MaxLength="50" />
+          <Property Name="CTEL" Type="nvarchar" MaxLength="50" />
+          <Property Name="CLINKMAN" Type="nvarchar" MaxLength="50" />
+          <Property Name="CPHONE" Type="nvarchar" MaxLength="50" />
+          <Property Name="CFAXNO" Type="nvarchar" MaxLength="50" />
+          <Property Name="CPOSNO" Type="nvarchar" MaxLength="50" />
+          <Property Name="CBANKNAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="CACCOUNT" Type="nvarchar" MaxLength="50" />
+          <Property Name="CEMAIL" Type="nvarchar" MaxLength="50" />
+          <Property Name="CAREA" Type="nvarchar" MaxLength="50" />
+          <Property Name="CMEMO" Type="nvarchar" MaxLength="50" />
+          <Property Name="CFR" Type="nvarchar" MaxLength="50" />
+          <Property Name="CSH" Type="nvarchar" MaxLength="50" />
+          <Property Name="CBCODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="CFPTEL" Type="nvarchar" MaxLength="50" />
+          <Property Name="CFPBAND" Type="nvarchar" MaxLength="50" />
+          <Property Name="CFPPHONE" Type="nvarchar" MaxLength="50" />
+          <Property Name="FLAG" Type="bit" />
+        </EntityType>
         <EntityType Name="AFKXX">
           <Key>
             <PropertyRef Name="ID" />
@@ -223,6 +250,7 @@
         </EntityType>
         <EntityContainer Name="ContractModelStoreContainer">
           <EntitySet Name="ACash" EntityType="Self.ACash" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ACLIENTS" EntityType="Self.ACLIENTS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AFKXX" EntityType="Self.AFKXX" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Depts" EntityType="Self.Org_Depts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Emps" EntityType="Self.Org_Emps" Schema="dbo" store:Type="Tables" />
@@ -326,6 +354,7 @@
           <EntitySet Name="AFKXX" EntityType="ContractModel.AFKXX" />
           <EntitySet Name="V_Flows" EntityType="ContractModel.V_Flows" />
           <EntitySet Name="Org_Roles" EntityType="ContractModel.Org_Roles" />
+          <EntitySet Name="ACLIENTS" EntityType="ContractModel.ACLIENTS" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -534,6 +563,33 @@
           <Property Name="RoleID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ParID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ACLIENTS">
+          <Key>
+            <PropertyRef Name="CCODE" />
+          </Key>
+          <Property Name="CID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CCODE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CSHORTCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CADDRESS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CLINKMAN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CPHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CFAXNO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CPOSNO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CBANKNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CACCOUNT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CEMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CAREA" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CMEMO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CFR" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CSH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CBCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CFPTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CFPBAND" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CFPPHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FLAG" Type="Boolean" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -757,6 +813,34 @@
                 <ScalarProperty Name="ParID" ColumnName="ParID" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACLIENTS">
+            <EntityTypeMapping TypeName="ContractModel.ACLIENTS">
+              <MappingFragment StoreEntitySet="ACLIENTS">
+                <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+                <ScalarProperty Name="CFPPHONE" ColumnName="CFPPHONE" />
+                <ScalarProperty Name="CFPBAND" ColumnName="CFPBAND" />
+                <ScalarProperty Name="CFPTEL" ColumnName="CFPTEL" />
+                <ScalarProperty Name="CBCODE" ColumnName="CBCODE" />
+                <ScalarProperty Name="CSH" ColumnName="CSH" />
+                <ScalarProperty Name="CFR" ColumnName="CFR" />
+                <ScalarProperty Name="CMEMO" ColumnName="CMEMO" />
+                <ScalarProperty Name="CAREA" ColumnName="CAREA" />
+                <ScalarProperty Name="CEMAIL" ColumnName="CEMAIL" />
+                <ScalarProperty Name="CACCOUNT" ColumnName="CACCOUNT" />
+                <ScalarProperty Name="CBANKNAME" ColumnName="CBANKNAME" />
+                <ScalarProperty Name="CPOSNO" ColumnName="CPOSNO" />
+                <ScalarProperty Name="CFAXNO" ColumnName="CFAXNO" />
+                <ScalarProperty Name="CPHONE" ColumnName="CPHONE" />
+                <ScalarProperty Name="CLINKMAN" ColumnName="CLINKMAN" />
+                <ScalarProperty Name="CTEL" ColumnName="CTEL" />
+                <ScalarProperty Name="CADDRESS" ColumnName="CADDRESS" />
+                <ScalarProperty Name="CSHORTCODE" ColumnName="CSHORTCODE" />
+                <ScalarProperty Name="CNAME" ColumnName="CNAME" />
+                <ScalarProperty Name="CCODE" ColumnName="CCODE" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

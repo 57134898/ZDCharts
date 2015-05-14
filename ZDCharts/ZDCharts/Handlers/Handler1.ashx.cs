@@ -38,7 +38,7 @@ namespace ZDCharts.Handlers
                 //list.Add(new MODEL.CashDraft() { ID = "A", Name =decimal.Parse("12212.223") });
                 for (int i = 0; i < 150; i++)
                 {
-                    list.Add(new MODEL.CashDraft() { ID = "A" + i.ToString(), Name = (i * 1000).ToString("N4")});
+                    list.Add(new MODEL.CashDraft() { ID = "A" + i.ToString(), Name = (i * 1000000)});
                 }
                 var pageList = list.OrderBy(p => p.ID).Skip(pStart).Take(pLength).ToList();
                 JObject jo = new JObject();

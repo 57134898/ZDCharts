@@ -9,6 +9,6 @@ namespace MODEL
     public class CashDraft
     {
         public string ID { get; set; }
-        public string Name { get; set; }
+        public int Name { get; set; }
     }
 }

@@ -24,9 +24,7 @@
                 "serverSide": true,//发送服务器请求
                 "ajax": "../handlers/handler1.ashx",//URL
                 //列集合
-                "aoColumns": [{ "mDataProp": "ID" },
-                       { "mDataProp": "Name", 'sClass': "text-right" }
-                ],
+                "aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
                 //汉化
                 "language":
                  {
@@ -63,28 +61,111 @@
                 }
             });
             //选中行变色 单行
-            $('#dvtable tbody').on('click', 'tr', function () {
+            $('table tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
                 }
                 else {
-                    $('#dvtable tr.selected').removeClass('selected');
+                    $('table tr.selected').removeClass('selected');
                     $(this).addClass('selected');
                 }
             });
+
             //添加按钮
             $('#toolbtn_add').click(function () {
-                $("#myModal").modal();
+                $('#customerCollapse').collapse('toggle');
+                $("#savbtn").click(function () {
+                    alert('敬请期待');
+                });
+                $("#canbtn").click(function () {
+                    $('#customerCollapse').collapse('toggle');
+                });
             });
 
             //获取选中行的值
             $('#toolbtn_update').click(function () {
-                alert($("#dvtable tr.selected td:eq(0)").text());
+                alert($("table tr.selected td:eq(0)").text());
             });
 
             //工具栏按钮tooltip设置
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip();
+
+            //客户选择按钮事件绑定
+            $('#customer-addon').click(function () {
+                $("#myModal").modal();
+                var tLength = $("#custoemrtable tr").length;
+                if (tLength > 1) {
+                    return;
+                }
+                $('#myModal').on('hidden.bs.modal', function (e) {
+                    //选中行变色 单行
+                    $('table tbody').on('click', 'tr', function () {
+                        if ($(this).hasClass('selected')) {
+                            $(this).removeClass('selected');
+                        }
+                        else {
+                            $('table tr.selected').removeClass('selected');
+                            $(this).addClass('selected');
+                        }
+                    });
+                })
+                $('#custoemrtable').dataTable({
+                    "sPaginationType": "full_numbers",
+                    "processing": true,//显示进度条
+                    "serverSide": true,//发送服务器请求
+                    "ajax": {
+                        "url": "../handlers/Customer.ashx",
+                        "type": "POST",
+                        "data": { Action: 'GetList' }
+                    },
+                    "columns": [{ "data": "CNAME" }, { "data": "CCODE", "bVisible": false }],//"bVisible": false
+                    //汉化
+                    "language":
+                {
+                    "sLengthMenu": "每页显示 _MENU_ 条记录",
+                    "sZeroRecords": "抱歉， 没有找到",
+                    "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                    "sInfoEmpty": "没有数据",
+                    "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                    "oPaginate": {
+                        "sFirst": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-backward' aria-hidden='true'></span></button>",
+                        "sPrevious": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span></button>",
+                        "sNext": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span></button>",
+                        "sLast": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-forward' aria-hidden='true'></span></button>"
+                    },
+                    "sZeroRecords": "没有检索到数据",
+                    "sProcessing": "<img src='../Images/loading.gif'>加载中...",
+                    "sSearch": "查找"
+                },
+                    //请求处理函数
+                    "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
+                        // 将客户名称加入参数数组
+                        //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
+                        $.ajax({
+                            "type": "POST",
+                            "url": "../handlers/Customer.ashx",
+                            "dataType": "json",
+                            "data": { p: JSON.stringify(aoData), Action: 'GetList' }, // 以json格式传递
+                            "success": function (resp) {
+                                //alert(JSON.stringify(resp));
+                                fnCallback(resp.data);
+                            }
+                        });
+                    }
+                });
+                //选中行变色 单行
+                $('table tbody').on('click', 'tr', function () {
+                    if ($(this).hasClass('selected')) {
+                        $(this).removeClass('selected');
+                    }
+                    else {
+                        $('table tr.selected').removeClass('selected');
+                        $(this).addClass('selected');
+                    }
+                });
+                $('#customerEnter').click(function () {
+                    alert($("table tr.selected td:eq(1)").text());
+                });
             });
         });
     </script>
@@ -108,46 +189,71 @@
             </div>
         </div>
         <div class="panel-body">
-            <table id="dvtable" class="display" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                    </tr>
-                </thead>
-
-                <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Salary</th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
-    <!--表单-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">新增记录</h4>
-                </div>
-                <div class="modal-body">
-                    <!--action很重要！！！！！！！！！！！！！！！！！！！！！！！！！1-->
-                    <!--<form action="../Handlers/Handler1.ashx">-->
+            <div class="collapse" id="customerCollapse">
+                <!--表单区域-->
+                <div class="panel panel-primary">
+                    <div class="panel-heading">新增一条记录</div>
+                    <div class="panel-body">
+                        <!--action很重要！！！！！！！！！！！！！！！！！！！！！！！！！1-->
+                        <!--<form action="../Handlers/Handler1.ashx">-->
                         <div class="form-group">
                             <label for="customer">客户</label>
                             <div class="input-group">
-                                <input id="customer" type="text" class="form-control" placeholder="请选择客户" aria-describedby="customer-addon">
+                                <input disabled id="customer" type="text" class="form-control" placeholder="请选择客户" aria-describedby="customer-addon">
                                 <span class="input-group-addon" id="customer-addon"><a>查找</a></span>
                             </div>
                         </div>
-                    <!--</form>-->
+                        <div class="panel panel-info">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">合同信息</div>
+                            <!-- Table -->
+                            <table class="table  table-hover  table-bordered">
+                                <thead>
+                                    <tr><th style='text-align:center'>合同号</th><th style='text-align:center'>金额</th><th style='text-align:center'>未付款</th><th style='text-align:center'>本次</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>ZD001</td><td style='text-align:right'>150,000</td><td style='text-align:right'>50,000</td><td style='text-align:center'><input style='text-align:right' type='text' /></td></tr>
+                                    <tr><td>ZD001</td><td style='text-align:right'>200,000</td><td style='text-align:right'>50,000</td><td style='text-align:center'><input style='text-align:right' type='text' /></td></tr>
+                                    <tr><td>ZD001</td><td style='text-align:right'>9,800,000</td><td style='text-align:right'>200,000</td><td style='text-align:center'><input style='text-align:right' type='text' /></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--</form>-->
+                    </div>
+                    <div class="panel-footer">
+                        <button id="savbtn" type="button" class="btn btn-primary">&nbsp;&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;&nbsp;</button>
+                        <button id="canbtn" type="button" class="btn btn-default">&nbsp;&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+            </div>
 
+            <table id="dvtable" class="display" cellspacing="0" width="100%">
+                <thead><tr><th>ID</th><th>Name</th></tr></thead>
+                <tfoot><tr><th>Name</th><th>Salary</th></tr></tfoot>
+            </table>
+        </div>
+    </div>
+    <!--客户弹出层-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">选择客户</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-info">
+                        <div class="panel-body">
+                            <table id="custoemrtable" class="display" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr><th>客户</th><th>客户编码</th></tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-lg">保存</button>
+                    <button id="customerEnter" type="button" class="btn btn-primary btn-lg">选中</button>
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
                 </div>
             </div>

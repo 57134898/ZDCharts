@@ -53,6 +53,9 @@
     <Compile Include="ACash.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="ACLIENTS.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="AFKXX.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
