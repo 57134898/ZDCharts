@@ -14,3 +14,20 @@
 .numFormat {
     text-align: right;
 }
+
+th.dpass, td.dpass {
+    display: none;
+}
+
+.inline {
+    display: inline;
+}
+
+div.menubackcolor {
+    background-color: #6f5499;
+    width: 100%;
+}
+
+.menufore{
+    color:white
+}

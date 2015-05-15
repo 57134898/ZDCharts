@@ -32,7 +32,7 @@ namespace ZDCharts.Handlers
                     var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
                     int pStart = int.Parse(pageStartJo["value"].ToString());
                     int pLength = int.Parse(pageLengthJo["value"].ToString());
-                    var pageList = db.ACLIENTS.OrderBy(p => p.CNAME).Skip(pStart).Take(pLength).ToList();
+                    var pageList = db.ACLIENTS.OrderBy(p => p.CCODE).Skip(pStart).Take(pLength).ToList();
                     JObject jo = new JObject();
                     jo.Add("data", JToken.FromObject(pageList));
                     jo.Add("recordsTotal", db.ACLIENTS.Count());

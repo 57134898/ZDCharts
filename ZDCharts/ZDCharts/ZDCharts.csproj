@@ -274,6 +274,7 @@
     <Content Include="Images\crying.png" />
     <Content Include="Images\loading.gif" />
     <Content Include="Index.html" />
+    <Content Include="IndexPC.html" />
     <Content Include="LogInPage.html" />
     <Content Include="packages.config" />
     <Content Include="Handlers\Handler1.ashx" />
