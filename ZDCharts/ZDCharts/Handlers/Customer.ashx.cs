@@ -41,5 +41,18 @@ namespace ZDCharts.Handlers
                 }
             }
         }
+
+        public Tools.JsonResponse GetContractByCustomer()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                //string pStr = context.Request.Form["customerid"];
+
+                var list = db.V_UnfinishedContracts.Take(10).ToList();
+
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
+
+            }
+        }
     }
 }

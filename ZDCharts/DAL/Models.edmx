@@ -248,6 +248,22 @@
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="CashID" Type="uniqueidentifier" />
         </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“contract1.dbo.V_UnfinishedContracts”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_UnfinishedContracts">
+          <Key>
+            <PropertyRef Name="HCODE" />
+            <PropertyRef Name="RMB" />
+            <PropertyRef Name="INV" />
+          </Key>
+          <Property Name="HCODE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustomerID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="RMB" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="INV" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="NonRmb" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="NonInv" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
         <EntityContainer Name="ContractModelStoreContainer">
           <EntitySet Name="ACash" EntityType="Self.ACash" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ACLIENTS" EntityType="Self.ACLIENTS" Schema="dbo" store:Type="Tables" />
@@ -334,6 +350,17 @@
     [V_Flows].[CashID] AS [CashID]
     FROM [dbo].[V_Flows] AS [V_Flows]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_UnfinishedContracts" EntityType="Self.V_UnfinishedContracts" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_UnfinishedContracts].[HCODE] AS [HCODE], 
+    [V_UnfinishedContracts].[CustomerID] AS [CustomerID], 
+    [V_UnfinishedContracts].[Total] AS [Total], 
+    [V_UnfinishedContracts].[RMB] AS [RMB], 
+    [V_UnfinishedContracts].[INV] AS [INV], 
+    [V_UnfinishedContracts].[NonRmb] AS [NonRmb], 
+    [V_UnfinishedContracts].[NonInv] AS [NonInv]
+    FROM [dbo].[V_UnfinishedContracts] AS [V_UnfinishedContracts]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -355,6 +382,7 @@
           <EntitySet Name="V_Flows" EntityType="ContractModel.V_Flows" />
           <EntitySet Name="Org_Roles" EntityType="ContractModel.Org_Roles" />
           <EntitySet Name="ACLIENTS" EntityType="ContractModel.ACLIENTS" />
+          <EntitySet Name="V_UnfinishedContracts" EntityType="ContractModel.V_UnfinishedContracts" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -590,6 +618,20 @@
           <Property Name="CFPBAND" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CFPPHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FLAG" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="V_UnfinishedContracts">
+          <Key>
+            <PropertyRef Name="HCODE" />
+            <PropertyRef Name="RMB" />
+            <PropertyRef Name="INV" />
+          </Key>
+          <Property Name="HCODE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="RMB" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="INV" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="NonRmb" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="NonInv" Type="Decimal" Precision="38" Scale="2" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -841,6 +883,19 @@
                 <ScalarProperty Name="CNAME" ColumnName="CNAME" />
                 <ScalarProperty Name="CCODE" ColumnName="CCODE" />
                 <ScalarProperty Name="CID" ColumnName="CID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_UnfinishedContracts">
+            <EntityTypeMapping TypeName="ContractModel.V_UnfinishedContracts">
+              <MappingFragment StoreEntitySet="V_UnfinishedContracts">
+                <ScalarProperty Name="NonInv" ColumnName="NonInv" />
+                <ScalarProperty Name="NonRmb" ColumnName="NonRmb" />
+                <ScalarProperty Name="INV" ColumnName="INV" />
+                <ScalarProperty Name="RMB" ColumnName="RMB" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="HCODE" ColumnName="HCODE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

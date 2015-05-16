@@ -17,10 +17,12 @@
     <script src="../Scripts/DataTables/jquery.dataTables.min.js"></script>
     <link href="../Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
 
+    <script src="../Scripts/moment.min.js"></script>
+    <script src="../Scripts/daterangepicker.js"></script>
+    <link href="../Content/daterangepicker-bs3.css" rel="stylesheet" />
+
     <script type="text/javascript">
         $(document).ready(function () {
-
-
             $('#dvtable').dataTable({
                 "sPaginationType": "full_numbers",
                 "processing": true,//显示进度条
@@ -78,8 +80,64 @@
             //添加按钮
             $('#toolbtn_add').click(function () {
                 $('#customerCollapse').collapse('toggle');
+                //日期控件格式设置 暂时不用
+                //$('input[name="daterange"]').daterangepicker({
+                //    singleDatePicker: true,
+                //    format: 'YYYY-MM-DD',
+                //    showDropdowns: true,
+                //    minDate: '2010-1-1',
+                //    maxDate: '2020-12-31',
+                //    endDate: moment(),//new Date().getFullYear().toString() + "-" + new Date().getMonth().toString() + "-" + new Date().getDate().toString()
+                //    locale: {
+                //        applyLabel: 'Submit',
+                //        cancelLabel: 'Cancel',
+                //        fromLabel: 'From',
+                //        toLabel: 'To',
+                //        customRangeLabel: 'Custom',
+                //        daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                //        monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                //        firstDay: 1
+                //    }
+                //});
+
+
+                //保存按钮
                 $("#savbtn").click(function () {
-                    alert($("#customer").attr("code"));
+                    $.ajax({
+                        type: 'POST',
+                        url: '../Handlers/Customer.ashx',
+                        data: { action: 'GetContractByCustomer', customerid: '01100002' },
+                        success: function suc(result) {
+                            alert(JSON.stringify(result));
+                            //请求失败跳转到错误页
+                            if (result.code != "0") {
+                                redirecToErrorPage(result);
+                                return;
+                            }
+                            if (result.data == null || result.data.length <= 0) {
+                                $("#listdiv").append("无数据");
+                                spinner1.stop();
+                                return;
+                            }
+
+                            return;
+                            listclear();
+                            //绑定数据
+                            for (var i = 0; i < result.data.length; i++) {
+                                var shtml = "<a href='javascript:loadcompany();' class='list-group-item list-group-item-success'>返回上级</a>";
+                                shtml = shtml.concat("<a id='" + "aa" + i.toString() + "' href='#' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].Customer + "</a>");
+                                $("#listdiv").append(shtml);
+                                //switch按钮样式设置
+                                $("#aa" + i.toString()).click(function () {
+                                    loadcontract();
+                                });
+                            }
+                            //spinner1.stop();
+                        },
+                        dataType: 'JSON'
+                    });
+
+                    //alert($("#customer").attr("code"));
                 });
                 $("#canbtn").click(function () {
                     $('#customerCollapse').collapse('toggle');
@@ -249,7 +307,7 @@
                     <div class="panel-heading">新增一条记录</div>
                     <div class="panel-body">
                         <!--action很重要！！！！！！！！！！！！！！！！！！！！！！！！！1-->
-                        <form class="form-horizontal" action="../Handlers/Handler1.ashx">
+                        <form class="form-horizontal">
                             <div class="form-group">
                                 <label for="customer" class="control-label col-md-1">客户</label>
                                 <div class="input-group col-md-11">
@@ -273,6 +331,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="datepicker1" class="control-label col-md-1">日期</label>
+                                <div class="col-md-11">
+                                    <input id="datepicker1" type="date" class="form-control" placeholder="请选择日期">
+                                </div>
+                            </div>
+
 
                             <div class="panel panel-info">
                                 <!-- Default panel contents -->
@@ -288,16 +353,23 @@
                                             <td style='text-align:right'>150,000</td>
                                             <td style='text-align:right'>50,000</td>
                                             <td style='text-align:center'>
-                                                <input type="text" class="text-right" id="currmb" placeholder="ZD001付款金额">
+                                                <input type="text" class="form-control text-right" id="currmb" placeholder="ZD001付款金额">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>ZD001</td>
                                             <td style='text-align:right'>200,000</td>
                                             <td style='text-align:right'>50,000</td>
-                                            <td style='text-align:center'><input style='text-align:right' type='text' /></td>
+                                            <td style='text-align:center'><input class="form-control text-right" type='text' /></td>
                                         </tr>
-                                        <tr><td>ZD001</td><td style='text-align:right'>9,800,000</td><td style='text-align:right'>200,000</td><td style='text-align:center'><input style='text-align:right' type='text' /></td></tr>
+                                        <tr>
+                                            <td>ZD001</td>
+                                            <td style='text-align:right'>9,800,000</td>
+                                            <td>200,000</td>
+                                            <td style='text-align:center'>
+                                                <input class="form-control text-right" type='text' />
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
