@@ -47,9 +47,31 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 //string pStr = context.Request.Form["customerid"];
+                //&& p.Category == "0301" 为方便测试用需要去掉  Take(10) 也要去掉
+                var list = db.V_UnfinishedContracts.Where(p => p.NonRmb != 0 && p.Category == "0301").Take(10).ToList();
 
-                var list = db.V_UnfinishedContracts.Take(10).ToList();
+                foreach (var item in list)
+                {
+                    var xslist = db.AWX.Where(p => p.WXHTH == item.HCODE).ToList();
+                    if (xslist != null)
+                    {
+                        item.XSHCODE = Newtonsoft.Json.JsonConvert.SerializeObject(xslist.Select(p => p.XSHTH)).ToString();
 
+                    }
+                }
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
+            }
+        }
+
+        public Tools.JsonResponse DoPay()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                string jsonstr = context.Request.Form["PayInfo"];
+                MODEL.PayInfo payinfo = (MODEL.PayInfo)Newtonsoft.Json.JsonConvert.DeserializeObject(jsonstr, typeof(MODEL.PayInfo));
+
+
+                var list = db.V_UnfinishedContracts.Where(p => p.NonRmb != 0).Take(10).ToList();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
 
             }

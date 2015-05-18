@@ -103,41 +103,54 @@
 
                 //保存按钮
                 $("#savbtn").click(function () {
+                    //验证表单
+                    //****************待做
+                    //****************待做
+                    //****************待做
+                    var paym = {};
+                    paym.CustomerID = $("#customer").attr("code");
+                    paym.PayDate = $("#datepicker1").val();
+                    paym.Rmb = $("#Rmb").val();
+                    paym.Note = $("#Note").val();
+                    var userinfo = eval("(" + $('#userinfo', parent.document).val() + ")");
+                    paym.ComanyID = userinfo.companyid;
+
+                    var paymList = [];
+                    paym.List = paymList;
+                    $("#tablebody tr").each(function (i, item) {
+                        var currmb = $.trim($(item).find("td").find("input").val());
+                        if (!(currmb == "" || isNaN(currmb))) {
+                            var paymitem = {};
+                            paymitem.HCODE = $(item).find("td").eq(0).html();
+                            paymitem.CurRmb = currmb;
+                            paymitem.XSHCODE = "**********************************************************";
+                            paymList.push(paymitem);
+                        }
+                    });
+                    var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
                     $.ajax({
                         type: 'POST',
                         url: '../Handlers/Customer.ashx',
-                        data: { action: 'GetContractByCustomer', customerid: '01100002' },
+                        data: { action: 'DoPay', PayInfo: JSON.stringify(paym) },
                         success: function suc(result) {
-                            alert(JSON.stringify(result));
+                            //alert(JSON.stringify(result));
                             //请求失败跳转到错误页
                             if (result.code != "0") {
                                 redirecToErrorPage(result);
                                 return;
                             }
                             if (result.data == null || result.data.length <= 0) {
-                                $("#listdiv").append("无数据");
+                                $("#tablebody").append("无数据");
                                 spinner1.stop();
                                 return;
                             }
 
-                            return;
-                            listclear();
-                            //绑定数据
-                            for (var i = 0; i < result.data.length; i++) {
-                                var shtml = "<a href='javascript:loadcompany();' class='list-group-item list-group-item-success'>返回上级</a>";
-                                shtml = shtml.concat("<a id='" + "aa" + i.toString() + "' href='#' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].Customer + "</a>");
-                                $("#listdiv").append(shtml);
-                                //switch按钮样式设置
-                                $("#aa" + i.toString()).click(function () {
-                                    loadcontract();
-                                });
-                            }
-                            //spinner1.stop();
+                            spinner1.stop();
                         },
                         dataType: 'JSON'
                     });
-
-                    //alert($("#customer").attr("code"));
+                    //****************************
+                    alert(JSON.stringify(paym));
                 });
                 $("#canbtn").click(function () {
                     $('#customerCollapse').collapse('toggle');
@@ -271,6 +284,49 @@
                         $("#customer").val($("table tr.selected td:eq(1)").text());
                         $("#customer").attr("code", $("table tr.selected td:eq(0)").text())
                         $("#myModal").modal('hide');
+
+                        var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
+                        $.ajax({
+                            type: 'POST',
+                            url: '../Handlers/Customer.ashx',
+                            data: { action: 'GetContractByCustomer', customerid: '01100002' },
+                            success: function suc(result) {
+                                //alert(JSON.stringify(result));
+                                //请求失败跳转到错误页
+                                if (result.code != "0") {
+                                    redirecToErrorPage(result);
+                                    return;
+                                }
+                                if (result.data == null || result.data.length <= 0) {
+                                    $("#tablebody").append("无数据");
+                                    spinner1.stop();
+                                    return;
+                                }
+
+                                $("#tablebody").empty();
+                                //绑定数据
+                                for (var i = 0; i < result.data.length; i++) {
+                                    var shtml = "";
+                                    try {
+                                        shtml = shtml.concat("<tr>");
+                                        shtml = shtml.concat("<td>" + result.data[i].HCODE + "</td>");
+                                        shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].Total + "</td>");
+                                        shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].NonRmb + "</td>");
+                                        shtml = shtml.concat("<td style='text-align:center'><input type='text' class='form-control text-right' id='currmb' placeholder='" + result.data[i].HCODE + "本次付款金额'></td>");
+                                        shtml = shtml.concat("<td style='text-align:center'><input type='text' class='form-control text-right' id='currmb' placeholder='销售合同号'></td>");
+                                        shtml = shtml.concat("</tr>");
+                                        $("#tablebody").append(shtml);
+                                    } catch (e) {
+                                        //alert(e.message)
+                                    };
+
+                                }
+                                spinner1.stop();
+                            },
+                            dataType: 'JSON'
+                        });
+
+
                     }
 
                     //alert($("table tr.selected td:eq(0)").text());
@@ -320,13 +376,13 @@
                                     <div class="col-md-6">
                                         <label for="rmb1" class="control-label col-md-2">现汇</label>
                                         <div class="col-md-10">
-                                            <input type="number" class="form-control" id="rmb1" placeholder="现汇">
+                                            <input type="number" class="form-control" id="Rmb" placeholder="现汇">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="rmb1" class="control-label col-md-2">票据</label>
                                         <div class="col-md-10">
-                                            <input type="number" class="form-control" id="rmb1" placeholder="票据">
+                                            <input type="number" class="form-control" id="Note" placeholder="票据">
                                         </div>
                                     </div>
                                 </div>
@@ -343,11 +399,12 @@
                                 <!-- Default panel contents -->
                                 <div class="panel-heading">合同信息</div>
                                 <!-- Table -->
-                                <table class="table  table-hover  table-bordered">
+                                <table id="datalist" class="table  table-hover  table-bordered">
                                     <thead>
-                                        <tr><th style='text-align:center'>合同号</th><th style='text-align:center'>金额</th><th style='text-align:center'>未付款</th><th style='text-align:center'>本次</th></tr>
+                                        <tr><th style='text-align:center'>合同号</th><th style='text-align:center'>金额</th><th style='text-align:center'>未付款</th><th style='text-align:center'>本次</th><th style='text-align:center'>销售合同</th></tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="tablebody">
+                                        <!--行模板-->
                                         <tr>
                                             <td>ZD001</td>
                                             <td style='text-align:right'>150,000</td>
@@ -355,20 +412,17 @@
                                             <td style='text-align:center'>
                                                 <input type="text" class="form-control text-right" id="currmb" placeholder="ZD001付款金额">
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td>ZD001</td>
-                                            <td style='text-align:right'>200,000</td>
-                                            <td style='text-align:right'>50,000</td>
-                                            <td style='text-align:center'><input class="form-control text-right" type='text' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ZD001</td>
-                                            <td style='text-align:right'>9,800,000</td>
-                                            <td>200,000</td>
                                             <td style='text-align:center'>
-                                                <input class="form-control text-right" type='text' />
+                                                <select class='selectpicker form-control'>
+                                                    <option>2012</option>
+                                                    <option>2013</option>
+                                                    <option>2014</option>
+                                                    <option>2015</option>
+                                                    <option>2016</option>
+                                                    <option>2017</option>
+                                                </select>
                                             </td>
+
                                         </tr>
                                     </tbody>
                                 </table>

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.SessionState;
 
 namespace ZDCharts.Tools
 {
-    public class ABSHttpHandler : IHttpHandler
+    public class ABSHttpHandler : IHttpHandler, IRequiresSessionState
     {
         protected HttpContext context;
         public virtual void ProcessRequest(HttpContext context)

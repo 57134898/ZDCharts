@@ -59,6 +59,9 @@
     <Compile Include="AFKXX.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="AWX.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

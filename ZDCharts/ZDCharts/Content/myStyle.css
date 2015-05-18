@@ -23,9 +23,11 @@ th.dpass, td.dpass {
     display: inline;
 }
 
-div.menubackcolor {
+div.head {
     background-color: #6f5499;
     width: 100%;
+    height:80px;
+
 }
 
 .menufore{

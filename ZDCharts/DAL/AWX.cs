@@ -12,16 +12,10 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class V_UnfinishedContracts
+    public partial class AWX
     {
-        public string HCODE { get; set; }
-        public string CustomerID { get; set; }
-        public Nullable<decimal> Total { get; set; }
-        public decimal RMB { get; set; }
-        public decimal INV { get; set; }
-        public Nullable<decimal> NonRmb { get; set; }
-        public Nullable<decimal> NonInv { get; set; }
-        public string XSHCODE { get; set; }
-        public string Category { get; set; }
+        public int WXCODE { get; set; }
+        public string WXHTH { get; set; }
+        public string XSHTH { get; set; }
     }
 }

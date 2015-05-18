@@ -41,5 +41,6 @@ namespace DAL
         public virtual DbSet<Org_Roles> Org_Roles { get; set; }
         public virtual DbSet<ACLIENTS> ACLIENTS { get; set; }
         public virtual DbSet<V_UnfinishedContracts> V_UnfinishedContracts { get; set; }
+        public virtual DbSet<AWX> AWX { get; set; }
     }
 }
