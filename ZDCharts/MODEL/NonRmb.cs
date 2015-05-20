@@ -10,6 +10,6 @@ namespace MODEL
     {
         public string HCODE { get; set; }
         public decimal CurRmb { get; set; }
-        public decimal XSHCODE { get; set; }
+        public string XSHCODE { get; set; }
     }
 }

@@ -42,5 +42,7 @@ namespace DAL
         public virtual DbSet<ACLIENTS> ACLIENTS { get; set; }
         public virtual DbSet<V_UnfinishedContracts> V_UnfinishedContracts { get; set; }
         public virtual DbSet<AWX> AWX { get; set; }
+        public virtual DbSet<WF_Flow2> WF_Flow2 { get; set; }
+        public virtual DbSet<WF_CompanyToTem> WF_CompanyToTem { get; set; }
     }
 }

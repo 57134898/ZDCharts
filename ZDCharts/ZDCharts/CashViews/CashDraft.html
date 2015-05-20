@@ -65,6 +65,11 @@
                     });
                 }
             });
+            try {
+
+            } catch (e) {
+                alert(e.message);
+            }
 
             //选中行变色 单行
             $('table tbody').on('click', 'tr', function () {
@@ -100,18 +105,49 @@
                 //    }
                 //});
 
-
+                //弹出框设置
+                //$('[data-toggle="popover"]').popover();
                 //保存按钮
                 $("#savbtn").click(function () {
                     //验证表单
-                    //****************待做
-                    //****************待做
-                    //****************待做
+                    var errormsg = "";
+                    if ($("#datepicker1").val() == "") {
+                        errormsg += "日期必须写!<br/>";
+                    }
+                    if ($("#customer").attr("code")== "") {
+                        errormsg += "客户必须填写!<br/>";
+                    }
+                    //验证现汇与票据的和与合同分配的金额是否相等  未完
+                    if ($("#datepicker1").val() == "") {
+                        errormsg += "日期必须写!<br/>";
+
+
+
+                    }
+                    if (errormsg != "") {
+                        $('#savbtn').popover({ "title": "提示", "content": errormsg, "placement": 'top', html: true });
+                        $('#savbtn').popover('show');
+                        setTimeout(function () {
+                            $('#savbtn').popover('destroy');
+                        }, 5000);
+                        return;
+                    }
+
+                    //封装payinfo
                     var paym = {};
                     paym.CustomerID = $("#customer").attr("code");
                     paym.PayDate = $("#datepicker1").val();
-                    paym.Rmb = $("#Rmb").val();
-                    paym.Note = $("#Note").val();
+                    if ($("#Note").val() == "") {
+                        paym.Rmb = 0;
+                    } else {
+                        paym.Rmb = $("#Rmb").val();
+                    }
+
+                    if ($("#Note").val() == "") {
+                        paym.Note = 0;
+                    } else {
+                        paym.Note = $("#Note").val();
+                    }
                     var userinfo = eval("(" + $('#userinfo', parent.document).val() + ")");
                     paym.ComanyID = userinfo.companyid;
 
@@ -123,15 +159,17 @@
                             var paymitem = {};
                             paymitem.HCODE = $(item).find("td").eq(0).html();
                             paymitem.CurRmb = currmb;
-                            paymitem.XSHCODE = "**********************************************************";
+                            paymitem.XSHCODE = $.trim($(item).find("td").find("select").val());;
                             paymList.push(paymitem);
+
                         }
                     });
+                    alert(JSON.stringify(paym));
                     var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
                     $.ajax({
                         type: 'POST',
                         url: '../Handlers/Customer.ashx',
-                        data: { action: 'DoPay', PayInfo: JSON.stringify(paym) },
+                        data: { action: 'DoPay', PayInfo: JSON.stringify(paym), UserInfo: JSON.stringify(userinfo) },
                         success: function suc(result) {
                             //alert(JSON.stringify(result));
                             //请求失败跳转到错误页
@@ -144,7 +182,13 @@
                                 spinner1.stop();
                                 return;
                             }
-
+                            //操做成功 清空表单
+                            $("#tablebody").empty();
+                            $("#datepicker1").val("");
+                            $("#Rmb").val("");
+                            $("#Note").val("");
+                            $("#customer").attr("code", "");
+                            $("#customer").val("");
                             spinner1.stop();
                         },
                         dataType: 'JSON'
@@ -186,7 +230,7 @@
 
             //工具栏按钮tooltip设置
             $('[data-toggle="tooltip"]').tooltip();
-
+            //$('[data-toggle="popover"]').popover();
             //客户选择按钮事件绑定
             $('#customer-addon').click(function () {
                 $("#myModal").modal();
@@ -217,6 +261,9 @@
                         }
                     });
                 })
+
+                var userinfo = eval("(" + $('#userinfo', parent.document).val() + ")");
+
                 //客户datatables加载
                 $('#custoemrtable').dataTable({
                     "sPaginationType": "full_numbers",
@@ -254,7 +301,7 @@
                             "type": "POST",
                             "url": "../handlers/Customer.ashx",
                             "dataType": "json",
-                            "data": { p: JSON.stringify(aoData), Action: 'GetList' }, // 以json格式传递
+                            "data": { p: JSON.stringify(aoData), Action: 'GetList', CompanyID: userinfo.CompanyID }, // 以json格式传递
                             "success": function (resp) {
                                 //alert(JSON.stringify(resp));
                                 fnCallback(resp.data);
@@ -289,7 +336,7 @@
                         $.ajax({
                             type: 'POST',
                             url: '../Handlers/Customer.ashx',
-                            data: { action: 'GetContractByCustomer', customerid: '01100002' },
+                            data: { action: 'GetContractByCustomer', CustomerID: $("#customer").attr("code") },
                             success: function suc(result) {
                                 //alert(JSON.stringify(result));
                                 //请求失败跳转到错误页
@@ -298,6 +345,7 @@
                                     return;
                                 }
                                 if (result.data == null || result.data.length <= 0) {
+                                    $("#tablebody").empty();
                                     $("#tablebody").append("无数据");
                                     spinner1.stop();
                                     return;
@@ -313,13 +361,20 @@
                                         shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].Total + "</td>");
                                         shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].NonRmb + "</td>");
                                         shtml = shtml.concat("<td style='text-align:center'><input type='text' class='form-control text-right' id='currmb' placeholder='" + result.data[i].HCODE + "本次付款金额'></td>");
-                                        shtml = shtml.concat("<td style='text-align:center'><input type='text' class='form-control text-right' id='currmb' placeholder='销售合同号'></td>");
+                                        shtml = shtml.concat("<td style='text-align:center'><select class='selectpicker form-control'>");
+                                        //销售合同号下拉列表数据绑定
+                                        var xslist = eval("(" + result.data[i].XSHCODE + ")");
+                                        for (var j = 0; j < xslist.length; j++) {
+                                            shtml = shtml.concat("<option>" + xslist[j] + "</option>");
+                                        };
+                                        shtml = shtml.concat("</select></td>");
                                         shtml = shtml.concat("</tr>");
                                         $("#tablebody").append(shtml);
+                                        $("select.selectpicker").each(function () {
+                                        });
                                     } catch (e) {
-                                        //alert(e.message)
+                                        alert(e.message)
                                     };
-
                                 }
                                 spinner1.stop();
                             },
@@ -332,7 +387,7 @@
                     //alert($("table tr.selected td:eq(0)").text());
                 });
                 //弹出提示设置
-                $('[data-toggle="popover"]').popover();
+                //$('[data-toggle="popover"]').popover({ html: true });
 
             });
         });
@@ -405,7 +460,7 @@
                                     </thead>
                                     <tbody id="tablebody">
                                         <!--行模板-->
-                                        <tr>
+                                        <!--<tr>
                                             <td>ZD001</td>
                                             <td style='text-align:right'>150,000</td>
                                             <td style='text-align:right'>50,000</td>
@@ -416,21 +471,16 @@
                                                 <select class='selectpicker form-control'>
                                                     <option>2012</option>
                                                     <option>2013</option>
-                                                    <option>2014</option>
-                                                    <option>2015</option>
-                                                    <option>2016</option>
-                                                    <option>2017</option>
                                                 </select>
                                             </td>
-
-                                        </tr>
+                                        </tr>-->
                                     </tbody>
                                 </table>
                             </div>
                         </form>
                     </div>
                     <div class="panel-footer">
-                        <button id="savbtn" type="button" class="btn btn-primary">&nbsp;&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;&nbsp;</button>
+                        <button id="savbtn" type="button" data-toggle="popover" class="btn btn-primary">&nbsp;&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;&nbsp;</button>
                         <button id="canbtn" type="button" class="btn btn-default">&nbsp;&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;&nbsp;</button>
                     </div>
                 </div>
@@ -462,7 +512,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="customerEnter" type="button" class="btn btn-primary btn-lg">选中</button>
+                    <button id="customerEnter" type="button" data-toggle="popover" class="btn btn-primary btn-lg">选中</button>
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
                 </div>
             </div>

@@ -12,7 +12,7 @@ namespace ZDCharts.Tools
         public virtual void ProcessRequest(HttpContext context)
         {
             this.context = context;
-            string action = context.Request.Form["Action"];
+            string action = context.Request.Params["Action"];
             Tools.JsonResponse tr;
             if (action == null || action == "")
             {

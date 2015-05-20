@@ -15,8 +15,10 @@ namespace ZDCharts.Handlers
         {
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
-                string pStr = context.Request.Params["p"];
-                if (string.IsNullOrEmpty(pStr))
+                string pStr = context.Request.Form["p"];
+                string companyid = context.Request.Form["CompanyID"];
+                string companycusotmerid = companyid.Substring(2);
+                if (string.IsNullOrEmpty(pStr) || string.IsNullOrEmpty(companyid))
                 {
                     JObject jo = new JObject();
                     jo.Add("data", "");
@@ -32,11 +34,12 @@ namespace ZDCharts.Handlers
                     var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
                     int pStart = int.Parse(pageStartJo["value"].ToString());
                     int pLength = int.Parse(pageLengthJo["value"].ToString());
-                    var pageList = db.ACLIENTS.OrderBy(p => p.CCODE).Skip(pStart).Take(pLength).ToList();
+                    var pageList = db.ACLIENTS.Where(p => p.CCODE.StartsWith("02" + companycusotmerid)).OrderBy(p => p.CCODE).Skip(pStart).Take(pLength).ToList();
                     JObject jo = new JObject();
                     jo.Add("data", JToken.FromObject(pageList));
-                    jo.Add("recordsTotal", db.ACLIENTS.Count());
-                    jo.Add("recordsFiltered", db.ACLIENTS.Count());
+                    int pageTotal = db.ACLIENTS.Where(p => p.CCODE.StartsWith("02" + companycusotmerid)).Count();
+                    jo.Add("recordsTotal", pageTotal);
+                    jo.Add("recordsFiltered", pageTotal);
                     return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
                 }
             }
@@ -46,9 +49,9 @@ namespace ZDCharts.Handlers
         {
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
-                //string pStr = context.Request.Form["customerid"];
+                string pStr = context.Request.Form["CustomerID"];
                 //&& p.Category == "0301" 为方便测试用需要去掉  Take(10) 也要去掉
-                var list = db.V_UnfinishedContracts.Where(p => p.NonRmb != 0 && p.Category == "0301").Take(10).ToList();
+                var list = db.V_UnfinishedContracts.Where(p => p.NonRmb != 0 && p.CustomerID == pStr).ToList();
 
                 foreach (var item in list)
                 {
@@ -68,11 +71,45 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 string jsonstr = context.Request.Form["PayInfo"];
+                string jsonstr1 = context.Request.Form["UserInfo"];
                 MODEL.PayInfo payinfo = (MODEL.PayInfo)Newtonsoft.Json.JsonConvert.DeserializeObject(jsonstr, typeof(MODEL.PayInfo));
+                MODEL.UserInfo userinfo = (MODEL.UserInfo)Newtonsoft.Json.JsonConvert.DeserializeObject(jsonstr1, typeof(MODEL.UserInfo));
+                var cashid = Guid.NewGuid();
+                var flowid = Guid.NewGuid();
+                var companytotem = db.WF_CompanyToTem.SingleOrDefault(p => p.CompanyID == userinfo.CompanyID);
+                var curnode = db.WF_TemRows.SingleOrDefault(p => p.PreID == -1 && p.TemID == companytotem.TemID);
+                db.WF_Flows.Add(new DAL.WF_Flows()
+                {
+                    FID = flowid,
+                    CreatedDate = DateTime.Now,
+                    Creater = userinfo.UserName,
+                    CurNode = curnode.RID,
+                    IsFinished = COMN.MyVars.No,
+                    TemID = companytotem.TemID
+                });
 
-
-                var list = db.V_UnfinishedContracts.Where(p => p.NonRmb != 0).Take(10).ToList();
-                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
+                db.WF_Flow2.Add(new DAL.WF_Flow2()
+                {
+                    CashID = cashid,
+                    Ccode = payinfo.ComanyID,
+                    Cash = payinfo.Rmb,
+                    Note = payinfo.Note,
+                    ExchangeDate = DateTime.Parse(payinfo.PayDate),
+                    Hdw = payinfo.ComanyID,
+                });
+                foreach (var item in payinfo.List)
+                {
+                    db.WF_Flow1.Add(new DAL.WF_Flow1()
+                    {
+                        FlowID = flowid,
+                        CashID = cashid,
+                        HCode = item.HCODE,
+                        Rmb = item.CurRmb,
+                        XSHcode = item.XSHCODE
+                    });
+                }
+                int result = db.SaveChanges();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = result };
 
             }
         }
