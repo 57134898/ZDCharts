@@ -12,6 +12,44 @@
             setInterval(function () {
                 $('#mainform').height($(window).height() - 10 - $('#headdiv').outerHeight(true) - $('#tabs').outerHeight(true));
             }, 1000);
+            $.ajax({
+                "type": "POST",
+                "url": "../handlers/Sys.ashx",
+                "dataType": "json",
+                "data": { Action: 'GetMenuList' }, // 以json格式传递
+                "success": function (result) {
+
+                    var shtml = "";
+
+
+                    var filterarray = $.grep(result.data, function (value) {
+                        return value.ParID == "P";
+                    });
+                    $.each(filterarray, function (index, value) {
+                        shtml = shtml.concat("<div class='panel panel-info'>");
+                        shtml = shtml.concat("<div class='panel-heading' role='tab' id='" + "M" + index.toString() + "'>");
+                        shtml = shtml.concat("<h4 class='panel-title'>");
+                        shtml = shtml.concat("<a data-toggle='collapse' data-parent='#accordion' href='#" + "MPanel" + index.toString() + "' aria-expanded='true' aria-controls='collapseOne'>" + value.MenuName + "</a>");
+                        shtml = shtml.concat("</h4>");
+                        shtml = shtml.concat("</div>");
+                        shtml = shtml.concat("<div id='" + "MPanel" + index.toString() + "' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='" + "M" + index.toString() + "'>");
+                        shtml = shtml.concat("<div class='list-group'>");
+                        var filterarray1 = $.grep(result.data, function (value1) {
+                            return value1.ParID == value.MenuID;
+                        });
+                        $.each(filterarray, function (index1, value1) {
+                            shtml = shtml.concat("<a href='#' class='list-group-item text-center'>" + value1.MenuName + "</a>");
+                        });
+                        shtml = shtml.concat("</div>");
+                        shtml = shtml.concat("</div>");
+                        shtml = shtml.concat("</div>");
+                    });
+
+                    $("#accordion").append(shtml);
+                    //alert(JSON.stringify(filterarray));
+
+                }
+            });
         });
     </script>
 </head>

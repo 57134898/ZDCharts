@@ -112,6 +112,15 @@
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="ParID" Type="varchar" MaxLength="20" />
         </EntityType>
+        <EntityType Name="Sys_Menus">
+          <Key>
+            <PropertyRef Name="MenuID" />
+          </Key>
+          <Property Name="MenuID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="MenuName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParID" Type="varchar" MaxLength="20" />
+          <Property Name="URL" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="WF_CompanyToTem">
           <Key>
             <PropertyRef Name="ID" />
@@ -308,6 +317,7 @@
           <EntitySet Name="Org_Depts" EntityType="Self.Org_Depts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Emps" EntityType="Self.Org_Emps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Roles" EntityType="Self.Org_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sys_Menus" EntityType="Self.Sys_Menus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_CompanyToTem" EntityType="Self.WF_CompanyToTem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Flow1" EntityType="Self.WF_Flow1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Flow2" EntityType="Self.WF_Flow2" Schema="dbo" store:Type="Tables" />
@@ -430,6 +440,7 @@
           <EntitySet Name="WF_Flow2" EntityType="ContractModel.WF_Flow2" />
           <EntitySet Name="WF_CompanyToTem" EntityType="ContractModel.WF_CompanyToTem" />
           <EntitySet Name="V_Flow_GB_Customer" EntityType="ContractModel.V_Flow_GB_Customer" />
+          <EntitySet Name="Sys_Menus" EntityType="ContractModel.Sys_Menus" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -715,6 +726,15 @@
           <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Sys_Menus">
+          <Key>
+            <PropertyRef Name="MenuID" />
+          </Key>
+          <Property Name="MenuID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MenuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1017,6 +1037,16 @@
                 <ScalarProperty Name="Customer" ColumnName="Customer" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="CashID" ColumnName="CashID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sys_Menus">
+            <EntityTypeMapping TypeName="ContractModel.Sys_Menus">
+              <MappingFragment StoreEntitySet="Sys_Menus">
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="ParID" ColumnName="ParID" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

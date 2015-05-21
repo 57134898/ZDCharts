@@ -24,6 +24,7 @@
         <EntityTypeShape EntityType="ContractModel.WF_Flow2" Width="1.5" PointX="10.75" PointY="10.75" />
         <EntityTypeShape EntityType="ContractModel.WF_CompanyToTem" Width="1.5" PointX="12.75" PointY="0.75" />
         <EntityTypeShape EntityType="ContractModel.V_Flow_GB_Customer" Width="1.5" PointX="12.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ContractModel.Sys_Menus" Width="1.5" PointX="13.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

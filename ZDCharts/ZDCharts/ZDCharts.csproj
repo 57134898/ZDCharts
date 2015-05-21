@@ -315,6 +315,7 @@
     <Content Include="Scripts\jquery.icheck.min.js" />
     <Content Include="Scripts\jquery.icheck.min.js.map" />
     <Content Include="Handlers\Customer.ashx" />
+    <Content Include="Handlers\Sys.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -448,6 +449,9 @@
     </Compile>
     <Compile Include="Handlers\Report1.ashx.cs">
       <DependentUpon>Report1.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Sys.ashx.cs">
+      <DependentUpon>Sys.ashx</DependentUpon>
     </Compile>
     <Compile Include="Handlers\WFFlow.ashx.cs">
       <DependentUpon>WFFlow.ashx</DependentUpon>
