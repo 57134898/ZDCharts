@@ -34,7 +34,6 @@ namespace DAL
         public virtual DbSet<WF_Tems> WF_Tems { get; set; }
         public virtual DbSet<V_Emps> V_Emps { get; set; }
         public virtual DbSet<V_Flow_GB_Company> V_Flow_GB_Company { get; set; }
-        public virtual DbSet<V_Flow_GB_Customer> V_Flow_GB_Customer { get; set; }
         public virtual DbSet<ACash> ACash { get; set; }
         public virtual DbSet<AFKXX> AFKXX { get; set; }
         public virtual DbSet<V_Flows> V_Flows { get; set; }
@@ -44,5 +43,6 @@ namespace DAL
         public virtual DbSet<AWX> AWX { get; set; }
         public virtual DbSet<WF_Flow2> WF_Flow2 { get; set; }
         public virtual DbSet<WF_CompanyToTem> WF_CompanyToTem { get; set; }
+        public virtual DbSet<V_Flow_GB_Customer> V_Flow_GB_Customer { get; set; }
     }
 }

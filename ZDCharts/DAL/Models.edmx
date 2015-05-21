@@ -230,6 +230,9 @@
           <Property Name="Customer" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleID" Type="varchar" MaxLength="20" />
           <Property Name="Total" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="CompanyID" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="IsFinished" Type="varchar" MaxLength="1" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Flows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -342,7 +345,10 @@
     [V_Flow_GB_Customer].[CustomerID] AS [CustomerID], 
     [V_Flow_GB_Customer].[Customer] AS [Customer], 
     [V_Flow_GB_Customer].[RoleID] AS [RoleID], 
-    [V_Flow_GB_Customer].[Total] AS [Total]
+    [V_Flow_GB_Customer].[Total] AS [Total], 
+    [V_Flow_GB_Customer].[CompanyID] AS [CompanyID], 
+    [V_Flow_GB_Customer].[CreatedDate] AS [CreatedDate], 
+    [V_Flow_GB_Customer].[IsFinished] AS [IsFinished]
     FROM [dbo].[V_Flow_GB_Customer] AS [V_Flow_GB_Customer]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Flows" EntityType="Self.V_Flows" store:Type="Views" store:Schema="dbo">
@@ -414,7 +420,6 @@
           <EntitySet Name="WF_Tems" EntityType="ContractModel.WF_Tems" />
           <EntitySet Name="V_Emps" EntityType="ContractModel.V_Emps" />
           <EntitySet Name="V_Flow_GB_Company" EntityType="ContractModel.V_Flow_GB_Company" />
-          <EntitySet Name="V_Flow_GB_Customer" EntityType="ContractModel.V_Flow_GB_Customer" />
           <EntitySet Name="ACash" EntityType="ContractModel.ACash" />
           <EntitySet Name="AFKXX" EntityType="ContractModel.AFKXX" />
           <EntitySet Name="V_Flows" EntityType="ContractModel.V_Flows" />
@@ -424,6 +429,7 @@
           <EntitySet Name="AWX" EntityType="ContractModel.AWX" />
           <EntitySet Name="WF_Flow2" EntityType="ContractModel.WF_Flow2" />
           <EntitySet Name="WF_CompanyToTem" EntityType="ContractModel.WF_CompanyToTem" />
+          <EntitySet Name="V_Flow_GB_Customer" EntityType="ContractModel.V_Flow_GB_Customer" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -523,16 +529,6 @@
           </Key>
           <Property Name="Company" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Total" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
-        </EntityType>
-        <EntityType Name="V_Flow_GB_Customer">
-          <Key>
-            <PropertyRef Name="Total" />
-          </Key>
-          <Property Name="CashID" Type="Guid" />
-          <Property Name="CustomerID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Total" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
         </EntityType>
@@ -707,6 +703,19 @@
           <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TemID" Type="Guid" />
         </EntityType>
+        <EntityType Name="V_Flow_GB_Customer">
+          <Key>
+            <PropertyRef Name="Total" />
+          </Key>
+          <Property Name="CashID" Type="Guid" />
+          <Property Name="CustomerID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Total" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -820,17 +829,6 @@
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="Company" ColumnName="Company" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_Flow_GB_Customer">
-            <EntityTypeMapping TypeName="ContractModel.V_Flow_GB_Customer">
-              <MappingFragment StoreEntitySet="V_Flow_GB_Customer">
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CashID" ColumnName="CashID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1005,6 +1003,20 @@
                 <ScalarProperty Name="TemID" ColumnName="TemID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Flow_GB_Customer">
+            <EntityTypeMapping TypeName="ContractModel.V_Flow_GB_Customer">
+              <MappingFragment StoreEntitySet="V_Flow_GB_Customer">
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CashID" ColumnName="CashID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

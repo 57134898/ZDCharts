@@ -22,14 +22,27 @@
     <link href="../Content/daterangepicker-bs3.css" rel="stylesheet" />
 
     <script type="text/javascript">
+        var _userinfo = eval("(" + $('#userinfo', parent.document).val() + ")");
         $(document).ready(function () {
             $('#dvtable').dataTable({
                 "sPaginationType": "full_numbers",
                 "processing": true,//显示进度条
+                "scrollX": true,//水平滚动条
+                //"bAutoWidth": false,//自动列宽
                 "serverSide": true,//发送服务器请求
-                "ajax": "../handlers/handler1.ashx",//URL
+                "ajax": {
+                    "url": "../handlers/Customer.ashx",
+                    "type": "POST",
+                    "data": { Action: 'GetContractListByCompany' }
+                },
                 //列集合
-                "aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
+                //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
+                "columns": [
+                            { "data": "Customer" },
+                            { "data": "Total" },
+                            { "data": "CreatedDate" },
+                            { "data": "IsFinished" }
+                ],
                 //汉化
                 "language":
                  {
@@ -53,14 +66,13 @@
                     // 将客户名称加入参数数组
                     //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
                     $.ajax({
-                        "type": "get",
-                        "contentType": "application/json",
-                        "url": "../handlers/handler1.ashx",
+                        "type": "POST",
+                        "url": "../handlers/Customer.ashx",
                         "dataType": "json",
-                        "data": { p: JSON.stringify(aoData) }, // 以json格式传递
+                        "data": { Action: 'GetContractListByCompany', UserInfo: JSON.stringify(_userinfo), p: JSON.stringify(aoData) }, // 以json格式传递
                         "success": function (resp) {
                             //alert(JSON.stringify(resp));
-                            fnCallback(resp);
+                            fnCallback(resp.data);
                         }
                     });
                 }
@@ -114,16 +126,31 @@
                     if ($("#datepicker1").val() == "") {
                         errormsg += "日期必须写!<br/>";
                     }
-                    if ($("#customer").attr("code")== "") {
+                    if ($("#customer").attr("code") == "") {
                         errormsg += "客户必须填写!<br/>";
                     }
                     //验证现汇与票据的和与合同分配的金额是否相等  未完
-                    if ($("#datepicker1").val() == "") {
-                        errormsg += "日期必须写!<br/>";
 
+                    var _total = 0;
+                    $("#tablebody tr").each(function (i, item) {
+                        var _rmb = $.trim($(item).find("td").find("input").val());
+                        if (!(_rmb == "" || isNaN(_rmb))) {
+                            _total += Number(_rmb);
+                        }
+                    });
 
-
+                    if (isNaN($("#Rmb").val()) || isNaN($("#Note").val())) {
+                        errormsg += "金额必须为数字!<br/>";
                     }
+
+                    var _total1 = Number($("#Rmb").val()) + Number($("#Note").val());
+
+                    //alert(Number(''));
+                    // alert(_total1);
+                    if (_total != _total1) {
+                        errormsg += "总金额与合同分配金额不相等!<br/>";
+                    }
+
                     if (errormsg != "") {
                         $('#savbtn').popover({ "title": "提示", "content": errormsg, "placement": 'top', html: true });
                         $('#savbtn').popover('show');
@@ -164,7 +191,7 @@
 
                         }
                     });
-                    alert(JSON.stringify(paym));
+                    //alert(JSON.stringify(paym));
                     var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
                     $.ajax({
                         type: 'POST',
@@ -178,6 +205,7 @@
                                 return;
                             }
                             if (result.data == null || result.data.length <= 0) {
+                                $("#tablebody").empty();
                                 $("#tablebody").append("无数据");
                                 spinner1.stop();
                                 return;
@@ -194,7 +222,7 @@
                         dataType: 'JSON'
                     });
                     //****************************
-                    alert(JSON.stringify(paym));
+                    //alert(JSON.stringify(paym));
                 });
                 $("#canbtn").click(function () {
                     $('#customerCollapse').collapse('toggle');
@@ -487,8 +515,22 @@
             </div>
 
             <table id="dvtable" class="display" cellspacing="0" width="100%">
-                <thead><tr><th>ID</th><th>Name</th></tr></thead>
-                <tfoot><tr><th>Name</th><th>Salary</th></tr></tfoot>
+                <thead>
+                    <tr>
+                        <th>客户</th>
+                        <th>金额</th>
+                        <th>日期</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>客户</th>
+                        <th>金额</th>
+                        <th>日期</th>
+                        <th>状态</th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>

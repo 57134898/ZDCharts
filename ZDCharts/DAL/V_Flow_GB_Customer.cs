@@ -19,5 +19,8 @@ namespace DAL
         public string Customer { get; set; }
         public string RoleID { get; set; }
         public decimal Total { get; set; }
+        public string CompanyID { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string IsFinished { get; set; }
     }
 }
