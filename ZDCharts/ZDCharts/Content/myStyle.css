@@ -39,5 +39,26 @@ span.myspancss {
 
     span.myspancss:hover {
         /*border: 1px solid white;*/
-        color:#999933;
+        color: #999933;
     }
+
+.box {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    width: 40%;
+    height: 20%;
+}
+
+.mybg {
+    background-image: URL(../Images/bg.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+div.head1 {
+    background-color: #6699FF;
+    width: 100%;
+    color: white;
+}

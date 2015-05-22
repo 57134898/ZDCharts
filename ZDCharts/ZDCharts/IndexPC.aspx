@@ -1,6 +1,9 @@
-﻿<!DOCTYPE html>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="IndexPC.aspx.cs" Inherits="ZDCharts.IndexPC" %>
+
+<!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>资金管理系统PC</title>
     <script src="Scripts/jquery-2.1.3.min.js"></script>
@@ -16,7 +19,7 @@
                 "type": "POST",
                 "url": "../handlers/Sys.ashx",
                 "dataType": "json",
-                "data": { Action: 'GetMenuList' }, // 以json格式传递
+                "data": { Action: 'ValidateUser' }, // 以json格式传递
                 "success": function (result) {
                     //添加左侧菜单
                     var shtml = "";
@@ -83,25 +86,30 @@
     </script>
 </head>
 <body>
-    <input id="userinfo" type="hidden" value="{'UserId':'zs001','CompanyID':'0110','UserName':'张三'}">
+    <input id="userinfo" value="{'UserId':'zs001','CompanyID':'0110','UserName':'张三'}" runat="server" />
     <div id="headdiv" class="head">
-        <div style="float:left"><h3><font class="menufore">&nbsp;$$$ 资金管理系统</font></h3></div>
-        <div style="float:right;padding:5px 5px 5px 5px">
+        <div style="float: left">
+            <h3><font class="menufore">&nbsp;$$$ 资金管理系统</font></h3>
+        </div>
+        <div style="float: right; padding: 5px 5px 5px 5px">
             <h5><span class="label label-info"><font class="menufore">辽宁艾美生物疫苗技术有限公司</font></span></h5>
             <h5 class="inline"><span class="label label-info"><font class="menufore">财务部</font></span></h5>
             <h5 class="inline"><span class="label label-info"><font class="menufore">财务总监</font></span></h5>
             <h5 class="inline"><span class="label label-info"><font class="menufore">张三</font></span></h5>
         </div>
-        <br /><br /><br /><br />
+        <br />
+        <br />
+        <br />
+        <br />
     </div>
     <table width="100%" height="100%">
         <tr>
-            <td width="20%" valign="top" style="padding:0px 2px 2px 2px">
+            <td width="20%" valign="top" style="padding: 0px 2px 2px 2px">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 </div>
             </td>
-            <td style="background-color:#99CCCC" width="2px"></td>
-            <td valign="top" style="padding:0px 2px 2px 2px">
+            <td style="background-color: #99CCCC" width="2px"></td>
+            <td valign="top" style="padding: 0px 2px 2px 2px">
                 <ul id="tabs" class="nav nav-tabs"></ul>
                 <div id="tabcontents" class="tab-content">
                 </div>
@@ -112,3 +120,4 @@
 
 </body>
 </html>
+

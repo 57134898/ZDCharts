@@ -273,11 +273,14 @@
     <Content Include="ErrorPage.aspx" />
     <Content Include="ErrorPages\404.html" />
     <Content Include="Icon.png" />
+    <Content Include="Images\bg.png" />
     <Content Include="Images\crying.png" />
     <Content Include="Images\loading.gif" />
     <Content Include="Index.html" />
+    <Content Include="IndexPC.aspx" />
     <Content Include="IndexPC.html" />
     <Content Include="LogInPage.html" />
+    <Content Include="LogInPagePc.html" />
     <Content Include="packages.config" />
     <Content Include="Handlers\Handler1.ashx" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -316,6 +319,7 @@
     <Content Include="Scripts\jquery.icheck.min.js.map" />
     <Content Include="Handlers\Customer.ashx" />
     <Content Include="Handlers\Sys.ashx" />
+    <Content Include="Handlers\LogIn.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -447,6 +451,9 @@
     <Compile Include="Handlers\Handler1.ashx.cs">
       <DependentUpon>Handler1.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\LogIn.ashx.cs">
+      <DependentUpon>LogIn.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handlers\Report1.ashx.cs">
       <DependentUpon>Report1.ashx</DependentUpon>
     </Compile>
@@ -462,6 +469,13 @@
     </Compile>
     <Compile Include="Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IndexPC.aspx.cs">
+      <DependentUpon>IndexPC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IndexPC.aspx.designer.cs">
+      <DependentUpon>IndexPC.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\ABSHttpHandler.cs" />
