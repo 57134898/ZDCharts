@@ -33,3 +33,11 @@ div.head {
 .menufore {
     color: white;
 }
+
+span.myspancss {
+}
+
+    span.myspancss:hover {
+        /*border: 1px solid white;*/
+        color:#999933;
+    }
