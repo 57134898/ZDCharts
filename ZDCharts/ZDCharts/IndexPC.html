@@ -10,7 +10,7 @@
     <script type="text/javascript">
         $(function () {
             setInterval(function () {
-                $('#mainform').height($(window).height() - 10 - $('#headdiv').outerHeight(true) - $('#tabs').outerHeight(true));
+                $("iframe[mytype='tabpage']").height($(window).height() - 10 - $('#headdiv').outerHeight(true) - $('#tabs').outerHeight(true));
             }, 1000);
             $.ajax({
                 "type": "POST",
@@ -18,36 +18,56 @@
                 "dataType": "json",
                 "data": { Action: 'GetMenuList' }, // 以json格式传递
                 "success": function (result) {
-
+                    //添加左侧菜单
                     var shtml = "";
-
-
                     var filterarray = $.grep(result.data, function (value) {
                         return value.ParID == "P";
                     });
                     $.each(filterarray, function (index, value) {
                         shtml = shtml.concat("<div class='panel panel-info'>");
-                        shtml = shtml.concat("<div class='panel-heading' role='tab' id='" + "M" + index.toString() + "'>");
-                        shtml = shtml.concat("<h4 class='panel-title'>");
-                        shtml = shtml.concat("<a data-toggle='collapse' data-parent='#accordion' href='#" + "MPanel" + index.toString() + "' aria-expanded='true' aria-controls='collapseOne'>" + value.MenuName + "</a>");
-                        shtml = shtml.concat("</h4>");
+                        shtml = shtml.concat(" <div class='panel-heading' role='tab' id='headingOne' data-parent='#accordion' data-toggle='collapse' data-target='#" + "MPanel" + index.toString() + "' aria-expanded='false' aria-controls='" + "MPanel" + index.toString() + "'>");
+                        shtml = shtml.concat(value.MenuName);
                         shtml = shtml.concat("</div>");
-                        shtml = shtml.concat("<div id='" + "MPanel" + index.toString() + "' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='" + "M" + index.toString() + "'>");
+                        shtml = shtml.concat("<div id='" + "MPanel" + index.toString() + "' class='panel-collapse collapse' role='tabpanel' aria-labelledby='" + "M" + index.toString() + "'>");
                         shtml = shtml.concat("<div class='list-group'>");
                         var filterarray1 = $.grep(result.data, function (value1) {
                             return value1.ParID == value.MenuID;
                         });
-                        $.each(filterarray, function (index1, value1) {
-                            shtml = shtml.concat("<a href='#' class='list-group-item text-center'>" + value1.MenuName + "</a>");
+                        $.each(filterarray1, function (index1, value1) {
+                            shtml = shtml.concat("<a href='javascript:void(0)' mark='menuitem' url='" + value1.URL + "' class='list-group-item text-center'>" + value1.MenuName + "</a>");
                         });
                         shtml = shtml.concat("</div>");
                         shtml = shtml.concat("</div>");
                         shtml = shtml.concat("</div>");
                     });
-
                     $("#accordion").append(shtml);
-                    //alert(JSON.stringify(filterarray));
+                    $("a[mark='menuitem']").click(function () {
+                        //下一个TAB索引
+                        var nexttabindex = $('#tabs a').length;
+                        //添加TAB标题
+                        shtml = "";
+                        shtml = shtml.concat("<li role='presentation'>");
+                        shtml = shtml.concat("<a href='#" + "T" + nexttabindex + "'>");
+                        shtml = shtml.concat($(this).html());
+                        shtml = shtml.concat("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>");
+                        shtml = shtml.concat("</a></li>");
+                        $("#tabs").append(shtml);
+                        //添加TAB内容
+                        shtml = "";
+                        shtml = shtml.concat("<div role='tabpanel' class='tab-pane' id='" + "T" + nexttabindex + "'>");
+                        shtml = shtml.concat(" <iframe src='" + $(this).attr("url") + "'  mytype='tabpage' frameborder='0' scrolling='auto' marginheight='0' marginwidth='0' width='100%' style='overflow-x:hidden'></iframe>");
+                        shtml = shtml.concat("</div>");
+                        $("#tabcontents").append(shtml);
+                        //alert($(this).attr("url"));
+                        //设置tab初始化
+                        $('#tabs a').click(function (e) {
+                            e.preventDefault();
+                            $(this).tab('show')
+                        })
 
+                        //最新tabpage打开
+                        $('#tabs a:last').tab('show');
+                    });
                 }
             });
         });
@@ -65,77 +85,16 @@
         </div>
         <br /><br /><br /><br />
     </div>
-    <table width="100%" height="800px">
+    <table width="100%" height="100%">
         <tr>
             <td width="20%" valign="top" style="padding:0px 2px 2px 2px">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-info">
-                        <div class="panel-heading" role="tab" id="headingOne">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    系统设置
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item text-center">用户</a>
-                                <a href="#" class="list-group-item text-center">角色</a>
-                                <a href="#" class="list-group-item text-center">部门</a>
-                                <a href="#" class="list-group-item text-center">权限</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingTwo">
-                            <h4 class="panel-title">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Collapsible Group Item #2
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                            <div class="panel-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingThree">
-                            <h4 class="panel-title">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Collapsible Group Item #3
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                            <div class="panel-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                            </div>
-                        </div>
-                    </div>
                 </div>
-
             </td>
-            <td valign="top">
-                <ul id="tabs" class="nav nav-tabs">
-                    <li role="presentation" class="active">
-                        <a href="#">
-                            资金申请单&nbsp;<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </a>
-                    </li>
-                    <li role="presentation"><a href="#">Profile</a></li>
-                    <li role="presentation"><a href="#">Messages</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="home">
-                        <iframe src="CashViews/CashDraft.html" id="mainform" frameborder="0" scrolling="auto" marginheight="0" marginwidth="0" width="100%" style="overflow-x:hidden"></iframe>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="profile">
-                        <iframe src="CashViews/CashDraft.html" id="mainform" frameborder="0" scrolling="auto" marginheight="0" marginwidth="0" width="100%" style="overflow-x:hidden"></iframe>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="messages">...</div>
-                    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+            <td style="background-color:#99CCCC" width="2px"></td>
+            <td valign="top" style="padding:0px 2px 2px 2px">
+                <ul id="tabs" class="nav nav-pills"></ul>
+                <div id="tabcontents" class="tab-content">
                 </div>
             </td>
         </tr>
