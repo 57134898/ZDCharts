@@ -11,9 +11,12 @@ namespace ZDCharts
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string userjson = Request.Form["userinfo"];
+            object user = Session["user"];
+            if (user != null)
+            {
+                this.userinfoinput.Value = Newtonsoft.Json.JsonConvert.SerializeObject(user);
+            }
 
-            this.userinfo.Value = "userjson";
         }
 
     }

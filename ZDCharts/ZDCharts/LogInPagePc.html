@@ -10,18 +10,34 @@
     <script type="text/javascript">
         $(function () {
             //var p = $("#p").val();
+            //$('#myButton').on('click', function () {
+            //    var $btn = $(this).button('登录中。。。')
+            //    // business logic...
+            //    $btn.button('reset')
+            //})
+
             $("#login").click(function () {
-                var p = $("#username1").val();
-                var u = $("#username1").val();
-                ///alert(u);
+                var p = $("#p").val();
+                var u = $("#u").val();
+                //var btn = $(this).button('login');
+                $("#login").button('loading');
+                //alert(1);
                 $.ajax({
                     "type": "POST",
                     "url": "Handlers/LogIn.ashx",
                     "dataType": "json",
                     "data": { Action: 'ValidateUser', u: u, p: p }, // 以json格式传递
                     "success": function (result) {
-                        alert(1);
-                        alert(JSON.stringify(result));
+                        //alert(JSON.stringify(result));
+                        if (result.code == "0") {
+                            
+                            $("#userinfo").val(JSON.stringify(result.data));
+                            alert(JSON.stringify(result.data));
+                            $("#loginform").submit();
+                        } else {
+                            $("#errormsg").text(result.msg);
+                        }
+                        $("#login").button('reset');
                     }
                 });
             });
@@ -42,24 +58,25 @@
             <br />
         </p>
     </div>
-
-    <div class="box">
-        <div class="panel panel-primary">
-            <div class="panel-heading">用户登录</div>
-            <div class="panel-body">
-                <div class="form-group">
-                    <label for="username">用户名</label>
-                    <input type="text" class="form-control" id="u" placeholder="请输入用户名">
+    <form id="loginform" action="IndexPC.aspx" method="post">
+        <div class="box">
+            <div class="panel panel-primary">
+                <div class="panel-heading">用户登录</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <input type="text" class="form-control" id="u" placeholder="请输入用户名">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" class="form-control" id="p" name="password" placeholder="请输入密码">
+                    </div>
+                    <div id="errormsg"></div>
+                    <input id="userinfo" type="text" name="userinfo" />
+                    <button id="login" data-loading-text=" 登录中..." class="btn btn-primary btn-block">登录</button>
                 </div>
-                <div class="form-group">
-                    <label for="password">密码</label>
-                    <input type="password" class="form-control" id="p" name="password" placeholder="请输入密码">
-                </div>
-                <div id="errormsg"></div>
-                <button id="login" class="btn btn-primary btn-block">登录</button>
             </div>
         </div>
-    </div>
-
+    </form>
 </body>
 </html>

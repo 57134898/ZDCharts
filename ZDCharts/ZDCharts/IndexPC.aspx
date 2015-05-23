@@ -19,7 +19,7 @@
                 "type": "POST",
                 "url": "../handlers/Sys.ashx",
                 "dataType": "json",
-                "data": { Action: 'ValidateUser' }, // 以json格式传递
+                "data": { Action: 'GetMenuList' }, // 以json格式传递
                 "success": function (result) {
                     //添加左侧菜单
                     var shtml = "";
@@ -86,7 +86,7 @@
     </script>
 </head>
 <body>
-    <input id="userinfo" value="{'UserId':'zs001','CompanyID':'0110','UserName':'张三'}" runat="server" />
+    <input id="userinfoinput" value="" runat="server" />
     <div id="headdiv" class="head">
         <div style="float: left">
             <h3><font class="menufore">&nbsp;$$$ 资金管理系统</font></h3>

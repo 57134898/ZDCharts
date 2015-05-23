@@ -22,7 +22,7 @@
     <link href="../Content/daterangepicker-bs3.css" rel="stylesheet" />
 
     <script type="text/javascript">
-        var _userinfo = eval("(" + $('#userinfo', parent.document).val() + ")");
+        var _userinfo = eval("(" + $('#userinfoinput', parent.document).val() + ")");
         $(document).ready(function () {
             $('#dvtable').dataTable({
                 "sPaginationType": "full_numbers",
@@ -175,7 +175,7 @@
                     } else {
                         paym.Note = $("#Note").val();
                     }
-                    var userinfo = eval("(" + $('#userinfo', parent.document).val() + ")");
+                    var userinfo = eval("(" + $('#userinfoinput', parent.document).val() + ")");
                     paym.ComanyID = userinfo.companyid;
 
                     var paymList = [];

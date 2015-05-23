@@ -280,6 +280,7 @@
     <Content Include="IndexPC.aspx" />
     <Content Include="IndexPC.html" />
     <Content Include="LogInPage.html" />
+    <Content Include="LogInPagePc.aspx" />
     <Content Include="LogInPagePc.html" />
     <Content Include="packages.config" />
     <Content Include="Handlers\Handler1.ashx" />
@@ -476,6 +477,13 @@
     </Compile>
     <Compile Include="IndexPC.aspx.designer.cs">
       <DependentUpon>IndexPC.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LogInPagePc.aspx.cs">
+      <DependentUpon>LogInPagePc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LogInPagePc.aspx.designer.cs">
+      <DependentUpon>LogInPagePc.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\ABSHttpHandler.cs" />
