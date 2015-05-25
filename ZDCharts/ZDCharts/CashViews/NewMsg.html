@@ -24,8 +24,9 @@
             $.ajax({
                 type: 'POST',
                 url: '../Handlers/WFFlow.ashx',
-                data: { action: 'GetListGbCompany', UserInfo: $(window.parent.document).find("#inputUser").val() },
+                data: { action: 'GetListGbCompany', UserInfo: $(window.parent.document).find("#userinfoinput").val() },
                 success: function suc(result) {
+                    //alert(JSON.stringify(result));
                     //请求失败跳转到错误页
                     if (result.code != "0") {
                         redirecToErrorPage(result);
@@ -40,11 +41,12 @@
                     listclear();
                     for (var i = 0; i < result.data.length; i++) {
                         var shtml = "";
-                        shtml = shtml.concat("<a id='" + "a" + i.toString() + "' href='#' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].Company + "</a>");
+                        //alert(JSON.stringify(result.data));
+                        shtml = shtml.concat("<a id='" + "a" + i.toString() + "' href='javascript:void(0)' companyid='" + result.data[i].CompanyID + "' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].Company + "</a>");
                         $("#listdiv").append(shtml);
                         //公司列表单击事件
                         $("#a" + i.toString()).click(function () {
-                            loadcustomer();
+                            loadcustomer($(this).attr("companyid"));
                         });
                     }
                     spinner.stop();
@@ -52,7 +54,8 @@
                 dataType: 'JSON'
             });
         }
-        function loadcustomer() {
+        function loadcustomer(sSelectCompanyID) {
+            //alert(sSelectCompanyID + "00000");
             listclear();
             //加载中动画开启
             var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('listdiv'));
@@ -60,8 +63,9 @@
             $.ajax({
                 type: 'POST',
                 url: '../Handlers/WFFlow.ashx',
-                data: { action: 'GetListGbCustomer', UserInfo: $(window.parent.document).find("#inputUser").val() },
+                data: { action: 'GetListGbCustomer', UserInfo: $(window.parent.document).find("#userinfoinput").val(), SelectCompanyID: sSelectCompanyID },
                 success: function suc(result) {
+                    //alert(JSON.stringify(result));
                     //请求失败跳转到错误页
                     if (result.code != "0") {
                         redirecToErrorPage(result);
@@ -77,13 +81,13 @@
                     for (var i = 0; i < result.data.length; i++) {
                         var shtml = "";
                         if (i == 0) {
-                            shtml = shtml.concat("<a href='javascript:loadcompany();' class='list-group-item list-group-item-success'>返回上级</a>");
+                            shtml = shtml.concat("<a href='javascript: loadcompany() ' class='list-group-item list-group-item-success'>返回上级</a>");
                         }
-                        shtml = shtml.concat("<a id='" + "aa" + i.toString() + "' href='#' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].Customer + "</a>");
+                        shtml = shtml.concat("<a id='" + "aa" + i.toString() + "' cid='" + result.data[i].CustomerID + "' href='#' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].Customer + "</a>");
                         $("#listdiv").append(shtml);
                         //switch按钮样式设置
                         $("#aa" + i.toString()).click(function () {
-                            loadcontract();
+                            loadcontract($(this).attr("cid"));
                         });
                     }
                     spinner1.stop();
@@ -91,14 +95,14 @@
                 dataType: 'JSON'
             });
         }
-        function loadcontract() {
+        function loadcontract(selectCustomerID) {
             listclear();
             var spinner2 = new Spinner(getSpinOpts()).spin(document.getElementById('listdiv'));
             //获取待审批单据，绑定到列表,客户列表事件
             $.ajax({
                 type: 'POST',
                 url: '../Handlers/WFFlow.ashx',
-                data: { action: 'GetList', UserInfo: $(window.parent.document).find("#inputUser").val() },
+                data: { action: 'GetList', UserInfo: $(window.parent.document).find("#userinfoinput").val(), SelectCustomerID: selectCustomerID },
                 success: function suc(result) {
                     //请求失败跳转到错误页
                     if (result.code != "0") {
@@ -115,7 +119,7 @@
                     for (var i = 0; i < result.data.length; i++) {
                         var shtml = "";
                         if (i == 0) {
-                            shtml = shtml.concat("<a href='javascript:loadcustomer();' class='list-group-item list-group-item-success'>返回上级</a>");
+                            shtml = shtml.concat("<a href='javascript: loadcompany() ' class='list-group-item list-group-item-success'>返回上级</a>");
                         }
                         shtml = shtml.concat("<a class='list-group-item' nodeid='" + result.data[i].FID + "'>");
                         shtml = shtml.concat("<div class='panel panel-primary'>");
@@ -133,37 +137,55 @@
                         shtml = shtml.concat("<tr><td>日期:</td><td class='numFormat'>" + result.data[i].CreatedDate + "</td></tr>");
                         shtml = shtml.concat("</table></div>");
                         shtml = shtml.concat("<div class='panel-footer'>");
-                        shtml = shtml.concat("<input  avalue='Y' name='c" + i.toString() + "' data-label-text='同意' type='radio' flowid='" + result.data[i].FID + "'>&nbsp;&nbsp;");
-                        shtml = shtml.concat("<input  avalue='N' name='c" + i.toString() + "' data-label-text='拒绝' type='radio' flowid='" + result.data[i].FID + "'>");
+                        shtml = shtml.concat("<div class='btn-group' data-toggle='buttons'>");
+                        shtml = shtml.concat("<label class='btn btn-default active'>");
+                        shtml = shtml.concat("<input type='radio' name='options' hcode='" + result.data[i].HCode + "'  nodeid='" + result.data[i].FID + "' autocomplete='off' checked>&nbsp;&nbsp;待定&nbsp;&nbsp;");
+                        shtml = shtml.concat("</label>");
+                        shtml = shtml.concat("<label class='btn btn-default'>");
+                        shtml = shtml.concat("<input type='radio' name='options' hcode='" + result.data[i].HCode + "'    nodeid='" + result.data[i].FID + "' autocomplete='off'> &nbsp;&nbsp;通过&nbsp;&nbsp;");
+                        shtml = shtml.concat("</label>");
+                        shtml = shtml.concat("<label class='btn btn-default'>");
+                        shtml = shtml.concat("<input type='radio' name='options'  hcode='" + result.data[i].HCode + "'   nodeid='" + result.data[i].FID + "' autocomplete='off'> &nbsp;&nbsp;拒绝&nbsp;&nbsp;");
+                        shtml = shtml.concat("</label>");
+                        shtml = shtml.concat("</div>");
+                        //shtml = shtml.concat("<input  avalue='Y' name='c" + i.toString() + "' data-label-text='同意' type='radio' flowid='" + result.data[i].FID + "'>&nbsp;&nbsp;");
+                        //shtml = shtml.concat("<input  avalue='N' name='c" + i.toString() + "' data-label-text='拒绝' type='radio' flowid='" + result.data[i].FID + "'>");
                         shtml = shtml.concat("</div></div></a>");
                         $("#listdiv").append(shtml);
-                        //switch按钮样式设置
-                        $("input[type='radio']").bootstrapSwitch();
-                        //switch按钮事件
-                        $("input[type='radio']").on('switchChange.bootstrapSwitch', function (event, state) {
-                            //客户前符号清除
-                            var sp = $("span[fid='" + $(this).attr('flowid') + "']");
-                            sp.removeClass("glyphicon glyphicon-asterisk");
-                            sp.removeClass("glyphicon glyphicon-ok");
-                            sp.removeClass("glyphicon glyphicon-remove");
-                            //设置对号
-                            if ($(this).attr('avalue') == "Y") {
-                                sp.addClass("glyphicon glyphicon-ok");
-                                sp.attr("result", "Y");
-                            }
-                            //设置叉
-                            if ($(this).attr('avalue') == "N") {
-                                sp.addClass("glyphicon glyphicon-remove");
-                                sp.attr("result", "N");
-                            }
-                            //设置首页提交确认按钮数字图标
-                            var pcount = $(".glyphicon-ok,.glyphicon-remove").length;
-                            if (pcount == 0) {
-                                $(window.parent.document).find("#pendspan").text("");
-                            } else {
-                                $(window.parent.document).find("#pendspan").text($(".glyphicon-ok,.glyphicon-remove").length);
-                            }
+                        $("input[type='radio']").change(function () {
+                            $("input[type='radio']:checked").each(function () {
+                                alert($(this).attr("nodeid"));
+                            });
                         });
+                        //switch按钮样式设置
+                        //$("input[type='radio']").bootstrapSwitch();
+                        //switch按钮事件
+                        //$("input[type='radio']").on('click', function (event, state) {
+                        //    alert(1);
+                        //    return;
+                        //    //客户前符号清除
+                        //    var sp = $("span[fid='" + $(this).attr('flowid') + "']");
+                        //    sp.removeClass("glyphicon glyphicon-asterisk");
+                        //    sp.removeClass("glyphicon glyphicon-ok");
+                        //    sp.removeClass("glyphicon glyphicon-remove");
+                        //    //设置对号
+                        //    if ($(this).attr('avalue') == "Y") {
+                        //        sp.addClass("glyphicon glyphicon-ok");
+                        //        sp.attr("result", "Y");
+                        //    }
+                        //    //设置叉
+                        //    if ($(this).attr('avalue') == "N") {
+                        //        sp.addClass("glyphicon glyphicon-remove");
+                        //        sp.attr("result", "N");
+                        //    }
+                        //    //设置首页提交确认按钮数字图标
+                        //    var pcount = $(".glyphicon-ok,.glyphicon-remove").length;
+                        //    if (pcount == 0) {
+                        //        $(window.parent.document).find("#pendspan").text("");
+                        //    } else {
+                        //        $(window.parent.document).find("#pendspan").text($(".glyphicon-ok,.glyphicon-remove").length);
+                        //    }
+                        //});
                     }
                     spinner2.stop();
                 },
@@ -244,13 +266,13 @@
             </div>
         </div>
     </div>
+
     <div class="list-group" id="listdiv">
 
 
         <!--<a href="#" class="list-group-item active">
             Cras justo odio
         </a>-->
-
         <!--行模板-->
         <!--<a href="#" class="list-group-item" nodeid="node1">
             <div class="panel panel-primary">

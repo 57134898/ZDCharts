@@ -279,6 +279,7 @@
     <Content Include="Index.html" />
     <Content Include="IndexPC.aspx" />
     <Content Include="IndexPC.html" />
+    <Content Include="LogInPage.aspx" />
     <Content Include="LogInPage.html" />
     <Content Include="LogInPagePc.aspx" />
     <Content Include="LogInPagePc.html" />
@@ -477,6 +478,13 @@
     </Compile>
     <Compile Include="IndexPC.aspx.designer.cs">
       <DependentUpon>IndexPC.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LogInPage.aspx.cs">
+      <DependentUpon>LogInPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LogInPage.aspx.designer.cs">
+      <DependentUpon>LogInPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="LogInPagePc.aspx.cs">
       <DependentUpon>LogInPagePc.aspx</DependentUpon>
