@@ -17,16 +17,27 @@ namespace ZDCharts
                 string password = this.pswInput.Value;
                 using (DAL.ContractEntities db = new DAL.ContractEntities())
                 {
-                    var user = db.Org_Emps.SingleOrDefault(p => p.EmpName == username && password == p.Psw);
-                    if (user == null)
+                    var emp = db.V_Emps.SingleOrDefault(p => p.EmpName == username && password == p.Psw);
+                    if (emp == null)
                     {
                         this.errormsg.InnerText = "用户名或者密码错误";
                         //ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>$('#errormsg').html('222222222222'); </script>");
-
                     }
                     else
                     {
-                        Session["user"] = user;
+                        MODEL.UserInfo userinfo = new MODEL.UserInfo()
+                        {
+                            UserID = emp.EmpID,
+                            UserName = emp.EmpName,
+                            CompanyID = emp.CompanyID,
+                            CompanyName = emp.CompanyName,
+                            RoleID = emp.RoleID,
+                            RoleName = emp.RoleName,
+                            DeptID = emp.DeptID,
+                            DeptName = emp.DeptName
+                        };
+
+                        Session["user"] = userinfo;
                         Response.Redirect("IndexPC.aspx");
                     }
                 }

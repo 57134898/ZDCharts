@@ -86,7 +86,7 @@
     </script>
 </head>
 <body>
-    <input id="userinfoinput" value="" runat="server" />
+    <input id="userinfoinput" type="hidden" value="" runat="server" />
     <div id="headdiv" class="head">
         <div style="float: left">
             <h3><font class="menufore">&nbsp;$$$ 资金管理系统</font></h3>

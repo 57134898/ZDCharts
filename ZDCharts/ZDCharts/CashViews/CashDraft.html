@@ -77,11 +77,6 @@
                     });
                 }
             });
-            try {
-
-            } catch (e) {
-                alert(e.message);
-            }
 
             //选中行变色 单行
             $('table tbody').on('click', 'tr', function () {
@@ -164,7 +159,7 @@
                     var paym = {};
                     paym.CustomerID = $("#customer").attr("code");
                     paym.PayDate = $("#datepicker1").val();
-                    if ($("#Note").val() == "") {
+                    if ($("#Rmb").val() == "") {
                         paym.Rmb = 0;
                     } else {
                         paym.Rmb = $("#Rmb").val();
@@ -290,8 +285,8 @@
                     });
                 })
 
-                var userinfo = eval("(" + $('#userinfo', parent.document).val() + ")");
-
+                var userinfo = eval("(" + $('#userinfoinput', parent.document).val() + ")");
+                //alert('12');
                 //客户datatables加载
                 $('#custoemrtable').dataTable({
                     "sPaginationType": "full_numbers",
