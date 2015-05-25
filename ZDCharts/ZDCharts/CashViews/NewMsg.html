@@ -139,13 +139,13 @@
                         shtml = shtml.concat("<div class='panel-footer'>");
                         shtml = shtml.concat("<div class='btn-group' data-toggle='buttons'>");
                         shtml = shtml.concat("<label class='btn btn-default active'>");
-                        shtml = shtml.concat("<input type='radio' name='options' hcode='" + result.data[i].HCode + "'  nodeid='" + result.data[i].FID + "' autocomplete='off' checked>&nbsp;&nbsp;待定&nbsp;&nbsp;");
+                        shtml = shtml.concat("<input type='radio' result='O' name='options" + i.toString() + "' nodeid='" + result.data[i].FID + "' autocomplete='off' checked>&nbsp;&nbsp;待定&nbsp;&nbsp;");
                         shtml = shtml.concat("</label>");
                         shtml = shtml.concat("<label class='btn btn-default'>");
-                        shtml = shtml.concat("<input type='radio' name='options' hcode='" + result.data[i].HCode + "'    nodeid='" + result.data[i].FID + "' autocomplete='off'> &nbsp;&nbsp;通过&nbsp;&nbsp;");
+                        shtml = shtml.concat("<input type='radio' result='Y'  name='options" + i.toString() + "' nodeid='" + result.data[i].FID + "' autocomplete='off'> &nbsp;&nbsp;通过&nbsp;&nbsp;");
                         shtml = shtml.concat("</label>");
                         shtml = shtml.concat("<label class='btn btn-default'>");
-                        shtml = shtml.concat("<input type='radio' name='options'  hcode='" + result.data[i].HCode + "'   nodeid='" + result.data[i].FID + "' autocomplete='off'> &nbsp;&nbsp;拒绝&nbsp;&nbsp;");
+                        shtml = shtml.concat("<input type='radio' result='N'  name='options" + i.toString() + "' nodeid='" + result.data[i].FID + "' autocomplete='off'> &nbsp;&nbsp;拒绝&nbsp;&nbsp;");
                         shtml = shtml.concat("</label>");
                         shtml = shtml.concat("</div>");
                         //shtml = shtml.concat("<input  avalue='Y' name='c" + i.toString() + "' data-label-text='同意' type='radio' flowid='" + result.data[i].FID + "'>&nbsp;&nbsp;");
@@ -153,9 +153,14 @@
                         shtml = shtml.concat("</div></div></a>");
                         $("#listdiv").append(shtml);
                         $("input[type='radio']").change(function () {
-                            $("input[type='radio']:checked").each(function () {
-                                alert($(this).attr("nodeid"));
+
+                            $("input[type='radio']:checked").each(function (index,item) {
+                                alert($(item).attr("result"));
                             });
+
+                            //$("input[type='radio']:checked").each(function () {
+                            //    alert($(this).attr("nodeid"));
+                            //});
                         });
                         //switch按钮样式设置
                         //$("input[type='radio']").bootstrapSwitch();
