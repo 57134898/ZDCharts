@@ -27,8 +27,6 @@ namespace DAL
     
         public virtual DbSet<Org_Depts> Org_Depts { get; set; }
         public virtual DbSet<Org_Emps> Org_Emps { get; set; }
-        public virtual DbSet<WF_Flow1> WF_Flow1 { get; set; }
-        public virtual DbSet<WF_Flows> WF_Flows { get; set; }
         public virtual DbSet<WF_Nodes> WF_Nodes { get; set; }
         public virtual DbSet<WF_TemRows> WF_TemRows { get; set; }
         public virtual DbSet<WF_Tems> WF_Tems { get; set; }
@@ -36,14 +34,16 @@ namespace DAL
         public virtual DbSet<V_Flow_GB_Company> V_Flow_GB_Company { get; set; }
         public virtual DbSet<ACash> ACash { get; set; }
         public virtual DbSet<AFKXX> AFKXX { get; set; }
-        public virtual DbSet<V_Flows> V_Flows { get; set; }
         public virtual DbSet<Org_Roles> Org_Roles { get; set; }
         public virtual DbSet<ACLIENTS> ACLIENTS { get; set; }
         public virtual DbSet<V_UnfinishedContracts> V_UnfinishedContracts { get; set; }
         public virtual DbSet<AWX> AWX { get; set; }
-        public virtual DbSet<WF_Flow2> WF_Flow2 { get; set; }
         public virtual DbSet<WF_CompanyToTem> WF_CompanyToTem { get; set; }
         public virtual DbSet<V_Flow_GB_Customer> V_Flow_GB_Customer { get; set; }
         public virtual DbSet<Sys_Menus> Sys_Menus { get; set; }
+        public virtual DbSet<WF_Flow1> WF_Flow1 { get; set; }
+        public virtual DbSet<WF_Flow2> WF_Flow2 { get; set; }
+        public virtual DbSet<WF_Flows> WF_Flows { get; set; }
+        public virtual DbSet<V_Flows> V_Flows { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 string pStr = context.Request.Form["p"];
-               
+
                 string userjson = context.Request.Form["UserInfo"];
                 MODEL.UserInfo userinfo = (MODEL.UserInfo)Newtonsoft.Json.JsonConvert.DeserializeObject(userjson, typeof(MODEL.UserInfo));
                 string companyid = userinfo.CompanyID;
@@ -39,7 +39,7 @@ namespace ZDCharts.Handlers
                     int pLength = int.Parse(pageLengthJo["value"].ToString());
                     //.Where(p => p.CompanyID == companyid)
                     var pageList = db.V_Flow_GB_Customer.Where(p => p.CompanyID == companyid).OrderByDescending(p => p.CreatedDate).Skip(pStart).Take(pLength).ToList();
-                
+
                     JObject jo = new JObject();
                     jo.Add("data", JToken.FromObject(pageList));
                     int pageTotal = db.V_Flows.Where(p => p.CompanyID == companyid).Count();
@@ -123,13 +123,14 @@ namespace ZDCharts.Handlers
                     Creater = userinfo.UserName,
                     CurNode = curnode.RID,
                     IsFinished = COMN.MyVars.No,
-                    TemID = companytotem.TemID
+                    TemID = companytotem.TemID,
+                    Result = COMN.MyVars.Pending
                 });
 
                 db.WF_Flow2.Add(new DAL.WF_Flow2()
                 {
                     CashID = cashid,
-                    Ccode = payinfo.ComanyID,
+                    Ccode = payinfo.CustomerID,
                     Cash = payinfo.Rmb,
                     Note = payinfo.Note,
                     ExchangeDate = DateTime.Parse(payinfo.PayDate),
@@ -143,7 +144,8 @@ namespace ZDCharts.Handlers
                         CashID = cashid,
                         HCode = item.HCODE,
                         Rmb = item.CurRmb,
-                        XSHcode = item.XSHCODE
+                        XSHcode = item.XSHCODE,
+                        Result = COMN.MyVars.Pending
                     });
                 }
                 int result = db.SaveChanges();

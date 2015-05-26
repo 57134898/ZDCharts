@@ -121,9 +121,9 @@
                         if (i == 0) {
                             shtml = shtml.concat("<a href='javascript: loadcompany() ' class='list-group-item list-group-item-success'>返回上级</a>");
                         }
-                        shtml = shtml.concat("<a class='list-group-item' nodeid='" + result.data[i].FID + "'>");
+                        shtml = shtml.concat("<a class='list-group-item' nodeid='" + result.data[i].F1ID + "'>");
                         shtml = shtml.concat("<div class='panel panel-primary'>");
-                        shtml = shtml.concat("<div class='panel-heading'> <span fid='" + result.data[i].FID + "' class='glyphicon glyphicon-asterisk' aria-hidden='true' result='O'></span>&nbsp;" + result.data[i].Customer + "</div>");
+                        shtml = shtml.concat("<div class='panel-heading'> <span fid='" + result.data[i].F1ID + "' class='glyphicon glyphicon-asterisk' aria-hidden='true' result='O'></span>&nbsp;" + result.data[i].Customer + "</div>");
                         shtml = shtml.concat("<div class='panel-body'>");
                         shtml = shtml.concat("<table class='table  table-striped'>");
                         shtml = shtml.concat("<tr><td>公司:</td><td class='numFormat'>" + result.data[i].Company + "</td></tr>");
@@ -139,13 +139,13 @@
                         shtml = shtml.concat("<div class='panel-footer'>");
                         shtml = shtml.concat("<div class='btn-group' data-toggle='buttons'>");
                         shtml = shtml.concat("<label class='btn btn-default active'>");
-                        shtml = shtml.concat("<input type='radio' result='O' name='options" + i.toString() + "' nodeid='" + result.data[i].FID + "' autocomplete='off' checked>&nbsp;&nbsp;待定&nbsp;&nbsp;");
+                        shtml = shtml.concat("<input type='radio' result='O' name='options" + i.toString() + "' nodeid='" + result.data[i].F1ID + "' autocomplete='off' checked>待定");
                         shtml = shtml.concat("</label>");
                         shtml = shtml.concat("<label class='btn btn-default'>");
-                        shtml = shtml.concat("<input type='radio' result='Y'  name='options" + i.toString() + "' nodeid='" + result.data[i].FID + "' autocomplete='off'> &nbsp;&nbsp;通过&nbsp;&nbsp;");
+                        shtml = shtml.concat("<input type='radio' result='Y'  name='options" + i.toString() + "' nodeid='" + result.data[i].F1ID + "' autocomplete='off'>通过");
                         shtml = shtml.concat("</label>");
                         shtml = shtml.concat("<label class='btn btn-default'>");
-                        shtml = shtml.concat("<input type='radio' result='N'  name='options" + i.toString() + "' nodeid='" + result.data[i].FID + "' autocomplete='off'> &nbsp;&nbsp;拒绝&nbsp;&nbsp;");
+                        shtml = shtml.concat("<input type='radio' result='N'  name='options" + i.toString() + "' nodeid='" + result.data[i].F1ID + "' autocomplete='off'>拒绝");
                         shtml = shtml.concat("</label>");
                         shtml = shtml.concat("</div>");
                         //shtml = shtml.concat("<input  avalue='Y' name='c" + i.toString() + "' data-label-text='同意' type='radio' flowid='" + result.data[i].FID + "'>&nbsp;&nbsp;");
@@ -154,43 +154,32 @@
                         $("#listdiv").append(shtml);
                         $("input[type='radio']").change(function () {
 
-                            $("input[type='radio']:checked").each(function (index,item) {
-                                alert($(item).attr("result"));
-                            });
+                            var sp = $("span[fid='" + $(this).attr('nodeid') + "']");
+                            sp.removeClass("glyphicon glyphicon-asterisk");
+                            sp.removeClass("glyphicon glyphicon-ok");
+                            sp.removeClass("glyphicon glyphicon-remove");
+                            if ($(this).parent().text() == "通过") {
+                                sp.addClass("glyphicon glyphicon-ok");
+                                sp.attr("result", "Y");
+                            }
+                            else if ($(this).parent().text() == "拒绝") {
+                                sp.addClass("glyphicon glyphicon-remove");
+                                sp.attr("result", "N");
+                            }
+                            else {
+                                sp.addClass("glyphicon glyphicon-asterisk");
+                                sp.attr("result", "O");
+                            }
+                            //return;
 
-                            //$("input[type='radio']:checked").each(function () {
-                            //    alert($(this).attr("nodeid"));
-                            //});
+                            //设置首页提交确认按钮数字图标
+                            var pcount = $(".glyphicon-ok,.glyphicon-remove").length;
+                            if (pcount == 0) {
+                                $(window.parent.document).find("#pendspan").text("");
+                            } else {
+                                $(window.parent.document).find("#pendspan").text($(".glyphicon-ok,.glyphicon-remove").length);
+                            }
                         });
-                        //switch按钮样式设置
-                        //$("input[type='radio']").bootstrapSwitch();
-                        //switch按钮事件
-                        //$("input[type='radio']").on('click', function (event, state) {
-                        //    alert(1);
-                        //    return;
-                        //    //客户前符号清除
-                        //    var sp = $("span[fid='" + $(this).attr('flowid') + "']");
-                        //    sp.removeClass("glyphicon glyphicon-asterisk");
-                        //    sp.removeClass("glyphicon glyphicon-ok");
-                        //    sp.removeClass("glyphicon glyphicon-remove");
-                        //    //设置对号
-                        //    if ($(this).attr('avalue') == "Y") {
-                        //        sp.addClass("glyphicon glyphicon-ok");
-                        //        sp.attr("result", "Y");
-                        //    }
-                        //    //设置叉
-                        //    if ($(this).attr('avalue') == "N") {
-                        //        sp.addClass("glyphicon glyphicon-remove");
-                        //        sp.attr("result", "N");
-                        //    }
-                        //    //设置首页提交确认按钮数字图标
-                        //    var pcount = $(".glyphicon-ok,.glyphicon-remove").length;
-                        //    if (pcount == 0) {
-                        //        $(window.parent.document).find("#pendspan").text("");
-                        //    } else {
-                        //        $(window.parent.document).find("#pendspan").text($(".glyphicon-ok,.glyphicon-remove").length);
-                        //    }
-                        //});
                     }
                     spinner2.stop();
                 },
@@ -201,12 +190,11 @@
         $(document).ready(function () {
 
             loadcompany();
-            return;
 
             //commit按钮事件
             $("#commitBtn").click(function commit() {
                 var pendingdata = $("#curnodeid").val();
-                var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('agreebtn'));
+                var spinner2 = new Spinner(getSpinOpts()).spin(document.getElementById('agreebtn'));
                 $.ajax({
                     type: 'POST',
                     url: '../Handlers/WFFlow.ashx',
@@ -217,7 +205,7 @@
                             return;
                         }
                         loadcustomer();
-                        spinner1.stop();
+                        spinner2.stop();
                         $('#myModal').modal('hide');
                     },
                     dataType: 'JSON'
@@ -260,10 +248,10 @@
                     <h3 class="modal-title" id="myModalLabel">确认</h3>
                 </div>
                 <div class="modal-body">
-                    <input id="curnodeid" type="hidden" />
+                    <input id="curnodeid" type="text" />
                     <button id="commitBtn" type="button" class="btn btn-success btn-lg btn-block" onclick="agree()">确定</button>
                     <br />
-                    <button id="cannelBtn" type="button" class="btn btn-danger btn-lg btn-block" onclick="refuse()">取消</button>
+                    <button id="cannelBtn" type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal">取消</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>

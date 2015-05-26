@@ -51,5 +51,10 @@ namespace DAL
         public string DeptName { get; set; }
         public string RoleName { get; set; }
         public Nullable<System.Guid> CashID { get; set; }
+        public string F1Result { get; set; }
+        public Nullable<System.DateTime> ExchangeDate { get; set; }
+        public Nullable<decimal> Cash { get; set; }
+        public Nullable<decimal> Note { get; set; }
+        public string Result { get; set; }
     }
 }

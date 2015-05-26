@@ -21,5 +21,6 @@ namespace DAL
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string Creater { get; set; }
         public Nullable<System.Guid> TemID { get; set; }
+        public string Result { get; set; }
     }
 }

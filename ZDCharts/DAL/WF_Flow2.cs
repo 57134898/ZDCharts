@@ -23,5 +23,6 @@ namespace DAL
         public string Hdw { get; set; }
         public string NCodeC { get; set; }
         public string NCodeN { get; set; }
+        public string IsFinished { get; set; }
     }
 }

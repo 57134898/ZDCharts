@@ -20,5 +20,6 @@ namespace DAL
         public Nullable<System.Guid> FlowID { get; set; }
         public Nullable<System.Guid> CashID { get; set; }
         public string XSHcode { get; set; }
+        public string Result { get; set; }
     }
 }

@@ -76,48 +76,63 @@ namespace ZDCharts.Handlers
             {
                 return new Tools.JsonResponse() { Code = "9000", Msg = "pendingdata不能为空" };
             }
+            //[{"fid":"3","result":"Y"},{"fid":"4","result":"N"}]
             Newtonsoft.Json.Linq.JArray jArr = Newtonsoft.Json.Linq.JArray.Parse(jsonStr);
+
+            if (jArr.Count <= 0)
+                return new Tools.JsonResponse() { Code = "9001", Msg = "没有审批数据" };
+
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
+                //获取F1ID
+                int f1id = int.Parse(jArr[0]["fid"].ToString());
+                //审批结果 全部拒绝为N 部分通过为Y
+                var resultOjb = jArr.FirstOrDefault(p => p["result"].ToString() == "Y");
+                string result = "";
+                if (resultOjb == null)
+                {
+                    result = COMN.MyVars.No;
+                }
+                else
+                {
+                    result = COMN.MyVars.Yes;
+                }
+                //通过WF1行ID查找FLOWID
+                var flow1 = db.WF_Flow1.FirstOrDefault(p => p.FID == f1id);
+                Guid curguid = Guid.Parse(flow1.FlowID.ToString());
+                //查找待审批工作流节点
+                var flow = db.WF_Flows.SingleOrDefault(p => p.FID == curguid);
+                if (flow == null)
+                    return new Tools.JsonResponse() { Code = "9001", Msg = "未找到节点" };
+                //查找待审批阶段
+                var temrow = db.WF_TemRows.SingleOrDefault(p => p.TemID == flow.TemID && p.RID == flow.CurNode);
+                if (temrow == null)
+                    return new Tools.JsonResponse() { Code = "9002", Msg = "未找审批阶段" };
+                //查找待审批数据
+                var f = db.WF_Flows.SingleOrDefault(p => p.FID == flow.FID);
+                if (f == null)
+                    return new Tools.JsonResponse() { Code = "9003", Msg = "未找到待审批数据" };
+                //如果没有下一节或者所有行都未通过点则审批结束
+                if (temrow.NextID < 0 || result == COMN.MyVars.No)
+                {
+                    f.IsFinished = "Y";
+                    f.Result = result;
+                }
+                f.CurNode = temrow.NextID;
+                db.WF_Nodes.Add(new DAL.WF_Nodes()
+                {
+                    TemRowID = flow.CurNode,
+                    FlowID = flow.FID,
+                    Result = result,
+                    CreatedDate = DateTime.Now
+                });
                 foreach (var item in jArr)
                 {
-                    Guid curguid = Guid.Parse(item["fid"].ToString());
-                    //查找待审批工作流节点
-                    var flow = db.V_Flows.SingleOrDefault(p => p.FID == curguid);
-                    if (flow == null)
-                        return new Tools.JsonResponse() { Code = "9001", Msg = "未找到节点" };
-                    //查找待审批阶段
-                    var temrow = db.WF_TemRows.SingleOrDefault(p => p.TemID == flow.TemID && p.RID == flow.RID);
-                    if (temrow == null)
-                        return new Tools.JsonResponse() { Code = "9001", Msg = "未找审批阶段" };
-                    //查找待审批数据
-                    var f = db.WF_Flows.SingleOrDefault(p => p.FID == flow.FID);
-                    if (f == null)
-                        return new Tools.JsonResponse() { Code = "9001", Msg = "未找到待审批数据" };
-                    //如果没有下一节点则审批借宿
-                    if (temrow.NextID < 0)
-                    {
-                        f.IsFinished = "Y";
-                        //审批完成，生成记录到合同软件
-                        db.ACash.Add(new DAL.ACash()
-                        {
-                            //应该写到循环外 --待改
-                        });
-
-
-                        //审批完成，生成记录到资金池
-
-                        //,,,,未完
-                    }
-
-                    f.CurNode = temrow.NextID;
-                    db.WF_Nodes.Add(new DAL.WF_Nodes()
-                    {
-                        TemRowID = flow.RID,
-                        FlowID = flow.FID,
-                        Result = item["result"].ToString().ToUpper(),
-                        CreatedDate = DateTime.Now
-                    });
+                    int fid = int.Parse(item["fid"].ToString());
+                    var wf1 = db.WF_Flow1.SingleOrDefault(p => p.FID == fid);
+                    wf1.Result = item["result"].ToString().ToUpper();
+                    db.WF_Flow1.Attach(wf1);
+                    db.Entry(wf1).State = System.Data.Entity.EntityState.Modified;
                 }
                 db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };

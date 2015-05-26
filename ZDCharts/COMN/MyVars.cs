@@ -10,5 +10,6 @@ namespace COMN
     {
         public readonly static string Yes = "Y";
         public readonly static string No = "N";
+        public readonly static string Pending = "O";
     }
 }
