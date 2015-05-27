@@ -24,7 +24,7 @@
     <link href="../Content/daterangepicker-bs3.css" rel="stylesheet" />
     <script type="text/javascript">
         $(function () {
-            alert(1);
+            //alert(1);
             $('#dvtable').dataTable({
                 "sPaginationType": "full_numbers",
                 "processing": true,//显示进度条
@@ -39,13 +39,14 @@
                 //列集合
                 //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
                 "columns": [
+                            { "data": "ID" },
                             { "data": "CNAME" },
                             { "data": "ExchangeDate" },
-                            { "data": "Cash" },
-                            { "data": "Cash1" },
+                            { "data": "Cash", 'sClass': "text-right" },
+                            { "data": "Cash1", 'sClass': "text-right" },
                             { "data": "NCodeC" },
-                            { "data": "Note" },
-                            { "data": "Note1" },
+                            { "data": "Note", 'sClass': "text-right" },
+                            { "data": "Note1", 'sClass': "text-right" },
                             { "data": "NCodeN" }
                 ],
                 //汉化
@@ -76,23 +77,34 @@
                         "dataType": "json",
                         "data": { Action: 'GetList', p: JSON.stringify(aoData) }, // 以json格式传递
                         "success": function (resp) {
-                            alert(JSON.stringify(resp.data));
+                            //alert(JSON.stringify(resp.data));
                             fnCallback(resp.data);
                         }
                     });
+                }
+            });
+            $('table tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    $('table tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    alert("点击的行索引为："+$("table tr.selected td:eq(0)").text());
                 }
             });
         });
     </script>
 </head>
 <body>
-    <table id="dvtable" class="display" width="100%">
+    <table id="dvtable" width="100%">
         <thead>
             <tr>
-                <th rowspan="2">客户</th>
-                <th rowspan="2">日期</th>
-                <th colspan="3">现汇</th>
-                <th colspan="3">票据</th>
+                <th rowspan="2" style="text-align: center;">编号</th>
+                <th rowspan="2" style="text-align: center;">客户</th>
+                <th rowspan="2" style="text-align: center;">日期</th>
+                <th colspan="3" style="text-align: center;">现汇</th>
+                <th colspan="3" style="text-align: center;">票据</th>
             </tr>
             <tr>
                 <th>预计</th>
@@ -105,6 +117,7 @@
         </thead>
         <tfoot>
             <tr>
+                <th>编号</th>
                 <th>客户</th>
                 <th>日期</th>
                 <th>预计</th>
