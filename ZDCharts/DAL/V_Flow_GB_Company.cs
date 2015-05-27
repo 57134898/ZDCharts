@@ -18,5 +18,6 @@ namespace DAL
         public string CompanyID { get; set; }
         public string RoleID { get; set; }
         public decimal Total { get; set; }
+        public Nullable<int> RID { get; set; }
     }
 }

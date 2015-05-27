@@ -12,19 +12,22 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class WF_Flow2
+    public partial class V_CashItem
     {
         public System.Guid CashID { get; set; }
         public Nullable<System.DateTime> ExchangeDate { get; set; }
-        public Nullable<decimal> Cash { get; set; }
-        public Nullable<decimal> Note { get; set; }
+        public decimal Cash { get; set; }
+        public decimal Note { get; set; }
         public string Ccode { get; set; }
-        public Nullable<decimal> Mz { get; set; }
+        public decimal Mz { get; set; }
         public string Hdw { get; set; }
         public string NCodeC { get; set; }
         public string NCodeN { get; set; }
         public string IsFinished { get; set; }
-        public Nullable<System.Guid> FlowID { get; set; }
+        public string CNAME { get; set; }
         public int ID { get; set; }
+        public string Result { get; set; }
+        public decimal Cash1 { get; set; }
+        public decimal Note1 { get; set; }
     }
 }

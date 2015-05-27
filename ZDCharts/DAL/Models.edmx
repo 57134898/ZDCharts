@@ -155,6 +155,8 @@
           <Property Name="NCodeC" Type="varchar" MaxLength="50" />
           <Property Name="NCodeN" Type="varchar" MaxLength="50" />
           <Property Name="IsFinished" Type="varchar" MaxLength="1" />
+          <Property Name="FlowID" Type="uniqueidentifier" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="WF_Flows">
           <Key>
@@ -202,6 +204,34 @@
           <Property Name="IsEnabled" Type="varchar" MaxLength="1" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“contract1.dbo.V_CashItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_CashItem">
+          <Key>
+            <PropertyRef Name="CashID" />
+            <PropertyRef Name="Cash" />
+            <PropertyRef Name="Note" />
+            <PropertyRef Name="Mz" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Cash1" />
+            <PropertyRef Name="Note1" />
+          </Key>
+          <Property Name="CashID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExchangeDate" Type="date" />
+          <Property Name="Cash" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Note" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Ccode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mz" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Hdw" Type="nvarchar" MaxLength="50" />
+          <Property Name="NCodeC" Type="varchar" MaxLength="50" />
+          <Property Name="NCodeN" Type="varchar" MaxLength="50" />
+          <Property Name="IsFinished" Type="varchar" MaxLength="1" />
+          <Property Name="CNAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Result" Type="varchar" MaxLength="1" />
+          <Property Name="Cash1" Type="numeric" Precision="2" Scale="2" Nullable="false" />
+          <Property Name="Note1" Type="numeric" Precision="2" Scale="2" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Emps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Emps">
           <Key>
@@ -230,6 +260,7 @@
           <Property Name="CompanyID" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleID" Type="varchar" MaxLength="20" />
           <Property Name="Total" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="RID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Flow_GB_Customer”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -245,6 +276,7 @@
           <Property Name="CompanyID" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="IsFinished" Type="varchar" MaxLength="1" />
+          <Property Name="RID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Flows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -333,6 +365,25 @@
           <EntitySet Name="WF_Nodes" EntityType="Self.WF_Nodes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_TemRows" EntityType="Self.WF_TemRows" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Tems" EntityType="Self.WF_Tems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_CashItem" EntityType="Self.V_CashItem" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_CashItem].[CashID] AS [CashID], 
+    [V_CashItem].[ExchangeDate] AS [ExchangeDate], 
+    [V_CashItem].[Cash] AS [Cash], 
+    [V_CashItem].[Note] AS [Note], 
+    [V_CashItem].[Ccode] AS [Ccode], 
+    [V_CashItem].[Mz] AS [Mz], 
+    [V_CashItem].[Hdw] AS [Hdw], 
+    [V_CashItem].[NCodeC] AS [NCodeC], 
+    [V_CashItem].[NCodeN] AS [NCodeN], 
+    [V_CashItem].[IsFinished] AS [IsFinished], 
+    [V_CashItem].[CNAME] AS [CNAME], 
+    [V_CashItem].[ID] AS [ID], 
+    [V_CashItem].[Result] AS [Result], 
+    [V_CashItem].[Cash1] AS [Cash1], 
+    [V_CashItem].[Note1] AS [Note1]
+    FROM [dbo].[V_CashItem] AS [V_CashItem]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_Emps" EntityType="Self.V_Emps" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_Emps].[EmpID] AS [EmpID], 
@@ -354,7 +405,8 @@
     [V_Flow_GB_Company].[Company] AS [Company], 
     [V_Flow_GB_Company].[CompanyID] AS [CompanyID], 
     [V_Flow_GB_Company].[RoleID] AS [RoleID], 
-    [V_Flow_GB_Company].[Total] AS [Total]
+    [V_Flow_GB_Company].[Total] AS [Total], 
+    [V_Flow_GB_Company].[RID] AS [RID]
     FROM [dbo].[V_Flow_GB_Company] AS [V_Flow_GB_Company]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Flow_GB_Customer" EntityType="Self.V_Flow_GB_Customer" store:Type="Views" store:Schema="dbo">
@@ -366,7 +418,8 @@
     [V_Flow_GB_Customer].[Total] AS [Total], 
     [V_Flow_GB_Customer].[CompanyID] AS [CompanyID], 
     [V_Flow_GB_Customer].[CreatedDate] AS [CreatedDate], 
-    [V_Flow_GB_Customer].[IsFinished] AS [IsFinished]
+    [V_Flow_GB_Customer].[IsFinished] AS [IsFinished], 
+    [V_Flow_GB_Customer].[RID] AS [RID]
     FROM [dbo].[V_Flow_GB_Customer] AS [V_Flow_GB_Customer]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Flows" EntityType="Self.V_Flows" store:Type="Views" store:Schema="dbo">
@@ -451,9 +504,10 @@
           <EntitySet Name="V_Flow_GB_Customer" EntityType="ContractModel.V_Flow_GB_Customer" />
           <EntitySet Name="Sys_Menus" EntityType="ContractModel.Sys_Menus" />
           <EntitySet Name="WF_Flow1" EntityType="ContractModel.WF_Flow1" />
-          <EntitySet Name="WF_Flow2" EntityType="ContractModel.WF_Flow2" />
           <EntitySet Name="WF_Flows" EntityType="ContractModel.WF_Flows" />
           <EntitySet Name="V_Flows" EntityType="ContractModel.V_Flows" />
+          <EntitySet Name="WF_Flow2" EntityType="ContractModel.WF_Flow2" />
+          <EntitySet Name="V_CashItem" EntityType="ContractModel.V_CashItem" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -532,6 +586,7 @@
           <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Total" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="RID" Type="Int32" />
         </EntityType>
         <EntityType Name="ACash">
           <Key>
@@ -657,6 +712,7 @@
           <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="RID" Type="Int32" />
         </EntityType>
         <EntityType Name="Sys_Menus">
           <Key>
@@ -678,21 +734,6 @@
           <Property Name="CashID" Type="Guid" />
           <Property Name="XSHcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="WF_Flow2">
-          <Key>
-            <PropertyRef Name="CashID" />
-          </Key>
-          <Property Name="CashID" Type="Guid" Nullable="false" />
-          <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
-          <Property Name="Cash" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Ccode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Mz" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Hdw" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NCodeC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NCodeN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="WF_Flows">
           <Key>
@@ -756,6 +797,49 @@
           <Property Name="Cash" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="WF_Flow2">
+          <Key>
+            <PropertyRef Name="CashID" />
+          </Key>
+          <Property Name="CashID" Type="Guid" Nullable="false" />
+          <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
+          <Property Name="Cash" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Ccode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mz" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Hdw" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NCodeC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NCodeN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="FlowID" Type="Guid" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="V_CashItem">
+          <Key>
+            <PropertyRef Name="CashID" />
+            <PropertyRef Name="Cash" />
+            <PropertyRef Name="Note" />
+            <PropertyRef Name="Mz" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Cash1" />
+            <PropertyRef Name="Note1" />
+          </Key>
+          <Property Name="CashID" Type="Guid" Nullable="false" />
+          <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
+          <Property Name="Cash" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Note" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Ccode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mz" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Hdw" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NCodeC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NCodeN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Cash1" Type="Decimal" Nullable="false" Precision="2" Scale="2" />
+          <Property Name="Note1" Type="Decimal" Nullable="false" Precision="2" Scale="2" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -841,6 +925,7 @@
           <EntitySetMapping Name="V_Flow_GB_Company">
             <EntityTypeMapping TypeName="ContractModel.V_Flow_GB_Company">
               <MappingFragment StoreEntitySet="V_Flow_GB_Company">
+                <ScalarProperty Name="RID" ColumnName="RID" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
@@ -967,6 +1052,7 @@
           <EntitySetMapping Name="V_Flow_GB_Customer">
             <EntityTypeMapping TypeName="ContractModel.V_Flow_GB_Customer">
               <MappingFragment StoreEntitySet="V_Flow_GB_Customer">
+                <ScalarProperty Name="RID" ColumnName="RID" />
                 <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
@@ -998,22 +1084,6 @@
                 <ScalarProperty Name="HCode" ColumnName="HCode" />
                 <ScalarProperty Name="Rmb" ColumnName="Rmb" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WF_Flow2">
-            <EntityTypeMapping TypeName="ContractModel.WF_Flow2">
-              <MappingFragment StoreEntitySet="WF_Flow2">
-                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
-                <ScalarProperty Name="NCodeN" ColumnName="NCodeN" />
-                <ScalarProperty Name="NCodeC" ColumnName="NCodeC" />
-                <ScalarProperty Name="Hdw" ColumnName="Hdw" />
-                <ScalarProperty Name="Mz" ColumnName="Mz" />
-                <ScalarProperty Name="Ccode" ColumnName="Ccode" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="Cash" ColumnName="Cash" />
-                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
-                <ScalarProperty Name="CashID" ColumnName="CashID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1076,6 +1146,45 @@
                 <ScalarProperty Name="CurNode" ColumnName="CurNode" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_Flow2">
+            <EntityTypeMapping TypeName="ContractModel.WF_Flow2">
+              <MappingFragment StoreEntitySet="WF_Flow2">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="NCodeN" ColumnName="NCodeN" />
+                <ScalarProperty Name="NCodeC" ColumnName="NCodeC" />
+                <ScalarProperty Name="Hdw" ColumnName="Hdw" />
+                <ScalarProperty Name="Mz" ColumnName="Mz" />
+                <ScalarProperty Name="Ccode" ColumnName="Ccode" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Cash" ColumnName="Cash" />
+                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
+                <ScalarProperty Name="CashID" ColumnName="CashID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_CashItem">
+            <EntityTypeMapping TypeName="ContractModel.V_CashItem">
+              <MappingFragment StoreEntitySet="V_CashItem">
+                <ScalarProperty Name="Note1" ColumnName="Note1" />
+                <ScalarProperty Name="Cash1" ColumnName="Cash1" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CNAME" ColumnName="CNAME" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="NCodeN" ColumnName="NCodeN" />
+                <ScalarProperty Name="NCodeC" ColumnName="NCodeC" />
+                <ScalarProperty Name="Hdw" ColumnName="Hdw" />
+                <ScalarProperty Name="Mz" ColumnName="Mz" />
+                <ScalarProperty Name="Ccode" ColumnName="Ccode" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Cash" ColumnName="Cash" />
+                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
+                <ScalarProperty Name="CashID" ColumnName="CashID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -134,7 +134,8 @@ namespace ZDCharts.Handlers
                     Cash = payinfo.Rmb,
                     Note = payinfo.Note,
                     ExchangeDate = DateTime.Parse(payinfo.PayDate),
-                    Hdw = payinfo.ComanyID,
+                    Hdw = userinfo.CompanyID,
+                    FlowID = flowid
                 });
                 foreach (var item in payinfo.List)
                 {

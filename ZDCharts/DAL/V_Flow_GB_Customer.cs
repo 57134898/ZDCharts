@@ -22,5 +22,6 @@ namespace DAL
         public string CompanyID { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string IsFinished { get; set; }
+        public Nullable<int> RID { get; set; }
     }
 }
