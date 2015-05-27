@@ -204,7 +204,10 @@
                             redirecToErrorPage(result);
                             return;
                         }
-                        loadcustomer();
+                        listclear();
+                        loadcompany();
+                        $("#curnodeid").val("");
+                        $(window.parent.document).find("#pendspan").text("");
                         spinner2.stop();
                         $('#myModal').modal('hide');
                     },
@@ -249,7 +252,7 @@
                 </div>
                 <div class="modal-body">
                     <input id="curnodeid" type="text" />
-                    <button id="commitBtn" type="button" class="btn btn-success btn-lg btn-block" onclick="agree()">确定</button>
+                    <button id="commitBtn" type="button" class="btn btn-success btn-lg btn-block">确定</button>
                     <br />
                     <button id="cannelBtn" type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal">取消</button>
                 </div>
