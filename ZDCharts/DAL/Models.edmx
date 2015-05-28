@@ -331,6 +331,17 @@
           <Property Name="Result" Type="varchar" MaxLength="1" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“contract1.dbo.V_Ncode”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Ncode">
+          <Key>
+            <PropertyRef Name="ncode" />
+            <PropertyRef Name="nname" />
+          </Key>
+          <Property Name="ncode" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="nname" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="levl" Type="tinyint" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_UnfinishedContracts”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_UnfinishedContracts">
           <Key>
@@ -468,6 +479,13 @@
     [V_Flows].[Result] AS [Result]
     FROM [dbo].[V_Flows] AS [V_Flows]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_Ncode" EntityType="Self.V_Ncode" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Ncode].[ncode] AS [ncode], 
+    [V_Ncode].[nname] AS [nname], 
+    [V_Ncode].[levl] AS [levl]
+    FROM [dbo].[V_Ncode] AS [V_Ncode]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_UnfinishedContracts" EntityType="Self.V_UnfinishedContracts" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_UnfinishedContracts].[HCODE] AS [HCODE], 
@@ -508,6 +526,7 @@
           <EntitySet Name="V_Flows" EntityType="ContractModel.V_Flows" />
           <EntitySet Name="WF_Flow2" EntityType="ContractModel.WF_Flow2" />
           <EntitySet Name="V_CashItem" EntityType="ContractModel.V_CashItem" />
+          <EntitySet Name="V_Ncode" EntityType="ContractModel.V_Ncode" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -840,6 +859,15 @@
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="Cash1" Type="Decimal" Nullable="false" Precision="2" Scale="2" />
           <Property Name="Note1" Type="Decimal" Nullable="false" Precision="2" Scale="2" />
+        </EntityType>
+        <EntityType Name="V_Ncode">
+          <Key>
+            <PropertyRef Name="ncode" />
+            <PropertyRef Name="nname" />
+          </Key>
+          <Property Name="ncode" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="nname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="levl" Type="Byte" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1185,6 +1213,15 @@
                 <ScalarProperty Name="Cash" ColumnName="Cash" />
                 <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
                 <ScalarProperty Name="CashID" ColumnName="CashID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Ncode">
+            <EntityTypeMapping TypeName="ContractModel.V_Ncode">
+              <MappingFragment StoreEntitySet="V_Ncode">
+                <ScalarProperty Name="levl" ColumnName="levl" />
+                <ScalarProperty Name="nname" ColumnName="nname" />
+                <ScalarProperty Name="ncode" ColumnName="ncode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

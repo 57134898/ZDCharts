@@ -62,3 +62,23 @@ div.head1 {
     width: 100%;
     color: white;
 }
+
+.myLeftBorder {
+    border-left: solid;
+    border-left-width: thin;
+}
+
+.myRigthBorder {
+    border-right: solid;
+    border-right-width: thin;
+}
+
+.myTopBorder {
+    border-top: solid;
+    border-top-width: thin;
+}
+
+.myBottomBorder {
+    border-bottom: solid;
+    border-bottom-width: thin;
+}

@@ -58,7 +58,7 @@
                         //添加TAB内容
                         shtml = "";
                         shtml = shtml.concat("<div role='tabpanel' class='tab-pane' id='" + "Tb" + nexttabindex + "'>");
-                        shtml = shtml.concat("<div class='embed-responsive embed-responsive-16by9'>");
+                        shtml = shtml.concat("<div class='embed-responsive embed-responsive-4by3'>");
                         shtml = shtml.concat(" <iframe  class='embed-responsive-item'  src='" + $(this).attr("url") + "'  mytype='tabpage' frameborder='0' scrolling='auto' marginheight='0' marginwidth='0' width='100%' style='overflow-x:hidden'></iframe>");
                         shtml = shtml.concat("</div>");
                         shtml = shtml.concat("</div>");

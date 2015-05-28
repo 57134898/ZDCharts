@@ -46,5 +46,6 @@ namespace DAL
         public virtual DbSet<V_Flows> V_Flows { get; set; }
         public virtual DbSet<WF_Flow2> WF_Flow2 { get; set; }
         public virtual DbSet<V_CashItem> V_CashItem { get; set; }
+        public virtual DbSet<V_Ncode> V_Ncode { get; set; }
     }
 }

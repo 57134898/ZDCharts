@@ -105,6 +105,9 @@
     <Compile Include="V_Flow_GB_Customer.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="V_Ncode.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="V_UnfinishedContracts.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
