@@ -18,5 +18,6 @@ namespace DAL
         public string MenuName { get; set; }
         public string ParID { get; set; }
         public string URL { get; set; }
+        public string IsEnabled { get; set; }
     }
 }

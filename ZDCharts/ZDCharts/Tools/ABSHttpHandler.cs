@@ -27,6 +27,19 @@ namespace ZDCharts.Tools
             this.DoResponse(tr, context);
         }
 
+        protected MODEL.UserInfo GetUserInfo()
+        {
+            object oUser = context.Session["user"];
+            if (oUser == null)
+            {
+                return null;
+            }
+            else
+            {
+                return (MODEL.UserInfo)oUser;
+            }
+        }
+
         public void DoResponse(Tools.JsonResponse jresp, HttpContext context)
         {
             context.Response.ContentType = "text/plain";

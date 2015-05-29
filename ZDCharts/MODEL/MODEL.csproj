@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CashDraft.cs" />
+    <Compile Include="CashItem.cs" />
     <Compile Include="NonRmb.cs" />
     <Compile Include="PayInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

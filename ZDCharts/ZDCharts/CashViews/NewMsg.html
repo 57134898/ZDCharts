@@ -18,6 +18,9 @@
             $("#listdiv").empty();
         }
         function loadcompany() {
+            //清空提交按钮
+            $("#curnodeid").val("");
+            $(window.parent.document).find("#pendspan").text("");
             //加载中动画开启
             var spinner = new Spinner(getSpinOpts()).spin(document.getElementById('listdiv'));
             //获取待审批单据，绑定到列表
@@ -251,7 +254,7 @@
                     <h3 class="modal-title" id="myModalLabel">确认</h3>
                 </div>
                 <div class="modal-body">
-                    <input id="curnodeid" type="text" />
+                    <input id="curnodeid" type="hidden" />
                     <button id="commitBtn" type="button" class="btn btn-success btn-lg btn-block">确定</button>
                     <br />
                     <button id="cannelBtn" type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal">取消</button>

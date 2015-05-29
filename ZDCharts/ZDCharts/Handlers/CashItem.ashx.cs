@@ -82,11 +82,59 @@ namespace ZDCharts.Handlers
         }
         public Tools.JsonResponse FormCommit()
         {
+            var userinfo = this.GetUserInfo();
+            if (userinfo == null)
+                return new Tools.JsonResponse() { Code = "1000", Msg = "session用户过期" };
             string str = context.Request.Params["postdata"];
+            var cashItem = Newtonsoft.Json.JsonConvert.DeserializeObject<MODEL.CashItem>(str);
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
-                // todo 提交表单后台方法插入数据库 未完成
-                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = str };
+                //WF2 数据更新
+                var wf2 = db.WF_Flow2.SingleOrDefault(p => p.ID == cashItem.ID);
+                wf2.Cash1 = cashItem.Cash;
+                wf2.Note1 = cashItem.Note;
+                wf2.NCodeC = cashItem.NCodeC;
+                wf2.NCodeN = cashItem.NCodeN;
+                wf2.IsFinished = "Y";
+                //插入数据到CASH
+                var cid = db.ACash.Max(p => p.CID) + 1;
+                var list = db.WF_Flow1.Where(p => p.CashID == wf2.CashID);
+                db.ACash.Add(new DAL.ACash()
+                    {
+                        CID = cid,
+                        ExchangeDate = DateTime.Now,
+                        Cash = wf2.Cash1,
+                        Note = wf2.Note1,
+                        VoucherFlag = false,
+                        Ccode = wf2.Ccode,
+                        HDW = userinfo.CompanyID,
+                        Type = "付款"
+                    });
+                //插入数据到AFKXX
+                foreach (var item in list)
+                {
+                    db.AFKXX.Add(new DAL.AFKXX()
+                    {
+                        rmb = item.Rmb,
+                        xshth = item.XSHcode,
+                        CID = cid,
+                        date = DateTime.Now,
+                        hth = item.HCode,
+                        type = "付款",
+                        fkfs = "",
+                        fklx = ""
+                    });
+                }
+
+
+                // TODO 插入数据到资金池
+                //.........
+
+
+
+                //保存
+                int result = db.SaveChanges();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = result };
             }
         }
     }

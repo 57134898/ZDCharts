@@ -44,10 +44,10 @@
                             { "data": "ExchangeDate" },
                             { "data": "Cash", 'sClass': "text-right" },
                             { "data": "Cash1", 'sClass': "text-right" },
-                            { "data": "NCodeC" },
+                            { "data": "NCodeCName" },
                             { "data": "Note", 'sClass': "text-right" },
                             { "data": "Note1", 'sClass': "text-right" },
-                            { "data": "NCodeN" }
+                            { "data": "NCodeNName" }
                 ],
                 //汉化
                 "language":
@@ -183,12 +183,18 @@
                 });
             }
             $("#savbtn").click(function () {
+                var id = $("#dvtable  tr.selected td:eq(0)").text()
+                if (id == "") {
+                    alert("未选中要修改的数据")
+                    return;
+                }
                 var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
                 var postdata = {};
+                postdata.ID = $("#dvtable  tr.selected td:eq(0)").text();
                 postdata.Cash = $("#rmb").val();
                 postdata.Note = $("#note").val();
-                postdata.CashItem = $("#nocdec").attr("code");
-                postdata.NoteItem = $("#nocden").attr("code");
+                postdata.NCodeC = $("#nocdec").attr("code");
+                postdata.NCodeN = $("#nocden").attr("code");
                 $.ajax({
                     type: 'POST',
                     url: '../Handlers/CashItem.ashx',

@@ -15,7 +15,7 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 //string pStr = context.Request.Form["p"];
-                var menulist = db.Sys_Menus.ToList();
+                var menulist = db.Sys_Menus.Where(p => p.IsEnabled == "Y").ToList();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = menulist };
             }
         }

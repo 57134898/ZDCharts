@@ -26,5 +26,9 @@ namespace DAL
         public string IsFinished { get; set; }
         public Nullable<System.Guid> FlowID { get; set; }
         public int ID { get; set; }
+        public Nullable<decimal> Cash1 { get; set; }
+        public Nullable<decimal> Note1 { get; set; }
+        public string CashVoucherID { get; set; }
+        public string NoteVoucherID { get; set; }
     }
 }

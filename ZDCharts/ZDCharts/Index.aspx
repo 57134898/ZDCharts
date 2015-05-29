@@ -18,7 +18,7 @@
     <link href="Content/myStyle.css" rel="stylesheet" />
 </head>
 <body>
-    <input id="userinfoinput" type="text" value="" runat="server" />
+    <input id="userinfoinput" type="hidden" value="" runat="server" />
     <div id="userinfodiv">
         <!--<a href="#">张三</a>-->
         <input id="inputUser" type="hidden" />

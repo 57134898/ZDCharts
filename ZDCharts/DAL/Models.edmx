@@ -120,6 +120,7 @@
           <Property Name="MenuName" Type="nvarchar" MaxLength="50" />
           <Property Name="ParID" Type="varchar" MaxLength="20" />
           <Property Name="URL" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsEnabled" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="WF_CompanyToTem">
           <Key>
@@ -157,6 +158,10 @@
           <Property Name="IsFinished" Type="varchar" MaxLength="1" />
           <Property Name="FlowID" Type="uniqueidentifier" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cash1" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Note1" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CashVoucherID" Type="varchar" MaxLength="16" />
+          <Property Name="NoteVoucherID" Type="varchar" MaxLength="16" />
         </EntityType>
         <EntityType Name="WF_Flows">
           <Key>
@@ -224,12 +229,14 @@
           <Property Name="Hdw" Type="nvarchar" MaxLength="50" />
           <Property Name="NCodeC" Type="varchar" MaxLength="50" />
           <Property Name="NCodeN" Type="varchar" MaxLength="50" />
+          <Property Name="NCodeCName" Type="varchar" MaxLength="255" />
+          <Property Name="NCodeNName" Type="varchar" MaxLength="255" />
           <Property Name="IsFinished" Type="varchar" MaxLength="1" />
           <Property Name="CNAME" Type="nvarchar" MaxLength="50" />
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="Result" Type="varchar" MaxLength="1" />
-          <Property Name="Cash1" Type="numeric" Precision="2" Scale="2" Nullable="false" />
-          <Property Name="Note1" Type="numeric" Precision="2" Scale="2" Nullable="false" />
+          <Property Name="Cash1" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Note1" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Emps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -387,6 +394,8 @@
     [V_CashItem].[Hdw] AS [Hdw], 
     [V_CashItem].[NCodeC] AS [NCodeC], 
     [V_CashItem].[NCodeN] AS [NCodeN], 
+    [V_CashItem].[NCodeCName] AS [NCodeCName], 
+    [V_CashItem].[NCodeNName] AS [NCodeNName], 
     [V_CashItem].[IsFinished] AS [IsFinished], 
     [V_CashItem].[CNAME] AS [CNAME], 
     [V_CashItem].[ID] AS [ID], 
@@ -524,9 +533,9 @@
           <EntitySet Name="WF_Flow1" EntityType="ContractModel.WF_Flow1" />
           <EntitySet Name="WF_Flows" EntityType="ContractModel.WF_Flows" />
           <EntitySet Name="V_Flows" EntityType="ContractModel.V_Flows" />
+          <EntitySet Name="V_Ncode" EntityType="ContractModel.V_Ncode" />
           <EntitySet Name="WF_Flow2" EntityType="ContractModel.WF_Flow2" />
           <EntitySet Name="V_CashItem" EntityType="ContractModel.V_CashItem" />
-          <EntitySet Name="V_Ncode" EntityType="ContractModel.V_Ncode" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -741,6 +750,7 @@
           <Property Name="MenuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ParID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="WF_Flow1">
           <Key>
@@ -817,6 +827,15 @@
           <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="V_Ncode">
+          <Key>
+            <PropertyRef Name="ncode" />
+            <PropertyRef Name="nname" />
+          </Key>
+          <Property Name="ncode" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="nname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="levl" Type="Byte" />
+        </EntityType>
         <EntityType Name="WF_Flow2">
           <Key>
             <PropertyRef Name="CashID" />
@@ -833,6 +852,10 @@
           <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="FlowID" Type="Guid" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cash1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Note1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CashVoucherID" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="NoteVoucherID" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="V_CashItem">
           <Key>
@@ -853,21 +876,14 @@
           <Property Name="Hdw" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NCodeC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="NCodeN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NCodeCName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NCodeNName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="Cash1" Type="Decimal" Nullable="false" Precision="2" Scale="2" />
-          <Property Name="Note1" Type="Decimal" Nullable="false" Precision="2" Scale="2" />
-        </EntityType>
-        <EntityType Name="V_Ncode">
-          <Key>
-            <PropertyRef Name="ncode" />
-            <PropertyRef Name="nname" />
-          </Key>
-          <Property Name="ncode" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="nname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="levl" Type="Byte" />
+          <Property Name="Cash1" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Note1" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1095,6 +1111,7 @@
           <EntitySetMapping Name="Sys_Menus">
             <EntityTypeMapping TypeName="ContractModel.Sys_Menus">
               <MappingFragment StoreEntitySet="Sys_Menus">
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="ParID" ColumnName="ParID" />
                 <ScalarProperty Name="MenuName" ColumnName="MenuName" />
@@ -1177,9 +1194,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="V_Ncode">
+            <EntityTypeMapping TypeName="ContractModel.V_Ncode">
+              <MappingFragment StoreEntitySet="V_Ncode">
+                <ScalarProperty Name="levl" ColumnName="levl" />
+                <ScalarProperty Name="nname" ColumnName="nname" />
+                <ScalarProperty Name="ncode" ColumnName="ncode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="WF_Flow2">
             <EntityTypeMapping TypeName="ContractModel.WF_Flow2">
               <MappingFragment StoreEntitySet="WF_Flow2">
+                <ScalarProperty Name="NoteVoucherID" ColumnName="NoteVoucherID" />
+                <ScalarProperty Name="CashVoucherID" ColumnName="CashVoucherID" />
+                <ScalarProperty Name="Note1" ColumnName="Note1" />
+                <ScalarProperty Name="Cash1" ColumnName="Cash1" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FlowID" ColumnName="FlowID" />
                 <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
@@ -1204,6 +1234,8 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CNAME" ColumnName="CNAME" />
                 <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="NCodeNName" ColumnName="NCodeNName" />
+                <ScalarProperty Name="NCodeCName" ColumnName="NCodeCName" />
                 <ScalarProperty Name="NCodeN" ColumnName="NCodeN" />
                 <ScalarProperty Name="NCodeC" ColumnName="NCodeC" />
                 <ScalarProperty Name="Hdw" ColumnName="Hdw" />
@@ -1213,15 +1245,6 @@
                 <ScalarProperty Name="Cash" ColumnName="Cash" />
                 <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
                 <ScalarProperty Name="CashID" ColumnName="CashID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_Ncode">
-            <EntityTypeMapping TypeName="ContractModel.V_Ncode">
-              <MappingFragment StoreEntitySet="V_Ncode">
-                <ScalarProperty Name="levl" ColumnName="levl" />
-                <ScalarProperty Name="nname" ColumnName="nname" />
-                <ScalarProperty Name="ncode" ColumnName="ncode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

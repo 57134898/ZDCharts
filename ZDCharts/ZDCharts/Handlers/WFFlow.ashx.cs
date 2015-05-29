@@ -118,6 +118,11 @@ namespace ZDCharts.Handlers
                     f.IsFinished = "Y";
                     f.Result = result;
                 }
+                else
+                {
+                    f.IsFinished = "N";
+                    f.Result = result;
+                }
                 f.CurNode = temrow.NextID;
                 db.WF_Nodes.Add(new DAL.WF_Nodes()
                 {
