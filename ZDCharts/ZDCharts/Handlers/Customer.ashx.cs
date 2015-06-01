@@ -135,7 +135,10 @@ namespace ZDCharts.Handlers
                     Note = payinfo.Note,
                     ExchangeDate = DateTime.Parse(payinfo.PayDate),
                     Hdw = userinfo.CompanyID,
-                    FlowID = flowid
+                    FlowID = flowid,
+                    NCodeC = payinfo.NCodeC,
+                    NCodeN = payinfo.NCodeN,
+                    IsFinished = "N"
                 });
                 foreach (var item in payinfo.List)
                 {

@@ -100,88 +100,88 @@
                 }
             });
 
-            //资金项目按钮事件
-            $('#nocdec-addon').click(function () {
-                $("#mark").val("rmb");
-                loadnode();
-            });
-            //资金项目按钮事件
-            $('#nocden-addon').click(function () {
-                $("#mark").val("note");
-                loadnode();
-            });
+            ////资金项目按钮事件
+            //$('#nocdec-addon').click(function () {
+            //    $("#mark").val("rmb");
+            //    loadnode();
+            //});
+            ////资金项目按钮事件
+            //$('#nocden-addon').click(function () {
+            //    $("#mark").val("note");
+            //    loadnode();
+            //});
 
-            function loadnode() {
-                $("#myModal").modal();
-                var tLength = $("#nodetable tr").length;
-                //如果加载过数据则直接显示Modal
-                if (tLength > 1) {
-                    return;
-                }
-                $('#nodetable').dataTable({
-                    "sPaginationType": "full_numbers",
-                    "processing": true,//显示进度条
-                    "serverSide": true,//发送服务器请求
-                    "ajax": {
-                        "url": "../handlers/CashItem.ashx",
-                        "type": "POST",
-                        "data": { Action: 'GetNcodeList' }
-                    },
-                    "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-default  btn-xs'>选中该条</button>" }],//"bVisible": false  style="display:none,
-                    "columnDefs": [{
-                        "targets": -1,
-                        "data": null,
-                        "defaultContent": "<button>Click!</button>"
-                    }],
-                    //汉化
-                    "language":
-            {
-                "sLengthMenu": "每页显示 _MENU_ 条记录",
-                "sZeroRecords": "抱歉， 没有找到",
-                "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-                "sInfoEmpty": "没有数据",
-                "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-                "oPaginate": {
-                    "sFirst": "首页",
-                    "sPrevious": "上一页",
-                    "sNext": "下一页",
-                    "sLast": "末页"
-                },
-                "sZeroRecords": "没有检索到数据",
-                "sProcessing": "<img src='../Images/loading.gif'>加载中...",
-                "sSearch": "查找"
-            },
-                    //请求处理函数
-                    "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
-                        // 将客户名称加入参数数组
-                        //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
-                        $.ajax({
-                            "type": "POST",
-                            "url": "../handlers/CashItem.ashx",
-                            "dataType": "json",
-                            "data": { p: JSON.stringify(aoData), Action: 'GetNcodeList' }, // 以json格式传递
-                            "success": function (resp) {
-                                //alert(JSON.stringify(resp));
-                                fnCallback(resp.data);
-                            }
-                        });
-                    }
-                });
+            //function loadnode() {
+            //    $("#myModal").modal();
+            //    var tLength = $("#nodetable tr").length;
+            //    //如果加载过数据则直接显示Modal
+            //    if (tLength > 1) {
+            //        return;
+            //    }
+            //    $('#nodetable').dataTable({
+            //        "sPaginationType": "full_numbers",
+            //        "processing": true,//显示进度条
+            //        "serverSide": true,//发送服务器请求
+            //        "ajax": {
+            //            "url": "../handlers/CashItem.ashx",
+            //            "type": "POST",
+            //            "data": { Action: 'GetNcodeList' }
+            //        },
+            //        "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-default  btn-xs'>选中该条</button>" }],//"bVisible": false  style="display:none,
+            //        "columnDefs": [{
+            //            "targets": -1,
+            //            "data": null,
+            //            "defaultContent": "<button>Click!</button>"
+            //        }],
+            //        //汉化
+            //        "language":
+            //{
+            //    "sLengthMenu": "每页显示 _MENU_ 条记录",
+            //    "sZeroRecords": "抱歉， 没有找到",
+            //    "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+            //    "sInfoEmpty": "没有数据",
+            //    "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+            //    "oPaginate": {
+            //        "sFirst": "首页",
+            //        "sPrevious": "上一页",
+            //        "sNext": "下一页",
+            //        "sLast": "末页"
+            //    },
+            //    "sZeroRecords": "没有检索到数据",
+            //    "sProcessing": "<img src='../Images/loading.gif'>加载中...",
+            //    "sSearch": "查找"
+            //},
+            //        //请求处理函数
+            //        "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
+            //            // 将客户名称加入参数数组
+            //            //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
+            //            $.ajax({
+            //                "type": "POST",
+            //                "url": "../handlers/CashItem.ashx",
+            //                "dataType": "json",
+            //                "data": { p: JSON.stringify(aoData), Action: 'GetNcodeList' }, // 以json格式传递
+            //                "success": function (resp) {
+            //                    //alert(JSON.stringify(resp));
+            //                    fnCallback(resp.data);
+            //                }
+            //            });
+            //        }
+            //    });
 
-                //NCODE表格内按钮点击事件
-                $('#nodetable tbody').on('click', 'button', function () {
-                    var data = $(this).parents('tr').find('td');
-                    //table.row()
-                    if ($("#mark").val() == "rmb") {
-                        $("#nocdec").val(data.eq(0).html() + ":" + data.eq(1).html());
-                        $("#nocdec").attr("code", data.eq(0).html());
-                    } else {
-                        $("#nocden").val(data.eq(0).html() + ":" + data.eq(1).html());
-                        $("#nocden").attr("code", data.eq(0).html());
-                    }
-                    $("#myModal").modal('hide');
-                });
-            }
+            //    ////NCODE表格内按钮点击事件
+            //    //$('#nodetable tbody').on('click', 'button', function () {
+            //    //    var data = $(this).parents('tr').find('td');
+            //    //    //table.row()
+            //    //    if ($("#mark").val() == "rmb") {
+            //    //        $("#nocdec").val(data.eq(0).html() + ":" + data.eq(1).html());
+            //    //        $("#nocdec").attr("code", data.eq(0).html());
+            //    //    } else {
+            //    //        $("#nocden").val(data.eq(0).html() + ":" + data.eq(1).html());
+            //    //        $("#nocden").attr("code", data.eq(0).html());
+            //    //    }
+            //    //    $("#myModal").modal('hide');
+            //    //});
+            //}
             $("#savbtn").click(function () {
                 var id = $("#dvtable  tr.selected td:eq(0)").text()
                 if (id == "") {
@@ -193,8 +193,8 @@
                 postdata.ID = $("#dvtable  tr.selected td:eq(0)").text();
                 postdata.Cash = $("#rmb").val();
                 postdata.Note = $("#note").val();
-                postdata.NCodeC = $("#nocdec").attr("code");
-                postdata.NCodeN = $("#nocden").attr("code");
+                //postdata.NCodeC = $("#nocdec").attr("code");
+                //postdata.NCodeN = $("#nocden").attr("code");
                 $.ajax({
                     type: 'POST',
                     url: '../Handlers/CashItem.ashx',
@@ -257,10 +257,10 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <%--<tr>
                                     <td style="width: 45%">
                                         <div class="form-group">
-                                            <label for="customer" class="control-label">现汇资金项目</label>
+                                            <label for="nocdec" class="control-label">现汇资金项目</label>
                                             <div class="input-group">
                                                 <input disabled="disabled" id="nocdec" type="text" class="form-control" placeholder="请选现汇资金项目" aria-describedby="nocdec-addon" />
                                                 <span class="input-group-btn">
@@ -271,7 +271,7 @@
                                     <td style="width: 10%"></td>
                                     <td style="width: 45%">
                                         <div class="form-group">
-                                            <label for="customer" class="control-label">票据资金项目</label>
+                                            <label for="nocden" class="control-label">票据资金项目</label>
                                             <div class="input-group">
                                                 <input disabled="disabled" id="nocden" type="text" class="form-control" placeholder="请选择票据资金项目" aria-describedby="nocden-addon" />
                                                 <span class="input-group-btn">
@@ -279,7 +279,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr>--%>
                             </table>
 
 
@@ -329,36 +329,6 @@
         </div>
     </div>
 
-    <!--客户弹出层-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">选择客户</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="panel panel-info">
-                        <div class="panel-body">
-                            <input type="text" id="mark" />
-                            <table id="nodetable" class="display compact" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>编码</th>
-                                        <th>项目</th>
-                                        <th>项目</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="customerEnter" type="button" data-toggle="popover" class="btn btn-primary btn-lg">选中</button>
-                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </body>
 </html>

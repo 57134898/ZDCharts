@@ -25,10 +25,10 @@
     </div>
     <div id="nav1" class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default isActive" urlstr="CashViews/NewMsg.html">新消息</button>
+            <button type="button" class="btn btn-default isActive" urlstr="CashViews/NewMsg.html">合同付款</button>
         </div>
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" urlstr="ChartViews/WebForm1.aspx">图表</button>
+            <button type="button" class="btn btn-default" urlstr="ChartViews/WebForm1.aspx">费用审批</button>
         </div>
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-default">其他</button>

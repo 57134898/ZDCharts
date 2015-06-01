@@ -93,8 +93,8 @@ namespace ZDCharts.Handlers
                 var wf2 = db.WF_Flow2.SingleOrDefault(p => p.ID == cashItem.ID);
                 wf2.Cash1 = cashItem.Cash;
                 wf2.Note1 = cashItem.Note;
-                wf2.NCodeC = cashItem.NCodeC;
-                wf2.NCodeN = cashItem.NCodeN;
+                //wf2.NCodeC = cashItem.NCodeC;
+                //wf2.NCodeN = cashItem.NCodeN;
                 wf2.IsFinished = "Y";
                 //插入数据到CASH
                 var cid = db.ACash.Max(p => p.CID) + 1;

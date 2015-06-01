@@ -14,6 +14,7 @@ namespace MODEL
         public decimal Note { get; set; }
         public string ComanyID { get; set; }
         public List<NonRmb> List { get; set; }
-
+        public string NCodeC { get; set; }
+        public string NCodeN { get; set; }
     }
 }
