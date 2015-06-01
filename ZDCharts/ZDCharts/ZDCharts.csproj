@@ -412,6 +412,7 @@
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
+    <Content Include="Temp.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -514,6 +515,13 @@
       <DependentUpon>LogInPagePc.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Temp.aspx.cs">
+      <DependentUpon>Temp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temp.aspx.designer.cs">
+      <DependentUpon>Temp.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Tools\ABSHttpHandler.cs" />
     <Compile Include="Tools\JsonResponse.cs" />
   </ItemGroup>

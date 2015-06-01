@@ -27,7 +27,7 @@
                         return value.ParID == "P";
                     });
                     $.each(filterarray, function (index, value) {
-                        shtml = shtml.concat("<div class='panel panel-info'>");
+                        shtml = shtml.concat("<div cate='menuitem' class='panel panel-info'>");
                         shtml = shtml.concat(" <div class='panel-heading' role='tab' id='headingOne' data-parent='#accordion' data-toggle='collapse' data-target='#" + "MPanel" + index.toString() + "' aria-expanded='false' aria-controls='" + "MPanel" + index.toString() + "'>");
                         shtml = shtml.concat(value.MenuName);
                         shtml = shtml.concat("</div>");
@@ -44,6 +44,17 @@
                         shtml = shtml.concat("</div>");
                     });
                     $("#accordion").append(shtml);
+
+                    //鼠标悬浮变色
+                    $("div[cate='menuitem']").hover(function () {
+                        $(this).removeClass("panel-info");
+                        $(this).addClass("panel-primary");
+                    },
+                    function () {
+                        $(this).removeClass("panel-primary");
+                        $(this).addClass("panel-info");
+                    });
+
                     $("a[mark='menuitem']").click(function () {
                         //下一个TAB索引
                         var nexttabindex = $('#tabs a').length;
