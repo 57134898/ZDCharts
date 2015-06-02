@@ -113,7 +113,7 @@ namespace ZDCharts.Handlers
                 if (f == null)
                     return new Tools.JsonResponse() { Code = "9003", Msg = "未找到待审批数据" };
                 //如果没有下一节或者所有行都未通过点则审批结束
-                if (temrow.NextID < 0 || result == COMN.MyVars.No)
+                if (temrow.NextID == 0 || result == COMN.MyVars.No)
                 {
                     f.IsFinished = "Y";
                     f.Result = result;
