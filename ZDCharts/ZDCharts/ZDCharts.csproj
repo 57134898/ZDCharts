@@ -71,6 +71,7 @@
   <ItemGroup>
     <Content Include="CashViews\CashDraft.html" />
     <Content Include="CashViews\CashUpdate.aspx" />
+    <Content Include="CashViews\Expense.aspx" />
     <Content Include="CashViews\NewMsg.html" />
     <Content Include="CashViews\PaymentVoucher.aspx" />
     <Content Include="ChartViews\ChartViewer.aspx" />
@@ -425,6 +426,13 @@
     </Compile>
     <Compile Include="CashViews\CashUpdate.aspx.designer.cs">
       <DependentUpon>CashUpdate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CashViews\Expense.aspx.cs">
+      <DependentUpon>Expense.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CashViews\Expense.aspx.designer.cs">
+      <DependentUpon>Expense.aspx</DependentUpon>
     </Compile>
     <Compile Include="CashViews\PaymentVoucher.aspx.cs">
       <DependentUpon>PaymentVoucher.aspx</DependentUpon>
