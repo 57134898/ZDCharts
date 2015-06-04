@@ -326,6 +326,7 @@
     <Content Include="Handlers\Sys.ashx" />
     <Content Include="Handlers\LogIn.ashx" />
     <Content Include="Handlers\CashItem.ashx" />
+    <Content Include="Handlers\Expense.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -478,6 +479,9 @@
     </Compile>
     <Compile Include="Handlers\Customer.ashx.cs">
       <DependentUpon>Customer.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Expense.ashx.cs">
+      <DependentUpon>Expense.ashx</DependentUpon>
     </Compile>
     <Compile Include="Handlers\Handler1.ashx.cs">
       <DependentUpon>Handler1.ashx</DependentUpon>

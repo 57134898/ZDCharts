@@ -102,10 +102,16 @@
                     loadnode();
                 });
                 //资金项目按钮事件
-                $('#nocden-addon').click(function () {
-                    $("#mark").val("note");
-                    loadnode();
-                });
+                //$('#nocden-addon').click(function () {
+                //    $("#mark").val("note");
+                //    loadnode();
+                //});
+
+                //下拉列表初始化
+                $('.selectpicker').selectpicker();
+
+
+
                 function loadnode() {
                     $("#myitemModal").modal();
                     var tLength = $("#nodetable tr").length;
@@ -184,36 +190,14 @@
                     if ($("#datepicker1").val() == "") {
                         errormsg += "日期必须写!<br/>";
                     }
-                    if ($("#customer").attr("code") == "") {
-                        errormsg += "客户必须填写!<br/>";
-                    }
+
                     //验证现汇与票据的和与合同分配的金额是否相等  未完
-
-                    var _total = 0;
-                    $("#tablebody tr").each(function (i, item) {
-                        var _rmb = $.trim($(item).find("td").find("input").val());
-                        if (!(_rmb == "" || isNaN(_rmb))) {
-                            _total += Number(_rmb);
-                        }
-                    });
-
-                    if (isNaN($("#Rmb").val()) || isNaN($("#Note").val())) {
+                    if (isNaN($("#Rmb").val())) {
                         errormsg += "金额必须为数字!<br/>";
                     }
 
-                    var _total1 = Number($("#Rmb").val()) + Number($("#Note").val());
-
-                    //alert(Number(''));
-                    // alert(_total1);
-                    if (_total != _total1) {
-                        errormsg += "总金额与合同分配金额不相等!<br/>";
-                    }
-
                     if ($("#nocdec").attr("code") == "" && $("#Rmb").val() != "") {
-                        errormsg += "现汇资金项目不能为空!<br/>";
-                    }
-                    if ($("#nocden").attr("code") == "" && $("#Note").val() != "") {
-                        errormsg += "票据资金项目不能为空!<br/>";
+                        errormsg += "资金项目不能为空!<br/>";
                     }
 
                     if (errormsg != "") {
@@ -225,46 +209,24 @@
                         return;
                     }
 
-                    //封装payinfo
-                    var paym = {};
-                    paym.CustomerID = $("#customer").attr("code");
-                    paym.PayDate = $("#datepicker1").val();
+                    //封装formdata
+                    var formdata = {};
+                    formdata.Date = $("#datepicker1").val();
                     if ($("#Rmb").val() == "") {
-                        paym.Rmb = 0;
+                        formdata.Rmb = 0;
                     } else {
-                        paym.Rmb = $("#Rmb").val();
+                        formdata.Rmb = $("#Rmb").val();
                     }
+                    formdata.CashType = $("#rmbtype").val();;
+                    formdata.NCode = $("#nocdec").attr("code");
 
-                    if ($("#Note").val() == "") {
-                        paym.Note = 0;
-                    } else {
-                        paym.Note = $("#Note").val();
-                    }
-                    var userinfo = eval("(" + $('#userinfoinput', parent.document).val() + ")");
-                    paym.ComanyID = userinfo.companyid;
 
-                    paym.NCodeC = $("#nocdec").attr("code");
-                    paym.NCodeN = $("#nocden").attr("code");
-
-                    var paymList = [];
-                    paym.List = paymList;
-                    $("#tablebody tr").each(function (i, item) {
-                        var currmb = $.trim($(item).find("td").find("input").val());
-                        if (!(currmb == "" || isNaN(currmb))) {
-                            var paymitem = {};
-                            paymitem.HCODE = $(item).find("td").eq(0).html();
-                            paymitem.CurRmb = currmb;
-                            paymitem.XSHCODE = $.trim($(item).find("td").find("select").val());;
-                            paymList.push(paymitem);
-
-                        }
-                    });
-                    //alert(JSON.stringify(paym));
+                    //alert(JSON.stringify(formdata));
                     var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
                     $.ajax({
                         type: 'POST',
-                        url: '../Handlers/Customer.ashx',
-                        data: { action: 'DoPay', PayInfo: JSON.stringify(paym), UserInfo: JSON.stringify(userinfo) },
+                        url: '../Handlers/Expense.ashx',
+                        data: { action: 'Commit', formdata: JSON.stringify(formdata) },
                         success: function suc(result) {
                             //alert(JSON.stringify(result));
                             //请求失败跳转到错误页
@@ -345,9 +307,22 @@
                         <form>
 
                             <div class="form-group">
-                                <label for="rmb1" class="control-label">现汇</label>
-                                <input type="number" class="form-control" id="Rmb" placeholder="现汇">
+                                <label for="Rmb" class="control-label">金额</label>
+                                <input type="number" class="form-control" id="Rmb" placeholder="金额" />
                             </div>
+
+                            <div class="form-group">
+                                <label for="rmbtype" class="control-label">类型</label>
+                                <select id="rmbtype" class="selectpicker" data-width="100%" data-style="btn-default">
+                                    <option>现金</option>
+                                    <option>银行</option>
+                                    <option>报账卡</option>
+                                    <option>内部票</option>
+                                </select>
+                            </div>
+
+
+
 
                             <div class="form-group">
                                 <label for="nocdec" class="control-label">现汇资金项目</label>
