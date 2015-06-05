@@ -96,6 +96,9 @@
     <Compile Include="V_Emps.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="V_Expense.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="V_Flows.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>

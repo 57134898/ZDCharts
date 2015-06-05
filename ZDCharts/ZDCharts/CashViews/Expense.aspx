@@ -26,59 +26,61 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            //$('#dvtable').dataTable({
-            //    "sPaginationType": "full_numbers",
-            //    "processing": true,//显示进度条
-            //    "scrollX": true,//水平滚动条
-            //    //"bAutoWidth": false,//自动列宽
-            //    "serverSide": true,//发送服务器请求
-            //    "ajax": {
-            //        "url": "../handlers/Customer.ashx",
-            //        "type": "POST",
-            //        "data": { Action: 'GetContractListByCompany' }
-            //    },
-            //    //列集合
-            //    //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
-            //    "columns": [
-            //                { "data": "Customer" },
-            //                { "data": "Total" },
-            //                { "data": "CreatedDate" },
-            //                { "data": "IsFinished" }
-            //    ],
-            //    //汉化
-            //    "language":
-            //     {
-            //         "sLengthMenu": "每页显示 _MENU_ 条记录",
-            //         "sZeroRecords": "抱歉， 没有找到",
-            //         "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-            //         "sInfoEmpty": "没有数据",
-            //         "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-            //         "oPaginate": {
-            //             "sFirst": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-backward' aria-hidden='true'></span></button>",
-            //             "sPrevious": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span></button>",
-            //             "sNext": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span></button>",
-            //             "sLast": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-forward' aria-hidden='true'></span></button>"
-            //         },
-            //         "sZeroRecords": "没有检索到数据",
-            //         "sProcessing": "<img src='../Images/loading.gif'>加载中...",
-            //         "sSearch": "查找"
-            //     },
-            //    //请求处理函数
-            //    "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
-            //        // 将客户名称加入参数数组
-            //        //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
-            //        $.ajax({
-            //            "type": "POST",
-            //            "url": "../handlers/Customer.ashx",
-            //            "dataType": "json",
-            //            "data": { Action: 'GetContractListByCompany', UserInfo: JSON.stringify(_userinfo), p: JSON.stringify(aoData) }, // 以json格式传递
-            //            "success": function (resp) {
-            //                //alert(JSON.stringify(resp));
-            //                fnCallback(resp.data);
-            //            }
-            //        });
-            //    }
-            //});
+            $('#dvtable').dataTable({
+                "sPaginationType": "full_numbers",
+                "processing": true,//显示进度条
+                "scrollX": true,//水平滚动条
+                //"bAutoWidth": false,//自动列宽
+                "serverSide": true,//发送服务器请求
+                "ajax": {
+                    "url": "../handlers/Expense.ashx",
+                    "type": "POST",
+                    "data": { Action: 'GetList' }
+                },
+                //列集合
+                //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
+                "columns": [
+
+                            { "data": "CompanyID" },
+                                { "data": "FName" },
+                                    { "data": "FName" },
+                                        { "data": "FName" },
+                                            { "data": "FName" }
+                ],
+                //汉化
+                "language":
+                 {
+                     "sLengthMenu": "每页显示 _MENU_ 条记录",
+                     "sZeroRecords": "抱歉， 没有找到",
+                     "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                     "sInfoEmpty": "没有数据",
+                     "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                     "oPaginate": {
+                         "sFirst": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-backward' aria-hidden='true'></span></button>",
+                         "sPrevious": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span></button>",
+                         "sNext": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span></button>",
+                         "sLast": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-forward' aria-hidden='true'></span></button>"
+                     },
+                     "sZeroRecords": "没有检索到数据",
+                     "sProcessing": "<img src='../Images/loading.gif'>加载中...",
+                     "sSearch": "查找"
+                 },
+                //请求处理函数
+                "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
+                    // 将客户名称加入参数数组
+                    //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
+                    $.ajax({
+                        "type": "POST",
+                        "url": "../handlers/Expense.ashx",
+                        "dataType": "json",
+                        "data": { Action: 'GetList', p: JSON.stringify(aoData) }, // 以json格式传递
+                        "success": function (resp) {
+                            //alert(JSON.stringify(resp));
+                            fnCallback(resp.data);
+                        }
+                    });
+                }
+            });
 
 
 
@@ -366,6 +368,7 @@
                 <tfoot>
                     <tr>
                         <th>公司</th>
+                        <th>摘要</th>
                         <th>金额</th>
                         <th>日期</th>
                         <th>状态</th>

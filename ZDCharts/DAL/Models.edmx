@@ -272,6 +272,42 @@
           <Property Name="Psw" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“contract1.dbo.V_Expense”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Expense">
+          <Key>
+            <PropertyRef Name="FID" />
+            <PropertyRef Name="NextNode" />
+            <PropertyRef Name="PreNode" />
+          </Key>
+          <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CurNode" Type="int" />
+          <Property Name="IsFinished" Type="varchar" MaxLength="1" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Creater" Type="varchar" MaxLength="20" />
+          <Property Name="TemID" Type="uniqueidentifier" />
+          <Property Name="TemName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TemIsEnabled" Type="varchar" MaxLength="1" />
+          <Property Name="RID" Type="int" />
+          <Property Name="RName" Type="nvarchar" MaxLength="50" />
+          <Property Name="NextID" Type="int" />
+          <Property Name="PreID" Type="int" />
+          <Property Name="NextNode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PreNode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DeptID" Type="varchar" MaxLength="20" />
+          <Property Name="RoleID" Type="varchar" MaxLength="20" />
+          <Property Name="DeptName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Result" Type="varchar" MaxLength="1" />
+          <Property Name="ExchangeDate" Type="date" />
+          <Property Name="Rmb" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CompanyID" Type="varchar" MaxLength="20" />
+          <Property Name="CashItem" Type="varchar" MaxLength="20" />
+          <Property Name="CashType" Type="varchar" MaxLength="20" />
+          <Property Name="VoucherID" Type="varchar" MaxLength="20" />
+          <Property Name="DocType" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Flow_GB_Company”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Flow_GB_Company">
           <Key>
@@ -436,6 +472,37 @@
     [V_Emps].[Psw] AS [Psw]
     FROM [dbo].[V_Emps] AS [V_Emps]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_Expense" EntityType="Self.V_Expense" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Expense].[FID] AS [FID], 
+    [V_Expense].[FName] AS [FName], 
+    [V_Expense].[CurNode] AS [CurNode], 
+    [V_Expense].[IsFinished] AS [IsFinished], 
+    [V_Expense].[CreatedDate] AS [CreatedDate], 
+    [V_Expense].[Creater] AS [Creater], 
+    [V_Expense].[TemID] AS [TemID], 
+    [V_Expense].[TemName] AS [TemName], 
+    [V_Expense].[TemIsEnabled] AS [TemIsEnabled], 
+    [V_Expense].[RID] AS [RID], 
+    [V_Expense].[RName] AS [RName], 
+    [V_Expense].[NextID] AS [NextID], 
+    [V_Expense].[PreID] AS [PreID], 
+    [V_Expense].[NextNode] AS [NextNode], 
+    [V_Expense].[PreNode] AS [PreNode], 
+    [V_Expense].[DeptID] AS [DeptID], 
+    [V_Expense].[RoleID] AS [RoleID], 
+    [V_Expense].[DeptName] AS [DeptName], 
+    [V_Expense].[RoleName] AS [RoleName], 
+    [V_Expense].[Result] AS [Result], 
+    [V_Expense].[ExchangeDate] AS [ExchangeDate], 
+    [V_Expense].[Rmb] AS [Rmb], 
+    [V_Expense].[CompanyID] AS [CompanyID], 
+    [V_Expense].[CashItem] AS [CashItem], 
+    [V_Expense].[CashType] AS [CashType], 
+    [V_Expense].[VoucherID] AS [VoucherID], 
+    [V_Expense].[DocType] AS [DocType]
+    FROM [dbo].[V_Expense] AS [V_Expense]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_Flow_GB_Company" EntityType="Self.V_Flow_GB_Company" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_Flow_GB_Company].[Company] AS [Company], 
@@ -554,6 +621,7 @@
           <EntitySet Name="V_Flows" EntityType="ContractModel.V_Flows" />
           <EntitySet Name="WF_Flow3" EntityType="ContractModel.WF_Flow3" />
           <EntitySet Name="WF_Flows" EntityType="ContractModel.WF_Flows" />
+          <EntitySet Name="V_Expense" EntityType="ContractModel.V_Expense" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -916,6 +984,40 @@
           <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="TemID" Type="Guid" />
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="V_Expense">
+          <Key>
+            <PropertyRef Name="FID" />
+            <PropertyRef Name="NextNode" />
+            <PropertyRef Name="PreNode" />
+          </Key>
+          <Property Name="FID" Type="Guid" Nullable="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CurNode" Type="Int32" />
+          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TemID" Type="Guid" />
+          <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TemIsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="RID" Type="Int32" />
+          <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NextID" Type="Int32" />
+          <Property Name="PreID" Type="Int32" />
+          <Property Name="NextNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PreNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeptID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
+          <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CompanyID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CashItem" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CashType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VoucherID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
@@ -1287,6 +1389,39 @@
               <MappingFragment StoreEntitySet="WF_Flows">
                 <ScalarProperty Name="DocType" ColumnName="DocType" />
                 <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="TemID" ColumnName="TemID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="CurNode" ColumnName="CurNode" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Expense">
+            <EntityTypeMapping TypeName="ContractModel.V_Expense">
+              <MappingFragment StoreEntitySet="V_Expense">
+                <ScalarProperty Name="DocType" ColumnName="DocType" />
+                <ScalarProperty Name="VoucherID" ColumnName="VoucherID" />
+                <ScalarProperty Name="CashType" ColumnName="CashType" />
+                <ScalarProperty Name="CashItem" ColumnName="CashItem" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
+                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+                <ScalarProperty Name="PreNode" ColumnName="PreNode" />
+                <ScalarProperty Name="NextNode" ColumnName="NextNode" />
+                <ScalarProperty Name="PreID" ColumnName="PreID" />
+                <ScalarProperty Name="NextID" ColumnName="NextID" />
+                <ScalarProperty Name="RName" ColumnName="RName" />
+                <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="TemIsEnabled" ColumnName="TemIsEnabled" />
+                <ScalarProperty Name="TemName" ColumnName="TemName" />
                 <ScalarProperty Name="TemID" ColumnName="TemID" />
                 <ScalarProperty Name="Creater" ColumnName="Creater" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
