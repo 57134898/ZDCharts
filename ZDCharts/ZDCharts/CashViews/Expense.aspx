@@ -217,9 +217,9 @@
                     } else {
                         formdata.Rmb = $("#Rmb").val();
                     }
-                    formdata.CashType = $("#rmbtype").val();;
+                    formdata.CashType = $("#rmbtype").val();
                     formdata.NCode = $("#nocdec").attr("code");
-
+                    formdata.Todo = $("#Todo").val();
 
                     //alert(JSON.stringify(formdata));
                     var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
@@ -306,6 +306,10 @@
                         <!--action很重要！！！！！！！！！！！！！！！！！！！！！！！！！1-->
                         <form>
 
+                            <div class="form-group">
+                                <label for="Rmb" class="control-label">摘要</label>
+                                <input type="text" class="form-control" id="Todo" placeholder="摘要" />
+                            </div>
                             <div class="form-group">
                                 <label for="Rmb" class="control-label">金额</label>
                                 <input type="number" class="form-control" id="Rmb" placeholder="金额" />

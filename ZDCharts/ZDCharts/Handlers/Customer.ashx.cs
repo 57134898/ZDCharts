@@ -114,7 +114,7 @@ namespace ZDCharts.Handlers
                 MODEL.UserInfo userinfo = (MODEL.UserInfo)Newtonsoft.Json.JsonConvert.DeserializeObject(jsonstr1, typeof(MODEL.UserInfo));
                 var cashid = Guid.NewGuid();
                 var flowid = Guid.NewGuid();
-                var companytotem = db.WF_CompanyToTem.SingleOrDefault(p => p.CompanyID == userinfo.CompanyID);
+                var companytotem = db.WF_CompanyToTem.SingleOrDefault(p => p.CompanyID == userinfo.CompanyID && p.DocType == "1");
                 var curnode = db.WF_TemRows.SingleOrDefault(p => p.PreID == -1 && p.TemID == companytotem.TemID);
                 db.WF_Flows.Add(new DAL.WF_Flows()
                 {
@@ -124,7 +124,8 @@ namespace ZDCharts.Handlers
                     CurNode = curnode.RID,
                     IsFinished = COMN.MyVars.No,
                     TemID = companytotem.TemID,
-                    Result = COMN.MyVars.Pending
+                    Result = COMN.MyVars.Pending,
+                    DocType = "1"
                 });
 
                 db.WF_Flow2.Add(new DAL.WF_Flow2()

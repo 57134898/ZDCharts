@@ -11,6 +11,7 @@ namespace MODEL
         public decimal Rmb { get; set; }
         public string Date { get; set; }
         public string CashType { get; set; }
+        public string Todo { get; set; }
         public string NCode { get; set; }
     }
 }

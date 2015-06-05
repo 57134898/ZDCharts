@@ -56,5 +56,6 @@ namespace DAL
         public Nullable<decimal> Cash { get; set; }
         public Nullable<decimal> Note { get; set; }
         public string Result { get; set; }
+        public string DocType { get; set; }
     }
 }

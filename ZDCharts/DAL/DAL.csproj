@@ -120,6 +120,9 @@
     <Compile Include="WF_Flow2.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="WF_Flow3.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="WF_Flows.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
