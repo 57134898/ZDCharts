@@ -28,7 +28,7 @@
             <button type="button" class="btn btn-default isActive" urlstr="CashViews/NewMsg.html">合同付款</button>
         </div>
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" urlstr="ChartViews/WebForm1.aspx">费用审批</button>
+            <button type="button" class="btn btn-default" urlstr="WorkFlow/NodeView.aspx">费用审批</button>
         </div>
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-default">其他</button>

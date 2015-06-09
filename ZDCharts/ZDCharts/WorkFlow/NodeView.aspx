@@ -29,8 +29,8 @@
             //获取待审批单据，绑定到列表
             $.ajax({
                 type: 'POST',
-                url: '../Handlers/WFFlow.ashx',
-                data: { action: 'GetListGbCompany', UserInfo: $(window.parent.document).find("#userinfoinput").val() },
+                url: '../Handlers/WFFlow1.ashx',
+                data: { action: 'GetListGroupByCompany' },
                 success: function suc(result) {
                     //alert(JSON.stringify(result));
                     //请求失败跳转到错误页
@@ -48,11 +48,11 @@
                     for (var i = 0; i < result.data.length; i++) {
                         var shtml = "";
                         //alert(JSON.stringify(result.data));
-                        shtml = shtml.concat("<a id='" + "a" + i.toString() + "' href='javascript:void(0)' companyid='" + result.data[i].CompanyID + "' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].Company + "</a>");
+                        shtml = shtml.concat("<a id='" + "a" + i.toString() + "' href='javascript:void(0)' companyid='" + result.data[i].CompanyID + "' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].CompanyName + "</a>");
                         $("#listdiv").append(shtml);
                         //公司列表单击事件
                         $("#a" + i.toString()).click(function () {
-                            loadcustomer($(this).attr("companyid"));
+                            loadcontract($(this).attr("companyid"));
                         });
                     }
                     spinner.stop();
@@ -67,8 +67,8 @@
             //获取待审批单据，绑定到列表,客户列表事件
             $.ajax({
                 type: 'POST',
-                url: '../Handlers/WFFlow.ashx',
-                data: { action: 'GetList', UserInfo: $(window.parent.document).find("#userinfoinput").val(), SelectCustomerID: selectCustomerID },
+                url: '../Handlers/WFFlow1.ashx',
+                data: { action: 'GetList', SelectCustomerID: companyid },
                 success: function suc(result) {
                     //请求失败跳转到错误页
                     if (result.code != "0") {
@@ -87,31 +87,28 @@
                         if (i == 0) {
                             shtml = shtml.concat("<a href='javascript: loadcompany() ' class='list-group-item list-group-item-success'>返回上级</a>");
                         }
-                        shtml = shtml.concat("<a class='list-group-item' nodeid='" + result.data[i].F1ID + "'>");
+                        alert(result.data[i].FID);
+                        shtml = shtml.concat("<a class='list-group-item' nodeid='" + result.data[i].FID + "'>");
                         shtml = shtml.concat("<div class='panel panel-primary'>");
-                        shtml = shtml.concat("<div class='panel-heading'> <span fid='" + result.data[i].F1ID + "' class='glyphicon glyphicon-asterisk' aria-hidden='true' result='O'></span>&nbsp;" + result.data[i].Customer + "</div>");
+                        shtml = shtml.concat("<div class='panel-heading'> <span fid='" + result.data[i].FID + "' class='glyphicon glyphicon-asterisk' aria-hidden='true' result='O'></span>&nbsp;" + result.data[i].CompanyName + "</div>");
                         shtml = shtml.concat("<div class='panel-body'>");
                         shtml = shtml.concat("<table class='table  table-striped'>");
-                        shtml = shtml.concat("<tr><td>公司:</td><td class='numFormat'>" + result.data[i].Company + "</td></tr>");
-                        shtml = shtml.concat("<tr><td>合同号:</td><td class='numFormat'>" + result.data[i].HCode + "</td></tr>");
-                        shtml = shtml.concat("<tr><td>金额:</td><td class='numFormat'>" + result.data[i].CTotal + "</td></tr>");
-                        shtml = shtml.concat("<tr><td>已付:</td><td class='numFormat'>" + result.data[i].Rmb + "</td></tr>");
-                        shtml = shtml.concat("<tr><td>发票:</td><td class='numFormat'>" + result.data[i].Voice + "</td></tr>");
-                        shtml = shtml.concat("<tr><td>本次:</td><td class='numFormat'><h4><span class='label label-success'>" + result.data[i].CurRmb + "</span></h4></td></tr>");
-                        shtml = shtml.concat("<tr><td>标号:</td><td class='numFormat'>" + result.data[i].BidCode + "</td></tr>");
+                        shtml = shtml.concat("<tr><td>摘要:</td><td class='numFormat'></td></tr>");
+                        shtml = shtml.concat("<tr><td colspan='2'>" + (result.data[i].FName == null ? "" : result.data[i].FName) + "</td></tr>");
+                        shtml = shtml.concat("<tr><td>本次:</td><td class='numFormat'><h4><span class='label label-success'>" + result.data[i].Rmb + "</span></h4></td></tr>");
                         shtml = shtml.concat("<tr><td>申请人:</td><td class='numFormat'>" + result.data[i].Creater + "</td></tr>");
                         shtml = shtml.concat("<tr><td>日期:</td><td class='numFormat'>" + result.data[i].CreatedDate + "</td></tr>");
                         shtml = shtml.concat("</table></div>");
                         shtml = shtml.concat("<div class='panel-footer'>");
                         shtml = shtml.concat("<div class='btn-group' data-toggle='buttons'>");
                         shtml = shtml.concat("<label class='btn btn-default active'>");
-                        shtml = shtml.concat("<input type='radio' result='O' name='options" + i.toString() + "' nodeid='" + result.data[i].F1ID + "' autocomplete='off' checked>待定");
+                        shtml = shtml.concat("<input type='radio' result='O' name='options" + i.toString() + "' nodeid='" + result.data[i].FID + "' autocomplete='off' checked>待定");
                         shtml = shtml.concat("</label>");
                         shtml = shtml.concat("<label class='btn btn-default'>");
-                        shtml = shtml.concat("<input type='radio' result='Y'  name='options" + i.toString() + "' nodeid='" + result.data[i].F1ID + "' autocomplete='off'>通过");
+                        shtml = shtml.concat("<input type='radio' result='Y'  name='options" + i.toString() + "' nodeid='" + result.data[i].FID + "' autocomplete='off'>通过");
                         shtml = shtml.concat("</label>");
                         shtml = shtml.concat("<label class='btn btn-default'>");
-                        shtml = shtml.concat("<input type='radio' result='N'  name='options" + i.toString() + "' nodeid='" + result.data[i].F1ID + "' autocomplete='off'>拒绝");
+                        shtml = shtml.concat("<input type='radio' result='N'  name='options" + i.toString() + "' nodeid='" + result.data[i].FID + "' autocomplete='off'>拒绝");
                         shtml = shtml.concat("</label>");
                         shtml = shtml.concat("</div>");
                         //shtml = shtml.concat("<input  avalue='Y' name='c" + i.toString() + "' data-label-text='同意' type='radio' flowid='" + result.data[i].FID + "'>&nbsp;&nbsp;");
@@ -163,7 +160,7 @@
                 var spinner2 = new Spinner(getSpinOpts()).spin(document.getElementById('agreebtn'));
                 $.ajax({
                     type: 'POST',
-                    url: '../Handlers/WFFlow.ashx',
+                    url: '../Handlers/WFFlow1.ashx',
                     data: { action: 'Commit', pendingdata: pendingdata },
                     success: function suc(result) {
                         if (result.code != "0") {
@@ -230,7 +227,6 @@
     </div>
 
     <div class="list-group" id="listdiv">
-
 
         <!--<a href="#" class="list-group-item active">
             Cras justo odio

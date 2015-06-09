@@ -82,7 +82,7 @@ namespace ZDCharts.Handlers
         }
         public Tools.JsonResponse FormCommit()
         {
-            var userinfo = this.GetUserInfo();
+            var userinfo = this.UserInfo;
             if (userinfo == null)
                 return new Tools.JsonResponse() { Code = "1000", Msg = "session用户过期" };
             string str = context.Request.Params["postdata"];
