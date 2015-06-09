@@ -23,10 +23,10 @@ namespace DAL
         public Nullable<System.Guid> TemID { get; set; }
         public string TemName { get; set; }
         public string TemIsEnabled { get; set; }
-        public Nullable<int> RID { get; set; }
+        public int RID { get; set; }
         public string RName { get; set; }
-        public Nullable<int> NextID { get; set; }
-        public Nullable<int> PreID { get; set; }
+        public int NextID { get; set; }
+        public int PreID { get; set; }
         public string NextNode { get; set; }
         public string PreNode { get; set; }
         public string DeptID { get; set; }

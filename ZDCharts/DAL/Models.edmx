@@ -276,6 +276,10 @@
         <EntityType Name="V_Expense">
           <Key>
             <PropertyRef Name="FID" />
+            <PropertyRef Name="RID" />
+            <PropertyRef Name="RName" />
+            <PropertyRef Name="NextID" />
+            <PropertyRef Name="PreID" />
             <PropertyRef Name="NextNode" />
             <PropertyRef Name="PreNode" />
           </Key>
@@ -288,10 +292,10 @@
           <Property Name="TemID" Type="uniqueidentifier" />
           <Property Name="TemName" Type="nvarchar" MaxLength="50" />
           <Property Name="TemIsEnabled" Type="varchar" MaxLength="1" />
-          <Property Name="RID" Type="int" />
-          <Property Name="RName" Type="nvarchar" MaxLength="50" />
-          <Property Name="NextID" Type="int" />
-          <Property Name="PreID" Type="int" />
+          <Property Name="RID" Type="int" Nullable="false" />
+          <Property Name="RName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NextID" Type="int" Nullable="false" />
+          <Property Name="PreID" Type="int" Nullable="false" />
           <Property Name="NextNode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PreNode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DeptID" Type="varchar" MaxLength="20" />
@@ -991,6 +995,10 @@
         <EntityType Name="V_Expense">
           <Key>
             <PropertyRef Name="FID" />
+            <PropertyRef Name="RID" />
+            <PropertyRef Name="RName" />
+            <PropertyRef Name="NextID" />
+            <PropertyRef Name="PreID" />
             <PropertyRef Name="NextNode" />
             <PropertyRef Name="PreNode" />
           </Key>
@@ -1003,10 +1011,10 @@
           <Property Name="TemID" Type="Guid" />
           <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TemIsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="RID" Type="Int32" />
-          <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NextID" Type="Int32" />
-          <Property Name="PreID" Type="Int32" />
+          <Property Name="RID" Type="Int32" Nullable="false" />
+          <Property Name="RName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NextID" Type="Int32" Nullable="false" />
+          <Property Name="PreID" Type="Int32" Nullable="false" />
           <Property Name="NextNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PreNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DeptID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
