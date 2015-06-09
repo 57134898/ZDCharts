@@ -44,6 +44,7 @@
                             { "data": "FName" },
                             { "data": "Rmb", 'sClass': "text-right" },
                             { "data": "CreatedDate" },
+                            { "data": "RName" },
                             { "data": "IsFinished" }
                 ],
                 //汉化
@@ -93,7 +94,10 @@
                     $(this).addClass('selected');
                 }
             });
-
+            //刷新按钮
+            $('#toolbtn_refresh').click(function () {
+                location.reload();
+            });
             //添加按钮
             $('#toolbtn_add').click(function () {
                 $('#customerCollapse').collapse('toggle');
@@ -197,7 +201,12 @@
                         errormsg += "金额必须为数字!<br/>";
                     }
 
-                    if ($("#nocdec").attr("code") == "" && $("#Rmb").val() != "") {
+                    if ($("#Rmb").val() == "") {
+                        errormsg += "金额不能为空!<br/>";
+                    }
+
+                    //alert($("#nocdec").attr("code"));
+                    if ($("#nocdec").attr("code") == undefined || $("#nocdec").attr("code") == "") {
                         errormsg += "资金项目不能为空!<br/>";
                     }
 
@@ -236,25 +245,20 @@
                                 return;
                             }
                             if (result.data == null || result.data.length <= 0) {
-                                $("#tablebody").empty();
-                                $("#tablebody").append("无数据");
+                                //$("#tablebody").empty();
+                                //$("#tablebody").append("无数据");
                                 spinner1.stop();
                                 return;
                             }
                             //操做成功 清空表单
-                            $("#tablebody").empty();
+                            // $("#tablebody").empty();
                             $("#datepicker1").val("");
                             $("#Rmb").val("");
-                            $("#Note").val("");
-
+                            $("#Todo").val("");
                             $("#nocdec").attr("code", "");
-                            $("#nocden").attr("code", "");
-
                             $("#nocdec").val("");
-                            $("#nocden").val("");
+                            $("#rmbtype").val("现金");
 
-                            $("#customer").attr("code", "");
-                            $("#customer").val("");
                             spinner1.stop();
                         },
                         dataType: 'JSON'
@@ -294,7 +298,7 @@
                     <button id="toolbtn_del" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="删除选中记录"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
                 </div>
                 <div class="btn-group" role="group">
-                    <button id="toolbtn_stateview" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="查看审批进度"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
+                    <button id="toolbtn_refresh" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="刷新"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
                 </div>
             </div>
         </div>
@@ -308,7 +312,7 @@
                         <form>
 
                             <div class="form-group">
-                                <label for="Rmb" class="control-label">摘要</label>
+                                <label for="Todo" class="control-label">摘要</label>
                                 <input type="text" class="form-control" id="Todo" placeholder="摘要" />
                             </div>
                             <div class="form-group">
@@ -361,6 +365,7 @@
                         <th>摘要</th>
                         <th>金额</th>
                         <th>日期</th>
+                        <th>审批阶段</th>
                         <th>状态</th>
                     </tr>
                 </thead>
@@ -370,6 +375,7 @@
                         <th>摘要</th>
                         <th>金额</th>
                         <th>日期</th>
+                        <th>审批阶段</th>
                         <th>状态</th>
                     </tr>
                 </tfoot>

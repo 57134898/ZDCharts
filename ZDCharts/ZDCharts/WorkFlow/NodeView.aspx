@@ -87,7 +87,7 @@
                         if (i == 0) {
                             shtml = shtml.concat("<a href='javascript: loadcompany() ' class='list-group-item list-group-item-success'>返回上级</a>");
                         }
-                        alert(result.data[i].FID);
+                        //alert(result.data[i].FID);
                         shtml = shtml.concat("<a class='list-group-item' nodeid='" + result.data[i].FID + "'>");
                         shtml = shtml.concat("<div class='panel panel-primary'>");
                         shtml = shtml.concat("<div class='panel-heading'> <span fid='" + result.data[i].FID + "' class='glyphicon glyphicon-asterisk' aria-hidden='true' result='O'></span>&nbsp;" + result.data[i].CompanyName + "</div>");

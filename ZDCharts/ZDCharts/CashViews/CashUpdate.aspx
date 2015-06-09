@@ -89,6 +89,10 @@
             $('#toolbtn_add').click(function () {
                 $('#customerCollapse').collapse('toggle');
             });
+            $('#toolbtn_refresh').click(function () {
+                location.reload();
+            });
+
             $('#dvtable tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
@@ -229,7 +233,7 @@
                     <button id="toolbtn_del" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="删除选中记录"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
                 </div>
                 <div class="btn-group" role="group">
-                    <button id="toolbtn_stateview" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="查看审批进度"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
+                    <button id="toolbtn_refresh" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="刷新"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
                 </div>
             </div>
         </div>
