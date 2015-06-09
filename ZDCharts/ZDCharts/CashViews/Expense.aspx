@@ -40,31 +40,30 @@
                 //列集合
                 //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
                 "columns": [
-
-                            { "data": "CompanyID" },
-                                { "data": "FName" },
-                                    { "data": "FName" },
-                                        { "data": "FName" },
-                                            { "data": "FName" }
+                            { "data": "CompanyName" },
+                            { "data": "FName" },
+                            { "data": "Rmb", 'sClass': "text-right" },
+                            { "data": "CreatedDate" },
+                            { "data": "IsFinished" }
                 ],
                 //汉化
                 "language":
-                 {
-                     "sLengthMenu": "每页显示 _MENU_ 条记录",
-                     "sZeroRecords": "抱歉， 没有找到",
-                     "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-                     "sInfoEmpty": "没有数据",
-                     "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-                     "oPaginate": {
-                         "sFirst": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-backward' aria-hidden='true'></span></button>",
-                         "sPrevious": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span></button>",
-                         "sNext": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span></button>",
-                         "sLast": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-forward' aria-hidden='true'></span></button>"
-                     },
-                     "sZeroRecords": "没有检索到数据",
-                     "sProcessing": "<img src='../Images/loading.gif'>加载中...",
-                     "sSearch": "查找"
-                 },
+        {
+            "sLengthMenu": "每页显示 _MENU_ 条记录",
+            "sZeroRecords": "抱歉， 没有找到",
+            "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+            "sInfoEmpty": "没有数据",
+            "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+            "oPaginate": {
+                "sFirst": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-backward' aria-hidden='true'></span></button>",
+                "sPrevious": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span></button>",
+                "sNext": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span></button>",
+                "sLast": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-forward' aria-hidden='true'></span></button>"
+            },
+            "sZeroRecords": "没有检索到数据",
+            "sProcessing": "<img src='../Images/loading.gif'>加载中...",
+            "sSearch": "查找"
+        },
                 //请求处理函数
                 "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
                     // 将客户名称加入参数数组

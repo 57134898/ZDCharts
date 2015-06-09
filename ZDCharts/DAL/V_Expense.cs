@@ -41,5 +41,6 @@ namespace DAL
         public string CashType { get; set; }
         public string VoucherID { get; set; }
         public string DocType { get; set; }
+        public string CompanyName { get; set; }
     }
 }

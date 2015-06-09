@@ -327,6 +327,8 @@
     <Content Include="Handlers\LogIn.ashx" />
     <Content Include="Handlers\CashItem.ashx" />
     <Content Include="Handlers\Expense.ashx" />
+    <Content Include="WorkFlow\NodeView.aspx" />
+    <Content Include="Handlers\WFFlow1.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -498,6 +500,9 @@
     <Compile Include="Handlers\WFFlow.ashx.cs">
       <DependentUpon>WFFlow.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\WFFlow1.ashx.cs">
+      <DependentUpon>WFFlow1.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -536,6 +541,13 @@
     </Compile>
     <Compile Include="Tools\ABSHttpHandler.cs" />
     <Compile Include="Tools\JsonResponse.cs" />
+    <Compile Include="WorkFlow\NodeView.aspx.cs">
+      <DependentUpon>NodeView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WorkFlow\NodeView.aspx.designer.cs">
+      <DependentUpon>NodeView.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

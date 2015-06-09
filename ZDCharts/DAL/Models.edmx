@@ -306,6 +306,7 @@
           <Property Name="CashType" Type="varchar" MaxLength="20" />
           <Property Name="VoucherID" Type="varchar" MaxLength="20" />
           <Property Name="DocType" Type="varchar" MaxLength="20" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="4000" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Flow_GB_Company”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -500,7 +501,8 @@
     [V_Expense].[CashItem] AS [CashItem], 
     [V_Expense].[CashType] AS [CashType], 
     [V_Expense].[VoucherID] AS [VoucherID], 
-    [V_Expense].[DocType] AS [DocType]
+    [V_Expense].[DocType] AS [DocType], 
+    [V_Expense].[CompanyName] AS [CompanyName]
     FROM [dbo].[V_Expense] AS [V_Expense]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Flow_GB_Company" EntityType="Self.V_Flow_GB_Company" store:Type="Views" store:Schema="dbo">
@@ -1019,6 +1021,7 @@
           <Property Name="CashType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="VoucherID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1402,6 +1405,7 @@
           <EntitySetMapping Name="V_Expense">
             <EntityTypeMapping TypeName="ContractModel.V_Expense">
               <MappingFragment StoreEntitySet="V_Expense">
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="DocType" ColumnName="DocType" />
                 <ScalarProperty Name="VoucherID" ColumnName="VoucherID" />
                 <ScalarProperty Name="CashType" ColumnName="CashType" />
