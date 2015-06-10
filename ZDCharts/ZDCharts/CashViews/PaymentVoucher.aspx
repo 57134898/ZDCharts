@@ -39,6 +39,7 @@
                 //列集合
                 //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
                 "columns": [
+                            { "data": "ID" },
                             { "data": "CompanyName" },
                             { "data": "FName" },
                             { "data": "Rmb", 'sClass': "text-right" },
@@ -83,7 +84,18 @@
 
             $('#dvtable tbody').on('click', 'button', function () {
                 var data = $(this).parents('tr').find('td');
-                alert(data.eq(0).html());
+                $.ajax({
+                    "type": "POST",
+                    "url": "../handlers/Voucher.ashx",
+                    "dataType": "json",
+                    "data": { Action: 'AddExpenseVoucher', id: data.eq(0).html() }, // 以json格式传递
+                    "success": function (result) {
+                        alert(JSON.stringify(result));
+
+                        location.reload();
+                    }
+                });
+                //alert(data.eq(0).html());
             });
 
 
@@ -138,6 +150,7 @@
             <table id="dvtable" class="display" cellspacing="0" width="100%">
                 <thead>
                     <tr>
+                        <th>流水号</th>
                         <th>公司</th>
                         <th>摘要</th>
                         <th>金额</th>
@@ -148,6 +161,7 @@
                 </thead>
                 <tfoot>
                     <tr>
+                        <th>流水号</th>
                         <th>公司</th>
                         <th>摘要</th>
                         <th>金额</th>

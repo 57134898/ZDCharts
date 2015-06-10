@@ -23,5 +23,6 @@ namespace DAL
         public Nullable<System.Guid> TemID { get; set; }
         public string Result { get; set; }
         public string DocType { get; set; }
+        public int ID { get; set; }
     }
 }

@@ -189,6 +189,7 @@
           <Property Name="TemID" Type="uniqueidentifier" />
           <Property Name="Result" Type="varchar" MaxLength="1" />
           <Property Name="DocType" Type="varchar" MaxLength="20" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="WF_Nodes">
           <Key>
@@ -233,6 +234,7 @@
             <PropertyRef Name="ID" />
             <PropertyRef Name="Cash1" />
             <PropertyRef Name="Note1" />
+            <PropertyRef Name="ContractTotal" />
           </Key>
           <Property Name="CashID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ExchangeDate" Type="date" />
@@ -251,6 +253,7 @@
           <Property Name="Result" Type="varchar" MaxLength="1" />
           <Property Name="Cash1" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Note1" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ContractTotal" Type="decimal" Precision="38" Scale="2" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Emps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -282,6 +285,7 @@
             <PropertyRef Name="PreID" />
             <PropertyRef Name="NextNode" />
             <PropertyRef Name="PreNode" />
+            <PropertyRef Name="ID" />
           </Key>
           <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FName" Type="nvarchar" MaxLength="50" />
@@ -311,6 +315,7 @@
           <Property Name="VoucherID" Type="varchar" MaxLength="20" />
           <Property Name="DocType" Type="varchar" MaxLength="20" />
           <Property Name="CompanyName" Type="nvarchar" MaxLength="4000" />
+          <Property Name="ID" Type="int" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Flow_GB_Company”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -458,7 +463,8 @@
     [V_CashItem].[ID] AS [ID], 
     [V_CashItem].[Result] AS [Result], 
     [V_CashItem].[Cash1] AS [Cash1], 
-    [V_CashItem].[Note1] AS [Note1]
+    [V_CashItem].[Note1] AS [Note1], 
+    [V_CashItem].[ContractTotal] AS [ContractTotal]
     FROM [dbo].[V_CashItem] AS [V_CashItem]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Emps" EntityType="Self.V_Emps" store:Type="Views" store:Schema="dbo">
@@ -506,7 +512,8 @@
     [V_Expense].[CashType] AS [CashType], 
     [V_Expense].[VoucherID] AS [VoucherID], 
     [V_Expense].[DocType] AS [DocType], 
-    [V_Expense].[CompanyName] AS [CompanyName]
+    [V_Expense].[CompanyName] AS [CompanyName], 
+    [V_Expense].[ID] AS [ID]
     FROM [dbo].[V_Expense] AS [V_Expense]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Flow_GB_Company" EntityType="Self.V_Flow_GB_Company" store:Type="Views" store:Schema="dbo">
@@ -896,6 +903,7 @@
             <PropertyRef Name="ID" />
             <PropertyRef Name="Cash1" />
             <PropertyRef Name="Note1" />
+            <PropertyRef Name="ContractTotal" />
           </Key>
           <Property Name="CashID" Type="Guid" Nullable="false" />
           <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
@@ -914,6 +922,7 @@
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="Cash1" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Note1" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ContractTotal" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
         </EntityType>
         <EntityType Name="V_Flows">
           <Key>
@@ -991,6 +1000,7 @@
           <Property Name="TemID" Type="Guid" />
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="V_Expense">
           <Key>
@@ -1001,6 +1011,7 @@
             <PropertyRef Name="PreID" />
             <PropertyRef Name="NextNode" />
             <PropertyRef Name="PreNode" />
+            <PropertyRef Name="ID" />
           </Key>
           <Property Name="FID" Type="Guid" Nullable="false" />
           <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1030,6 +1041,7 @@
           <Property Name="VoucherID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="CompanyName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1313,6 +1325,7 @@
           <EntitySetMapping Name="V_CashItem">
             <EntityTypeMapping TypeName="ContractModel.V_CashItem">
               <MappingFragment StoreEntitySet="V_CashItem">
+                <ScalarProperty Name="ContractTotal" ColumnName="ContractTotal" />
                 <ScalarProperty Name="Note1" ColumnName="Note1" />
                 <ScalarProperty Name="Cash1" ColumnName="Cash1" />
                 <ScalarProperty Name="Result" ColumnName="Result" />
@@ -1398,6 +1411,7 @@
           <EntitySetMapping Name="WF_Flows">
             <EntityTypeMapping TypeName="ContractModel.WF_Flows">
               <MappingFragment StoreEntitySet="WF_Flows">
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="DocType" ColumnName="DocType" />
                 <ScalarProperty Name="Result" ColumnName="Result" />
                 <ScalarProperty Name="TemID" ColumnName="TemID" />
@@ -1413,6 +1427,7 @@
           <EntitySetMapping Name="V_Expense">
             <EntityTypeMapping TypeName="ContractModel.V_Expense">
               <MappingFragment StoreEntitySet="V_Expense">
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="DocType" ColumnName="DocType" />
                 <ScalarProperty Name="VoucherID" ColumnName="VoucherID" />

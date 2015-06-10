@@ -82,13 +82,12 @@ namespace ZDCharts.Handlers
         }
         public Tools.JsonResponse FormCommit()
         {
-            var userinfo = this.UserInfo;
-            if (userinfo == null)
-                return new Tools.JsonResponse() { Code = "1000", Msg = "session用户过期" };
-            string str = context.Request.Params["postdata"];
+            string str = this.GetParam("postdata");
             var cashItem = Newtonsoft.Json.JsonConvert.DeserializeObject<MODEL.CashItem>(str);
+
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
+
                 //WF2 数据更新
                 var wf2 = db.WF_Flow2.SingleOrDefault(p => p.ID == cashItem.ID);
                 wf2.Cash1 = cashItem.Cash;
@@ -99,6 +98,12 @@ namespace ZDCharts.Handlers
                 //插入数据到CASH
                 var cid = db.ACash.Max(p => p.CID) + 1;
                 var list = db.WF_Flow1.Where(p => p.CashID == wf2.CashID);
+                decimal? total1 = cashItem.Cash + cashItem.Note;
+                decimal? total2 = list.Where(p => p.Result == "Y").Sum(p => p.Rmb);
+                if (total1 != total2)
+                {
+                    return new Tools.JsonResponse() { Code = "9100", Msg = "总金额与合同总额不相等", Data = string.Format("合同总金额{0}", total2) };
+                }
                 db.ACash.Add(new DAL.ACash()
                     {
                         CID = cid,
@@ -107,23 +112,26 @@ namespace ZDCharts.Handlers
                         Note = wf2.Note1,
                         VoucherFlag = false,
                         Ccode = wf2.Ccode,
-                        HDW = userinfo.CompanyID,
+                        HDW = this.UserInfo.CompanyID,
                         Type = "付款"
                     });
                 //插入数据到AFKXX
                 foreach (var item in list)
                 {
-                    db.AFKXX.Add(new DAL.AFKXX()
+                    if (item.Result == "Y")
                     {
-                        rmb = item.Rmb,
-                        xshth = item.XSHcode,
-                        CID = cid,
-                        date = DateTime.Now,
-                        hth = item.HCode,
-                        type = "付款",
-                        fkfs = "",
-                        fklx = ""
-                    });
+                        db.AFKXX.Add(new DAL.AFKXX()
+                        {
+                            rmb = item.Rmb,
+                            xshth = item.XSHcode,
+                            CID = cid,
+                            date = DateTime.Now,
+                            hth = item.HCode,
+                            type = "付款",
+                            fkfs = "",
+                            fklx = ""
+                        });
+                    }
                 }
 
 

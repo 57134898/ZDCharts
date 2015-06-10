@@ -42,6 +42,7 @@
                             { "data": "ID" },
                             { "data": "CNAME" },
                             { "data": "ExchangeDate" },
+                            { "data": "ContractTotal", 'sClass': "text-right" },
                             { "data": "Cash", 'sClass': "text-right" },
                             { "data": "Cash1", 'sClass': "text-right" },
                             { "data": "NCodeCName" },
@@ -195,8 +196,8 @@
                 var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
                 var postdata = {};
                 postdata.ID = $("#dvtable  tr.selected td:eq(0)").text();
-                postdata.Cash = $("#rmb").val();
-                postdata.Note = $("#note").val();
+                postdata.Cash = Number($("#rmb").val());
+                postdata.Note = Number($("#note").val());
                 //postdata.NCodeC = $("#nocdec").attr("code");
                 //postdata.NCodeN = $("#nocden").attr("code");
                 $.ajax({
@@ -204,13 +205,14 @@
                     url: '../Handlers/CashItem.ashx',
                     data: { action: 'FormCommit', postdata: JSON.stringify(postdata) },
                     success: function suc(result) {
-                        alert(JSON.stringify(result));
+                        //alert(JSON.stringify(result));
                         //请求失败跳转到错误页
-                        if (result.code != "0") {
-                            redirecToErrorPage(result);
+                        if (result.code == "9100") {
+                            alert(result.msg + "\r\n" + result.data);
+                            spinner1.stop();
                             return;
                         }
-
+                        location.reload();
                         spinner1.stop();
                     },
                     dataType: 'JSON'
@@ -303,7 +305,8 @@
                     <tr>
                         <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">编号</th>
                         <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">客户</th>
-                        <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder" style="text-align: center;">日期</th>
+                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">日期</th>
+                        <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder" style="text-align: center;">合同付款金额</th>
                         <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
                         <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>
                     </tr>
@@ -321,6 +324,7 @@
                         <th>编号</th>
                         <th>客户</th>
                         <th>日期</th>
+                        <th>合同付款金额</th>
                         <th>预计</th>
                         <th>实出</th>
                         <th>资金项目</th>

@@ -31,5 +31,6 @@ namespace DAL
         public string Result { get; set; }
         public decimal Cash1 { get; set; }
         public decimal Note1 { get; set; }
+        public decimal ContractTotal { get; set; }
     }
 }

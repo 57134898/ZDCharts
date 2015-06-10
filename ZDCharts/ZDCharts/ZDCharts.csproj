@@ -329,6 +329,7 @@
     <Content Include="Handlers\Expense.ashx" />
     <Content Include="WorkFlow\NodeView.aspx" />
     <Content Include="Handlers\WFFlow1.ashx" />
+    <Content Include="Handlers\Voucher.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -496,6 +497,9 @@
     </Compile>
     <Compile Include="Handlers\Sys.ashx.cs">
       <DependentUpon>Sys.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Voucher.ashx.cs">
+      <DependentUpon>Voucher.ashx</DependentUpon>
     </Compile>
     <Compile Include="Handlers\WFFlow.ashx.cs">
       <DependentUpon>WFFlow.ashx</DependentUpon>
