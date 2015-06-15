@@ -29,7 +29,7 @@ namespace ZDCharts.Handlers
             DataTable dt_rmb = DBHelper.ExecuteDataTable("SELECT HDW,YEAR(签订日期) AS YEAR,Convert(decimal(18,2),SUM(金额)/10000) AS RMB FROM vcontracts   WHERE HLX like '02%'  GROUP BY HDW,YEAR(签订日期) ORDER BY 1");
             DataTable dt_voice = DBHelper.ExecuteDataTable("SELECT HDW,YEAR(签订日期) AS YEAR,Convert(decimal(18,2),SUM(发票)/10000) AS RMB FROM vcontracts  WHERE HLX like '02%'  GROUP BY HDW,YEAR(签订日期) ORDER BY 1");
 
-
+            
             //X轴
             foreach (DataRow r in dt_companys.Rows)
             {

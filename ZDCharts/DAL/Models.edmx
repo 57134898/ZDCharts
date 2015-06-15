@@ -428,6 +428,20 @@
           <Property Name="XSHCODE" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="Category" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <Function Name="AddCashVoucher" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HID" Type="varchar" Mode="InOut" />
+          <Parameter Name="RMB" Type="decimal" Mode="In" />
+          <Parameter Name="EXPL" Type="varchar" Mode="In" />
+          <Parameter Name="VPREPARE" Type="varchar" Mode="In" />
+          <Parameter Name="VCHECK" Type="varchar" Mode="In" />
+          <Parameter Name="VTYPE" Type="int" Mode="In" />
+          <Parameter Name="VNO" Type="int" Mode="InOut" />
+          <Parameter Name="DR" Type="varchar" Mode="In" />
+          <Parameter Name="CR" Type="varchar" Mode="In" />
+          <Parameter Name="YEAR" Type="int" Mode="In" />
+          <Parameter Name="MONTH" Type="int" Mode="In" />
+          <Parameter Name="BCODE" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="ContractModelStoreContainer">
           <EntitySet Name="ACash" EntityType="Self.ACash" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ACLIENTS" EntityType="Self.ACLIENTS" Schema="dbo" store:Type="Tables" />
@@ -635,6 +649,20 @@
           <EntitySet Name="WF_Flow3" EntityType="ContractModel.WF_Flow3" />
           <EntitySet Name="WF_Flows" EntityType="ContractModel.WF_Flows" />
           <EntitySet Name="V_Expense" EntityType="ContractModel.V_Expense" />
+          <FunctionImport Name="AddCashVoucher">
+            <Parameter Name="HID" Mode="InOut" Type="String" />
+            <Parameter Name="RMB" Mode="In" Type="Decimal" />
+            <Parameter Name="EXPL" Mode="In" Type="String" />
+            <Parameter Name="VPREPARE" Mode="In" Type="String" />
+            <Parameter Name="VCHECK" Mode="In" Type="String" />
+            <Parameter Name="VTYPE" Mode="In" Type="Int32" />
+            <Parameter Name="VNO" Mode="InOut" Type="Int32" />
+            <Parameter Name="DR" Mode="In" Type="String" />
+            <Parameter Name="CR" Mode="In" Type="String" />
+            <Parameter Name="YEAR" Mode="In" Type="Int32" />
+            <Parameter Name="MONTH" Mode="In" Type="Int32" />
+            <Parameter Name="BCODE" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -1459,6 +1487,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddCashVoucher" FunctionName="ContractModel.Store.AddCashVoucher" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

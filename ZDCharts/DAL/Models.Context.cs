@@ -12,6 +12,8 @@ namespace DAL
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class ContractEntities : DbContext
     {
@@ -49,5 +51,50 @@ namespace DAL
         public virtual DbSet<WF_Flow3> WF_Flow3 { get; set; }
         public virtual DbSet<WF_Flows> WF_Flows { get; set; }
         public virtual DbSet<V_Expense> V_Expense { get; set; }
+    
+        public virtual int AddCashVoucher(ObjectParameter hID, Nullable<decimal> rMB, string eXPL, string vPREPARE, string vCHECK, Nullable<int> vTYPE, ObjectParameter vNO, string dR, string cR, Nullable<int> yEAR, Nullable<int> mONTH, string bCODE)
+        {
+            var rMBParameter = rMB.HasValue ?
+                new ObjectParameter("RMB", rMB) :
+                new ObjectParameter("RMB", typeof(decimal));
+    
+            var eXPLParameter = eXPL != null ?
+                new ObjectParameter("EXPL", eXPL) :
+                new ObjectParameter("EXPL", typeof(string));
+    
+            var vPREPAREParameter = vPREPARE != null ?
+                new ObjectParameter("VPREPARE", vPREPARE) :
+                new ObjectParameter("VPREPARE", typeof(string));
+    
+            var vCHECKParameter = vCHECK != null ?
+                new ObjectParameter("VCHECK", vCHECK) :
+                new ObjectParameter("VCHECK", typeof(string));
+    
+            var vTYPEParameter = vTYPE.HasValue ?
+                new ObjectParameter("VTYPE", vTYPE) :
+                new ObjectParameter("VTYPE", typeof(int));
+    
+            var dRParameter = dR != null ?
+                new ObjectParameter("DR", dR) :
+                new ObjectParameter("DR", typeof(string));
+    
+            var cRParameter = cR != null ?
+                new ObjectParameter("CR", cR) :
+                new ObjectParameter("CR", typeof(string));
+    
+            var yEARParameter = yEAR.HasValue ?
+                new ObjectParameter("YEAR", yEAR) :
+                new ObjectParameter("YEAR", typeof(int));
+    
+            var mONTHParameter = mONTH.HasValue ?
+                new ObjectParameter("MONTH", mONTH) :
+                new ObjectParameter("MONTH", typeof(int));
+    
+            var bCODEParameter = bCODE != null ?
+                new ObjectParameter("BCODE", bCODE) :
+                new ObjectParameter("BCODE", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddCashVoucher", hID, rMBParameter, eXPLParameter, vPREPAREParameter, vCHECKParameter, vTYPEParameter, vNO, dRParameter, cRParameter, yEARParameter, mONTHParameter, bCODEParameter);
+        }
     }
 }
