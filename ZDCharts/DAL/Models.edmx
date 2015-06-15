@@ -441,6 +441,7 @@
           <Parameter Name="YEAR" Type="int" Mode="In" />
           <Parameter Name="MONTH" Type="int" Mode="In" />
           <Parameter Name="BCODE" Type="varchar" Mode="In" />
+          <Parameter Name="NCODE" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="ContractModelStoreContainer">
           <EntitySet Name="ACash" EntityType="Self.ACash" Schema="dbo" store:Type="Tables" />
@@ -662,6 +663,7 @@
             <Parameter Name="YEAR" Mode="In" Type="Int32" />
             <Parameter Name="MONTH" Mode="In" Type="Int32" />
             <Parameter Name="BCODE" Mode="In" Type="String" />
+            <Parameter Name="NCODE" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Org_Depts">
