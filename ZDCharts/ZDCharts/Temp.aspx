@@ -8,6 +8,7 @@
     <script src="Scripts/jquery-2.1.3.min.js"></script>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
     <script src="Scripts/bootstrap.min.js"></script>
+
     <title></title>
 </head>
 <body>
