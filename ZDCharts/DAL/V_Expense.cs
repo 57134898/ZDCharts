@@ -43,5 +43,7 @@ namespace DAL
         public string DocType { get; set; }
         public string CompanyName { get; set; }
         public int ID { get; set; }
+        public Nullable<int> ApprovalStatus { get; set; }
+        public string ApprovalStatusName { get; set; }
     }
 }

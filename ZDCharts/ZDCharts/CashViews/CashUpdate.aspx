@@ -22,66 +22,69 @@
     <link href="../Content/daterangepicker-bs3.css" rel="stylesheet" />
     <script type="text/javascript">
         $(function () {
-            $('#dvtable').dataTable({
-                "sPaginationType": "full_numbers",
-                "processing": true,//显示进度条
-                "scrollX": true,//水平滚动条
-                //"bAutoWidth": false,//自动列宽
-                "serverSide": true,//发送服务器请求
-                "ajax": {
-                    "url": "../handlers/CashItem.ashx",
-                    "type": "POST",
-                    "data": { Action: 'GetList' }
-                },
-                //列集合
-                //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
-                "columns": [
-                            { "data": "ID" },
-                            { "data": "CNAME" },
-                            { "data": "ExchangeDate" },
-                            { "data": "ContractTotal", 'sClass': "text-right" },
-                            { "data": "Cash", 'sClass': "text-right" },
-                            { "data": "Cash1", 'sClass': "text-right" },
-                            { "data": "NCodeCName" },
-                            { "data": "Note", 'sClass': "text-right" },
-                            { "data": "Note1", 'sClass': "text-right" },
-                            { "data": "NCodeNName" },
-                            { "data": null, defaultContent: "<button class='btn btn-default  btn-sm'>确定</button>" }
-                ],
-                //汉化
-                "language":
-                 {
-                     "sLengthMenu": "每页显示 _MENU_ 条记录",
-                     "sZeroRecords": "抱歉， 没有找到",
-                     "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-                     "sInfoEmpty": "没有数据",
-                     "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-                     "oPaginate": {
-                         "sFirst": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-backward' aria-hidden='true'></span></button>",
-                         "sPrevious": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span></button>",
-                         "sNext": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span></button>",
-                         "sLast": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-forward' aria-hidden='true'></span></button>"
-                     },
-                     "sZeroRecords": "没有检索到数据",
-                     "sProcessing": "<img src='../Images/loading.gif'>加载中...",
-                     "sSearch": "查找"
-                 },
-                //请求处理函数
-                "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
-                    // 将客户名称加入参数数组
-                    //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
-                    $.ajax({
-                        "type": "POST",
+            function loadData(state) {
+                $('#dvtable').dataTable({
+                    "sPaginationType": "full_numbers",
+                    "processing": true,//显示进度条
+                    "scrollX": true,//水平滚动条
+                    //"bAutoWidth": false,//自动列宽
+                    "serverSide": true,//发送服务器请求
+                    "ajax": {
                         "url": "../handlers/CashItem.ashx",
-                        "dataType": "json",
-                        "data": { Action: 'GetList', p: JSON.stringify(aoData) }, // 以json格式传递
-                        "success": function (resp) {
-                            //alert(JSON.stringify(resp.data));
-                            fnCallback(resp.data);
-                        }
-                    });
-                }
-            });
+                        "type": "POST",
+                        "data": { Action: 'GetList' }
+                    },
+                    //列集合
+                    //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
+                    "columns": [
+                                { "data": "ID" },
+                                { "data": "CNAME" },
+                                { "data": "ExchangeDate" },
+                                { "data": "ContractTotal", 'sClass': "text-right" },
+                                { "data": "Cash", 'sClass': "text-right" },
+                                { "data": "Cash1", 'sClass': "text-right" },
+                                { "data": "NCodeCName" },
+                                { "data": "Note", 'sClass': "text-right" },
+                                { "data": "Note1", 'sClass': "text-right" },
+                                { "data": "NCodeNName" },
+                                { "data": null, defaultContent: "<button class='btn btn-default  btn-sm'>确定</button>" }
+                    ],
+                    //汉化
+                    "language":
+                     {
+                         "sLengthMenu": "每页显示 _MENU_ 条记录",
+                         "sZeroRecords": "抱歉， 没有找到",
+                         "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                         "sInfoEmpty": "没有数据",
+                         "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                         "oPaginate": {
+                             "sFirst": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-backward' aria-hidden='true'></span></button>",
+                             "sPrevious": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span></button>",
+                             "sNext": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span></button>",
+                             "sLast": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-forward' aria-hidden='true'></span></button>"
+                         },
+                         "sZeroRecords": "没有检索到数据",
+                         "sProcessing": "<img src='../Images/loading.gif'>加载中...",
+                         "sSearch": "查找"
+                     },
+                    //请求处理函数
+                    "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
+                        // 将客户名称加入参数数组
+                        //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
+                        $.ajax({
+                            "type": "POST",
+                            "url": "../handlers/CashItem.ashx",
+                            "dataType": "json",
+                            "data": { Action: 'GetList', p: JSON.stringify(aoData) }, // 以json格式传递
+                            "success": function (resp) {
+                                //alert(JSON.stringify(resp.data));
+                                fnCallback(resp.data);
+                            }
+                        });
+                    }
+                });
+            }
+  
             //工具栏样式设置
             $('[data-toggle="tooltip"]').tooltip();
             //添加按钮事件
@@ -113,6 +116,10 @@
                 $("#mark").val(data.eq(0).html());
                 //$("#myitemModal").modal('hide');
 
+            });
+            //审批状态下拉菜单事件
+            $("#dropdownMenu li a").click(function () {
+                $("#dropdownMenuTitleBtn").text($(this).text());
             });
 
             $("#commitBtn").click(function () {
@@ -165,6 +172,22 @@
                 <div class="btn-group" role="group">
                     <button id="toolbtn_refresh" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="刷新"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
                 </div>
+                <div class="btn-group" role="group">
+                    <button id="dropdownMenuTitleBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        审批通过
+                       <span class="caret"></span>
+                    </button>
+                    <ul id="dropdownMenu" class="dropdown-menu" role="menu">
+                        <li><a href="#">未审批</a></li>
+                        <li><a href="#">审批中</a></li>
+                        <li><a href="#">审批通过</a></li>
+                        <li><a href="#">审批未通过</a></li>
+                        <li><a href="#">已生成凭证</a></li>
+                    </ul>
+                </div>
+
+
+
             </div>
         </div>
         <div class="panel-body">

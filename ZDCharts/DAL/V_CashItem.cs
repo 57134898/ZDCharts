@@ -32,5 +32,7 @@ namespace DAL
         public decimal Cash1 { get; set; }
         public decimal Note1 { get; set; }
         public decimal ContractTotal { get; set; }
+        public Nullable<int> ApprovalStatus { get; set; }
+        public string ApprovalStatusName { get; set; }
     }
 }

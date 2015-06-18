@@ -18,17 +18,17 @@
         <EntityTypeShape EntityType="ContractModel.ACLIENTS" Width="1.5" PointX="2.75" PointY="8.75" />
         <EntityTypeShape EntityType="ContractModel.V_UnfinishedContracts" Width="1.5" PointX="8.75" PointY="6.75" />
         <EntityTypeShape EntityType="ContractModel.AWX" Width="1.5" PointX="4.75" PointY="9.75" />
-        <EntityTypeShape EntityType="ContractModel.WF_CompanyToTem" Width="1.5" PointX="10.75" PointY="0.875" />
+        <EntityTypeShape EntityType="ContractModel.WF_CompanyToTem" Width="1.5" PointX="10.75" PointY="0.75" />
         <EntityTypeShape EntityType="ContractModel.V_Flow_GB_Customer" Width="1.5" PointX="10.75" PointY="3.75" />
         <EntityTypeShape EntityType="ContractModel.Sys_Menus" Width="1.5" PointX="6.75" PointY="10.75" />
         <EntityTypeShape EntityType="ContractModel.WF_Flow1" Width="1.5" PointX="10.75" PointY="7.75" />
-        <EntityTypeShape EntityType="ContractModel.V_Ncode" Width="1.5" PointX="12.75" PointY="11.75" />
-        <EntityTypeShape EntityType="ContractModel.WF_Flow2" Width="1.5" PointX="13.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ContractModel.V_CashItem" Width="1.5" PointX="13.375" PointY="5.75" />
-        <EntityTypeShape EntityType="ContractModel.V_Flows" Width="1.5" PointX="5.375" PointY="13.75" />
-        <EntityTypeShape EntityType="ContractModel.WF_Flow3" Width="1.5" PointX="9.75" PointY="11.75" />
-        <EntityTypeShape EntityType="ContractModel.WF_Flows" Width="1.5" PointX="0.75" PointY="14.75" />
-        <EntityTypeShape EntityType="ContractModel.V_Expense" Width="1.5" PointX="12.375" PointY="14.75" />
+        <EntityTypeShape EntityType="ContractModel.V_Ncode" Width="1.5" PointX="8.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ContractModel.WF_Flow2" Width="1.5" PointX="10.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ContractModel.V_Flows" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ContractModel.WF_Flow3" Width="1.5" PointX="12.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ContractModel.WF_Flows" Width="1.5" PointX="4.75" PointY="13.75" />
+        <EntityTypeShape EntityType="ContractModel.V_CashItem" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ContractModel.V_Expense" Width="1.5" PointX="0.75" PointY="14.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
