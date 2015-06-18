@@ -102,7 +102,31 @@ namespace ZDCharts.Handlers
                 decimal? total2 = list.Where(p => p.Result == "Y").Sum(p => p.Rmb);
                 if (total1 != total2)
                 {
-                    return new Tools.JsonResponse() { Code = "9100", Msg = "总金额与合同总额不相等", Data = string.Format("合同总金额{0}", total2) };
+                    return new Tools.JsonResponse()
+                    {
+                        Code = "9100",
+                        Msg = "总金额与合同总额不相等",
+                        Data = string.Format("合同总金额{0}", total2)
+                    };
+                }
+                //添加现汇申请凭证
+                if (cashItem.Cash > 0)
+                {
+                    string hid_v = string.Empty;
+                    var hid = new System.Data.Entity.Core.Objects.ObjectParameter("HID", typeof(string));
+                    var vno = new System.Data.Entity.Core.Objects.ObjectParameter("VNO", typeof(int));
+                    db.AddCashVoucher(hid, cashItem.Cash, "自动生成付合同款", this.UserInfo.UserName, this.UserInfo.UserName, 3, vno, "100801", "1010", DateTime.Now.Year, DateTime.Now.Month, "01", wf2.NCodeC);
+                    wf2.CashVoucherID = hid.Value.ToString();
+                    //Response.Write(hid.Value.ToString() + "||" + vno.Value.ToString() + "<br/>" + hid_v + "||" + vno_v.ToString());
+                }
+                //添加票据申请凭证
+                if (cashItem.Note > 0)
+                {
+                    string hid_v = string.Empty;
+                    var hid = new System.Data.Entity.Core.Objects.ObjectParameter("HID", typeof(string));
+                    var vno = new System.Data.Entity.Core.Objects.ObjectParameter("VNO", typeof(int));
+                    db.AddCashVoucher(hid, cashItem.Note, "自动生成付合同款", this.UserInfo.UserName, this.UserInfo.UserName, 4, vno, "100801", "1010", DateTime.Now.Year, DateTime.Now.Month, "01", wf2.NCodeN);
+                    wf2.NoteVoucherID = hid.Value.ToString();
                 }
                 db.ACash.Add(new DAL.ACash()
                     {
@@ -133,13 +157,6 @@ namespace ZDCharts.Handlers
                         });
                     }
                 }
-
-
-                // TODO 插入数据到资金池
-                //.........
-
-
-
                 //保存
                 int result = db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = result };
