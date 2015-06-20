@@ -38,7 +38,7 @@
                     //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
                     "columns": [
                                 { "data": "ID" },
-                                { "data": "CNAME" },
+                                { "data": "CNAME", "sWidth": "300px" },
                                 { "data": "ExchangeDate" },
                                 { "data": "ContractTotal", 'sClass': "text-right" },
                                 { "data": "Cash", 'sClass': "text-right" },
@@ -47,7 +47,8 @@
                                 { "data": "Note", 'sClass': "text-right" },
                                 { "data": "Note1", 'sClass': "text-right" },
                                 { "data": "NCodeNName" },
-                                { "data": null, defaultContent: "<button class='btn btn-default  btn-sm'>确定</button>" }
+                                { "data": "ApprovalStatusName" },
+                                { "data": null, defaultContent: (state == 1000 ? "<button class='btn btn-default  btn-sm'>确定</button>" : "") }
                     ],
                     //汉化
                     "language":
@@ -75,7 +76,7 @@
                             "type": "POST",
                             "url": "../handlers/CashItem.ashx",
                             "dataType": "json",
-                            "data": { Action: 'GetList', p: JSON.stringify(aoData) }, // 以json格式传递
+                            "data": { Action: 'GetList', p: JSON.stringify(aoData), status: state }, // 以json格式传递
                             "success": function (resp) {
                                 //alert(JSON.stringify(resp.data));
                                 fnCallback(resp.data);
@@ -108,19 +109,19 @@
             //ncode表格内按钮点击事件
             $('#dvtable tbody').on('click', 'button', function () {
                 var data = $(this).parents('tr').find('td');
-
-                //alert(data.eq(2).html());
+                //alert(111);
                 $("#myitemModal").modal('show');
-
                 $("#rmb").val(data.eq(4).html());
                 $("#note").val(data.eq(7).html());
                 $("#mark").val(data.eq(0).html());
                 //$("#myitemModal").modal('hide');
-
             });
             //审批状态下拉菜单事件
             $("#dropdownMenu li a").click(function () {
                 $("#dropdownMenuTitleBtn").text($(this).text());
+
+                $('#dvtable').dataTable().fnDestroy()
+                loadData($(this).attr("sid"));
             });
 
             $("#commitBtn").click(function () {
@@ -175,20 +176,17 @@
                 </div>
                 <div class="btn-group" role="group">
                     <button id="dropdownMenuTitleBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        审批通过
+                        &nbsp;审批通过&nbsp;
                        <span class="caret"></span>
                     </button>
                     <ul id="dropdownMenu" class="dropdown-menu" role="menu">
-                        <li><a href="#">未审批</a></li>
-                        <li><a href="#">审批中</a></li>
-                        <li><a href="#">审批通过</a></li>
-                        <li><a href="#">审批未通过</a></li>
-                        <li><a href="#">已生成凭证</a></li>
+                        <li><a href="javascript:void(0)" sid="0">已申请&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                        <li><a href="javascript:void(0)" sid="100">审批中&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                        <li><a href="javascript:void(0)" sid="1000">审批通过&nbsp;&nbsp;</a></li>
+                        <li><a href="javascript:void(0)" sid="10000">已生成凭证</a></li>
+                        <li><a href="javascript:void(0)" sid="-1">审批未通过</a></li>
                     </ul>
                 </div>
-
-
-
             </div>
         </div>
         <div class="panel-body">
@@ -232,6 +230,7 @@
                         <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder" style="text-align: center;">合同付款金额</th>
                         <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
                         <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>
+                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批状态</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">生成凭证</th>
                     </tr>
                     <tr>
@@ -255,6 +254,7 @@
                         <th>预计</th>
                         <th>实出</th>
                         <th>资金项目</th>
+                        <th>审批状态</th>
                         <th>生成凭证</th>
                     </tr>
 

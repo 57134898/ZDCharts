@@ -16,7 +16,7 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 string pStr = context.Request.Form["p"];
-                //string companyid = context.Request.Form["CompanyID"];
+                int status = int.Parse(string.IsNullOrEmpty(context.Request.Form["status"]) ? "1000" : context.Request.Form["status"]);
                 //string companycusotmerid = companyid.Substring(2);
                 if (string.IsNullOrEmpty(pStr))
                 {
@@ -34,10 +34,10 @@ namespace ZDCharts.Handlers
                     var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
                     int pStart = int.Parse(pageStartJo["value"].ToString());
                     int pLength = int.Parse(pageLengthJo["value"].ToString());
-                    var pageList = db.V_CashItem.Where(p => p.Result == "Y" && p.IsFinished == "N").OrderBy(p => p.Cash).Skip(pStart).Take(pLength).ToList();
+                    var pageList = db.V_CashItem.Where(p => p.ApprovalStatus == status).OrderBy(p => p.Cash).Skip(pStart).Take(pLength).ToList();
                     JObject jo = new JObject();
                     jo.Add("data", JToken.FromObject(pageList));
-                    int pageTotal = db.V_CashItem.Where(p => p.Result == "Y" && p.IsFinished == "N").Count();
+                    int pageTotal = db.V_CashItem.Where(p => p.ApprovalStatus == status).Count();
                     jo.Add("recordsTotal", pageTotal);
                     jo.Add("recordsFiltered", pageTotal);
                     return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
