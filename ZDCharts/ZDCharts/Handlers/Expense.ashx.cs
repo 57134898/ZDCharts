@@ -73,7 +73,8 @@ namespace ZDCharts.Handlers
                     TemID = companytotem.TemID,
                     Result = COMN.MyVars.Pending,
                     DocType = "2",
-                    FName = formdata.Todo
+                    FName = formdata.Todo,
+                    ApprovalStatus = COMN.MyVars.ApprovalStatus_IsStarted
                 });
                 db.WF_Flow3.Add(new DAL.WF_Flow3()
                 {

@@ -77,15 +77,30 @@ namespace ZDCharts.Handlers
                     var temrow = db.WF_TemRows.SingleOrDefault(p => p.TemID == flow.TemID && p.RID == flow.CurNode);
                     if (temrow == null)
                         return new Tools.JsonResponse() { Code = "9002", Msg = "未找审批阶段" };
-                    if (temrow.NextID == 0 || result == COMN.MyVars.No)
+
+                    //所有行都未通过点则审批结束
+                    if (result == COMN.MyVars.No)
                     {
                         flow.IsFinished = "Y";
                         flow.Result = result;
+                        flow.ApprovalStatus = COMN.MyVars.ApprovalStatus_IsRefused;
                     }
                     else
                     {
-                        flow.IsFinished = "N";
-                        flow.Result = COMN.MyVars.Pending;
+                        //如果没有下一节,审批结束
+                        if (temrow.NextID == 0)
+                        {
+                            flow.IsFinished = "Y";
+                            flow.Result = result;
+                            flow.ApprovalStatus = COMN.MyVars.ApprovalStatus_IsAccpeted;
+                        }
+                        else
+                        {
+                            flow.IsFinished = "N";
+                            flow.Result = result;
+                            flow.ApprovalStatus = COMN.MyVars.ApprovalStatus_IsHandling;
+                            flow.Result = COMN.MyVars.Pending;
+                        }
                     }
                     flow.CurNode = temrow.NextID;
                     db.WF_Nodes.Add(new DAL.WF_Nodes()

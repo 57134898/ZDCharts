@@ -37,7 +37,7 @@ namespace ZDCharts.Handlers
                     return new Tools.JsonResponse() { Code = "1000", Msg = "session用户过期" };
                 }
                 MODEL.UserInfo user = (MODEL.UserInfo)oUser;
-                //根据公司角色查找用户可以审批的节点 01与02与集团 可以看所有
+                // TODO 根据公司角色查找用户可以审批的节点 01与02与集团 可以看所有
                 if (user.RoleID == "01" || user.RoleID == "02")
                 {
                     var fList = db.V_Flow_GB_Company.Where(p => p.RoleID == user.RoleID).ToList();
@@ -112,16 +112,28 @@ namespace ZDCharts.Handlers
                 var f = db.WF_Flows.SingleOrDefault(p => p.FID == flow.FID);
                 if (f == null)
                     return new Tools.JsonResponse() { Code = "9003", Msg = "未找到待审批数据" };
-                //如果没有下一节或者所有行都未通过点则审批结束
-                if (temrow.NextID == 0 || result == COMN.MyVars.No)
+                //所有行都未通过点则审批结束
+                if (result == COMN.MyVars.No)
                 {
                     f.IsFinished = "Y";
                     f.Result = result;
+                    f.ApprovalStatus = COMN.MyVars.ApprovalStatus_IsRefused;
                 }
                 else
                 {
-                    f.IsFinished = "N";
-                    f.Result = result;
+                    //如果没有下一节,审批结束
+                    if (temrow.NextID == 0)
+                    {
+                        f.IsFinished = "Y";
+                        f.Result = result;
+                        f.ApprovalStatus = COMN.MyVars.ApprovalStatus_IsAccpeted;
+                    }
+                    else
+                    {
+                        f.IsFinished = "N";
+                        f.Result = result;
+                        f.ApprovalStatus = COMN.MyVars.ApprovalStatus_IsHandling;
+                    }
                 }
                 f.CurNode = temrow.NextID;
                 db.WF_Nodes.Add(new DAL.WF_Nodes()

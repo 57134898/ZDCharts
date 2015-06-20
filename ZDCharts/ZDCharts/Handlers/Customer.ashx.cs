@@ -125,7 +125,8 @@ namespace ZDCharts.Handlers
                     IsFinished = COMN.MyVars.No,
                     TemID = companytotem.TemID,
                     Result = COMN.MyVars.Pending,
-                    DocType = "1"
+                    DocType = "1",
+                    ApprovalStatus = COMN.MyVars.ApprovalStatus_IsStarted
                 });
 
                 db.WF_Flow2.Add(new DAL.WF_Flow2()

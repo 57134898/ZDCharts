@@ -90,6 +90,12 @@ namespace ZDCharts.Handlers
 
                 //WF2 数据更新
                 var wf2 = db.WF_Flow2.SingleOrDefault(p => p.ID == cashItem.ID);
+                var wf = db.WF_Flows.SingleOrDefault(p => p.FID == wf2.FlowID);
+                //标记审批状态为已经处理完成
+                if (wf != null)
+                {
+                    wf.ApprovalStatus = COMN.MyVars.ApprovalStatus_IsFinished;
+                }
                 wf2.Cash1 = cashItem.Cash;
                 wf2.Note1 = cashItem.Note;
                 //wf2.NCodeC = cashItem.NCodeC;

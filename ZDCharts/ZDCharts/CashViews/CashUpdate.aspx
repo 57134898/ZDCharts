@@ -84,7 +84,8 @@
                     }
                 });
             }
-  
+            //默认加载 审批完成但未生成凭证的数据 
+            loadData(1000);
             //工具栏样式设置
             $('[data-toggle="tooltip"]').tooltip();
             //添加按钮事件
@@ -256,6 +257,7 @@
                         <th>资金项目</th>
                         <th>生成凭证</th>
                     </tr>
+
                 </tfoot>
             </table>
         </div>
