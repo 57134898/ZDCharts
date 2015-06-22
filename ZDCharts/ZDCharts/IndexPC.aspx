@@ -115,7 +115,7 @@
     </div>
     <table width="100%" height="100%">
         <tr>
-            <td width="20%" valign="top" style="padding: 0px 2px 2px 2px">
+            <td width="15%" valign="top" style="padding: 0px 2px 2px 2px">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 </div>
             </td>

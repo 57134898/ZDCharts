@@ -24,60 +24,72 @@
     <script type="text/javascript">
         var _userinfo = eval("(" + $('#userinfoinput', parent.document).val() + ")");
         $(document).ready(function () {
-            $('#dvtable').dataTable({
-                "sPaginationType": "full_numbers",
-                "processing": true,//显示进度条
-                "scrollX": true,//水平滚动条
-                //"bAutoWidth": false,//自动列宽
-                "serverSide": true,//发送服务器请求
-                "ajax": {
-                    "url": "../handlers/Customer.ashx",
-                    "type": "POST",
-                    "data": { Action: 'GetContractListByCompany' }
-                },
-                //列集合
-                //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
-                "columns": [
-                            { "data": "Customer" },
-                            { "data": "Total" },
-                            { "data": "CreatedDate" },
-                            { "data": "IsFinished" }
-                ],
-                //汉化
-                "language":
-                 {
-                     "sLengthMenu": "每页显示 _MENU_ 条记录",
-                     "sZeroRecords": "抱歉， 没有找到",
-                     "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-                     "sInfoEmpty": "没有数据",
-                     "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-                     "oPaginate": {
-                         "sFirst": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-backward' aria-hidden='true'></span></button>",
-                         "sPrevious": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span></button>",
-                         "sNext": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span></button>",
-                         "sLast": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-forward' aria-hidden='true'></span></button>"
+            function loadData(state) {
+                $('#dvtable').dataTable({
+                    "sPaginationType": "full_numbers",
+                    "processing": true,//显示进度条
+                    "scrollX": true,//水平滚动条
+                    //"bAutoWidth": false,//自动列宽
+                    "serverSide": true,//发送服务器请求
+                    "columns": [
+                                { "data": "ID" },
+                                { "data": "CNAME", "sWidth": "300px" },
+                                { "data": "ExchangeDate" },
+                                { "data": "ContractTotal", 'sClass': "text-right" },
+                                { "data": "Cash", 'sClass': "text-right" },
+                                { "data": "Cash1", 'sClass': "text-right" },
+                                { "data": "NCodeCName" },
+                                { "data": "Note", 'sClass': "text-right" },
+                                { "data": "Note1", 'sClass': "text-right" },
+                                { "data": "NCodeNName" },
+                                { "data": "ApprovalStatusName" },
+                                { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" }
+                    ],
+                    //汉化
+                    "language":
+                     {
+                         "sLengthMenu": "每页显示 _MENU_ 条记录",
+                         "sZeroRecords": "抱歉， 没有找到",
+                         "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                         "sInfoEmpty": "没有数据",
+                         "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                         "oPaginate": {
+                             "sFirst": "首页",
+                             "sPrevious": "上一页",
+                             "sNext": "下一页",
+                             "sLast": "末页"
+                         },
+                         "sZeroRecords": "没有检索到数据",
+                         "sProcessing": "<img src='../Images/loading.gif'>加载中...",
+                         "sSearch": "查找"
                      },
-                     "sZeroRecords": "没有检索到数据",
-                     "sProcessing": "<img src='../Images/loading.gif'>加载中...",
-                     "sSearch": "查找"
-                 },
-                //请求处理函数
-                "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
-                    // 将客户名称加入参数数组
-                    //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
-                    $.ajax({
-                        "type": "POST",
-                        "url": "../handlers/Customer.ashx",
-                        "dataType": "json",
-                        "data": { Action: 'GetContractListByCompany', UserInfo: JSON.stringify(_userinfo), p: JSON.stringify(aoData) }, // 以json格式传递
-                        "success": function (resp) {
-                            //alert(JSON.stringify(resp));
-                            fnCallback(resp.data);
-                        }
-                    });
-                }
-            });
+                    //请求处理函数
+                    "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
+                        // 将客户名称加入参数数组
+                        //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
+                        $.ajax({
+                            "type": "POST",
+                            "url": "../handlers/CashItem.ashx",
+                            "dataType": "json",
+                            "data": { Action: 'GetList', p: JSON.stringify(aoData), status: state }, // 以json格式传递
+                            "success": function (resp) {
+                                //alert(JSON.stringify(resp.data));
+                                fnCallback(resp.data);
+                            }
+                        });
+                    }
+                });
 
+            };
+            //默认加载 审批完成但未生成凭证的数据
+            loadData(0);
+            //审批状态下拉菜单事件
+            $("#dropdownMenu li a").click(function () {
+                $("#dropdownMenuTitleBtn").text($(this).text());
+
+                $('#dvtable').dataTable().fnDestroy()
+                loadData($(this).attr("sid"));
+            });
             //选中行变色 单行
             $('table tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
@@ -88,9 +100,68 @@
                     $(this).addClass('selected');
                 }
             });
+            //ncode表格内按钮点击事件 查看审批进度按钮
+            $('#dvtable tbody').on('click', "button", function () {
+                var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('progressModalBody'));
+                var data = $(this).parents('tr').find('td');
+                $("#progressModal").modal('show');
+                //data.eq(0).html()
+                //progressBody
+                $.ajax({
+                    type: 'POST',
+                    url: '../Handlers/WFFlow1.ashx',
+                    data: { action: 'GetStepList', flowid: data.eq(0).html() },
+                    success: function suc(result) {
+                        //alert(JSON.stringify(result));
+                        //请求失败跳转到错误页
+                        if (result.code == "0") {
+                            $("#progressBody").empty();
+                            var sHtml = "";
+                            for (var i = 0; i < result.data.length; i++) {
+                                //alert(result.data[i].ID);
+                                //class="active"
+                                if (result.data[i].RID == result.msg) {
+                                    sHtml += "<tr class='info'>";
+                                }
+                                else {
+                                    if (result.data[i].Result == "Y") {
+                                        sHtml += "<tr class='success'>";
+                                    }
+                                    else if (result.data[i].Result == "N") {
+                                        sHtml += "<tr class='danger'>";
+                                    }
+                                    else {
+                                        sHtml += "<tr>";
+                                    }
+                                }
+                                sHtml += "<td>" + result.data[i].RID + "</td>";
+                                sHtml += "<td>" + result.data[i].RName + "</td>";
+                                sHtml += "<td>" + result.data[i].Result + "</td>";
+                                sHtml += "</tr>";
+                            }
 
+                            $("#progressBody").append(sHtml);
+                        }
+                        spinner1.stop();
+                    },
+                    dataType: 'JSON'
+                });
+            });
+            //刷新按钮
+            $('#toolbtn_refresh').click(function () {
+                location.reload();
+            });
             //添加按钮
             $('#toolbtn_add').click(function () {
+                var mydate = new Date();
+                var today = mydate.getFullYear().toString()
+                    + "-"
+                    + ((mydate.getMonth() + 1).toString().length == 1 ? ("0" + (mydate.getMonth() + 1).toString()) : (mydate.getMonth() + 1).toString())
+                    + "-"
+                    + mydate.getDate().toString();
+                //alert(today);
+                $("#datepicker1").val(today);
+
                 $('#customerCollapse').collapse('toggle');
                 //资金项目按钮事件
                 $('#nocdec-addon').click(function () {
@@ -524,12 +595,29 @@
                 <div class="btn-group" role="group">
                     <button id="toolbtn_add" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="新增一条记录"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                 </div>
-                <div class="btn-group" role="group">
+                <!--<div class="btn-group" role="group">
                     <button id="toolbtn_update" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="修改选中记录"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
                     <button id="toolbtn_del" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="删除选中记录"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                </div>-->
+                <!--<div class="btn-group" role="group">
+                    <button id="toolbtn_stateview" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="查看审批进度"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
+                </div>-->
+                <div class="btn-group" role="group">
+                    <button id="toolbtn_refresh" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="刷新"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
                 </div>
                 <div class="btn-group" role="group">
-                    <button id="toolbtn_stateview" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="查看审批进度"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
+                    <button id="dropdownMenuTitleBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        已申请&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="dropdownMenu" class="dropdown-menu" role="menu">
+                        <li><a href="javascript:void(0)" sid="0">已申请&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                        <li><a href="javascript:void(0)" sid="100">审批中&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                        <li><a href="javascript:void(0)" sid="1000">审批通过&nbsp;&nbsp;</a></li>
+                        <li><a href="javascript:void(0)" sid="10000">已生成凭证</a></li>
+                        <li><a href="javascript:void(0)" sid="100000">取消&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                        <li><a href="javascript:void(0)" sid="-1">审批未通过</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -592,8 +680,8 @@
                                 <tr>
                                     <td colspan="3">
                                         <div class="form-group">
-                                            <label for="datepicker1" class="control-label">日期</label>
-                                            <input id="datepicker1" type="date" class="form-control" placeholder="请选择日期">
+                                            <label class="control-label">日期</label>
+                                            <input id="datepicker1" disabled="disabled" type="date" class="form-control" placeholder="请选择日期">
                                         </div>
                                     </td>
                                 </tr>
@@ -639,18 +727,37 @@
             <table id="dvtable" class="display" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>客户</th>
-                        <th>金额</th>
-                        <th>日期</th>
-                        <th>状态</th>
+                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">编号</th>
+                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">客户</th>
+                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">日期</th>
+                        <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder" style="text-align: center;">合同付款金额</th>
+                        <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
+                        <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>
+                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批状态</th>
+                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批进度</th>
+                    </tr>
+                    <tr>
+                        <th class="myRigthBorder">预计</th>
+                        <th class="myRigthBorder">实出</th>
+                        <th class="myRigthBorder">资金项目</th>
+                        <th class="myRigthBorder">预计</th>
+                        <th class="myRigthBorder">实出</th>
+                        <th class="myRigthBorder">资金项目</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
+                        <th>编号</th>
                         <th>客户</th>
-                        <th>金额</th>
                         <th>日期</th>
-                        <th>状态</th>
+                        <th>合同付款金额</th>
+                        <th>预计</th>
+                        <th>实出</th>
+                        <th>资金项目</th>
+                        <th>预计</th>
+                        <th>实出</th>
+                        <th>资金项目</th>
+                        <th>审批状态</th>
                     </tr>
                 </tfoot>
             </table>
@@ -710,6 +817,33 @@
                     <button id="customerEnter" type="button" data-toggle="popover" class="btn btn-primary btn-lg">选中</button>
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!--审批进度弹出层-->
+    <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!--<div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="progressModalLabel">审批进度</h4>
+                </div>-->
+                <div class="modal-body" id="progressModalBody">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>当前位置</th>
+                                <th>结果</th>
+                            </tr>
+                        </thead>
+                        <tbody id="progressBody"></tbody>
+                    </table>
+                </div>
+                <!--<div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
+                </div>-->
             </div>
         </div>
     </div>

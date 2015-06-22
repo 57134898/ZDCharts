@@ -59,6 +59,25 @@ namespace ZDCharts.Handlers
             }
         }
 
+        public Tools.JsonResponse GetStepList()
+        {
+            int flowID = int.Parse(this.GetParam("flowid"));
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                //根据部门与角色查找用户可以审批的节点
+                var list = db.V_ApprovalSteps
+                    .Where(p => p.ID == flowID)//.OrderBy(p => p.TemRowID)
+                    .ToList();
+                var curNode = db.WF_Flows.SingleOrDefault(p => p.ID == flowID);
+                return new Tools.JsonResponse()
+                {
+                    Code = "0",
+                    Msg = curNode.CurNode.ToString(),
+                    Data = list
+                };
+            }
+        }
+
         public Tools.JsonResponse Commit()
         {
             string jsonStr = this.GetParam("pendingdata");

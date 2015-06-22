@@ -90,6 +90,9 @@
     <Compile Include="Sys_Menus.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="V_ApprovalSteps.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="V_CashItem.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>

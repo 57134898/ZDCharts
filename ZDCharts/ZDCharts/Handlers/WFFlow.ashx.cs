@@ -135,7 +135,6 @@ namespace ZDCharts.Handlers
                         f.ApprovalStatus = COMN.MyVars.ApprovalStatus_IsHandling;
                     }
                 }
-                f.CurNode = temrow.NextID;
                 db.WF_Nodes.Add(new DAL.WF_Nodes()
                 {
                     TemRowID = flow.CurNode,
@@ -143,6 +142,8 @@ namespace ZDCharts.Handlers
                     Result = result,
                     CreatedDate = DateTime.Now
                 });
+                //需要先天剑到NODE后表再赋值
+                f.CurNode = temrow.NextID;
                 foreach (var item in jArr)
                 {
                     int fid = int.Parse(item["fid"].ToString());

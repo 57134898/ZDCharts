@@ -225,6 +225,18 @@
           <Property Name="IsEnabled" Type="varchar" MaxLength="1" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“contract1.dbo.V_ApprovalSteps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_ApprovalSteps">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="RID" Type="int" />
+          <Property Name="RName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Result" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="PID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_CashItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_CashItem">
           <Key>
@@ -465,6 +477,15 @@
           <EntitySet Name="WF_Nodes" EntityType="Self.WF_Nodes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_TemRows" EntityType="Self.WF_TemRows" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Tems" EntityType="Self.WF_Tems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_ApprovalSteps" EntityType="Self.V_ApprovalSteps" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_ApprovalSteps].[ID] AS [ID], 
+    [V_ApprovalSteps].[RID] AS [RID], 
+    [V_ApprovalSteps].[RName] AS [RName], 
+    [V_ApprovalSteps].[Result] AS [Result], 
+    [V_ApprovalSteps].[PID] AS [PID]
+    FROM [dbo].[V_ApprovalSteps] AS [V_ApprovalSteps]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_CashItem" EntityType="Self.V_CashItem" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_CashItem].[CashID] AS [CashID], 
@@ -674,6 +695,7 @@
           <EntitySet Name="WF_Flows" EntityType="ContractModel.WF_Flows" />
           <EntitySet Name="V_CashItem" EntityType="ContractModel.V_CashItem" />
           <EntitySet Name="V_Expense" EntityType="ContractModel.V_Expense" />
+          <EntitySet Name="V_ApprovalSteps" EntityType="ContractModel.V_ApprovalSteps" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -1086,6 +1108,16 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="ApprovalStatus" Type="Int32" />
           <Property Name="ApprovalStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_ApprovalSteps">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="RID" Type="Int32" />
+          <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PID" Type="Guid" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1506,6 +1538,17 @@
                 <ScalarProperty Name="CurNode" ColumnName="CurNode" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_ApprovalSteps">
+            <EntityTypeMapping TypeName="ContractModel.V_ApprovalSteps">
+              <MappingFragment StoreEntitySet="V_ApprovalSteps">
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="RName" ColumnName="RName" />
+                <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
