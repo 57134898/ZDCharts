@@ -16,19 +16,14 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 string pStr = context.Request.Form["p"];
-                object oUser = context.Session["user"];
-                if (oUser == null)
-                    return new Tools.JsonResponse() { Code = "1000", Msg = "session用户过期" };
-                MODEL.UserInfo user = (MODEL.UserInfo)oUser;
-                string companyid = user.CompanyID;
-                string companycusotmerid = companyid.Substring(2);
-                if (string.IsNullOrEmpty(pStr) || string.IsNullOrEmpty(companyid))
+                int status = int.Parse(string.IsNullOrEmpty(context.Request.Form["status"]) ? "1000" : context.Request.Form["status"]);
+                string companycusotmerid = this.UserInfo.CompanyID.Substring(2);
+                if (string.IsNullOrEmpty(pStr))
                 {
                     JObject jo = new JObject();
                     jo.Add("data", "");
                     jo.Add("recordsTotal", 0);
                     jo.Add("recordsFiltered", 0);
-                    context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(jo));
                     return new Tools.JsonResponse() { Code = "9000", Msg = "分页参数错误" };
                 }
                 else
@@ -38,10 +33,25 @@ namespace ZDCharts.Handlers
                     var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
                     int pStart = int.Parse(pageStartJo["value"].ToString());
                     int pLength = int.Parse(pageLengthJo["value"].ToString());
-                    var pageList = db.V_Expense.OrderBy(p => p.FID).Skip(pStart).Take(pLength).ToList();
+                    var searchObj = pJArr.SingleOrDefault(p => p["name"].ToString() == "search");
+                    var searchTxt = searchObj["value"]["value"].ToString();
                     JObject jo = new JObject();
+                    int pageTotal = 0;
+                    //业务逻辑代码↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+                    IQueryable<DAL.V_Expense> tempList;
+                    if (string.IsNullOrEmpty(searchTxt))
+                    {
+                        tempList = db.V_Expense.Where(p => p.ApprovalStatus == status);
+                    }
+                    else
+                    {
+                        tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && p.CompanyName.IndexOf(searchTxt) >= 0);
+                    }
+
+                    var pageList = tempList.OrderBy(p => p.FID).Skip(pStart).Take(pLength).ToList();
+                    //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+                    pageTotal = tempList.Count();
                     jo.Add("data", JToken.FromObject(pageList));
-                    int pageTotal = db.V_Expense.Count();
                     jo.Add("recordsTotal", pageTotal);
                     jo.Add("recordsFiltered", pageTotal);
                     return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };

@@ -25,58 +25,63 @@
     <link href="../Content/daterangepicker-bs3.css" rel="stylesheet" />
 
     <script type="text/javascript">
+
         $(document).ready(function () {
-            $('#dvtable').dataTable({
-                "sPaginationType": "full_numbers",
-                "processing": true,//显示进度条
-                "scrollX": true,//水平滚动条
-                //"bAutoWidth": false,//自动列宽
-                "serverSide": true,//发送服务器请求
-                //列集合
-                "columns": [
-                            { "data": "CompanyName" },
-                            { "data": "FName" },
-                            { "data": "Rmb", 'sClass': "text-right" },
-                            { "data": "CreatedDate" },
-                            { "data": "RName" },
-                            { "data": "IsFinished" }
-                ],
-                //汉化
-                "language":
-        {
-            "sLengthMenu": "每页显示 _MENU_ 条记录",
-            "sZeroRecords": "抱歉， 没有找到",
-            "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-            "sInfoEmpty": "没有数据",
-            "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-            "oPaginate": {
-                "sFirst": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-backward' aria-hidden='true'></span></button>",
-                "sPrevious": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span></button>",
-                "sNext": "<button class='btn btn-default'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span></button>",
-                "sLast": "<button class='btn btn-default'><span class='glyphicon glyphicon-step-forward' aria-hidden='true'></span></button>"
+            function loadData(state) {
+                $('#dvtable').dataTable({
+                    "sPaginationType": "full_numbers",
+                    "processing": true,//显示进度条
+                    "scrollX": true,//水平滚动条
+                    //"bAutoWidth": false,//自动列宽
+                    "serverSide": true,//发送服务器请求
+                    //列集合
+                    "columns": [
+                                { "data": "CompanyName" },
+                                { "data": "FName" },
+                                { "data": "Rmb", 'sClass': "text-right" },
+                                { "data": "CreatedDate" },
+                                { "data": "RName" },
+                                { "data": "ApprovalStatusName" },
+                                { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" }
+                    ],
+                    //汉化
+                    "language":
+            {
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "抱歉， 没有找到",
+                "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                "sInfoEmpty": "没有数据",
+                "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+                "sZeroRecords": "没有检索到数据",
+                "sProcessing": "<img src='../Images/loading.gif'>加载中...",
+                "sSearch": "查找"
             },
-            "sZeroRecords": "没有检索到数据",
-            "sProcessing": "<img src='../Images/loading.gif'>加载中...",
-            "sSearch": "查找"
-        },
-                //请求处理函数
-                "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
-                    // 将客户名称加入参数数组
-                    //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
-                    $.ajax({
-                        "type": "POST",
-                        "url": "../handlers/Expense.ashx",
-                        "dataType": "json",
-                        "data": { Action: 'GetList', p: JSON.stringify(aoData) }, // 以json格式传递
-                        "success": function (resp) {
-                            //alert(JSON.stringify(resp));
-                            fnCallback(resp.data);
-                        }
-                    });
-                }
-            });
+                    //请求处理函数
+                    "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
+                        // 将客户名称加入参数数组
+                        //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
+                        $.ajax({
+                            "type": "POST",
+                            "url": "../handlers/Expense.ashx",
+                            "dataType": "json",
+                            "data": { Action: 'GetList', p: JSON.stringify(aoData), status: state }, // 以json格式传递
+                            "success": function (resp) {
+                                //alert(JSON.stringify(resp));
+                                fnCallback(resp.data);
+                            }
+                        });
+                    }
+                });
 
-
+            }
+            //默认加载 审批完成但未生成凭证的数据 
+            loadData(0);
 
             //选中行变色 单行
             $('table tbody').on('click', 'tr', function () {
@@ -271,7 +276,13 @@
                 table.column(1).visible(false);
 
             });
+            //审批状态下拉菜单事件
+            $("#dropdownMenu li a").click(function () {
+                $("#dropdownMenuTitleBtn").text($(this).text());
 
+                $('#dvtable').dataTable().fnDestroy()
+                loadData($(this).attr("sid"));
+            });
             //工具栏按钮tooltip设置
             $('[data-toggle="tooltip"]').tooltip();
 
@@ -284,7 +295,8 @@
             <!--工具栏-->
             <div class="btn-toolbar" role="toolbar">
                 <!--工具栏分组-->
-                <div class="btn-group" role="group">
+                <%--                
+                    <div class="btn-group" role="group">
                     <button id="toolbtn_add" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="新增一条记录"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                 </div>
                 <div class="btn-group" role="group">
@@ -293,6 +305,24 @@
                 </div>
                 <div class="btn-group" role="group">
                     <button id="toolbtn_refresh" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="刷新"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+                </div>--%>
+                <div class="btn-group" role="group">
+                    <button id="toolbtn_add" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="新增一条记录"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                    <button id="toolbtn_refresh" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="刷新"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button id="dropdownMenuTitleBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        &nbsp;审批通过&nbsp;
+                       <span class="caret"></span>
+                    </button>
+                    <ul id="dropdownMenu" class="dropdown-menu" role="menu">
+                        <li><a href="javascript:void(0)" sid="0">已申请&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                        <li><a href="javascript:void(0)" sid="100">审批中&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                        <li><a href="javascript:void(0)" sid="1000">审批通过&nbsp;&nbsp;</a></li>
+                        <li><a href="javascript:void(0)" sid="10000">已生成凭证</a></li>
+                        <li><a href="javascript:void(0)" sid="100000">取消&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                        <li><a href="javascript:void(0)" sid="-1">审批未通过</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -361,6 +391,7 @@
                         <th>日期</th>
                         <th>审批阶段</th>
                         <th>状态</th>
+                        <th>状态</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -371,6 +402,7 @@
                         <th>日期</th>
                         <th>审批阶段</th>
                         <th>状态</th>
+                        <th>审批查询</th>
                     </tr>
                 </tfoot>
             </table>

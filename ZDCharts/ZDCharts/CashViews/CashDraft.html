@@ -149,48 +149,48 @@
                     dataType: 'JSON'
                 });
             });
-            //表格内按钮点击事件 修改按钮
-            $('#dvtable tbody').on('click', "button[mark='3']", function () {
-                alert("这是修改");
-                return;
-                var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('progressModalBody'));
-                var data = $(this).parents('tr').find('td');
-                $("#progressModal").modal('show');
-                //data.eq(0).html()
-                //progressBody
-                $.ajax({
-                    type: 'POST',
-                    url: '../Handlers/WFFlow1.ashx',
-                    data: { action: 'GetStepList', flowid: data.eq(0).html() },
-                    success: function suc(result) {
-                        //alert(JSON.stringify(result));
-                        //请求失败跳转到错误页
-                        spinner1.stop();
-                    },
-                    dataType: 'JSON'
-                });
-            });
-            //表格内按钮点击事件 删除按钮
-            $('#dvtable tbody').on('click', "button[mark='4']", function () {
-                alert("这是删除");
-                return;
-                var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('progressModalBody'));
-                var data = $(this).parents('tr').find('td');
-                $("#progressModal").modal('show');
-                //data.eq(0).html()
-                //progressBody
-                $.ajax({
-                    type: 'POST',
-                    url: '../Handlers/WFFlow1.ashx',
-                    data: { action: 'GetStepList', flowid: data.eq(0).html() },
-                    success: function suc(result) {
-                        //alert(JSON.stringify(result));
-                        //请求失败跳转到错误页
-                        spinner1.stop();
-                    },
-                    dataType: 'JSON'
-                });
-            });
+            ////表格内按钮点击事件 修改按钮
+            //$('#dvtable tbody').on('click', "button[mark='3']", function () {
+            //    alert("这是修改");
+            //    return;
+            //    var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('progressModalBody'));
+            //    var data = $(this).parents('tr').find('td');
+            //    $("#progressModal").modal('show');
+            //    //data.eq(0).html()
+            //    //progressBody
+            //    $.ajax({
+            //        type: 'POST',
+            //        url: '../Handlers/WFFlow1.ashx',
+            //        data: { action: 'GetStepList', flowid: data.eq(0).html() },
+            //        success: function suc(result) {
+            //            //alert(JSON.stringify(result));
+            //            //请求失败跳转到错误页
+            //            spinner1.stop();
+            //        },
+            //        dataType: 'JSON'
+            //    });
+            //});
+            ////表格内按钮点击事件 删除按钮
+            //$('#dvtable tbody').on('click', "button[mark='4']", function () {
+            //    alert("这是删除");
+            //    return;
+            //    var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('progressModalBody'));
+            //    var data = $(this).parents('tr').find('td');
+            //    $("#progressModal").modal('show');
+            //    //data.eq(0).html()
+            //    //progressBody
+            //    $.ajax({
+            //        type: 'POST',
+            //        url: '../Handlers/WFFlow1.ashx',
+            //        data: { action: 'GetStepList', flowid: data.eq(0).html() },
+            //        success: function suc(result) {
+            //            //alert(JSON.stringify(result));
+            //            //请求失败跳转到错误页
+            //            spinner1.stop();
+            //        },
+            //        dataType: 'JSON'
+            //    });
+            //});
             //刷新按钮
             $('#toolbtn_refresh').click(function () {
                 location.reload();

@@ -17,15 +17,13 @@ namespace ZDCharts.Handlers
             {
                 string pStr = context.Request.Form["p"];
                 int status = int.Parse(string.IsNullOrEmpty(context.Request.Form["status"]) ? "1000" : context.Request.Form["status"]);
-                //string companycusotmerid = companyid.Substring(2);
                 if (string.IsNullOrEmpty(pStr))
                 {
                     JObject jo = new JObject();
                     jo.Add("data", "");
                     jo.Add("recordsTotal", 0);
                     jo.Add("recordsFiltered", 0);
-                    //context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(jo));
-                    return new Tools.JsonResponse() { Code = "0", Msg = "", Data = jo };
+                    return new Tools.JsonResponse() { Code = "12000", Msg = "分页参数错误", Data = jo };
                 }
                 else
                 {
