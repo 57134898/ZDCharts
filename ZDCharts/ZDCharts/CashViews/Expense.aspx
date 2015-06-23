@@ -100,6 +100,14 @@
             //添加按钮
             $('#toolbtn_add').click(function () {
                 $('#customerCollapse').collapse('toggle');
+                //设置日期默认值为当天
+                var mydate = new Date();
+                var today = mydate.getFullYear().toString()
+                    + "-"
+                    + ((mydate.getMonth() + 1).toString().length == 1 ? ("0" + (mydate.getMonth() + 1).toString()) : (mydate.getMonth() + 1).toString())
+                    + "-"
+                    + mydate.getDate().toString();
+                $("#datepicker1").val(today);
                 //资金项目按钮事件
                 $('#nocdec-addon').click(function () {
                     $("#mark").val("rmb");
@@ -295,7 +303,7 @@
             <!--工具栏-->
             <div class="btn-toolbar" role="toolbar">
                 <!--工具栏分组-->
-                <%--                
+                <!--                
                     <div class="btn-group" role="group">
                     <button id="toolbtn_add" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="新增一条记录"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                 </div>
@@ -305,7 +313,7 @@
                 </div>
                 <div class="btn-group" role="group">
                     <button id="toolbtn_refresh" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="刷新"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
-                </div>--%>
+                </div>-->
                 <div class="btn-group" role="group">
                     <button id="toolbtn_add" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="新增一条记录"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                     <button id="toolbtn_refresh" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="刷新"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
@@ -340,10 +348,14 @@
                                 <input type="text" class="form-control" id="Todo" placeholder="摘要" />
                             </div>
                             <div class="form-group">
-                                <label for="Rmb" class="control-label">金额</label>
-                                <input type="number" class="form-control" id="Rmb" placeholder="金额" />
+                                <label for="Rmb" class="control-label">现金</label>
+                                <input type="number" class="form-control" id="Rmb" placeholder="现金" />
                             </div>
 
+                            <div class="form-group">
+                                <label for="Note" class="control-label">票据</label>
+                                <input type="number" class="form-control" id="Note" placeholder="票据" />
+                            </div>
                             <div class="form-group">
                                 <label for="rmbtype" class="control-label">类型</label>
                                 <select id="rmbtype" class="selectpicker" data-width="100%" data-style="btn-default">
@@ -369,7 +381,7 @@
 
                             <div class="form-group">
                                 <label for="datepicker1" class="control-label">日期</label>
-                                <input id="datepicker1" type="date" class="form-control" placeholder="请选择日期">
+                                <input id="datepicker1" disabled="disabled" type="date" class="form-control" placeholder="请选择日期" />
                             </div>
 
 

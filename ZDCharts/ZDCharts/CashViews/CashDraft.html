@@ -197,13 +197,13 @@
             });
             //添加按钮
             $('#toolbtn_add').click(function () {
+                //设置日期默认值为当天
                 var mydate = new Date();
                 var today = mydate.getFullYear().toString()
                     + "-"
                     + ((mydate.getMonth() + 1).toString().length == 1 ? ("0" + (mydate.getMonth() + 1).toString()) : (mydate.getMonth() + 1).toString())
                     + "-"
                     + mydate.getDate().toString();
-                //alert(today);
                 $("#datepicker1").val(today);
 
                 $('#customerCollapse').collapse('toggle');
