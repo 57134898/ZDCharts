@@ -31,13 +31,7 @@
                 "scrollX": true,//水平滚动条
                 //"bAutoWidth": false,//自动列宽
                 "serverSide": true,//发送服务器请求
-                "ajax": {
-                    "url": "../handlers/Expense.ashx",
-                    "type": "POST",
-                    "data": { Action: 'GetList' }
-                },
                 //列集合
-                //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
                 "columns": [
                             { "data": "ID" },
                             { "data": "CompanyName" },

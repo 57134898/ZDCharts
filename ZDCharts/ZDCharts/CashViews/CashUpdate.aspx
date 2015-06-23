@@ -29,13 +29,6 @@
                     "scrollX": true,//水平滚动条
                     //"bAutoWidth": false,//自动列宽
                     "serverSide": true,//发送服务器请求
-                    //"ajax": {
-                    //    "url": "../handlers/CashItem.ashx",
-                    //    "type": "POST",
-                    //    "data": { Action: 'GetList' }
-                    //},
-                    //列集合
-                    //"aoColumns": [{ "mDataProp": "ID" }, { "mDataProp": "Name", 'sClass': "text-right" }],
                     "columns": [
                                 { "data": "ID" },
                                 { "data": "CNAME", "sWidth": "300px" },
@@ -67,7 +60,7 @@
                          },
                          "sZeroRecords": "没有检索到数据",
                          "sProcessing": "<img src='../Images/loading.gif'>加载中...",
-                         "sSearch": "查找"
+                         "sSearch": "按客户查找"
                      },
                     //请求处理函数
                     "fnServerData": function retrieveData(sSource, aoData, fnCallback) {

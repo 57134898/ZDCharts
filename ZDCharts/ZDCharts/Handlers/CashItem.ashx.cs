@@ -32,12 +32,27 @@ namespace ZDCharts.Handlers
                     JArray pJArr = JArray.Parse(pStr);
                     var pageStartJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "start");
                     var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
+                    var searchObj = pJArr.SingleOrDefault(p => p["name"].ToString() == "search");
+                    var searchTxt = searchObj["value"]["value"].ToString();
                     int pStart = int.Parse(pageStartJo["value"].ToString());
                     int pLength = int.Parse(pageLengthJo["value"].ToString());
-                    var pageList = db.V_CashItem.Where(p => p.ApprovalStatus == status).OrderBy(p => p.Cash).Skip(pStart).Take(pLength).ToList();
                     JObject jo = new JObject();
+                    int pageTotal = 0;
+                    //业务逻辑代码↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+                    IQueryable<DAL.V_CashItem> tempList;
+                    if (string.IsNullOrEmpty(searchTxt))
+                    {
+                        tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status);
+                    }
+                    else
+                    {
+                        tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status && p.CNAME.IndexOf(searchTxt) >= 0);
+                    }
+
+                    var pageList = tempList.OrderBy(p => p.Cash).Skip(pStart).Take(pLength).ToList();
+                    //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+                    pageTotal = tempList.Count();
                     jo.Add("data", JToken.FromObject(pageList));
-                    int pageTotal = db.V_CashItem.Where(p => p.ApprovalStatus == status).Count();
                     jo.Add("recordsTotal", pageTotal);
                     jo.Add("recordsFiltered", pageTotal);
                     return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
