@@ -492,7 +492,7 @@
                         <th>日期</th>
                         <th>审批阶段</th>
                         <th>状态</th>
-                        <th>状态</th>
+                        <th>审批查询</th>
                     </tr>
                 </thead>
                 <tfoot>
