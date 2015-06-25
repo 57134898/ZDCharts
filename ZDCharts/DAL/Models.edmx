@@ -174,7 +174,9 @@
           <Property Name="CompanyID" Type="varchar" MaxLength="20" />
           <Property Name="CashItem" Type="varchar" MaxLength="20" />
           <Property Name="VoucherID" Type="varchar" MaxLength="20" />
-          <Property Name="CashType" Type="varchar" MaxLength="20" />
+          <Property Name="NoteItem" Type="varchar" MaxLength="20" />
+          <Property Name="Note" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="VoucherID1" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="WF_Flows">
           <Key>
@@ -227,6 +229,7 @@
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_ApprovalSteps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_ApprovalSteps">
+          
           <Key>
             <PropertyRef Name="PID" />
           </Key>
@@ -301,6 +304,8 @@
             <PropertyRef Name="NextNode" />
             <PropertyRef Name="PreNode" />
             <PropertyRef Name="ID" />
+            <PropertyRef Name="CashItemName" />
+            <PropertyRef Name="NoteItemName" />
           </Key>
           <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FName" Type="nvarchar" MaxLength="50" />
@@ -326,13 +331,17 @@
           <Property Name="Rmb" Type="decimal" Precision="18" Scale="2" />
           <Property Name="CompanyID" Type="varchar" MaxLength="20" />
           <Property Name="CashItem" Type="varchar" MaxLength="20" />
-          <Property Name="CashType" Type="varchar" MaxLength="20" />
           <Property Name="VoucherID" Type="varchar" MaxLength="20" />
           <Property Name="DocType" Type="varchar" MaxLength="20" />
           <Property Name="CompanyName" Type="nvarchar" MaxLength="4000" />
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="ApprovalStatus" Type="int" />
           <Property Name="ApprovalStatusName" Type="nvarchar" MaxLength="50" />
+          <Property Name="NoteItem" Type="varchar" MaxLength="20" />
+          <Property Name="Note" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="VoucherID1" Type="varchar" MaxLength="20" />
+          <Property Name="CashItemName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="NoteItemName" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Flow_GB_Company”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -552,13 +561,17 @@
     [V_Expense].[Rmb] AS [Rmb], 
     [V_Expense].[CompanyID] AS [CompanyID], 
     [V_Expense].[CashItem] AS [CashItem], 
-    [V_Expense].[CashType] AS [CashType], 
     [V_Expense].[VoucherID] AS [VoucherID], 
     [V_Expense].[DocType] AS [DocType], 
     [V_Expense].[CompanyName] AS [CompanyName], 
     [V_Expense].[ID] AS [ID], 
     [V_Expense].[ApprovalStatus] AS [ApprovalStatus], 
-    [V_Expense].[ApprovalStatusName] AS [ApprovalStatusName]
+    [V_Expense].[ApprovalStatusName] AS [ApprovalStatusName], 
+    [V_Expense].[NoteItem] AS [NoteItem], 
+    [V_Expense].[Note] AS [Note], 
+    [V_Expense].[VoucherID1] AS [VoucherID1], 
+    [V_Expense].[CashItemName] AS [CashItemName], 
+    [V_Expense].[NoteItemName] AS [NoteItemName]
     FROM [dbo].[V_Expense] AS [V_Expense]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Flow_GB_Company" EntityType="Self.V_Flow_GB_Company" store:Type="Views" store:Schema="dbo">
@@ -676,7 +689,6 @@
           <EntitySet Name="V_Ncode" EntityType="ContractModel.V_Ncode" />
           <EntitySet Name="WF_Flow2" EntityType="ContractModel.WF_Flow2" />
           <EntitySet Name="V_Flows" EntityType="ContractModel.V_Flows" />
-          <EntitySet Name="WF_Flow3" EntityType="ContractModel.WF_Flow3" />
           <FunctionImport Name="AddCashVoucher">
             <Parameter Name="HID" Mode="InOut" Type="String" />
             <Parameter Name="RMB" Mode="In" Type="Decimal" />
@@ -694,8 +706,9 @@
           </FunctionImport>
           <EntitySet Name="WF_Flows" EntityType="ContractModel.WF_Flows" />
           <EntitySet Name="V_CashItem" EntityType="ContractModel.V_CashItem" />
-          <EntitySet Name="V_Expense" EntityType="ContractModel.V_Expense" />
           <EntitySet Name="V_ApprovalSteps" EntityType="ContractModel.V_ApprovalSteps" />
+          <EntitySet Name="WF_Flow3" EntityType="ContractModel.WF_Flow3" />
+          <EntitySet Name="V_Expense" EntityType="ContractModel.V_Expense" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -1006,18 +1019,6 @@
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="WF_Flow3">
-          <Key>
-            <PropertyRef Name="FlowID" />
-          </Key>
-          <Property Name="FlowID" Type="Guid" Nullable="false" />
-          <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
-          <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CompanyID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CashItem" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="VoucherID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CashType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="WF_Flows">
           <Key>
             <PropertyRef Name="FID" />
@@ -1066,6 +1067,30 @@
           <Property Name="ApprovalStatus" Type="Int32" />
           <Property Name="ApprovalStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="V_ApprovalSteps">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="RID" Type="Int32" />
+          <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PID" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WF_Flow3">
+          <Key>
+            <PropertyRef Name="FlowID" />
+          </Key>
+          <Property Name="FlowID" Type="Guid" Nullable="false" />
+          <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
+          <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CompanyID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CashItem" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VoucherID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NoteItem" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="VoucherID1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="V_Expense">
           <Key>
             <PropertyRef Name="FID" />
@@ -1076,6 +1101,8 @@
             <PropertyRef Name="NextNode" />
             <PropertyRef Name="PreNode" />
             <PropertyRef Name="ID" />
+            <PropertyRef Name="CashItemName" />
+            <PropertyRef Name="NoteItemName" />
           </Key>
           <Property Name="FID" Type="Guid" Nullable="false" />
           <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1101,23 +1128,17 @@
           <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="CompanyID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="CashItem" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CashType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="VoucherID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="CompanyName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="ApprovalStatus" Type="Int32" />
           <Property Name="ApprovalStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="V_ApprovalSteps">
-          <Key>
-            <PropertyRef Name="PID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="RID" Type="Int32" />
-          <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Result" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="PID" Type="Guid" Nullable="false" />
+          <Property Name="NoteItem" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="VoucherID1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CashItemName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NoteItemName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1447,19 +1468,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WF_Flow3">
-            <EntityTypeMapping TypeName="ContractModel.WF_Flow3">
-              <MappingFragment StoreEntitySet="WF_Flow3">
-                <ScalarProperty Name="CashType" ColumnName="CashType" />
-                <ScalarProperty Name="VoucherID" ColumnName="VoucherID" />
-                <ScalarProperty Name="CashItem" ColumnName="CashItem" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
-                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
-                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="AddCashVoucher" FunctionName="ContractModel.Store.AddCashVoucher" />
           <EntitySetMapping Name="WF_Flows">
             <EntityTypeMapping TypeName="ContractModel.WF_Flows">
@@ -1504,16 +1512,46 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="V_ApprovalSteps">
+            <EntityTypeMapping TypeName="ContractModel.V_ApprovalSteps">
+              <MappingFragment StoreEntitySet="V_ApprovalSteps">
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="RName" ColumnName="RName" />
+                <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_Flow3">
+            <EntityTypeMapping TypeName="ContractModel.WF_Flow3">
+              <MappingFragment StoreEntitySet="WF_Flow3">
+                <ScalarProperty Name="VoucherID1" ColumnName="VoucherID1" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="NoteItem" ColumnName="NoteItem" />
+                <ScalarProperty Name="VoucherID" ColumnName="VoucherID" />
+                <ScalarProperty Name="CashItem" ColumnName="CashItem" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
+                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
+                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="V_Expense">
             <EntityTypeMapping TypeName="ContractModel.V_Expense">
               <MappingFragment StoreEntitySet="V_Expense">
+                <ScalarProperty Name="NoteItemName" ColumnName="NoteItemName" />
+                <ScalarProperty Name="CashItemName" ColumnName="CashItemName" />
+                <ScalarProperty Name="VoucherID1" ColumnName="VoucherID1" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="NoteItem" ColumnName="NoteItem" />
                 <ScalarProperty Name="ApprovalStatusName" ColumnName="ApprovalStatusName" />
                 <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="DocType" ColumnName="DocType" />
                 <ScalarProperty Name="VoucherID" ColumnName="VoucherID" />
-                <ScalarProperty Name="CashType" ColumnName="CashType" />
                 <ScalarProperty Name="CashItem" ColumnName="CashItem" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="Rmb" ColumnName="Rmb" />
@@ -1538,17 +1576,6 @@
                 <ScalarProperty Name="CurNode" ColumnName="CurNode" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_ApprovalSteps">
-            <EntityTypeMapping TypeName="ContractModel.V_ApprovalSteps">
-              <MappingFragment StoreEntitySet="V_ApprovalSteps">
-                <ScalarProperty Name="PID" ColumnName="PID" />
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="RName" ColumnName="RName" />
-                <ScalarProperty Name="RID" ColumnName="RID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

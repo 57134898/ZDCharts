@@ -47,11 +47,11 @@ namespace DAL
         public virtual DbSet<V_Ncode> V_Ncode { get; set; }
         public virtual DbSet<WF_Flow2> WF_Flow2 { get; set; }
         public virtual DbSet<V_Flows> V_Flows { get; set; }
-        public virtual DbSet<WF_Flow3> WF_Flow3 { get; set; }
         public virtual DbSet<WF_Flows> WF_Flows { get; set; }
         public virtual DbSet<V_CashItem> V_CashItem { get; set; }
-        public virtual DbSet<V_Expense> V_Expense { get; set; }
         public virtual DbSet<V_ApprovalSteps> V_ApprovalSteps { get; set; }
+        public virtual DbSet<WF_Flow3> WF_Flow3 { get; set; }
+        public virtual DbSet<V_Expense> V_Expense { get; set; }
     
         public virtual int AddCashVoucher(ObjectParameter hID, Nullable<decimal> rMB, string eXPL, string vPREPARE, string vCHECK, Nullable<int> vTYPE, ObjectParameter vNO, string dR, string cR, Nullable<int> yEAR, Nullable<int> mONTH, string bCODE, string nCODE)
         {

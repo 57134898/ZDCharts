@@ -20,6 +20,8 @@ namespace DAL
         public string CompanyID { get; set; }
         public string CashItem { get; set; }
         public string VoucherID { get; set; }
-        public string CashType { get; set; }
+        public string NoteItem { get; set; }
+        public Nullable<decimal> Note { get; set; }
+        public string VoucherID1 { get; set; }
     }
 }

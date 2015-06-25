@@ -36,6 +36,7 @@
                     "serverSide": true,//发送服务器请求
                     //列集合
                     "columns": [
+                                { "data": "ID" },
                                 { "data": "CompanyName" },
                                 { "data": "FName" },
                                 { "data": "Rmb", 'sClass': "text-right" },
@@ -60,7 +61,7 @@
                 },
                 "sZeroRecords": "没有检索到数据",
                 "sProcessing": "<img src='../Images/loading.gif'>加载中...",
-                "sSearch": "查找"
+                "sSearch": "按公司 摘要查找"
             },
                     //请求处理函数
                     "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
@@ -82,7 +83,53 @@
             }
             //默认加载 审批完成但未生成凭证的数据 
             loadData(0);
+            //表格内按钮点击事件 查看审批进度按钮
+            $('#dvtable tbody').on('click', "button[mark='2']", function () {
+                var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('progressModalBody'));
+                var data = $(this).parents('tr').find('td');
+                $("#progressModal").modal('show');
+                //data.eq(0).html()
+                //progressBody
+                $.ajax({
+                    type: 'POST',
+                    url: '../Handlers/WFFlow1.ashx',
+                    data: { action: 'GetStepList', flowid: data.eq(0).html() },
+                    success: function suc(result) {
+                        //alert(JSON.stringify(result));
+                        //请求失败跳转到错误页
+                        if (result.code == "0") {
+                            $("#progressBody").empty();
+                            var sHtml = "";
+                            for (var i = 0; i < result.data.length; i++) {
+                                //alert(result.data[i].ID);
+                                //class="active"
+                                if (result.data[i].RID == result.msg) {
+                                    sHtml += "<tr class='info'>";
+                                }
+                                else {
+                                    if (result.data[i].Result == "Y") {
+                                        sHtml += "<tr class='success'>";
+                                    }
+                                    else if (result.data[i].Result == "N") {
+                                        sHtml += "<tr class='danger'>";
+                                    }
+                                    else {
+                                        sHtml += "<tr>";
+                                    }
+                                }
+                                sHtml += "<td>" + result.data[i].RID + "</td>";
+                                sHtml += "<td>" + result.data[i].RName + "</td>";
+                                sHtml += "<td>" + result.data[i].Result + "</td>";
+                                sHtml += "</tr>";
+                            }
 
+                            $("#progressBody").append(sHtml);
+                        }
+                        spinner1.stop();
+                    },
+                    dataType: 'JSON'
+                });
+            });
             //选中行变色 单行
             $('table tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
@@ -114,10 +161,10 @@
                     loadnode();
                 });
                 //资金项目按钮事件
-                //$('#nocden-addon').click(function () {
-                //    $("#mark").val("note");
-                //    loadnode();
-                //});
+                $('#nocden-addon').click(function () {
+                    $("#mark").val("note");
+                    loadnode();
+                });
 
                 //下拉列表初始化
                 $('.selectpicker').selectpicker();
@@ -181,7 +228,7 @@
                         }
                     });
 
-                    //NCODE表格内按钮点击事件
+                    //NCODE按钮点击事件
                     $('#nodetable tbody').on('click', 'button', function () {
                         var data = $(this).parents('tr').find('td');
                         //table.row()
@@ -211,6 +258,13 @@
                     if ($("#Rmb").val() == "") {
                         errormsg += "金额不能为空!<br/>";
                     }
+                    if (isNaN($("#Note").val())) {
+                        errormsg += "金额必须为数字!<br/>";
+                    }
+
+                    if ($("#Note").val() == "") {
+                        errormsg += "金额不能为空!<br/>";
+                    }
 
                     //alert($("#nocdec").attr("code"));
                     if ($("#nocdec").attr("code") == undefined || $("#nocdec").attr("code") == "") {
@@ -229,13 +283,12 @@
                     //封装formdata
                     var formdata = {};
                     formdata.Date = $("#datepicker1").val();
-                    if ($("#Rmb").val() == "") {
-                        formdata.Rmb = 0;
-                    } else {
-                        formdata.Rmb = $("#Rmb").val();
-                    }
+
+                    formdata.Rmb = Number($("#Rmb").val());
+                    formdata.Note = Number($("#Note").val());
                     formdata.CashType = $("#rmbtype").val();
-                    formdata.NCode = $("#nocdec").attr("code");
+                    formdata.NCodeC = $("#nocdec").attr("code");
+                    formdata.NCodeN = $("#nocdec").attr("code");
                     formdata.Todo = $("#Todo").val();
 
                     //alert(JSON.stringify(formdata));
@@ -259,11 +312,14 @@
                             }
                             //操做成功 清空表单
                             // $("#tablebody").empty();
-                            $("#datepicker1").val("");
+                            //$("#datepicker1").val("");
                             $("#Rmb").val("");
+                            $("#Note").val("");
                             $("#Todo").val("");
                             $("#nocdec").attr("code", "");
                             $("#nocdec").val("");
+                            $("#nocden").attr("code", "");
+                            $("#nocden").val("");
                             $("#rmbtype").val("现金");
 
                             spinner1.stop();
@@ -320,7 +376,7 @@
                 </div>
                 <div class="btn-group" role="group">
                     <button id="dropdownMenuTitleBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        &nbsp;审批通过&nbsp;
+                        已申请&nbsp;&nbsp;&nbsp;&nbsp;
                        <span class="caret"></span>
                     </button>
                     <ul id="dropdownMenu" class="dropdown-menu" role="menu">
@@ -342,20 +398,60 @@
                     <div class="panel-body">
                         <!--action很重要！！！！！！！！！！！！！！！！！！！！！！！！！1-->
                         <form>
-
                             <div class="form-group">
                                 <label for="Todo" class="control-label">摘要</label>
                                 <input type="text" class="form-control" id="Todo" placeholder="摘要" />
                             </div>
-                            <div class="form-group">
-                                <label for="Rmb" class="control-label">现金</label>
-                                <input type="number" class="form-control" id="Rmb" placeholder="现金" />
-                            </div>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 49%">
+                                        <div class="form-group">
+                                            <label for="Rmb" class="control-label">现金</label>
+                                            <input type="number" class="form-control" id="Rmb" placeholder="现金" />
+                                        </div>
+                                    </td>
+                                    <td style="width: 2%"></td>
+                                    <td style="width: 49%">
+                                        <div class="form-group">
+                                            <label for="Note" class="control-label">票据</label>
+                                            <input type="number" class="form-control" id="Note" placeholder="票据" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label for="nocdec" class="control-label">现汇资金项目</label>
+                                            <div class="input-group">
+                                                <input disabled="disabled" id="nocdec" type="text" class="form-control" placeholder="请选现汇资金项目" aria-describedby="nocdec-addon" />
+                                                <span class="input-group-btn">
+                                                    <button id="nocdec-addon" class="btn btn-default" type="button">查找</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <div class="form-group">
+                                            <label for="nocdec" class="control-label">票据资金项目</label>
+                                            <div class="input-group">
+                                                <input disabled="disabled" id="nocden" type="text" class="form-control" placeholder="请选票据资金项目" aria-describedby="nocdec-addon" />
+                                                <span class="input-group-btn">
+                                                    <button id="nocden-addon" class="btn btn-default" type="button">查找</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
 
-                            <div class="form-group">
-                                <label for="Note" class="control-label">票据</label>
-                                <input type="number" class="form-control" id="Note" placeholder="票据" />
-                            </div>
+
+
+
+
+
+
+                            <!--                  
                             <div class="form-group">
                                 <label for="rmbtype" class="control-label">类型</label>
                                 <select id="rmbtype" class="selectpicker" data-width="100%" data-style="btn-default">
@@ -364,20 +460,12 @@
                                     <option>报账卡</option>
                                     <option>内部票</option>
                                 </select>
-                            </div>
+                            </div>-->
 
 
 
 
-                            <div class="form-group">
-                                <label for="nocdec" class="control-label">现汇资金项目</label>
-                                <div class="input-group">
-                                    <input disabled="disabled" id="nocdec" type="text" class="form-control" placeholder="请选现汇资金项目" aria-describedby="nocdec-addon" />
-                                    <span class="input-group-btn">
-                                        <button id="nocdec-addon" class="btn btn-default" type="button">查找</button>
-                                    </span>
-                                </div>
-                            </div>
+
 
                             <div class="form-group">
                                 <label for="datepicker1" class="control-label">日期</label>
@@ -397,6 +485,7 @@
             <table id="dvtable" class="display" cellspacing="0" width="100%">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>公司</th>
                         <th>摘要</th>
                         <th>金额</th>
@@ -408,6 +497,7 @@
                 </thead>
                 <tfoot>
                     <tr>
+                        <th>ID</th>
                         <th>公司</th>
                         <th>摘要</th>
                         <th>金额</th>
@@ -426,7 +516,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">选择客户</h4>
+                    <h4 class="modal-title" id="myModalLabel">选择资金项目</h4>
                 </div>
                 <div class="modal-body">
                     <div class="panel panel-info">
@@ -448,6 +538,33 @@
                     <button id="customerEnter" type="button" data-toggle="popover" class="btn btn-primary btn-lg">选中</button>
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <%--审批进度弹出层--%>
+    <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <%--<div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="progressModalLabel">审批进度</h4>
+                </div>--%>
+                <div class="modal-body" id="progressModalBody">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>当前位置</th>
+                                <th>结果</th>
+                            </tr>
+                        </thead>
+                        <tbody id="progressBody">
+                        </tbody>
+                    </table>
+                </div>
+                <%--<div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
+                </div>--%>
             </div>
         </div>
     </div>

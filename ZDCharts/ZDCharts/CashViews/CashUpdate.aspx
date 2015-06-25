@@ -100,7 +100,7 @@
                     //alert("点击的行索引为：" + $("table tr.selected td:eq(0)").text());
                 }
             });
-            //ncode表格内按钮点击事件 生成凭证按钮
+            //表格内按钮点击事件 生成凭证按钮
             $('#dvtable tbody').on('click', "button[mark='1']", function () {
                 var data = $(this).parents('tr').find('td');
                 //alert(111);
@@ -110,7 +110,7 @@
                 $("#mark").val(data.eq(0).html());
                 //$("#myitemModal").modal('hide');
             });
-            //ncode表格内按钮点击事件 查看审批进度按钮
+            //表格内按钮点击事件 查看审批进度按钮
             $('#dvtable tbody').on('click', "button[mark='2']", function () {
                 var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('progressModalBody'));
                 var data = $(this).parents('tr').find('td');

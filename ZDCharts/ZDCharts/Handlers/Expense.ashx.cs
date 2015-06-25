@@ -45,7 +45,7 @@ namespace ZDCharts.Handlers
                     }
                     else
                     {
-                        tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && p.CompanyName.IndexOf(searchTxt) >= 0);
+                        tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && (p.CompanyName.IndexOf(searchTxt) >= 0 || p.FName.IndexOf(searchTxt) >= 0));
                     }
 
                     var pageList = tempList.OrderBy(p => p.FID).Skip(pStart).Take(pLength).ToList();
@@ -92,8 +92,9 @@ namespace ZDCharts.Handlers
                     ExchangeDate = DateTime.Now,
                     FlowID = flowid,
                     Rmb = formdata.Rmb,
-                    CashItem = formdata.NCode,
-                    CashType = formdata.CashType
+                    CashItem = formdata.NCodeC,
+                    NoteItem = formdata.NCodeN,
+                    Note = formdata.Note
                 });
                 int result = db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = result };
