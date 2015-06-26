@@ -36,31 +36,51 @@
                     "columns": [
                                 { "data": "ID" },
                                 { "data": "CompanyName" },
+                                { "data": "CreatedDate" },
                                 { "data": "FName" },
                                 { "data": "Rmb", 'sClass': "text-right" },
-                                { "data": "CreatedDate" },
-                                { "data": "RName" },
+                                { "data": "Rmb1", 'sClass': "text-right" },
+                                { "data": "CashItemName" },
+                                { "data": "Note", 'sClass': "text-right" },
+                                { "data": "Note1", 'sClass': "text-right" },
+                                { "data": "NoteItemName" },
+                                { "data": "ApprovalStatusName" },
                                 { "data": null, defaultContent: (state == 1000 ? "<button class='btn btn-default btn-block btn-sm' mark='1'>确定</button>" : "") },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" }
+
+                        // <th>流水号</th>
+                        //<th>公司</th>
+                        //<th>日期</th>
+                        //<th>摘要</th>
+                        //<th>预计</th>
+                        //<th>实出</th>
+                        //<th>资金项目</th>
+                        //<th>预计</th>
+                        //<th>实出</th>
+                        //<th>资金项目</th>
+                        //<th>审批状态</th>
+                        //<th>生成凭证</th>
+                        //<th>审批进度</th>
+
                     ],
                     //汉化
                     "language":
-            {
-                "sLengthMenu": "每页显示 _MENU_ 条记录",
-                "sZeroRecords": "抱歉， 没有找到",
-                "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-                "sInfoEmpty": "没有数据",
-                "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-                "oPaginate": {
-                    "sFirst": "首页",
-                    "sPrevious": "上一页",
-                    "sNext": "下一页",
-                    "sLast": "末页"
-                },
-                "sZeroRecords": "没有检索到数据",
-                "sProcessing": "<img src='../Images/loading.gif'>加载中...",
-                "sSearch": "查找"
-            },
+                    {
+                        "sLengthMenu": "每页显示 _MENU_ 条记录",
+                        "sZeroRecords": "抱歉， 没有找到",
+                        "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                        "sInfoEmpty": "没有数据",
+                        "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                        "oPaginate": {
+                            "sFirst": "首页",
+                            "sPrevious": "上一页",
+                            "sNext": "下一页",
+                            "sLast": "末页"
+                        },
+                        "sZeroRecords": "没有检索到数据",
+                        "sProcessing": "<img src='../Images/loading.gif'>加载中...",
+                        "sSearch": "查找"
+                    },
                     //请求处理函数
                     "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
                         // 将客户名称加入参数数组
@@ -69,7 +89,7 @@
                             "type": "POST",
                             "url": "../handlers/Expense.ashx",
                             "dataType": "json",
-                            "data": { Action: 'GetList', p: JSON.stringify(aoData) }, // 以json格式传递
+                            "data": { Action: 'GetList', p: JSON.stringify(aoData), status: state }, // 以json格式传递
                             "success": function (resp) {
                                 //alert(JSON.stringify(resp));
                                 fnCallback(resp.data);
@@ -128,23 +148,28 @@
                 });
             });
             //表格内按钮点击事件 生成凭证按钮
-            $('#dvtable tbody').on('click', 'button[mark='1']', function () {
+            $('#dvtable tbody').on('click', "button[mark='1']", function () {
                 var data = $(this).parents('tr').find('td');
-                $.ajax({
-                    "type": "POST",
-                    "url": "../handlers/Voucher.ashx",
-                    "dataType": "json",
-                    "data": { Action: 'AddExpenseVoucher', id: data.eq(0).html() }, // 以json格式传递
-                    "success": function (result) {
-                        alert(JSON.stringify(result));
+                //$.ajax({
+                //    "type": "POST",
+                //    "url": "../handlers/Voucher.ashx",
+                //    "dataType": "json",
+                //    "data": { Action: 'AddExpenseVoucher', id: data.eq(0).html() }, // 以json格式传递
+                //    "success": function (result) {
+                //        alert(JSON.stringify(result));
 
-                        location.reload();
-                    }
-                });
+                //        location.reload();
+                //    }
+                //});
+
+                $("#myitemModal").modal('show');
+                $("#rmb").val(data.eq(4).html());
+                $("#note").val(data.eq(7).html());
+                $("#mark").val(data.eq(0).html());
+                //$("#myitemModal").modal('hide');
+
                 //alert(data.eq(0).html());
             });
-
-
             //选中行变色 单行
             $('table tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
@@ -159,18 +184,42 @@
             $('#toolbtn_refresh').click(function () {
                 location.reload();
             });
-            //添加按钮
+            //审批状态下拉菜单事件
+            $("#dropdownMenu li a").click(function () {
+                $("#dropdownMenuTitleBtn").text($(this).text());
 
-            //浏览按钮
-            $('#toolbtn_stateview').click(function () {
-                var table = $('#dvtable').DataTable();
-                table.column(1).visible(false);
-
+                $('#dvtable').dataTable().fnDestroy()
+                loadData($(this).attr("sid"));
             });
-
             //工具栏按钮tooltip设置
             $('[data-toggle="tooltip"]').tooltip();
-
+            //commitBtn事件
+            $("#commitBtn").click(function () {
+                //var id = $("#dvtable  tr.selected td:eq(0)").text()
+                //if (id == "") {
+                //    alert("未选中要修改的数据")
+                //    return;
+                //}
+                var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('myitemModal'));
+                var postdata = {};
+                postdata.ID = $("#mark").val();//$("#dvtable  tr.selected td:eq(0)").text();
+                postdata.Cash = Number($("#rmb").val());
+                postdata.Note = Number($("#note").val());
+                //postdata.NCodeC = $("#nocdec").attr("code");
+                //postdata.NCodeN = $("#nocden").attr("code");
+                $.ajax({
+                    type: 'POST',
+                    url: '../Handlers/Voucher.ashx',
+                    data: { action: 'AddExpenseVoucher', postdata: JSON.stringify(postdata) },
+                    success: function suc(result) {
+                        //alert(JSON.stringify(result));
+                        //请求失败跳转到错误页
+                        $("#myitemModal").modal('hide');
+                        spinner1.stop();
+                    },
+                    dataType: 'JSON'
+                });
+            });//savbtn click结束
         });
     </script>
 </head>
@@ -179,17 +228,6 @@
         <div class="panel-heading">
             <!--工具栏-->
             <div class="btn-toolbar" role="toolbar">
-                <!--工具栏分组-->
-                <%--                <div class="btn-group" role="group">
-                    <button id="toolbtn_add" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="新增一条记录"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-                </div>
-                <div class="btn-group" role="group">
-                    <button id="toolbtn_update" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="修改选中记录"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
-                    <button id="toolbtn_del" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="删除选中记录"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-                </div>
-                <div class="btn-group" role="group">
-                    <button id="toolbtn_refresh" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="刷新"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
-                </div>--%>
                 <div class="btn-group" role="group">
                     <button id="toolbtn_add" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="新增一条记录"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                     <button id="toolbtn_refresh" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="刷新"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
@@ -212,41 +250,54 @@
         </div>
         <div class="panel-body">
             <table id="dvtable" class="display" cellspacing="0" width="100%">
+
+
                 <thead>
                     <tr>
-                        <th>流水号</th>
-                        <th>公司</th>
-                        <th>摘要</th>
-                        <th>金额</th>
-                        <th>日期</th>
-                        <th>审批阶段</th>
-                        <th>生成凭证</th>
-                        <th>审批查询</th>
+                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">流水号</th>
+                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">公司</th>
+                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">日期</th>
+                        <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder">摘要</th>
+                        <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
+                        <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>
+                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批状态</th>
+                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">生成凭证</th>
+                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批进度</th>
+                    </tr>
+                    <tr>
+                        <th class="myRigthBorder">预计</th>
+                        <th class="myRigthBorder">实出</th>
+                        <th class="myRigthBorder">资金项目</th>
+                        <th class="myRigthBorder">预计</th>
+                        <th class="myRigthBorder">实出</th>
+                        <th class="myRigthBorder">资金项目</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>流水号</th>
                         <th>公司</th>
-                        <th>摘要</th>
-                        <th>金额</th>
                         <th>日期</th>
-                        <th>审批阶段</th>
+                        <th>摘要</th>
+                        <th>预计</th>
+                        <th>实出</th>
+                        <th>资金项目</th>
+                        <th>预计</th>
+                        <th>实出</th>
+                        <th>资金项目</th>
+                        <th>审批状态</th>
                         <th>生成凭证</th>
-                        <th>审批查询</th>
+                        <th>审批进度</th>
                     </tr>
+
                 </tfoot>
             </table>
         </div>
     </div>
-    <%--审批进度弹出层--%>
+
     <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <%--<div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="progressModalLabel">审批进度</h4>
-                </div>--%>
                 <div class="modal-body" id="progressModalBody">
                     <table class="table table-hover">
                         <thead>
@@ -260,9 +311,38 @@
                         </tbody>
                     </table>
                 </div>
-                <%--<div class="modal-footer">
+            </div>
+        </div>
+    </div>
+
+    <!--确认弹出层-->
+    <div class="modal fade" id="myitemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">金额确认</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-info">
+                        <%--<div class="panel-heading">新增一条记录</div>--%>
+                        <div class="panel-body">
+                            <input type="hidden" id="mark" />
+                            <div class="form-group">
+                                <label for="rmb" class="control-label">实际支出现汇</label>
+                                <input id="rmb" type="number" class="form-control glyphicon-align-right" placeholder="请现汇金额" />
+                            </div>
+                            <div class="form-group">
+                                <label for="note" class="control-label">实际支出票据</label>
+                                <input id="note" type="number" class="form-control" placeholder="请票据金额" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="commitBtn" type="button" data-toggle="popover" class="btn btn-primary btn-lg">生成凭证</button>
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
-                </div>--%>
+                </div>
             </div>
         </div>
     </div>

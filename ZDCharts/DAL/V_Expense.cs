@@ -49,5 +49,7 @@ namespace DAL
         public string VoucherID1 { get; set; }
         public string CashItemName { get; set; }
         public string NoteItemName { get; set; }
+        public Nullable<decimal> Rmb1 { get; set; }
+        public Nullable<decimal> Note1 { get; set; }
     }
 }

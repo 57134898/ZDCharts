@@ -121,7 +121,8 @@ namespace ZDCharts.Handlers
                             flow.Result = COMN.MyVars.Pending;
                         }
                     }
-                    flow.CurNode = temrow.NextID;
+                    //需要先天剑到NODE后表再赋值
+
                     db.WF_Nodes.Add(new DAL.WF_Nodes()
                     {
                         TemRowID = flow.CurNode,
@@ -129,6 +130,7 @@ namespace ZDCharts.Handlers
                         Result = result,
                         CreatedDate = DateTime.Now
                     });
+                    flow.CurNode = temrow.NextID;
                 }
                 db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };

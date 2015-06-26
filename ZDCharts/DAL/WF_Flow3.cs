@@ -23,5 +23,7 @@ namespace DAL
         public string NoteItem { get; set; }
         public Nullable<decimal> Note { get; set; }
         public string VoucherID1 { get; set; }
+        public Nullable<decimal> Rmb1 { get; set; }
+        public Nullable<decimal> Note1 { get; set; }
     }
 }

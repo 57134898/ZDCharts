@@ -177,6 +177,8 @@
           <Property Name="NoteItem" Type="varchar" MaxLength="20" />
           <Property Name="Note" Type="decimal" Precision="18" Scale="2" />
           <Property Name="VoucherID1" Type="varchar" MaxLength="20" />
+          <Property Name="Rmb1" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Note1" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="WF_Flows">
           <Key>
@@ -342,6 +344,8 @@
           <Property Name="VoucherID1" Type="varchar" MaxLength="20" />
           <Property Name="CashItemName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="NoteItemName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Rmb1" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Note1" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“contract1.dbo.V_Flow_GB_Company”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -571,7 +575,9 @@
     [V_Expense].[Note] AS [Note], 
     [V_Expense].[VoucherID1] AS [VoucherID1], 
     [V_Expense].[CashItemName] AS [CashItemName], 
-    [V_Expense].[NoteItemName] AS [NoteItemName]
+    [V_Expense].[NoteItemName] AS [NoteItemName], 
+    [V_Expense].[Rmb1] AS [Rmb1], 
+    [V_Expense].[Note1] AS [Note1]
     FROM [dbo].[V_Expense] AS [V_Expense]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Flow_GB_Company" EntityType="Self.V_Flow_GB_Company" store:Type="Views" store:Schema="dbo">
@@ -1090,6 +1096,8 @@
           <Property Name="NoteItem" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="VoucherID1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Rmb1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Note1" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="V_Expense">
           <Key>
@@ -1139,6 +1147,8 @@
           <Property Name="VoucherID1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="CashItemName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="NoteItemName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Rmb1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Note1" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1526,6 +1536,8 @@
           <EntitySetMapping Name="WF_Flow3">
             <EntityTypeMapping TypeName="ContractModel.WF_Flow3">
               <MappingFragment StoreEntitySet="WF_Flow3">
+                <ScalarProperty Name="Note1" ColumnName="Note1" />
+                <ScalarProperty Name="Rmb1" ColumnName="Rmb1" />
                 <ScalarProperty Name="VoucherID1" ColumnName="VoucherID1" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="NoteItem" ColumnName="NoteItem" />
@@ -1541,6 +1553,8 @@
           <EntitySetMapping Name="V_Expense">
             <EntityTypeMapping TypeName="ContractModel.V_Expense">
               <MappingFragment StoreEntitySet="V_Expense">
+                <ScalarProperty Name="Note1" ColumnName="Note1" />
+                <ScalarProperty Name="Rmb1" ColumnName="Rmb1" />
                 <ScalarProperty Name="NoteItemName" ColumnName="NoteItemName" />
                 <ScalarProperty Name="CashItemName" ColumnName="CashItemName" />
                 <ScalarProperty Name="VoucherID1" ColumnName="VoucherID1" />
