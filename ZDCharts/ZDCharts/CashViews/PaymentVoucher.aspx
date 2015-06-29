@@ -234,7 +234,7 @@
                 </div>
                 <div class="btn-group" role="group">
                     <button id="dropdownMenuTitleBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        已申请&nbsp;&nbsp;&nbsp;&nbsp;
+                        审批通过&nbsp;&nbsp;
                        <span class="caret"></span>
                     </button>
                     <ul id="dropdownMenu" class="dropdown-menu" role="menu">

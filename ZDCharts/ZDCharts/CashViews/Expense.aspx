@@ -232,13 +232,13 @@
                     $('#nodetable tbody').on('click', 'button', function () {
                         var data = $(this).parents('tr').find('td');
                         //table.row()
-                        if ($("#mark").val() == "rmb") {
-                            $("#nocdec").val(data.eq(0).html() + ":" + data.eq(1).html());
-                            $("#nocdec").attr("code", data.eq(0).html());
-                        } else {
-                            $("#nocden").val(data.eq(0).html() + ":" + data.eq(1).html());
-                            $("#nocden").attr("code", data.eq(0).html());
-                        }
+                        // if ($("#mark").val() == "rmb") {
+                        $("#nocdec").val(data.eq(0).html() + ":" + data.eq(1).html());
+                        $("#nocdec").attr("code", data.eq(0).html());
+                        //} else {
+                        //$("#nocden").val(data.eq(0).html() + ":" + data.eq(1).html());
+                        //$("#nocden").attr("code", data.eq(0).html());
+                        //}
                         $("#myitemModal").modal('hide');
                     });
                 }
@@ -333,7 +333,6 @@
                     $('#customerCollapse').collapse('toggle');
                 });
             });
-
             //浏览按钮
             $('#toolbtn_stateview').click(function () {
                 var table = $('#dvtable').DataTable();
@@ -418,21 +417,8 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <label for="nocdec" class="control-label">现汇资金项目</label>
-                                            <div class="input-group">
-                                                <input disabled="disabled" id="nocdec" type="text" class="form-control" placeholder="请选现汇资金项目" aria-describedby="nocdec-addon" />
-                                                <span class="input-group-btn">
-                                                    <button id="nocdec-addon" class="btn btn-default" type="button">查找</button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <div class="form-group">
+
+                                <%--<div class="form-group">
                                             <label for="nocdec" class="control-label">票据资金项目</label>
                                             <div class="input-group">
                                                 <input disabled="disabled" id="nocden" type="text" class="form-control" placeholder="请选票据资金项目" aria-describedby="nocdec-addon" />
@@ -440,11 +426,17 @@
                                                     <button id="nocden-addon" class="btn btn-default" type="button">查找</button>
                                                 </span>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </div>--%>
                             </table>
-
+                            <div class="form-group">
+                                <label for="nocdec" class="control-label">资金项目</label>
+                                <div class="input-group">
+                                    <input disabled="disabled" id="nocdec" type="text" class="form-control" placeholder="请选资金项目" aria-describedby="nocdec-addon" />
+                                    <span class="input-group-btn">
+                                        <button id="nocdec-addon" class="btn btn-default" type="button">查找</button>
+                                    </span>
+                                </div>
+                            </div>
 
 
 

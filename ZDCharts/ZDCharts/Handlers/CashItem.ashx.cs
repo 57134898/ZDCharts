@@ -94,7 +94,9 @@ namespace ZDCharts.Handlers
                     }
                     else
                     {
-                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf(searchTxt) >= 0 || p.nname.IndexOf(searchTxt) >= 0);
+                        tempList = db.V_Ncode.Where(p =>
+                            p.ncode.IndexOf(searchTxt) >= 0
+                         || p.nname.IndexOf(searchTxt) >= 0);
                     }
                     var pageList = tempList.OrderBy(p => p.ncode).Skip(pStart).Take(pLength).ToList();
                     //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
@@ -103,9 +105,9 @@ namespace ZDCharts.Handlers
                     jo.Add("recordsTotal", pageTotal);
                     jo.Add("recordsFiltered", pageTotal);
                     return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
-                    ////分页集合
-                    //var pageList = db.V_Ncode.OrderBy(p => p.ncode).Skip(pStart).Take(pLength).ToList();
+                    ////分页集合 p.ncode).Skip(pStart).Take(pLength).ToList();
                     ////总条数
+                    //var pageList = db.V_Ncode.OrderBy(p =>
                     //int pageTotal = db.V_Ncode.Count();
                     //JObject jo = new JObject();
                     //jo.Add("data", JToken.FromObject(pageList));

@@ -233,7 +233,7 @@
                             "type": "POST",
                             "data": { Action: 'GetNcodeList' }
                         },
-                        "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-block btn-default  btn-xs'>选中</button>" }],//"bVisible": false  style="display:none,
+                        "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-block btn-default'>选中</button>" }],//"bVisible": false  style="display:none,
                         "columnDefs": [{
                             "targets": -1,
                             "data": null,
@@ -278,13 +278,13 @@
                     $('#nodetable tbody').on('click', 'button', function () {
                         var data = $(this).parents('tr').find('td');
                         //table.row()
-                        if ($("#mark").val() == "rmb") {
-                            $("#nocdec").val(data.eq(0).html() + ":" + data.eq(1).html());
-                            $("#nocdec").attr("code", data.eq(0).html());
-                        } else {
-                            $("#nocden").val(data.eq(0).html() + ":" + data.eq(1).html());
-                            $("#nocden").attr("code", data.eq(0).html());
-                        }
+                        //if ($("#mark").val() == "rmb") {
+                        $("#nocdec").val(data.eq(0).html() + ":" + data.eq(1).html());
+                        $("#nocdec").attr("code", data.eq(0).html());
+                        //} else {
+                        //$("#nocden").val(data.eq(0).html() + ":" + data.eq(1).html());
+                        //$("#nocden").attr("code", data.eq(0).html());
+                        //}
                         $("#myitemModal").modal('hide');
                     });
                 }
@@ -377,7 +377,7 @@
                     paym.ComanyID = userinfo.companyid;
 
                     paym.NCodeC = $("#nocdec").attr("code");
-                    paym.NCodeN = $("#nocden").attr("code");
+                    paym.NCodeN = $("#nocdec").attr("code");
 
                     var paymList = [];
                     paym.List = paymList;
@@ -696,40 +696,38 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="width: 45%">
-                                        <div class="form-group">
-                                            <label for="nocdec" class="control-label">现汇资金项目</label>
-                                            <div class="input-group">
-                                                <input disabled="disabled" id="nocdec" type="text" class="form-control" placeholder="请选现汇资金项目" aria-describedby="nocdec-addon" />
-                                                <span class="input-group-btn">
-                                                    <button id="nocdec-addon" class="btn btn-default" type="button">查找</button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td style="width: 10%"></td>
-                                    <td style="width: 45%">
-                                        <div class="form-group">
-                                            <label for="nocden" class="control-label">票据资金项目</label>
-                                            <div class="input-group">
-                                                <input disabled="disabled" id="nocden" type="text" class="form-control" placeholder="请选择票据资金项目" aria-describedby="nocden-addon" />
-                                                <span class="input-group-btn">
-                                                    <button id="nocden-addon" class="btn btn-default" type="button">查找</button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        <div class="form-group">
-                                            <label class="control-label">日期</label>
-                                            <input id="datepicker1" disabled="disabled" type="date" class="form-control" placeholder="请选择日期">
-                                        </div>
-                                    </td>
-                                </tr>
                             </table>
+                            <div class="form-group">
+                                <label for="nocdec" class="control-label">资金项目</label>
+                                <div class="input-group">
+                                    <input disabled="disabled" id="nocdec" type="text" class="form-control" placeholder="请选资金项目" aria-describedby="nocdec-addon" />
+                                    <span class="input-group-btn">
+                                        <button id="nocdec-addon" class="btn btn-default" type="button">查找</button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!--<td style="width: 10%"></td>
+                            <td style="width: 45%">
+                                <div class="form-group">
+                                    <label for="nocden" class="control-label">票据资金项目</label>
+                                    <div class="input-group">
+                                        <input disabled="disabled" id="nocden" type="text" class="form-control" placeholder="请选择票据资金项目" aria-describedby="nocden-addon" />
+                                        <span class="input-group-btn">
+                                            <button id="nocden-addon" class="btn btn-default" type="button">查找</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>-->
+
+                            <td colspan="3">
+                                <div class="form-group">
+                                    <label class="control-label">日期</label>
+                                    <input id="datepicker1" disabled="disabled" type="date" class="form-control" placeholder="请选择日期">
+                                </div>
+                            </td>
+
+
 
 
                             <div class="panel panel-info">
