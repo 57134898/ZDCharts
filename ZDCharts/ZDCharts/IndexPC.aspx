@@ -103,10 +103,10 @@
             <h3><font class="menufore">&nbsp;$$$ 资金管理系统</font></h3>
         </div>
         <div style="float: right; padding: 5px 5px 5px 5px">
-            <h5><span class="label label-info"><font class="menufore">辽宁艾美生物疫苗技术有限公司</font></span></h5>
-            <h5 class="inline"><span class="label label-info"><font class="menufore">财务部</font></span></h5>
-            <h5 class="inline"><span class="label label-info"><font class="menufore">财务总监</font></span></h5>
-            <h5 class="inline"><span class="label label-info"><font class="menufore">张三</font></span></h5>
+            <h5><span class="label label-info"><font id="company" class="menufore" runat="server">辽宁艾美生物疫苗技术有限公司</font></span></h5>
+            <h5 class="inline"><span class="label label-info"><font id="dept" class="menufore" runat="server">财务部</font></span></h5>
+            <h5 class="inline"><span class="label label-info"><font id="role" class="menufore" runat="server">财务总监</font></span></h5>
+            <h5 class="inline"><span class="label label-info"><font id="name" class="menufore" runat="server">张三</font></span></h5>
         </div>
         <br />
         <br />

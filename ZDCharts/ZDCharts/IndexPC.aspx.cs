@@ -11,10 +11,15 @@ namespace ZDCharts
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            object user = Session["user"];
-            if (user != null)
+            object oUser = Session["user"];
+            if (oUser != null)
             {
+                MODEL.UserInfo user = (MODEL.UserInfo)oUser;
                 this.userinfoinput.Value = Newtonsoft.Json.JsonConvert.SerializeObject(user);
+                this.company.InnerText = user.CompanyName;
+                this.dept.InnerText = user.DeptName;
+                this.role.InnerText = user.RoleName;
+                this.name.InnerText = user.UserName;
             }
 
         }
