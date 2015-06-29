@@ -30,10 +30,11 @@ namespace ZDCharts.Handlers
                     JArray pJArr = JArray.Parse(pStr);
                     var pageStartJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "start");
                     var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
-                    var searchObj = pJArr.SingleOrDefault(p => p["name"].ToString() == "search");
-                    var searchTxt = searchObj["value"]["value"].ToString();
                     int pStart = int.Parse(pageStartJo["value"].ToString());
                     int pLength = int.Parse(pageLengthJo["value"].ToString());
+
+                    var searchObj = pJArr.SingleOrDefault(p => p["name"].ToString() == "search");
+                    var searchTxt = searchObj["value"]["value"].ToString();
                     JObject jo = new JObject();
                     int pageTotal = 0;
                     //业务逻辑代码↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
@@ -71,7 +72,6 @@ namespace ZDCharts.Handlers
                     jo.Add("data", "");
                     jo.Add("recordsTotal", 0);
                     jo.Add("recordsFiltered", 0);
-                    //context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(jo));
                     return new Tools.JsonResponse() { Code = "0", Msg = "", Data = jo };
                 }
                 else
@@ -81,15 +81,37 @@ namespace ZDCharts.Handlers
                     var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
                     int pStart = int.Parse(pageStartJo["value"].ToString());
                     int pLength = int.Parse(pageLengthJo["value"].ToString());
-                    //分页集合
-                    var pageList = db.V_Ncode.OrderBy(p => p.ncode).Skip(pStart).Take(pLength).ToList();
-                    //总条数
-                    int pageTotal = db.V_Ncode.Count();
+
+                    var searchObj = pJArr.SingleOrDefault(p => p["name"].ToString() == "search");
+                    var searchTxt = searchObj["value"]["value"].ToString();
                     JObject jo = new JObject();
+                    int pageTotal = 0;
+                    //业务逻辑代码↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+                    IQueryable<DAL.V_Ncode> tempList;
+                    if (string.IsNullOrEmpty(searchTxt))
+                    {
+                        tempList = db.V_Ncode;
+                    }
+                    else
+                    {
+                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf(searchTxt) >= 0 || p.nname.IndexOf(searchTxt) >= 0);
+                    }
+                    var pageList = tempList.OrderBy(p => p.ncode).Skip(pStart).Take(pLength).ToList();
+                    //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+                    pageTotal = tempList.Count();
                     jo.Add("data", JToken.FromObject(pageList));
                     jo.Add("recordsTotal", pageTotal);
                     jo.Add("recordsFiltered", pageTotal);
                     return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
+                    ////分页集合
+                    //var pageList = db.V_Ncode.OrderBy(p => p.ncode).Skip(pStart).Take(pLength).ToList();
+                    ////总条数
+                    //int pageTotal = db.V_Ncode.Count();
+                    //JObject jo = new JObject();
+                    //jo.Add("data", JToken.FromObject(pageList));
+                    //jo.Add("recordsTotal", pageTotal);
+                    //jo.Add("recordsFiltered", pageTotal);
+                    //return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
                 }
             }
         }

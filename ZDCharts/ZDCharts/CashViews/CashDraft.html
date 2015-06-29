@@ -233,7 +233,7 @@
                             "type": "POST",
                             "data": { Action: 'GetNcodeList' }
                         },
-                        "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-default  btn-xs'>选中该条</button>" }],//"bVisible": false  style="display:none,
+                        "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-block btn-default  btn-xs'>选中</button>" }],//"bVisible": false  style="display:none,
                         "columnDefs": [{
                             "targets": -1,
                             "data": null,
@@ -848,7 +848,7 @@
                 <div class="modal-body">
                     <div class="panel panel-info">
                         <div class="panel-body">
-                            <input type="text" id="mark" />
+                            <input type="hidden" id="mark" />
                             <table id="nodetable" class="display compact" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>

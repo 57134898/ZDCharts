@@ -43,7 +43,7 @@
                                 { "data": "CreatedDate" },
                                 { "data": "RName" },
                                 { "data": "ApprovalStatusName" },
-                                { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" }
+                                { "data": null, defaultContent: "<button class='btn btn-default btn-block' mark='2'>查询</button>" }
                     ],
                     //汉化
                     "language":
@@ -187,7 +187,7 @@
                             "type": "POST",
                             "data": { Action: 'GetNcodeList' }
                         },
-                        "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-default  btn-xs'>选中该条</button>" }],//"bVisible": false  style="display:none,
+                        "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-block btn-default'>选中</button>" }],//"bVisible": false  style="display:none,
                         "columnDefs": [{
                             "targets": -1,
                             "data": null,
@@ -519,25 +519,25 @@
                     <h4 class="modal-title" id="myModalLabel">选择资金项目</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="panel panel-info">
-                        <div class="panel-body">
-                            <input type="text" id="mark" />
-                            <table id="nodetable" class="display compact" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>编码</th>
-                                        <th>项目</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
+                    <%--     <div class="panel panel-info">--%>
+                    <div class="panel-body">
+                        <input type="hidden" id="mark" />
+                        <table id="nodetable" class="display compact" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>编码</th>
+                                    <th>项目</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
+                    <%--</div>--%>
                 </div>
-                <div class="modal-footer">
+                <%--                <div class="modal-footer">
                     <button id="customerEnter" type="button" data-toggle="popover" class="btn btn-primary btn-lg">选中</button>
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
-                </div>
+                </div>--%>
             </div>
         </div>
     </div>
