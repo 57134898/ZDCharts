@@ -330,6 +330,7 @@
     <Content Include="WorkFlow\NodeView.aspx" />
     <Content Include="Handlers\WFFlow1.ashx" />
     <Content Include="Handlers\Voucher.ashx" />
+    <None Include="Properties\PublishProfiles\conf.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
