@@ -17,46 +17,42 @@ namespace ZDCharts.Handlers
             {
                 string pStr = context.Request.Form["p"];
                 int status = int.Parse(string.IsNullOrEmpty(context.Request.Form["status"]) ? "1000" : context.Request.Form["status"]);
-                if (string.IsNullOrEmpty(pStr))
+                JArray pJArr = JArray.Parse(pStr);
+                var pageStartJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "start");
+                var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
+                int pStart = int.Parse(pageStartJo["value"].ToString());
+                int pLength = int.Parse(pageLengthJo["value"].ToString());
+
+                var searchObj = pJArr.SingleOrDefault(p => p["name"].ToString() == "search");
+                var searchTxt = searchObj["value"]["value"].ToString();
+                JObject jo = new JObject();
+                int pageTotal = 0;
+                //业务逻辑代码↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+                IQueryable<DAL.V_CashItem> tempList;
+                if (string.IsNullOrEmpty(searchTxt))
                 {
-                    JObject jo = new JObject();
-                    jo.Add("data", "");
-                    jo.Add("recordsTotal", 0);
-                    jo.Add("recordsFiltered", 0);
-                    return new Tools.JsonResponse() { Code = "12000", Msg = "分页参数错误", Data = jo };
+                    tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status);
                 }
                 else
                 {
-                    JArray pJArr = JArray.Parse(pStr);
-                    var pageStartJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "start");
-                    var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
-                    int pStart = int.Parse(pageStartJo["value"].ToString());
-                    int pLength = int.Parse(pageLengthJo["value"].ToString());
-
-                    var searchObj = pJArr.SingleOrDefault(p => p["name"].ToString() == "search");
-                    var searchTxt = searchObj["value"]["value"].ToString();
-                    JObject jo = new JObject();
-                    int pageTotal = 0;
-                    //业务逻辑代码↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-                    IQueryable<DAL.V_CashItem> tempList;
-                    if (string.IsNullOrEmpty(searchTxt))
-                    {
-                        tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status);
-                    }
-                    else
-                    {
-                        tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status && p.CNAME.IndexOf(searchTxt) >= 0);
-                    }
-
-                    var pageList = tempList.OrderBy(p => p.Cash).Skip(pStart).Take(pLength).ToList();
-                    //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-                    pageTotal = tempList.Count();
-                    jo.Add("data", JToken.FromObject(pageList));
-                    jo.Add("recordsTotal", pageTotal);
-                    jo.Add("recordsFiltered", pageTotal);
-                    return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
+                    tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status && p.CNAME.IndexOf(searchTxt) >= 0);
                 }
+                if (tempList.Count() > 0)
+                {
+                    var pageList = tempList.OrderBy(p => p.Cash).Skip(pStart).Take(pLength).ToList();
+                    jo.Add("data", JToken.FromObject(pageList));
+                }
+                else
+                {
+                    jo.Add("data", string.Empty);
+                }
+                //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+                pageTotal = tempList.Count();
+                jo.Add("recordsTotal", pageTotal);
+                jo.Add("recordsFiltered", pageTotal);
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
             }
+
         }
 
         public Tools.JsonResponse GetNcodeList()
@@ -138,8 +134,8 @@ namespace ZDCharts.Handlers
                 //wf2.NCodeC = cashItem.NCodeC;
                 //wf2.NCodeN = cashItem.NCodeN;
                 wf2.IsFinished = "Y";
-                //插入数据到CASH
-                var cid = db.ACash.Max(p => p.CID) + 1;
+                //TODO 插入数据到CASH 
+                //var cid = db.ACash.Max(p => p.CID) + 1;
                 var list = db.WF_Flow1.Where(p => p.CashID == wf2.CashID);
                 decimal? total1 = cashItem.Cash + cashItem.Note;
                 decimal? total2 = list.Where(p => p.Result == "Y").Sum(p => p.Rmb);
@@ -171,35 +167,36 @@ namespace ZDCharts.Handlers
                     db.AddCashVoucher(hid, cashItem.Note, "自动生成付合同款", this.UserInfo.UserName, this.UserInfo.UserName, 4, vno, "100801", "1010", DateTime.Now.Year, DateTime.Now.Month, "01", wf2.NCodeN);
                     wf2.NoteVoucherID = hid.Value.ToString();
                 }
-                db.ACash.Add(new DAL.ACash()
-                    {
-                        CID = cid,
-                        ExchangeDate = DateTime.Now,
-                        Cash = wf2.Cash1,
-                        Note = wf2.Note1,
-                        VoucherFlag = false,
-                        Ccode = wf2.Ccode,
-                        HDW = this.UserInfo.CompanyID,
-                        Type = "付款"
-                    });
-                //插入数据到AFKXX
-                foreach (var item in list)
-                {
-                    if (item.Result == "Y")
-                    {
-                        db.AFKXX.Add(new DAL.AFKXX()
-                        {
-                            rmb = item.Rmb,
-                            xshth = item.XSHcode,
-                            CID = cid,
-                            date = DateTime.Now,
-                            hth = item.HCode,
-                            type = "付款",
-                            fkfs = "",
-                            fklx = ""
-                        });
-                    }
-                }
+                //TODO 插入数据到CASH 
+                //db.ACash.Add(new DAL.ACash()
+                //    {
+                //        CID = cid,
+                //        ExchangeDate = DateTime.Now,
+                //        Cash = wf2.Cash1,
+                //        Note = wf2.Note1,
+                //        VoucherFlag = false,
+                //        Ccode = wf2.Ccode,
+                //        HDW = this.UserInfo.CompanyID,
+                //        Type = "付款"
+                //    });
+                //TODO 插入数据到AFKXX
+                //foreach (var item in list)
+                //{
+                //    if (item.Result == "Y")
+                //    {
+                //        db.AFKXX.Add(new DAL.AFKXX()
+                //        {
+                //            rmb = item.Rmb,
+                //            xshth = item.XSHcode,
+                //            CID = cid,
+                //            date = DateTime.Now,
+                //            hth = item.HCode,
+                //            type = "付款",
+                //            fkfs = "",
+                //            fklx = ""
+                //        });
+                //    }
+                //}
                 //保存
                 int result = db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = result };

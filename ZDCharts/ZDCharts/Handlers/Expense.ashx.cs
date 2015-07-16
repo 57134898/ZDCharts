@@ -48,10 +48,19 @@ namespace ZDCharts.Handlers
                         tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && (p.CompanyName.IndexOf(searchTxt) >= 0 || p.FName.IndexOf(searchTxt) >= 0));
                     }
 
-                    var pageList = tempList.OrderBy(p => p.FID).Skip(pStart).Take(pLength).ToList();
+                    if (tempList.Count() > 0)
+                    {
+                        var pageList = tempList.OrderBy(p => p.FID).Skip(pStart).Take(pLength).ToList();
+                        jo.Add("data", JToken.FromObject(pageList));
+                    }
+                    else
+                    {
+                        jo.Add("data", string.Empty);
+                    }
+
+                   
                     //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
                     pageTotal = tempList.Count();
-                    jo.Add("data", JToken.FromObject(pageList));
                     jo.Add("recordsTotal", pageTotal);
                     jo.Add("recordsFiltered", pageTotal);
                     return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };

@@ -56,50 +56,41 @@ namespace ZDCharts.Handlers
                 string pStr = context.Request.Form["p"];
                 string companyid = this.UserInfo.CompanyID;
                 string companycusotmerid = companyid.Substring(2);
-                if (string.IsNullOrEmpty(pStr) || string.IsNullOrEmpty(companyid))
+                JArray pJArr = JArray.Parse(pStr);
+                var pageStartJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "start");
+                var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
+                int pStart = int.Parse(pageStartJo["value"].ToString());
+                int pLength = int.Parse(pageLengthJo["value"].ToString());
+                var searchObj = pJArr.SingleOrDefault(p => p["name"].ToString() == "search");
+                var searchTxt = searchObj["value"]["value"].ToString();
+                int pageTotal = 0;
+                JObject jo = new JObject();
+                //业务逻辑代码↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+                IQueryable<DAL.ACLIENTS> tempList;
+                if (string.IsNullOrEmpty(searchTxt))
                 {
-                    JObject jo = new JObject();
-                    jo.Add("data", "");
-                    jo.Add("recordsTotal", 0);
-                    jo.Add("recordsFiltered", 0);
-                    return new Tools.JsonResponse() { Code = "9000", Msg = "分页参数错误" };
+                    tempList = db.ACLIENTS.Where(p => p.CCODE.StartsWith("02" + companycusotmerid));
                 }
                 else
                 {
-                    JArray pJArr = JArray.Parse(pStr);
-                    var pageStartJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "start");
-                    var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
-                    int pStart = int.Parse(pageStartJo["value"].ToString());
-                    int pLength = int.Parse(pageLengthJo["value"].ToString());
-                    var searchObj = pJArr.SingleOrDefault(p => p["name"].ToString() == "search");
-                    var searchTxt = searchObj["value"]["value"].ToString();
-                    int pageTotal = 0;
-                    JObject jo = new JObject();
-                    //业务逻辑代码↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-                    IQueryable<DAL.ACLIENTS> tempList;
-                    if (string.IsNullOrEmpty(searchTxt))
-                    {
-                        tempList = db.ACLIENTS.Where(p => p.CCODE.StartsWith("02" + companycusotmerid));
-                    }
-                    else
-                    {
-                        tempList = db.ACLIENTS.Where(p => p.CCODE.StartsWith("02" + companycusotmerid) && (p.CNAME.IndexOf(searchTxt) >= 0 || p.CCODE.IndexOf(searchTxt) >= 0));
-                    }
-                    var pageList = tempList.OrderBy(p => p.CCODE).Skip(pStart).Take(pLength).ToList();
-                    //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-                    pageTotal = tempList.Count();
-                    jo.Add("data", JToken.FromObject(pageList));
-                    jo.Add("recordsTotal", pageTotal);
-                    jo.Add("recordsFiltered", pageTotal);
-                    return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
-                    //var pageList = db.ACLIENTS.Where(p => p.CCODE.StartsWith("02" + companycusotmerid)).OrderBy(p => p.CCODE).Skip(pStart).Take(pLength).ToList();
-                    //JObject jo = new JObject();
-                    //jo.Add("data", JToken.FromObject(pageList));
-                    //int pageTotal = db.ACLIENTS.Where(p => p.CCODE.StartsWith("02" + companycusotmerid)).Count();
-                    //jo.Add("recordsTotal", pageTotal);
-                    //jo.Add("recordsFiltered", pageTotal);
-                    //return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
+                    tempList = db.ACLIENTS.Where(p => p.CCODE.StartsWith("02" + companycusotmerid) && (p.CNAME.IndexOf(searchTxt) >= 0 || p.CCODE.IndexOf(searchTxt) >= 0));
                 }
+                if (tempList.Count() > 0)
+                {
+                    var pageList = tempList.OrderBy(p => p.CCODE).Skip(pStart).Take(pLength).ToList();
+                    jo.Add("data", JToken.FromObject(pageList));
+                }
+                else
+                {
+                    jo.Add("data", string.Empty);
+                }
+
+                //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+                pageTotal = tempList.Count();
+                jo.Add("recordsTotal", pageTotal);
+                jo.Add("recordsFiltered", pageTotal);
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
+
             }
         }
 

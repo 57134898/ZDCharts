@@ -34,12 +34,8 @@ namespace DAL
         public virtual DbSet<WF_Tems> WF_Tems { get; set; }
         public virtual DbSet<V_Emps> V_Emps { get; set; }
         public virtual DbSet<V_Flow_GB_Company> V_Flow_GB_Company { get; set; }
-        public virtual DbSet<ACash> ACash { get; set; }
-        public virtual DbSet<AFKXX> AFKXX { get; set; }
         public virtual DbSet<Org_Roles> Org_Roles { get; set; }
-        public virtual DbSet<ACLIENTS> ACLIENTS { get; set; }
         public virtual DbSet<V_UnfinishedContracts> V_UnfinishedContracts { get; set; }
-        public virtual DbSet<AWX> AWX { get; set; }
         public virtual DbSet<WF_CompanyToTem> WF_CompanyToTem { get; set; }
         public virtual DbSet<V_Flow_GB_Customer> V_Flow_GB_Customer { get; set; }
         public virtual DbSet<Sys_Menus> Sys_Menus { get; set; }
@@ -52,6 +48,8 @@ namespace DAL
         public virtual DbSet<V_ApprovalSteps> V_ApprovalSteps { get; set; }
         public virtual DbSet<WF_Flow3> WF_Flow3 { get; set; }
         public virtual DbSet<V_Expense> V_Expense { get; set; }
+        public virtual DbSet<ACLIENTS> ACLIENTS { get; set; }
+        public virtual DbSet<AWX> AWX { get; set; }
     
         public virtual int AddCashVoucher(ObjectParameter hID, Nullable<decimal> rMB, string eXPL, string vPREPARE, string vCHECK, Nullable<int> vTYPE, ObjectParameter vNO, string dR, string cR, Nullable<int> yEAR, Nullable<int> mONTH, string bCODE, string nCODE)
         {

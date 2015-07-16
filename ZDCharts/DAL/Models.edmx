@@ -5,85 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ContractModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="ACash">
-          <Key>
-            <PropertyRef Name="CID" />
-          </Key>
-          <Property Name="CID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ExchangeDate" Type="datetime" />
-          <Property Name="Cash" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Note" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Mz" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="VoucherId" Type="int" />
-          <Property Name="VoucherType" Type="nvarchar" MaxLength="10" />
-          <Property Name="VoucherYear" Type="int" />
-          <Property Name="VoucherMonth" Type="int" />
-          <Property Name="VoucherFlag" Type="bit" Nullable="false" />
-          <Property Name="ZJBL1" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="ZJBL2" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="ZJBL3" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Ccode" Type="nvarchar" MaxLength="50" />
-          <Property Name="Type" Type="nvarchar" MaxLength="50" />
-          <Property Name="IDTEMP" Type="int" />
-          <Property Name="HDW" Type="nvarchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="ACLIENTS">
-          <Key>
-            <PropertyRef Name="CCODE" />
-          </Key>
-          <Property Name="CID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CCODE" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CNAME" Type="nvarchar" MaxLength="50" />
-          <Property Name="CSHORTCODE" Type="nvarchar" MaxLength="50" />
-          <Property Name="CADDRESS" Type="nvarchar" MaxLength="50" />
-          <Property Name="CTEL" Type="nvarchar" MaxLength="50" />
-          <Property Name="CLINKMAN" Type="nvarchar" MaxLength="50" />
-          <Property Name="CPHONE" Type="nvarchar" MaxLength="50" />
-          <Property Name="CFAXNO" Type="nvarchar" MaxLength="50" />
-          <Property Name="CPOSNO" Type="nvarchar" MaxLength="50" />
-          <Property Name="CBANKNAME" Type="nvarchar" MaxLength="50" />
-          <Property Name="CACCOUNT" Type="nvarchar" MaxLength="50" />
-          <Property Name="CEMAIL" Type="nvarchar" MaxLength="50" />
-          <Property Name="CAREA" Type="nvarchar" MaxLength="50" />
-          <Property Name="CMEMO" Type="nvarchar" MaxLength="50" />
-          <Property Name="CFR" Type="nvarchar" MaxLength="50" />
-          <Property Name="CSH" Type="nvarchar" MaxLength="50" />
-          <Property Name="CBCODE" Type="nvarchar" MaxLength="50" />
-          <Property Name="CFPTEL" Type="nvarchar" MaxLength="50" />
-          <Property Name="CFPBAND" Type="nvarchar" MaxLength="50" />
-          <Property Name="CFPPHONE" Type="nvarchar" MaxLength="50" />
-          <Property Name="FLAG" Type="bit" />
-        </EntityType>
-        <EntityType Name="AFKXX">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="date" Type="datetime" />
-          <Property Name="rmb" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="hth" Type="nvarchar" MaxLength="50" />
-          <Property Name="xshth" Type="nvarchar" MaxLength="50" />
-          <Property Name="type" Type="nvarchar" MaxLength="50" />
-          <Property Name="fkfs" Type="nvarchar" MaxLength="50" />
-          <Property Name="fklx" Type="nvarchar" MaxLength="50" />
-          <Property Name="flag" Type="bit" />
-          <Property Name="vid" Type="int" />
-          <Property Name="vtype" Type="nvarchar" MaxLength="50" />
-          <Property Name="vyear" Type="int" />
-          <Property Name="vmonth" Type="int" />
-          <Property Name="bl1" Type="decimal" Precision="10" Scale="2" />
-          <Property Name="bl2" Type="decimal" Precision="10" Scale="2" />
-          <Property Name="bl3" Type="decimal" Precision="10" Scale="2" />
-          <Property Name="CID" Type="int" />
-        </EntityType>
-        <EntityType Name="AWX">
-          <Key>
-            <PropertyRef Name="WXCODE" />
-          </Key>
-          <Property Name="WXCODE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="WXHTH" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="XSHTH" Type="nvarchar" MaxLength="50" Nullable="false" />
-        </EntityType>
         <EntityType Name="Org_Depts">
           <Key>
             <PropertyRef Name="DeptID" />
@@ -126,7 +47,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CompanyID" Type="nvarchar" MaxLength="50" />
           <Property Name="TemID" Type="uniqueidentifier" />
           <Property Name="DocType" Type="varchar" MaxLength="20" />
@@ -135,7 +56,7 @@
           <Key>
             <PropertyRef Name="FID" />
           </Key>
-          <Property Name="FID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Rmb" Type="decimal" Precision="18" Scale="2" />
           <Property Name="HCode" Type="varchar" MaxLength="50" />
           <Property Name="FlowID" Type="uniqueidentifier" />
@@ -158,7 +79,7 @@
           <Property Name="NCodeN" Type="varchar" MaxLength="50" />
           <Property Name="IsFinished" Type="varchar" MaxLength="1" />
           <Property Name="FlowID" Type="uniqueidentifier" />
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Cash1" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Note1" Type="decimal" Precision="18" Scale="2" />
           <Property Name="CashVoucherID" Type="varchar" MaxLength="16" />
@@ -188,22 +109,22 @@
           <Property Name="FName" Type="nvarchar" MaxLength="50" />
           <Property Name="CurNode" Type="int" />
           <Property Name="IsFinished" Type="varchar" MaxLength="1" />
-          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
           <Property Name="Creater" Type="varchar" MaxLength="20" />
           <Property Name="TemID" Type="uniqueidentifier" />
           <Property Name="Result" Type="varchar" MaxLength="1" />
           <Property Name="DocType" Type="varchar" MaxLength="20" />
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ApprovalStatus" Type="int" />
         </EntityType>
         <EntityType Name="WF_Nodes">
           <Key>
             <PropertyRef Name="NID" />
           </Key>
-          <Property Name="NID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="TemRowID" Type="int" />
           <Property Name="Result" Type="varchar" MaxLength="1" />
-          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
           <Property Name="EmpID" Type="uniqueidentifier" />
           <Property Name="FlowID" Type="uniqueidentifier" />
         </EntityType>
@@ -211,7 +132,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="RID" Type="int" />
           <Property Name="TemID" Type="uniqueidentifier" />
           <Property Name="RName" Type="nvarchar" MaxLength="50" />
@@ -229,7 +150,49 @@
           <Property Name="IsEnabled" Type="varchar" MaxLength="1" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“contract1.dbo.V_ApprovalSteps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“RMB.dbo.ACLIENTS”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="ACLIENTS">
+          <Key>
+            <PropertyRef Name="CID" />
+            <PropertyRef Name="CCODE" />
+          </Key>
+          <Property Name="CID" Type="int" Nullable="false" />
+          <Property Name="CCODE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CNAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="CSHORTCODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="CADDRESS" Type="nvarchar" MaxLength="50" />
+          <Property Name="CTEL" Type="nvarchar" MaxLength="50" />
+          <Property Name="CLINKMAN" Type="nvarchar" MaxLength="50" />
+          <Property Name="CPHONE" Type="nvarchar" MaxLength="50" />
+          <Property Name="CFAXNO" Type="nvarchar" MaxLength="50" />
+          <Property Name="CPOSNO" Type="nvarchar" MaxLength="50" />
+          <Property Name="CBANKNAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="CACCOUNT" Type="nvarchar" MaxLength="50" />
+          <Property Name="CEMAIL" Type="nvarchar" MaxLength="50" />
+          <Property Name="CAREA" Type="nvarchar" MaxLength="50" />
+          <Property Name="CMEMO" Type="nvarchar" MaxLength="50" />
+          <Property Name="CFR" Type="nvarchar" MaxLength="50" />
+          <Property Name="CSH" Type="nvarchar" MaxLength="50" />
+          <Property Name="CBCODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="CFPTEL" Type="nvarchar" MaxLength="50" />
+          <Property Name="CFPBAND" Type="nvarchar" MaxLength="50" />
+          <Property Name="CFPPHONE" Type="nvarchar" MaxLength="50" />
+          <Property Name="FLAG" Type="bit" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“RMB.dbo.AWX”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="AWX">
+          <Key>
+            <PropertyRef Name="WXCODE" />
+            <PropertyRef Name="WXHTH" />
+            <PropertyRef Name="XSHTH" />
+          </Key>
+          <Property Name="WXCODE" Type="int" Nullable="false" />
+          <Property Name="WXHTH" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="XSHTH" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“RMB.dbo.V_ApprovalSteps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_ApprovalSteps">
           
           <Key>
@@ -242,7 +205,7 @@
           <Property Name="PID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“contract1.dbo.V_CashItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“RMB.dbo.V_CashItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_CashItem">
           <Key>
             <PropertyRef Name="CashID" />
@@ -276,7 +239,7 @@
           <Property Name="ApprovalStatusName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“contract1.dbo.V_Emps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“RMB.dbo.V_Emps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Emps">
           <Key>
             <PropertyRef Name="EmpID" />
@@ -295,7 +258,7 @@
           <Property Name="Psw" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“contract1.dbo.V_Expense”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“RMB.dbo.V_Expense”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Expense">
           <Key>
             <PropertyRef Name="FID" />
@@ -308,12 +271,14 @@
             <PropertyRef Name="ID" />
             <PropertyRef Name="CashItemName" />
             <PropertyRef Name="NoteItemName" />
+            
+            
           </Key>
           <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FName" Type="nvarchar" MaxLength="50" />
           <Property Name="CurNode" Type="int" />
           <Property Name="IsFinished" Type="varchar" MaxLength="1" />
-          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
           <Property Name="Creater" Type="varchar" MaxLength="20" />
           <Property Name="TemID" Type="uniqueidentifier" />
           <Property Name="TemName" Type="nvarchar" MaxLength="50" />
@@ -344,11 +309,11 @@
           <Property Name="VoucherID1" Type="varchar" MaxLength="20" />
           <Property Name="CashItemName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="NoteItemName" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="Rmb1" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Note1" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Rmb1" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Note1" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“contract1.dbo.V_Flow_GB_Company”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“RMB.dbo.V_Flow_GB_Company”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Flow_GB_Company">
           <Key>
             <PropertyRef Name="Total" />
@@ -360,7 +325,7 @@
           <Property Name="RID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“contract1.dbo.V_Flow_GB_Customer”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“RMB.dbo.V_Flow_GB_Customer”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Flow_GB_Customer">
           <Key>
             <PropertyRef Name="Total" />
@@ -371,12 +336,12 @@
           <Property Name="RoleID" Type="varchar" MaxLength="20" />
           <Property Name="Total" Type="decimal" Precision="38" Scale="2" Nullable="false" />
           <Property Name="CompanyID" Type="nvarchar" MaxLength="50" />
-          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
           <Property Name="IsFinished" Type="varchar" MaxLength="1" />
           <Property Name="RID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“contract1.dbo.V_Flows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“RMB.dbo.V_Flows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Flows">
           <Key>
             <PropertyRef Name="FID" />
@@ -388,7 +353,7 @@
           <Property Name="FName" Type="nvarchar" MaxLength="50" />
           <Property Name="CurNode" Type="int" />
           <Property Name="IsFinished" Type="varchar" MaxLength="1" />
-          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
           <Property Name="Creater" Type="varchar" MaxLength="20" />
           <Property Name="TemID" Type="uniqueidentifier" />
           <Property Name="F1ID" Type="int" Nullable="false" />
@@ -396,10 +361,10 @@
           <Property Name="CurRmb" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Customer" Type="nvarchar" MaxLength="50" />
           <Property Name="CDate" Type="datetime" />
-          <Property Name="CTotal" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CTotal" Type="numeric" Precision="18" Scale="4" />
           <Property Name="CType" Type="nvarchar" MaxLength="50" />
-          <Property Name="Rmb" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Voice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Rmb" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Voice" Type="numeric" Precision="18" Scale="2" />
           <Property Name="Saleman" Type="nvarchar" MaxLength="50" />
           <Property Name="CTypeID" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="nvarchar" MaxLength="50" />
@@ -429,7 +394,7 @@
           <Property Name="DocType" Type="varchar" MaxLength="20" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“contract1.dbo.V_Ncode”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“RMB.dbo.V_Ncode”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Ncode">
           <Key>
             <PropertyRef Name="ncode" />
@@ -440,7 +405,7 @@
           <Property Name="levl" Type="tinyint" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“contract1.dbo.V_UnfinishedContracts”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“RMB.dbo.V_UnfinishedContracts”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_UnfinishedContracts">
           <Key>
             <PropertyRef Name="HCODE" />
@@ -450,11 +415,11 @@
           </Key>
           <Property Name="HCODE" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CustomerID" Type="nvarchar" MaxLength="50" />
-          <Property Name="Total" Type="decimal" Precision="18" Scale="4" />
-          <Property Name="RMB" Type="decimal" Precision="38" Scale="2" Nullable="false" />
-          <Property Name="INV" Type="decimal" Precision="38" Scale="2" Nullable="false" />
-          <Property Name="NonRmb" Type="decimal" Precision="38" Scale="2" />
-          <Property Name="NonInv" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="Total" Type="numeric" Precision="18" Scale="4" />
+          <Property Name="RMB" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="INV" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="NonRmb" Type="numeric" Precision="38" Scale="2" />
+          <Property Name="NonInv" Type="numeric" Precision="38" Scale="2" />
           <Property Name="XSHCODE" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="Category" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -474,10 +439,6 @@
           <Parameter Name="NCODE" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="ContractModelStoreContainer">
-          <EntitySet Name="ACash" EntityType="Self.ACash" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ACLIENTS" EntityType="Self.ACLIENTS" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AFKXX" EntityType="Self.AFKXX" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AWX" EntityType="Self.AWX" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Depts" EntityType="Self.Org_Depts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Emps" EntityType="Self.Org_Emps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Roles" EntityType="Self.Org_Roles" Schema="dbo" store:Type="Tables" />
@@ -490,6 +451,39 @@
           <EntitySet Name="WF_Nodes" EntityType="Self.WF_Nodes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_TemRows" EntityType="Self.WF_TemRows" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Tems" EntityType="Self.WF_Tems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ACLIENTS" EntityType="Self.ACLIENTS" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ACLIENTS].[CID] AS [CID], 
+    [ACLIENTS].[CCODE] AS [CCODE], 
+    [ACLIENTS].[CNAME] AS [CNAME], 
+    [ACLIENTS].[CSHORTCODE] AS [CSHORTCODE], 
+    [ACLIENTS].[CADDRESS] AS [CADDRESS], 
+    [ACLIENTS].[CTEL] AS [CTEL], 
+    [ACLIENTS].[CLINKMAN] AS [CLINKMAN], 
+    [ACLIENTS].[CPHONE] AS [CPHONE], 
+    [ACLIENTS].[CFAXNO] AS [CFAXNO], 
+    [ACLIENTS].[CPOSNO] AS [CPOSNO], 
+    [ACLIENTS].[CBANKNAME] AS [CBANKNAME], 
+    [ACLIENTS].[CACCOUNT] AS [CACCOUNT], 
+    [ACLIENTS].[CEMAIL] AS [CEMAIL], 
+    [ACLIENTS].[CAREA] AS [CAREA], 
+    [ACLIENTS].[CMEMO] AS [CMEMO], 
+    [ACLIENTS].[CFR] AS [CFR], 
+    [ACLIENTS].[CSH] AS [CSH], 
+    [ACLIENTS].[CBCODE] AS [CBCODE], 
+    [ACLIENTS].[CFPTEL] AS [CFPTEL], 
+    [ACLIENTS].[CFPBAND] AS [CFPBAND], 
+    [ACLIENTS].[CFPPHONE] AS [CFPPHONE], 
+    [ACLIENTS].[FLAG] AS [FLAG]
+    FROM [dbo].[ACLIENTS] AS [ACLIENTS]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="AWX" EntityType="Self.AWX" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AWX].[WXCODE] AS [WXCODE], 
+    [AWX].[WXHTH] AS [WXHTH], 
+    [AWX].[XSHTH] AS [XSHTH]
+    FROM [dbo].[AWX] AS [AWX]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_ApprovalSteps" EntityType="Self.V_ApprovalSteps" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_ApprovalSteps].[ID] AS [ID], 
@@ -682,12 +676,8 @@
           <EntitySet Name="WF_Tems" EntityType="ContractModel.WF_Tems" />
           <EntitySet Name="V_Emps" EntityType="ContractModel.V_Emps" />
           <EntitySet Name="V_Flow_GB_Company" EntityType="ContractModel.V_Flow_GB_Company" />
-          <EntitySet Name="ACash" EntityType="ContractModel.ACash" />
-          <EntitySet Name="AFKXX" EntityType="ContractModel.AFKXX" />
           <EntitySet Name="Org_Roles" EntityType="ContractModel.Org_Roles" />
-          <EntitySet Name="ACLIENTS" EntityType="ContractModel.ACLIENTS" />
           <EntitySet Name="V_UnfinishedContracts" EntityType="ContractModel.V_UnfinishedContracts" />
-          <EntitySet Name="AWX" EntityType="ContractModel.AWX" />
           <EntitySet Name="WF_CompanyToTem" EntityType="ContractModel.WF_CompanyToTem" />
           <EntitySet Name="V_Flow_GB_Customer" EntityType="ContractModel.V_Flow_GB_Customer" />
           <EntitySet Name="Sys_Menus" EntityType="ContractModel.Sys_Menus" />
@@ -715,6 +705,8 @@
           <EntitySet Name="V_ApprovalSteps" EntityType="ContractModel.V_ApprovalSteps" />
           <EntitySet Name="WF_Flow3" EntityType="ContractModel.WF_Flow3" />
           <EntitySet Name="V_Expense" EntityType="ContractModel.V_Expense" />
+          <EntitySet Name="ACLIENTS" EntityType="ContractModel.ACLIENTS" />
+          <EntitySet Name="AWX" EntityType="ContractModel.AWX" />
         </EntityContainer>
         <EntityType Name="Org_Depts">
           <Key>
@@ -743,7 +735,7 @@
           <Property Name="NID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TemRowID" Type="Int32" />
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
           <Property Name="EmpID" Type="Guid" />
           <Property Name="FlowID" Type="Guid" />
         </EntityType>
@@ -795,50 +787,6 @@
           <Property Name="Total" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
           <Property Name="RID" Type="Int32" />
         </EntityType>
-        <EntityType Name="ACash">
-          <Key>
-            <PropertyRef Name="CID" />
-          </Key>
-          <Property Name="CID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ExchangeDate" Type="DateTime" Precision="3" />
-          <Property Name="Cash" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Mz" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="VoucherId" Type="Int32" />
-          <Property Name="VoucherType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="VoucherYear" Type="Int32" />
-          <Property Name="VoucherMonth" Type="Int32" />
-          <Property Name="VoucherFlag" Type="Boolean" Nullable="false" />
-          <Property Name="ZJBL1" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ZJBL2" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ZJBL3" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Ccode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IDTEMP" Type="Int32" />
-          <Property Name="HDW" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="AFKXX">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="date" Type="DateTime" Precision="3" />
-          <Property Name="rmb" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="hth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="xshth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fkfs" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fklx" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="flag" Type="Boolean" />
-          <Property Name="vid" Type="Int32" />
-          <Property Name="vtype" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="vyear" Type="Int32" />
-          <Property Name="vmonth" Type="Int32" />
-          <Property Name="bl1" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="bl2" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="bl3" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="CID" Type="Int32" />
-        </EntityType>
         <EntityType Name="Org_Roles">
           <Key>
             <PropertyRef Name="RoleID" />
@@ -846,33 +794,6 @@
           <Property Name="RoleID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ParID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="ACLIENTS">
-          <Key>
-            <PropertyRef Name="CCODE" />
-          </Key>
-          <Property Name="CID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CCODE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CSHORTCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CADDRESS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CLINKMAN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CPHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CFAXNO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CPOSNO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CBANKNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CACCOUNT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CEMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CAREA" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CMEMO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CFR" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CSH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CBCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CFPTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CFPBAND" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CFPPHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FLAG" Type="Boolean" />
         </EntityType>
         <EntityType Name="V_UnfinishedContracts">
           <Key>
@@ -890,14 +811,6 @@
           <Property Name="NonInv" Type="Decimal" Precision="38" Scale="2" />
           <Property Name="XSHCODE" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="AWX">
-          <Key>
-            <PropertyRef Name="WXCODE" />
-          </Key>
-          <Property Name="WXCODE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="WXHTH" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="XSHTH" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="WF_CompanyToTem">
           <Key>
@@ -918,7 +831,7 @@
           <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Total" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
           <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
           <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="RID" Type="Int32" />
         </EntityType>
@@ -985,7 +898,7 @@
           <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CurNode" Type="Int32" />
           <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
           <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="TemID" Type="Guid" />
           <Property Name="F1ID" Type="Int32" Nullable="false" />
@@ -1033,7 +946,7 @@
           <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CurNode" Type="Int32" />
           <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
           <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="TemID" Type="Guid" />
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
@@ -1116,7 +1029,7 @@
           <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CurNode" Type="Int32" />
           <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
           <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="TemID" Type="Guid" />
           <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1147,8 +1060,46 @@
           <Property Name="VoucherID1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="CashItemName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="NoteItemName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Rmb1" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Note1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Rmb1" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Note1" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ACLIENTS">
+          <Key>
+            <PropertyRef Name="CID" />
+            <PropertyRef Name="CCODE" />
+          </Key>
+          <Property Name="CID" Type="Int32" Nullable="false" />
+          <Property Name="CCODE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CSHORTCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CADDRESS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CLINKMAN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CPHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CFAXNO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CPOSNO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CBANKNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CACCOUNT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CEMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CAREA" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CMEMO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CFR" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CSH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CBCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CFPTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CFPBAND" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CFPPHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FLAG" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="AWX">
+          <Key>
+            <PropertyRef Name="WXCODE" />
+            <PropertyRef Name="WXHTH" />
+            <PropertyRef Name="XSHTH" />
+          </Key>
+          <Property Name="WXCODE" Type="Int32" Nullable="false" />
+          <Property Name="WXHTH" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="XSHTH" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1242,86 +1193,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ACash">
-            <EntityTypeMapping TypeName="ContractModel.ACash">
-              <MappingFragment StoreEntitySet="ACash">
-                <ScalarProperty Name="HDW" ColumnName="HDW" />
-                <ScalarProperty Name="IDTEMP" ColumnName="IDTEMP" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Ccode" ColumnName="Ccode" />
-                <ScalarProperty Name="ZJBL3" ColumnName="ZJBL3" />
-                <ScalarProperty Name="ZJBL2" ColumnName="ZJBL2" />
-                <ScalarProperty Name="ZJBL1" ColumnName="ZJBL1" />
-                <ScalarProperty Name="VoucherFlag" ColumnName="VoucherFlag" />
-                <ScalarProperty Name="VoucherMonth" ColumnName="VoucherMonth" />
-                <ScalarProperty Name="VoucherYear" ColumnName="VoucherYear" />
-                <ScalarProperty Name="VoucherType" ColumnName="VoucherType" />
-                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
-                <ScalarProperty Name="Mz" ColumnName="Mz" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="Cash" ColumnName="Cash" />
-                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
-                <ScalarProperty Name="CID" ColumnName="CID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AFKXX">
-            <EntityTypeMapping TypeName="ContractModel.AFKXX">
-              <MappingFragment StoreEntitySet="AFKXX">
-                <ScalarProperty Name="CID" ColumnName="CID" />
-                <ScalarProperty Name="bl3" ColumnName="bl3" />
-                <ScalarProperty Name="bl2" ColumnName="bl2" />
-                <ScalarProperty Name="bl1" ColumnName="bl1" />
-                <ScalarProperty Name="vmonth" ColumnName="vmonth" />
-                <ScalarProperty Name="vyear" ColumnName="vyear" />
-                <ScalarProperty Name="vtype" ColumnName="vtype" />
-                <ScalarProperty Name="vid" ColumnName="vid" />
-                <ScalarProperty Name="flag" ColumnName="flag" />
-                <ScalarProperty Name="fklx" ColumnName="fklx" />
-                <ScalarProperty Name="fkfs" ColumnName="fkfs" />
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="xshth" ColumnName="xshth" />
-                <ScalarProperty Name="hth" ColumnName="hth" />
-                <ScalarProperty Name="rmb" ColumnName="rmb" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Org_Roles">
             <EntityTypeMapping TypeName="ContractModel.Org_Roles">
               <MappingFragment StoreEntitySet="Org_Roles">
                 <ScalarProperty Name="ParID" ColumnName="ParID" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ACLIENTS">
-            <EntityTypeMapping TypeName="ContractModel.ACLIENTS">
-              <MappingFragment StoreEntitySet="ACLIENTS">
-                <ScalarProperty Name="FLAG" ColumnName="FLAG" />
-                <ScalarProperty Name="CFPPHONE" ColumnName="CFPPHONE" />
-                <ScalarProperty Name="CFPBAND" ColumnName="CFPBAND" />
-                <ScalarProperty Name="CFPTEL" ColumnName="CFPTEL" />
-                <ScalarProperty Name="CBCODE" ColumnName="CBCODE" />
-                <ScalarProperty Name="CSH" ColumnName="CSH" />
-                <ScalarProperty Name="CFR" ColumnName="CFR" />
-                <ScalarProperty Name="CMEMO" ColumnName="CMEMO" />
-                <ScalarProperty Name="CAREA" ColumnName="CAREA" />
-                <ScalarProperty Name="CEMAIL" ColumnName="CEMAIL" />
-                <ScalarProperty Name="CACCOUNT" ColumnName="CACCOUNT" />
-                <ScalarProperty Name="CBANKNAME" ColumnName="CBANKNAME" />
-                <ScalarProperty Name="CPOSNO" ColumnName="CPOSNO" />
-                <ScalarProperty Name="CFAXNO" ColumnName="CFAXNO" />
-                <ScalarProperty Name="CPHONE" ColumnName="CPHONE" />
-                <ScalarProperty Name="CLINKMAN" ColumnName="CLINKMAN" />
-                <ScalarProperty Name="CTEL" ColumnName="CTEL" />
-                <ScalarProperty Name="CADDRESS" ColumnName="CADDRESS" />
-                <ScalarProperty Name="CSHORTCODE" ColumnName="CSHORTCODE" />
-                <ScalarProperty Name="CNAME" ColumnName="CNAME" />
-                <ScalarProperty Name="CCODE" ColumnName="CCODE" />
-                <ScalarProperty Name="CID" ColumnName="CID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1337,15 +1214,6 @@
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="HCODE" ColumnName="HCODE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AWX">
-            <EntityTypeMapping TypeName="ContractModel.AWX">
-              <MappingFragment StoreEntitySet="AWX">
-                <ScalarProperty Name="XSHTH" ColumnName="XSHTH" />
-                <ScalarProperty Name="WXHTH" ColumnName="WXHTH" />
-                <ScalarProperty Name="WXCODE" ColumnName="WXCODE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1590,6 +1458,43 @@
                 <ScalarProperty Name="CurNode" ColumnName="CurNode" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACLIENTS">
+            <EntityTypeMapping TypeName="ContractModel.ACLIENTS">
+              <MappingFragment StoreEntitySet="ACLIENTS">
+                <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+                <ScalarProperty Name="CFPPHONE" ColumnName="CFPPHONE" />
+                <ScalarProperty Name="CFPBAND" ColumnName="CFPBAND" />
+                <ScalarProperty Name="CFPTEL" ColumnName="CFPTEL" />
+                <ScalarProperty Name="CBCODE" ColumnName="CBCODE" />
+                <ScalarProperty Name="CSH" ColumnName="CSH" />
+                <ScalarProperty Name="CFR" ColumnName="CFR" />
+                <ScalarProperty Name="CMEMO" ColumnName="CMEMO" />
+                <ScalarProperty Name="CAREA" ColumnName="CAREA" />
+                <ScalarProperty Name="CEMAIL" ColumnName="CEMAIL" />
+                <ScalarProperty Name="CACCOUNT" ColumnName="CACCOUNT" />
+                <ScalarProperty Name="CBANKNAME" ColumnName="CBANKNAME" />
+                <ScalarProperty Name="CPOSNO" ColumnName="CPOSNO" />
+                <ScalarProperty Name="CFAXNO" ColumnName="CFAXNO" />
+                <ScalarProperty Name="CPHONE" ColumnName="CPHONE" />
+                <ScalarProperty Name="CLINKMAN" ColumnName="CLINKMAN" />
+                <ScalarProperty Name="CTEL" ColumnName="CTEL" />
+                <ScalarProperty Name="CADDRESS" ColumnName="CADDRESS" />
+                <ScalarProperty Name="CSHORTCODE" ColumnName="CSHORTCODE" />
+                <ScalarProperty Name="CNAME" ColumnName="CNAME" />
+                <ScalarProperty Name="CCODE" ColumnName="CCODE" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AWX">
+            <EntityTypeMapping TypeName="ContractModel.AWX">
+              <MappingFragment StoreEntitySet="AWX">
+                <ScalarProperty Name="XSHTH" ColumnName="XSHTH" />
+                <ScalarProperty Name="WXHTH" ColumnName="WXHTH" />
+                <ScalarProperty Name="WXCODE" ColumnName="WXCODE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
