@@ -12,12 +12,14 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class V_ApprovalSteps
+    public partial class V_WF3_HVoucher
     {
-        public int ID { get; set; }
-        public Nullable<int> RID { get; set; }
-        public string RName { get; set; }
-        public string Result { get; set; }
-        public Nullable<System.Guid> PID { get; set; }
+        public System.Guid FlowID { get; set; }
+        public string VoucherID { get; set; }
+        public string HID { get; set; }
+        public int year { get; set; }
+        public short month { get; set; }
+        public string vtype { get; set; }
+        public int vno { get; set; }
     }
 }

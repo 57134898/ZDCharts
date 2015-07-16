@@ -12,12 +12,9 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class V_ApprovalSteps
+    public partial class Sys_ApprovalStatus
     {
         public int ID { get; set; }
-        public Nullable<int> RID { get; set; }
-        public string RName { get; set; }
-        public string Result { get; set; }
-        public Nullable<System.Guid> PID { get; set; }
+        public string Name { get; set; }
     }
 }
