@@ -54,7 +54,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CompanyID" Type="nvarchar" MaxLength="50" />
           <Property Name="TemID" Type="uniqueidentifier" />
           <Property Name="DocType" Type="varchar" MaxLength="20" />
@@ -86,7 +86,7 @@
           <Property Name="NCodeN" Type="varchar" MaxLength="50" />
           <Property Name="IsFinished" Type="varchar" MaxLength="1" />
           <Property Name="FlowID" Type="uniqueidentifier" />
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Cash1" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Note1" Type="decimal" Precision="18" Scale="2" />
           <Property Name="CashVoucherID" Type="varchar" MaxLength="16" />
@@ -121,14 +121,14 @@
           <Property Name="TemID" Type="uniqueidentifier" />
           <Property Name="Result" Type="varchar" MaxLength="1" />
           <Property Name="DocType" Type="varchar" MaxLength="20" />
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ApprovalStatus" Type="int" />
         </EntityType>
         <EntityType Name="WF_Nodes">
           <Key>
             <PropertyRef Name="NID" />
           </Key>
-          <Property Name="NID" Type="int" Nullable="false" />
+          <Property Name="NID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TemRowID" Type="int" />
           <Property Name="Result" Type="varchar" MaxLength="1" />
           <Property Name="CreatedDate" Type="smalldatetime" />
@@ -139,7 +139,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RID" Type="int" />
           <Property Name="TemID" Type="uniqueidentifier" />
           <Property Name="RName" Type="nvarchar" MaxLength="50" />
@@ -1038,79 +1038,6 @@
           <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="WF_CompanyToTem">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TemID" Type="Guid" />
-          <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="WF_Flow2">
-          <Key>
-            <PropertyRef Name="CashID" />
-          </Key>
-          <Property Name="CashID" Type="Guid" Nullable="false" />
-          <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
-          <Property Name="Cash" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Ccode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Mz" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Hdw" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NCodeC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NCodeN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="FlowID" Type="Guid" />
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="Cash1" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Note1" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CashVoucherID" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
-          <Property Name="NoteVoucherID" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="WF_Flow3">
-          <Key>
-            <PropertyRef Name="FlowID" />
-          </Key>
-          <Property Name="FlowID" Type="Guid" Nullable="false" />
-          <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
-          <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CompanyID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CashItem" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="VoucherID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="NoteItem" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="VoucherID1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Rmb1" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Note1" Type="Decimal" Precision="18" Scale="2" />
-        </EntityType>
-        <EntityType Name="WF_Flows">
-          <Key>
-            <PropertyRef Name="FID" />
-          </Key>
-          <Property Name="FID" Type="Guid" Nullable="false" />
-          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CurNode" Type="Int32" />
-          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
-          <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TemID" Type="Guid" />
-          <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="ApprovalStatus" Type="Int32" />
-        </EntityType>
-        <EntityType Name="WF_Nodes">
-          <Key>
-            <PropertyRef Name="NID" />
-          </Key>
-          <Property Name="NID" Type="Int32" Nullable="false" />
-          <Property Name="TemRowID" Type="Int32" />
-          <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
-          <Property Name="EmpID" Type="Guid" />
-          <Property Name="FlowID" Type="Guid" />
-        </EntityType>
         <EntityType Name="WF_TemRows">
           <Key>
             <PropertyRef Name="ID" />
@@ -1551,11 +1478,6 @@
           <EntitySet Name="Org_Roles" EntityType="Self.Org_Roles" />
           <EntitySet Name="Sys_ApprovalStatus" EntityType="Self.Sys_ApprovalStatus" />
           <EntitySet Name="Sys_Menus" EntityType="Self.Sys_Menus" />
-          <EntitySet Name="WF_CompanyToTem" EntityType="Self.WF_CompanyToTem" />
-          <EntitySet Name="WF_Flow2" EntityType="Self.WF_Flow2" />
-          <EntitySet Name="WF_Flow3" EntityType="Self.WF_Flow3" />
-          <EntitySet Name="WF_Flows" EntityType="Self.WF_Flows" />
-          <EntitySet Name="WF_Nodes" EntityType="Self.WF_Nodes" />
           <EntitySet Name="WF_TemRows" EntityType="Self.WF_TemRows" />
           <EntitySet Name="WF_Tems" EntityType="Self.WF_Tems" />
           <EntitySet Name="ACLIENTS" EntityType="Self.ACLIENTS" />
@@ -1588,8 +1510,22 @@
             <Parameter Name="BCODE" Mode="In" Type="String" />
             <Parameter Name="NCODE" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="WF_CompanyToTem" EntityType="RMBModel.WF_CompanyToTem" />
           <EntitySet Name="WF_Flow1" EntityType="RMBModel.WF_Flow1" />
+          <EntitySet Name="WF_Flow2" EntityType="RMBModel.WF_Flow2" />
+          <EntitySet Name="WF_Flow3" EntityType="RMBModel.WF_Flow3" />
+          <EntitySet Name="WF_Flows" EntityType="RMBModel.WF_Flows" />
+          <EntitySet Name="WF_Nodes" EntityType="RMBModel.WF_Nodes" />
         </EntityContainer>
+        <EntityType Name="WF_CompanyToTem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TemID" Type="Guid" />
+          <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="WF_Flow1">
           <Key>
             <PropertyRef Name="FID" />
@@ -1601,6 +1537,70 @@
           <Property Name="CashID" Type="Guid" />
           <Property Name="XSHcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="WF_Flow2">
+          <Key>
+            <PropertyRef Name="CashID" />
+          </Key>
+          <Property Name="CashID" Type="Guid" Nullable="false" />
+          <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
+          <Property Name="Cash" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Ccode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mz" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Hdw" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NCodeC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NCodeN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="FlowID" Type="Guid" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cash1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Note1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CashVoucherID" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="NoteVoucherID" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="WF_Flow3">
+          <Key>
+            <PropertyRef Name="FlowID" />
+          </Key>
+          <Property Name="FlowID" Type="Guid" Nullable="false" />
+          <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
+          <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CompanyID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CashItem" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VoucherID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NoteItem" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="VoucherID1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Rmb1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Note1" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="WF_Flows">
+          <Key>
+            <PropertyRef Name="FID" />
+          </Key>
+          <Property Name="FID" Type="Guid" Nullable="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CurNode" Type="Int32" />
+          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TemID" Type="Guid" />
+          <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApprovalStatus" Type="Int32" />
+        </EntityType>
+        <EntityType Name="WF_Nodes">
+          <Key>
+            <PropertyRef Name="NID" />
+          </Key>
+          <Property Name="NID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemRowID" Type="Int32" />
+          <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="EmpID" Type="Guid" />
+          <Property Name="FlowID" Type="Guid" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1655,84 +1655,6 @@
                 <ScalarProperty Name="ParID" ColumnName="ParID" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WF_CompanyToTem">
-            <EntityTypeMapping TypeName="RMBModel.WF_CompanyToTem">
-              <MappingFragment StoreEntitySet="WF_CompanyToTem">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="TemID" ColumnName="TemID" />
-                <ScalarProperty Name="DocType" ColumnName="DocType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WF_Flow2">
-            <EntityTypeMapping TypeName="RMBModel.WF_Flow2">
-              <MappingFragment StoreEntitySet="WF_Flow2">
-                <ScalarProperty Name="CashID" ColumnName="CashID" />
-                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
-                <ScalarProperty Name="Cash" ColumnName="Cash" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="Ccode" ColumnName="Ccode" />
-                <ScalarProperty Name="Mz" ColumnName="Mz" />
-                <ScalarProperty Name="Hdw" ColumnName="Hdw" />
-                <ScalarProperty Name="NCodeC" ColumnName="NCodeC" />
-                <ScalarProperty Name="NCodeN" ColumnName="NCodeN" />
-                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
-                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Cash1" ColumnName="Cash1" />
-                <ScalarProperty Name="Note1" ColumnName="Note1" />
-                <ScalarProperty Name="CashVoucherID" ColumnName="CashVoucherID" />
-                <ScalarProperty Name="NoteVoucherID" ColumnName="NoteVoucherID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WF_Flow3">
-            <EntityTypeMapping TypeName="RMBModel.WF_Flow3">
-              <MappingFragment StoreEntitySet="WF_Flow3">
-                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
-                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
-                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="CashItem" ColumnName="CashItem" />
-                <ScalarProperty Name="VoucherID" ColumnName="VoucherID" />
-                <ScalarProperty Name="NoteItem" ColumnName="NoteItem" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="VoucherID1" ColumnName="VoucherID1" />
-                <ScalarProperty Name="Rmb1" ColumnName="Rmb1" />
-                <ScalarProperty Name="Note1" ColumnName="Note1" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WF_Flows">
-            <EntityTypeMapping TypeName="RMBModel.WF_Flows">
-              <MappingFragment StoreEntitySet="WF_Flows">
-                <ScalarProperty Name="FID" ColumnName="FID" />
-                <ScalarProperty Name="FName" ColumnName="FName" />
-                <ScalarProperty Name="CurNode" ColumnName="CurNode" />
-                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Creater" ColumnName="Creater" />
-                <ScalarProperty Name="TemID" ColumnName="TemID" />
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="DocType" ColumnName="DocType" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WF_Nodes">
-            <EntityTypeMapping TypeName="RMBModel.WF_Nodes">
-              <MappingFragment StoreEntitySet="WF_Nodes">
-                <ScalarProperty Name="NID" ColumnName="NID" />
-                <ScalarProperty Name="TemRowID" ColumnName="TemRowID" />
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
-                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2150,6 +2072,16 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="AddCashVoucher" FunctionName="RMBModel.Store.AddCashVoucher" />
+          <EntitySetMapping Name="WF_CompanyToTem">
+            <EntityTypeMapping TypeName="RMBModel.WF_CompanyToTem">
+              <MappingFragment StoreEntitySet="WF_CompanyToTem">
+                <ScalarProperty Name="DocType" ColumnName="DocType" />
+                <ScalarProperty Name="TemID" ColumnName="TemID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="WF_Flow1">
             <EntityTypeMapping TypeName="RMBModel.WF_Flow1">
               <MappingFragment StoreEntitySet="WF_Flow1">
@@ -2160,6 +2092,74 @@
                 <ScalarProperty Name="HCode" ColumnName="HCode" />
                 <ScalarProperty Name="Rmb" ColumnName="Rmb" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_Flow2">
+            <EntityTypeMapping TypeName="RMBModel.WF_Flow2">
+              <MappingFragment StoreEntitySet="WF_Flow2">
+                <ScalarProperty Name="NoteVoucherID" ColumnName="NoteVoucherID" />
+                <ScalarProperty Name="CashVoucherID" ColumnName="CashVoucherID" />
+                <ScalarProperty Name="Note1" ColumnName="Note1" />
+                <ScalarProperty Name="Cash1" ColumnName="Cash1" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="NCodeN" ColumnName="NCodeN" />
+                <ScalarProperty Name="NCodeC" ColumnName="NCodeC" />
+                <ScalarProperty Name="Hdw" ColumnName="Hdw" />
+                <ScalarProperty Name="Mz" ColumnName="Mz" />
+                <ScalarProperty Name="Ccode" ColumnName="Ccode" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Cash" ColumnName="Cash" />
+                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
+                <ScalarProperty Name="CashID" ColumnName="CashID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_Flow3">
+            <EntityTypeMapping TypeName="RMBModel.WF_Flow3">
+              <MappingFragment StoreEntitySet="WF_Flow3">
+                <ScalarProperty Name="Note1" ColumnName="Note1" />
+                <ScalarProperty Name="Rmb1" ColumnName="Rmb1" />
+                <ScalarProperty Name="VoucherID1" ColumnName="VoucherID1" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="NoteItem" ColumnName="NoteItem" />
+                <ScalarProperty Name="VoucherID" ColumnName="VoucherID" />
+                <ScalarProperty Name="CashItem" ColumnName="CashItem" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
+                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
+                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_Flows">
+            <EntityTypeMapping TypeName="RMBModel.WF_Flows">
+              <MappingFragment StoreEntitySet="WF_Flows">
+                <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DocType" ColumnName="DocType" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="TemID" ColumnName="TemID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="CurNode" ColumnName="CurNode" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_Nodes">
+            <EntityTypeMapping TypeName="RMBModel.WF_Nodes">
+              <MappingFragment StoreEntitySet="WF_Nodes">
+                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="TemRowID" ColumnName="TemRowID" />
+                <ScalarProperty Name="NID" ColumnName="NID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
