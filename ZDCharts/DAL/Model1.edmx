@@ -285,14 +285,13 @@
 警告 6002: 表/视图“RMB.dbo.V_ApprovalSteps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_ApprovalSteps">
           <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="Result" />
+            <PropertyRef Name="PID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="RID" Type="int" />
           <Property Name="RName" Type="nvarchar" MaxLength="50" />
           <Property Name="Result" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="PID" Type="uniqueidentifier" />
+          <Property Name="PID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_CashItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1178,14 +1177,13 @@
         </EntityType>
         <EntityType Name="V_ApprovalSteps">
           <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="Result" />
+            <PropertyRef Name="PID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="RID" Type="Int32" />
           <Property Name="RName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PID" Type="Guid" />
+          <Property Name="PID" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="V_CashItem">
           <Key>

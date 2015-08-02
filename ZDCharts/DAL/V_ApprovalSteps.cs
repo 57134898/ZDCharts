@@ -18,6 +18,6 @@ namespace DAL
         public Nullable<int> RID { get; set; }
         public string RName { get; set; }
         public string Result { get; set; }
-        public Nullable<System.Guid> PID { get; set; }
+        public System.Guid PID { get; set; }
     }
 }
