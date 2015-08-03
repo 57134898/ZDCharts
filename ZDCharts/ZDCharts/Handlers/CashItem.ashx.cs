@@ -27,15 +27,32 @@ namespace ZDCharts.Handlers
                 var searchTxt = searchObj["value"]["value"].ToString();
                 JObject jo = new JObject();
                 int pageTotal = 0;
+                MODEL.UserInfo user = this.UserInfo;
                 //业务逻辑代码↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
                 IQueryable<DAL.V_CashItem> tempList;
                 if (string.IsNullOrEmpty(searchTxt))
                 {
-                    tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status);
+                    //权限控制 0199 为资金池李慧 01 和02 为副总
+                    if (user.RoleID == "0199" || user.RoleID == "01" || user.RoleID == "02")
+                    {
+                        tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status);
+                    }
+                    else
+                    {
+                        tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status && p.Hdw == user.CompanyID);
+                    }
                 }
                 else
                 {
-                    tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status && p.CNAME.IndexOf(searchTxt) >= 0);
+                    //权限控制 0199 为资金池李慧 01 和02 为副总
+                    if (user.RoleID == "0199" || user.RoleID == "01" || user.RoleID == "02")
+                    {
+                        tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status && p.CNAME.IndexOf(searchTxt) >= 0 && p.Hdw == user.CompanyID);
+                    }
+                    else
+                    {
+                        tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status && p.CNAME.IndexOf(searchTxt) >= 0 && p.Hdw == user.CompanyID);
+                    }
                 }
                 if (tempList.Count() > 0)
                 {

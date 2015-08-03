@@ -20,6 +20,7 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 //根据部门与角色查找用户可以审批的节点
+                                    //权限控制 0199 为资金池李慧 01 和02 为副总
                 var fList = db.V_Expense
                     .Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == user.RoleID)
                     .GroupBy(p => new
@@ -44,11 +45,12 @@ namespace ZDCharts.Handlers
         }
         public Tools.JsonResponse GetList()
         {
+            string companyid = this.GetParam("companyid");
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 //根据部门与角色查找用户可以审批的节点
                 var fList = db.V_Expense
-                    .Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == this.UserInfo.RoleID)
+                    .Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == this.UserInfo.RoleID && p.CompanyID == companyid)
                     .ToList();
                 return new Tools.JsonResponse()
                 {

@@ -68,7 +68,7 @@
             $.ajax({
                 type: 'POST',
                 url: '../Handlers/WFFlow1.ashx',
-                data: { action: 'GetList', SelectCustomerID: companyid },
+                data: { action: 'GetList', companyid: companyid },
                 success: function suc(result) {
                     //请求失败跳转到错误页
                     if (result.code != "0") {

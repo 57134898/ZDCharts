@@ -39,13 +39,30 @@ namespace ZDCharts.Handlers
                     int pageTotal = 0;
                     //业务逻辑代码↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
                     IQueryable<DAL.V_Expense> tempList;
+                    MODEL.UserInfo user = this.UserInfo;
                     if (string.IsNullOrEmpty(searchTxt))
                     {
-                        tempList = db.V_Expense.Where(p => p.ApprovalStatus == status);
+                        if (user.RoleID == "0199" || user.RoleID == "01" || user.RoleID == "02")
+                        {
+                            tempList = db.V_Expense.Where(p => p.ApprovalStatus == status);
+                        }
+                        else
+                        {
+                            tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && p.CompanyID == user.CompanyID);
+                        }
+
                     }
                     else
                     {
-                        tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && (p.CompanyName.IndexOf(searchTxt) >= 0 || p.FName.IndexOf(searchTxt) >= 0));
+                        if (user.RoleID == "0199" || user.RoleID == "01" || user.RoleID == "02")
+                        {
+                            tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && (p.CompanyName.IndexOf(searchTxt) >= 0 || p.FName.IndexOf(searchTxt) >= 0));
+                        }
+                        else
+                        {
+                            tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && (p.CompanyName.IndexOf(searchTxt) >= 0 || p.FName.IndexOf(searchTxt) >= 0) && p.CompanyID == user.CompanyID);
+                        }
+                      
                     }
 
                     if (tempList.Count() > 0)
@@ -58,7 +75,7 @@ namespace ZDCharts.Handlers
                         jo.Add("data", string.Empty);
                     }
 
-                   
+
                     //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
                     pageTotal = tempList.Count();
                     jo.Add("recordsTotal", pageTotal);
