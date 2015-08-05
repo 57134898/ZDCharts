@@ -122,7 +122,7 @@ namespace ZDCharts.Handlers
                 string jsonstr = context.Request.Form["PayInfo"];
                 string jsonstr1 = context.Request.Form["UserInfo"];
                 MODEL.PayInfo payinfo = (MODEL.PayInfo)Newtonsoft.Json.JsonConvert.DeserializeObject(jsonstr, typeof(MODEL.PayInfo));
-                MODEL.UserInfo userinfo = (MODEL.UserInfo)Newtonsoft.Json.JsonConvert.DeserializeObject(jsonstr1, typeof(MODEL.UserInfo));
+                MODEL.UserInfo userinfo = this.UserInfo;//(MODEL.UserInfo)Newtonsoft.Json.JsonConvert.DeserializeObject(jsonstr1, typeof(MODEL.UserInfo));
                 var cashid = Guid.NewGuid();
                 var flowid = Guid.NewGuid();
                 var companytotem = db.WF_CompanyToTem.SingleOrDefault(p => p.CompanyID == userinfo.CompanyID && p.DocType == "1");

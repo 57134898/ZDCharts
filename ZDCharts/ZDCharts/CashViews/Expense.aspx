@@ -153,7 +153,7 @@
                     + "-"
                     + ((mydate.getMonth() + 1).toString().length == 1 ? ("0" + (mydate.getMonth() + 1).toString()) : (mydate.getMonth() + 1).toString())
                     + "-"
-                    + mydate.getDate().toString();
+                    + ((mydate.getDate() + 1).toString().length == 1 ? ("0" + (mydate.getDate() + 1).toString()) : (mydate.getDate() + 1).toString());
                 $("#datepicker1").val(today);
                 //资金项目按钮事件
                 $('#nocdec-addon').click(function () {
