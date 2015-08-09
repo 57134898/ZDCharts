@@ -34,5 +34,6 @@ namespace DAL
         public decimal ContractTotal { get; set; }
         public Nullable<int> ApprovalStatus { get; set; }
         public string ApprovalStatusName { get; set; }
+        public System.Guid FlowID { get; set; }
     }
 }

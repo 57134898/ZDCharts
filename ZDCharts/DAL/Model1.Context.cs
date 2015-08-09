@@ -39,7 +39,6 @@ namespace DAL
         public virtual DbSet<AFKXX> AFKXX { get; set; }
         public virtual DbSet<AWX> AWX { get; set; }
         public virtual DbSet<V_ApprovalSteps> V_ApprovalSteps { get; set; }
-        public virtual DbSet<V_CashItem> V_CashItem { get; set; }
         public virtual DbSet<V_Emps> V_Emps { get; set; }
         public virtual DbSet<V_Expense> V_Expense { get; set; }
         public virtual DbSet<V_Flow_GB_Company> V_Flow_GB_Company { get; set; }
@@ -55,6 +54,7 @@ namespace DAL
         public virtual DbSet<WF_Flow3> WF_Flow3 { get; set; }
         public virtual DbSet<WF_Flows> WF_Flows { get; set; }
         public virtual DbSet<WF_Nodes> WF_Nodes { get; set; }
+        public virtual DbSet<V_CashItem> V_CashItem { get; set; }
     
         public virtual int AddCashVoucher(ObjectParameter hID, Nullable<decimal> rMB, string eXPL, string vPREPARE, string vCHECK, Nullable<int> vTYPE, ObjectParameter vNO, string dR, string cR, Nullable<int> yEAR, Nullable<int> mONTH, string bCODE, string nCODE)
         {
@@ -103,6 +103,39 @@ namespace DAL
                 new ObjectParameter("NCODE", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddCashVoucher", hID, rMBParameter, eXPLParameter, vPREPAREParameter, vCHECKParameter, vTYPEParameter, vNO, dRParameter, cRParameter, yEARParameter, mONTHParameter, bCODEParameter, nCODEParameter);
+        }
+    
+        public virtual int AddCash(Nullable<System.DateTime> exchangeDate, Nullable<decimal> cash, Nullable<decimal> note, Nullable<bool> voucherFlag, string ccode, string hDW, string type)
+        {
+            var exchangeDateParameter = exchangeDate.HasValue ?
+                new ObjectParameter("ExchangeDate", exchangeDate) :
+                new ObjectParameter("ExchangeDate", typeof(System.DateTime));
+    
+            var cashParameter = cash.HasValue ?
+                new ObjectParameter("Cash", cash) :
+                new ObjectParameter("Cash", typeof(decimal));
+    
+            var noteParameter = note.HasValue ?
+                new ObjectParameter("Note", note) :
+                new ObjectParameter("Note", typeof(decimal));
+    
+            var voucherFlagParameter = voucherFlag.HasValue ?
+                new ObjectParameter("VoucherFlag", voucherFlag) :
+                new ObjectParameter("VoucherFlag", typeof(bool));
+    
+            var ccodeParameter = ccode != null ?
+                new ObjectParameter("Ccode", ccode) :
+                new ObjectParameter("Ccode", typeof(string));
+    
+            var hDWParameter = hDW != null ?
+                new ObjectParameter("HDW", hDW) :
+                new ObjectParameter("HDW", typeof(string));
+    
+            var typeParameter = type != null ?
+                new ObjectParameter("Type", type) :
+                new ObjectParameter("Type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddCash", exchangeDateParameter, cashParameter, noteParameter, voucherFlagParameter, ccodeParameter, hDWParameter, typeParameter);
         }
     }
 }

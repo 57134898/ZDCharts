@@ -8,6 +8,8 @@ namespace COMN
 {
     public class MyVars
     {
+        public readonly static string CWDB = "ZJCCS";
+
         public readonly static string Yes = "Y";
         public readonly static string No = "N";
         public readonly static string Pending = "O";
