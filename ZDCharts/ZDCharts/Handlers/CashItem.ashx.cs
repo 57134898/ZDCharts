@@ -165,20 +165,21 @@ namespace ZDCharts.Handlers
                         Data = string.Format("合同总金额{0}", total2)
                     };
                 }
-
-
-                //-- 生成凭证头ID
-                string sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[DBO].[HVOUCHER]", COMN.MyVars.CWDB);
-                string hid = DBHelper.ExecuteScalar(sql).ToString().PadLeft(16, '0');
-                //-- 生成凭证号 根据年,月,凭证类型
-                sql = string.Format("SELECT	ISNULL((SELECT MAX(VNO)+1 FROM {0}.[DBO].[HVOUCHER] WHERE [year] = {1} AND [month] = {2} AND [vtype] = 3),0)", COMN.MyVars.CWDB, DateTime.Now.Year, DateTime.Now.Month);
-                string vno = DBHelper.ExecuteScalar(sql).ToString();
-                sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[dbo].[ivoucher]", COMN.MyVars.CWDB);
-                int vid = int.Parse(DBHelper.ExecuteScalar(sql).ToString());
-                //--	添加凭证头
-                sql = string.Format(@"INSERT INTO {0}.dbo.hvoucher([id],[year],[month],[vtype],[vno],[bcode],[vdate],[vappendix],[vprepare],[vcheck],[vexpl],[modifydate])
+                //添加现汇申请凭证
+                if (cashItem.Cash > 0)
+                {
+                    //-- 生成凭证头ID
+                    string sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[DBO].[HVOUCHER]", COMN.MyVars.CWDB);
+                    string hid = DBHelper.ExecuteScalar(sql).ToString().PadLeft(16, '0');
+                    //-- 生成凭证号 根据年,月,凭证类型
+                    sql = string.Format("SELECT	ISNULL((SELECT MAX(VNO)+1 FROM {0}.[DBO].[HVOUCHER] WHERE [year] = {1} AND [month] = {2} AND [vtype] = 3),1)", COMN.MyVars.CWDB, DateTime.Now.Year, DateTime.Now.Month);
+                    string vno = DBHelper.ExecuteScalar(sql).ToString();
+                    sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[dbo].[ivoucher]", COMN.MyVars.CWDB);
+                    int vid = int.Parse(DBHelper.ExecuteScalar(sql).ToString());
+                    //--	添加凭证头
+                    sql = string.Format(@"INSERT INTO {0}.dbo.hvoucher([id],[year],[month],[vtype],[vno],[bcode],[vdate],[vappendix],[vprepare],[vcheck],[vexpl],[modifydate])
                                                    VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}');",
-                                    new object[]{COMN.MyVars.CWDB
+                                        new object[]{COMN.MyVars.CWDB
                                     ,hid
                                     ,DateTime.Now.Year
                                     ,DateTime.Now.Month
@@ -189,13 +190,13 @@ namespace ZDCharts.Handlers
                                     ,0
                                     ,this.UserInfo.UserName
                                     ,this.UserInfo.UserName
-                                    ,"自动生成付合同款"
+                                    ,"付["+vcash.CNAME+"]货款"
                                     ,DateTime.Now.ToShortDateString()});
 
-                //--	添加凭证行
-                sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
-                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}',{15},'{16}');",
-                                    new object[] { COMN.MyVars.CWDB 
+                    //--	添加凭证行
+                    sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
+                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
+                                        new object[] { COMN.MyVars.CWDB 
                                     ,hid
                                     ,100
                                     ,DateTime.Now.Year
@@ -203,18 +204,18 @@ namespace ZDCharts.Handlers
                                     ,3
                                     ,vno
                                     ,DateTime.Now.ToShortDateString()
-                                    ,"自动生成付合同款"
-                                    ,1
+                                    ,"付["+vcash.CNAME+"]货款"
+                                    ,-1
                                     ,"100801"
-                                    ,"01"
+                                    ,wf2.Hdw
                                     ,wf2.NCodeC
                                     ,cashItem.Cash
                                     ,DateTime.Now.ToShortDateString()
                                     ,vid.ToString().PadLeft(16, '0')
                                     ,""});
-                sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
-                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}',{15},'{16}');",
-                    new object[] { COMN.MyVars.CWDB 
+                    sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
+                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
+                        new object[] { COMN.MyVars.CWDB 
                                     ,hid
                                     ,200
                                     ,DateTime.Now.Year
@@ -222,40 +223,89 @@ namespace ZDCharts.Handlers
                                     ,3
                                     ,vno
                                     ,DateTime.Now.ToShortDateString()
-                                    ,"自动生成付合同款"
-                                    ,-1
+                                    ,"付["+vcash.CNAME+"]货款"
+                                    ,1
                                     ,"1010"
-                                    ,"01"
+                                    ,wf2.Hdw
                                     ,wf2.NCodeC
                                     ,cashItem.Cash
                                     ,DateTime.Now.ToShortDateString()
+                                    ,(vid+1).ToString().PadLeft(16, '0')
+                                    ,""});
+                    int result_sql = DBHelper.ExecuteNonQuery(sql);
+                    wf2.CashVoucherID = hid;
+
+                }
+                ////添加票据申请凭证
+                if (cashItem.Note > 0)
+                {
+                    //-- 生成凭证头ID
+                    string sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[DBO].[HVOUCHER]", COMN.MyVars.CWDB);
+                    string hid = DBHelper.ExecuteScalar(sql).ToString().PadLeft(16, '0');
+                    //-- 生成凭证号 根据年,月,凭证类型
+                    sql = string.Format("SELECT	ISNULL((SELECT MAX(VNO)+1 FROM {0}.[DBO].[HVOUCHER] WHERE [year] = {1} AND [month] = {2} AND [vtype] = 4),1)", COMN.MyVars.CWDB, DateTime.Now.Year, DateTime.Now.Month);
+                    string vno = DBHelper.ExecuteScalar(sql).ToString();
+                    sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[dbo].[ivoucher]", COMN.MyVars.CWDB);
+                    int vid = int.Parse(DBHelper.ExecuteScalar(sql).ToString());
+                    //--	添加凭证头
+                    sql = string.Format(@"INSERT INTO {0}.dbo.hvoucher([id],[year],[month],[vtype],[vno],[bcode],[vdate],[vappendix],[vprepare],[vcheck],[vexpl],[modifydate])
+                                                   VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}');",
+                                        new object[]{COMN.MyVars.CWDB
+                                    ,hid
+                                    ,DateTime.Now.Year
+                                    ,DateTime.Now.Month
+                                    ,4
+                                    ,vno
+                                    ,"01"
+                                    ,DateTime.Now.ToShortDateString()
+                                    ,0
+                                    ,this.UserInfo.UserName
+                                    ,this.UserInfo.UserName
+                                    ,"付["+vcash.CNAME+"]货款"
+                                    ,DateTime.Now.ToShortDateString()});
+
+                    //--	添加凭证行
+                    sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
+                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
+                                        new object[] { COMN.MyVars.CWDB 
+                                    ,hid
+                                    ,100
+                                    ,DateTime.Now.Year
+                                    ,DateTime.Now.Month
+                                    ,4
+                                    ,vno
+                                    ,DateTime.Now.ToShortDateString()
+                                    ,"付["+vcash.CNAME+"]货款"
+                                    ,-1
+                                    ,"100802"
+                                    ,wf2.Hdw
+                                    ,wf2.NCodeC
+                                    ,cashItem.Note
+                                    ,DateTime.Now.ToShortDateString()
                                     ,vid.ToString().PadLeft(16, '0')
                                     ,""});
-                int result_sql = DBHelper.ExecuteNonQuery(sql);
-                // TODO  现汇凭证完成 票据凭证未完
-                //@HID,100,@YEAR,@MONTH,@VTYPE,@VNO,@DATE_NOW,@EXPL,1,@DR,@BCODE,@NCODE,@RMB,@DATE_NOW,DBO.PADLEFT((SELECT MAX(ID)+1 FROM [zjc].[dbo].[ivoucher]),'0',16),'')"
-                //INSERT INTO OPENDATASOURCE ('SQLOLEDB', 'Data Source=192.168.7.70;User ID=sa;' ).[ZJCCS].dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
-                //    VALUES(@HID,100,@YEAR,@MONTH,@VTYPE,@VNO,@DATE_NOW,@EXPL,-1,@CR,@BCODE,@NCODE,@RMB,@DATE_NOW,DBO.PADLEFT((SELECT MAX(ID)+1 FROM [zjc].[dbo].[ivoucher]),'0',16),'')
-
-                //添加现汇申请凭证
-                //if (cashItem.Cash > 0)
-                //{
-                //    string hid_v = string.Empty;
-                //    var hid = new System.Data.Entity.Core.Objects.ObjectParameter("HID", typeof(string));
-                //    var vno = new System.Data.Entity.Core.Objects.ObjectParameter("VNO", typeof(int));
-                //    db.AddCashVoucher(hid, cashItem.Cash, "自动生成付合同款", this.UserInfo.UserName, this.UserInfo.UserName, 3, vno, "100801", "1010", DateTime.Now.Year, DateTime.Now.Month, "01", wf2.NCodeC);
-                //    wf2.CashVoucherID = hid.Value.ToString();
-                //    //Response.Write(hid.Value.ToString() + "||" + vno.Value.ToString() + "<br/>" + hid_v + "||" + vno_v.ToString());
-                //}
-                ////添加票据申请凭证
-                //if (cashItem.Note > 0)
-                //{
-                //    string hid_v = string.Empty;
-                //    var hid = new System.Data.Entity.Core.Objects.ObjectParameter("HID", typeof(string));
-                //    var vno = new System.Data.Entity.Core.Objects.ObjectParameter("VNO", typeof(int));
-                //    db.AddCashVoucher(hid, cashItem.Note, "自动生成付合同款", this.UserInfo.UserName, this.UserInfo.UserName, 4, vno, "100801", "1010", DateTime.Now.Year, DateTime.Now.Month, "01", wf2.NCodeN);
-                //    wf2.NoteVoucherID = hid.Value.ToString();
-                //}
+                    sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
+                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
+                        new object[] { COMN.MyVars.CWDB 
+                                    ,hid
+                                    ,200
+                                    ,DateTime.Now.Year
+                                    ,DateTime.Now.Month
+                                    ,4
+                                    ,vno
+                                    ,DateTime.Now.ToShortDateString()
+                                    ,"付["+vcash.CNAME+"]货款"
+                                    ,1
+                                    ,"1011"
+                                    ,wf2.Hdw
+                                    ,wf2.NCodeC
+                                    ,cashItem.Note
+                                    ,DateTime.Now.ToShortDateString()
+                                    ,(vid+1).ToString().PadLeft(16, '0')
+                                    ,""});
+                    int result_sql = DBHelper.ExecuteNonQuery(sql);
+                    wf2.NoteVoucherID = hid;
+                }
                 //int cid = db.AddCash(DateTime.Now, wf2.Cash1, wf2.Note1, false, wf2.Ccode, wf2.Hdw, "付款");
                 //TODO 插入数据到CASH 
                 //db.ACash.Add(new DAL.ACash()
