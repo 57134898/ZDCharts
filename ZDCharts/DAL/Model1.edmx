@@ -403,6 +403,58 @@
           <Property Name="RmbType" Type="varchar" MaxLength="10" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“RMB.dbo.V_ExpenseRows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_ExpenseRows">
+          <Key>
+            <PropertyRef Name="FID" />
+            <PropertyRef Name="RID" />
+            <PropertyRef Name="RName" />
+            <PropertyRef Name="NextID" />
+            <PropertyRef Name="PreID" />
+            <PropertyRef Name="NextNode" />
+            <PropertyRef Name="PreNode" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Rmb1" />
+            <PropertyRef Name="WF4RowID" />
+          </Key>
+          <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CurNode" Type="int" />
+          <Property Name="IsFinished" Type="varchar" MaxLength="1" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
+          <Property Name="Creater" Type="varchar" MaxLength="20" />
+          <Property Name="TemID" Type="uniqueidentifier" />
+          <Property Name="TemName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TemIsEnabled" Type="varchar" MaxLength="1" />
+          <Property Name="RID" Type="int" Nullable="false" />
+          <Property Name="RName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NextID" Type="int" Nullable="false" />
+          <Property Name="PreID" Type="int" Nullable="false" />
+          <Property Name="NextNode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PreNode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DeptID" Type="varchar" MaxLength="20" />
+          <Property Name="RoleID" Type="varchar" MaxLength="20" />
+          <Property Name="DeptName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Result" Type="varchar" MaxLength="1" />
+          <Property Name="ExchangeDate" Type="date" />
+          <Property Name="Rmb" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CompanyID" Type="varchar" MaxLength="20" />
+          <Property Name="VoucherID" Type="varchar" MaxLength="20" />
+          <Property Name="DocType" Type="varchar" MaxLength="20" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="4000" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ApprovalStatus" Type="int" />
+          <Property Name="ApprovalStatusName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Rmb1" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RmbType" Type="varchar" MaxLength="10" />
+          <Property Name="WF4RowID" Type="int" Nullable="false" />
+          <Property Name="WF4RowRmb" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Todo" Type="nvarchar" MaxLength="50" />
+          <Property Name="NCode" Type="varchar" MaxLength="20" />
+          <Property Name="WF4RowResult" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_Flow_GB_Company”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Flow_GB_Company">
           <Key>
@@ -830,6 +882,46 @@
     [V_Expense].[Rmb1] AS [Rmb1], 
     [V_Expense].[RmbType] AS [RmbType]
     FROM [dbo].[V_Expense] AS [V_Expense]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_ExpenseRows" EntityType="Self.V_ExpenseRows" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_ExpenseRows].[FID] AS [FID], 
+    [V_ExpenseRows].[FName] AS [FName], 
+    [V_ExpenseRows].[CurNode] AS [CurNode], 
+    [V_ExpenseRows].[IsFinished] AS [IsFinished], 
+    [V_ExpenseRows].[CreatedDate] AS [CreatedDate], 
+    [V_ExpenseRows].[Creater] AS [Creater], 
+    [V_ExpenseRows].[TemID] AS [TemID], 
+    [V_ExpenseRows].[TemName] AS [TemName], 
+    [V_ExpenseRows].[TemIsEnabled] AS [TemIsEnabled], 
+    [V_ExpenseRows].[RID] AS [RID], 
+    [V_ExpenseRows].[RName] AS [RName], 
+    [V_ExpenseRows].[NextID] AS [NextID], 
+    [V_ExpenseRows].[PreID] AS [PreID], 
+    [V_ExpenseRows].[NextNode] AS [NextNode], 
+    [V_ExpenseRows].[PreNode] AS [PreNode], 
+    [V_ExpenseRows].[DeptID] AS [DeptID], 
+    [V_ExpenseRows].[RoleID] AS [RoleID], 
+    [V_ExpenseRows].[DeptName] AS [DeptName], 
+    [V_ExpenseRows].[RoleName] AS [RoleName], 
+    [V_ExpenseRows].[Result] AS [Result], 
+    [V_ExpenseRows].[ExchangeDate] AS [ExchangeDate], 
+    [V_ExpenseRows].[Rmb] AS [Rmb], 
+    [V_ExpenseRows].[CompanyID] AS [CompanyID], 
+    [V_ExpenseRows].[VoucherID] AS [VoucherID], 
+    [V_ExpenseRows].[DocType] AS [DocType], 
+    [V_ExpenseRows].[CompanyName] AS [CompanyName], 
+    [V_ExpenseRows].[ID] AS [ID], 
+    [V_ExpenseRows].[ApprovalStatus] AS [ApprovalStatus], 
+    [V_ExpenseRows].[ApprovalStatusName] AS [ApprovalStatusName], 
+    [V_ExpenseRows].[Rmb1] AS [Rmb1], 
+    [V_ExpenseRows].[RmbType] AS [RmbType], 
+    [V_ExpenseRows].[WF4RowID] AS [WF4RowID], 
+    [V_ExpenseRows].[WF4RowRmb] AS [WF4RowRmb], 
+    [V_ExpenseRows].[Todo] AS [Todo], 
+    [V_ExpenseRows].[NCode] AS [NCode], 
+    [V_ExpenseRows].[WF4RowResult] AS [WF4RowResult]
+    FROM [dbo].[V_ExpenseRows] AS [V_ExpenseRows]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Flow_GB_Company" EntityType="Self.V_Flow_GB_Company" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1445,6 +1537,7 @@
           <EntitySet Name="WF_Flow4" EntityType="RMBModel.WF_Flow4" />
           <EntitySet Name="WF_Flow3" EntityType="RMBModel.WF_Flow3" />
           <EntitySet Name="V_Expense" EntityType="RMBModel.V_Expense" />
+          <EntitySet Name="V_ExpenseRows" EntityType="RMBModel.V_ExpenseRows" />
         </EntityContainer>
         <EntityType Name="WF_CompanyToTem">
           <Key>
@@ -1615,6 +1708,56 @@
           <Property Name="ApprovalStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Rmb1" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="RmbType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="V_ExpenseRows">
+          <Key>
+            <PropertyRef Name="FID" />
+            <PropertyRef Name="RID" />
+            <PropertyRef Name="RName" />
+            <PropertyRef Name="NextID" />
+            <PropertyRef Name="PreID" />
+            <PropertyRef Name="NextNode" />
+            <PropertyRef Name="PreNode" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Rmb1" />
+            <PropertyRef Name="WF4RowID" />
+          </Key>
+          <Property Name="FID" Type="Guid" Nullable="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CurNode" Type="Int32" />
+          <Property Name="IsFinished" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="Creater" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TemID" Type="Guid" />
+          <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TemIsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="RID" Type="Int32" Nullable="false" />
+          <Property Name="RName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NextID" Type="Int32" Nullable="false" />
+          <Property Name="PreID" Type="Int32" Nullable="false" />
+          <Property Name="NextNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PreNode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeptID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
+          <Property Name="Rmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CompanyID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VoucherID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ApprovalStatus" Type="Int32" />
+          <Property Name="ApprovalStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rmb1" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="RmbType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="WF4RowID" Type="Int32" Nullable="false" />
+          <Property Name="WF4RowRmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Todo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WF4RowResult" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2147,6 +2290,48 @@
           <EntitySetMapping Name="V_Expense">
             <EntityTypeMapping TypeName="RMBModel.V_Expense">
               <MappingFragment StoreEntitySet="V_Expense">
+                <ScalarProperty Name="RmbType" ColumnName="RmbType" />
+                <ScalarProperty Name="Rmb1" ColumnName="Rmb1" />
+                <ScalarProperty Name="ApprovalStatusName" ColumnName="ApprovalStatusName" />
+                <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="DocType" ColumnName="DocType" />
+                <ScalarProperty Name="VoucherID" ColumnName="VoucherID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
+                <ScalarProperty Name="ExchangeDate" ColumnName="ExchangeDate" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+                <ScalarProperty Name="PreNode" ColumnName="PreNode" />
+                <ScalarProperty Name="NextNode" ColumnName="NextNode" />
+                <ScalarProperty Name="PreID" ColumnName="PreID" />
+                <ScalarProperty Name="NextID" ColumnName="NextID" />
+                <ScalarProperty Name="RName" ColumnName="RName" />
+                <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="TemIsEnabled" ColumnName="TemIsEnabled" />
+                <ScalarProperty Name="TemName" ColumnName="TemName" />
+                <ScalarProperty Name="TemID" ColumnName="TemID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="CurNode" ColumnName="CurNode" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_ExpenseRows">
+            <EntityTypeMapping TypeName="RMBModel.V_ExpenseRows">
+              <MappingFragment StoreEntitySet="V_ExpenseRows">
+                <ScalarProperty Name="WF4RowResult" ColumnName="WF4RowResult" />
+                <ScalarProperty Name="NCode" ColumnName="NCode" />
+                <ScalarProperty Name="Todo" ColumnName="Todo" />
+                <ScalarProperty Name="WF4RowRmb" ColumnName="WF4RowRmb" />
+                <ScalarProperty Name="WF4RowID" ColumnName="WF4RowID" />
                 <ScalarProperty Name="RmbType" ColumnName="RmbType" />
                 <ScalarProperty Name="Rmb1" ColumnName="Rmb1" />
                 <ScalarProperty Name="ApprovalStatusName" ColumnName="ApprovalStatusName" />

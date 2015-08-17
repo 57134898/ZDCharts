@@ -20,7 +20,7 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 //根据部门与角色查找用户可以审批的节点
-                                    //权限控制 0199 为资金池李慧 01 和02 为副总
+                //权限控制 0199 为资金池李慧 01 和02 为副总
                 var fList = db.V_Expense
                     .Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == user.RoleID)
                     .GroupBy(p => new
@@ -43,14 +43,37 @@ namespace ZDCharts.Handlers
                 };
             }
         }
-        public Tools.JsonResponse GetList()
+
+        public Tools.JsonResponse GetListGroupByDoc()
         {
             string companyid = this.GetParam("companyid");
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 //根据部门与角色查找用户可以审批的节点
+                //权限控制 0199 为资金池李慧 01 和02 为副总
                 var fList = db.V_Expense
-                    .Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == this.UserInfo.RoleID && p.CompanyID == companyid)
+                    .Where(p =>
+                        (p.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsHandling
+                        || p.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsStarted)
+                        && p.RoleID == this.UserInfo.RoleID)
+                    .ToList();
+                return new Tools.JsonResponse()
+                {
+                    Code = "0",
+                    Msg = "操作成功",
+                    Data = fList
+                };
+            }
+        }
+
+        public Tools.JsonResponse GetList()
+        {
+            int myid = int.Parse(this.GetParam("myid"));
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                //根据部门与角色查找用户可以审批的节点
+                var fList = db.V_ExpenseRows
+                    .Where(p => p.WF4RowResult != COMN.MyVars.No && p.ID == myid)
                     .ToList();
                 return new Tools.JsonResponse()
                 {
@@ -88,9 +111,26 @@ namespace ZDCharts.Handlers
                 return new Tools.JsonResponse() { Code = "9001", Msg = "没有审批数据" };
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
+                var rList = jArr.Where(p => p["result"].ToString() == "Y");
+                if (rList.Count() > 0)
+                {
+                    //审批JSON  fid 需要去掉N
+                    //[
+                    //{"fid":"N1","result":"Y"}
+                    //,
+                    //{"fid":"N2","result":"N"}
+                    //]
+                    //TODO没有全部拒绝审批继续 
+                }
+                else
+                {
+                    //TODO全部拒绝审批结束
+                }
+
                 foreach (var item in jArr)
                 {
                     string result = item["result"].ToString();
+
                     Guid flowID = Guid.Parse(item["fid"].ToString());
                     var flow = db.WF_Flows.SingleOrDefault(p => p.FID == flowID);
                     if (flow == null)

@@ -108,6 +108,9 @@
     <Compile Include="V_Expense.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="V_ExpenseRows.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="V_Flows.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
