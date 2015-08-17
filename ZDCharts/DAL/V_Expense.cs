@@ -37,19 +37,13 @@ namespace DAL
         public Nullable<System.DateTime> ExchangeDate { get; set; }
         public Nullable<decimal> Rmb { get; set; }
         public string CompanyID { get; set; }
-        public string CashItem { get; set; }
         public string VoucherID { get; set; }
         public string DocType { get; set; }
         public string CompanyName { get; set; }
         public int ID { get; set; }
         public Nullable<int> ApprovalStatus { get; set; }
         public string ApprovalStatusName { get; set; }
-        public string NoteItem { get; set; }
-        public Nullable<decimal> Note { get; set; }
-        public string VoucherID1 { get; set; }
-        public string CashItemName { get; set; }
-        public string NoteItemName { get; set; }
         public decimal Rmb1 { get; set; }
-        public decimal Note1 { get; set; }
+        public string RmbType { get; set; }
     }
 }

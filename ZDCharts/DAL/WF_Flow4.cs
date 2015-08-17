@@ -12,14 +12,13 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class WF_Flow3
+    public partial class WF_Flow4
     {
-        public System.Guid FlowID { get; set; }
-        public Nullable<System.DateTime> ExchangeDate { get; set; }
+        public int ID { get; set; }
+        public Nullable<System.Guid> FlowID { get; set; }
         public Nullable<decimal> Rmb { get; set; }
-        public string CompanyID { get; set; }
-        public string VoucherID { get; set; }
-        public Nullable<decimal> Rmb1 { get; set; }
-        public string RmbType { get; set; }
+        public string Todo { get; set; }
+        public string NCode { get; set; }
+        public string Result { get; set; }
     }
 }

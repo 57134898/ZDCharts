@@ -150,6 +150,9 @@
             });
         }
 
+        loadexpense(){
+        }
+
         $(document).ready(function () {
 
             loadcompany();

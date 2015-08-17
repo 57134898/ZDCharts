@@ -8,12 +8,18 @@ namespace MODEL
 {
     public class Expense
     {
-        public decimal Rmb { get; set; }
-        public decimal Note { get; set; }
         public string Date { get; set; }
-        public string CashType { get; set; }
-        public string NCodeC { get; set; }
-        public string NCodeN { get; set; }
+        public string RmbType { get; set; }
+        public List<ExpenseRowList> RList { get; set; }
         public string Todo { get; set; }
+
+        public decimal Rmb { get; set; }
+    }
+
+    public class ExpenseRowList
+    {
+        public string Todo { get; set; }
+        public string NCode { get; set; }
+        public decimal Rmb { get; set; }
     }
 }

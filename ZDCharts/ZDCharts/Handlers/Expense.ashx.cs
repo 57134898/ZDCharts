@@ -62,7 +62,7 @@ namespace ZDCharts.Handlers
                         {
                             tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && (p.CompanyName.IndexOf(searchTxt) >= 0 || p.FName.IndexOf(searchTxt) >= 0) && p.CompanyID == user.CompanyID);
                         }
-                      
+
                     }
 
                     if (tempList.Count() > 0)
@@ -87,23 +87,18 @@ namespace ZDCharts.Handlers
         public Tools.JsonResponse Commit()
         {
             string jsonStr = context.Request.Form["formdata"];
-            if (jsonStr == null || jsonStr == "")
-                return new Tools.JsonResponse() { Code = "9000", Msg = "pendingdata不能为空" };
-            object oUser = context.Session["user"];
-            if (oUser == null)
-                return new Tools.JsonResponse() { Code = "1000", Msg = "session用户过期" };
-            MODEL.UserInfo user = (MODEL.UserInfo)oUser;
+
             var flowid = Guid.NewGuid();
             var formdata = Newtonsoft.Json.JsonConvert.DeserializeObject<MODEL.Expense>(jsonStr);
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
-                var companytotem = db.WF_CompanyToTem.SingleOrDefault(p => p.CompanyID == user.CompanyID && p.DocType == "2");
+                var companytotem = db.WF_CompanyToTem.SingleOrDefault(p => p.CompanyID == this.UserInfo.CompanyID && p.DocType == "2");
                 var curnode = db.WF_TemRows.SingleOrDefault(p => p.PreID == -1 && p.TemID == companytotem.TemID);
                 db.WF_Flows.Add(new DAL.WF_Flows()
                 {
                     FID = flowid,
                     CreatedDate = DateTime.Now,
-                    Creater = user.UserName,
+                    Creater = this.UserInfo.UserName,
                     CurNode = curnode.RID,
                     IsFinished = COMN.MyVars.No,
                     TemID = companytotem.TemID,
@@ -114,14 +109,23 @@ namespace ZDCharts.Handlers
                 });
                 db.WF_Flow3.Add(new DAL.WF_Flow3()
                 {
-                    CompanyID = user.CompanyID,
+                    CompanyID = this.UserInfo.CompanyID,
                     ExchangeDate = DateTime.Now,
                     FlowID = flowid,
                     Rmb = formdata.Rmb,
-                    CashItem = formdata.NCodeC,
-                    NoteItem = formdata.NCodeN,
-                    Note = formdata.Note
+                    RmbType = formdata.RmbType
                 });
+                foreach (var item in formdata.RList)
+                {
+                    db.WF_Flow4.Add(new DAL.WF_Flow4()
+                    {
+                        FlowID = flowid,
+                        NCode = COMN.MyFuncs.GetCodeFromStr(item.NCode, '-'),
+                        Result = "O",
+                        Rmb = item.Rmb,
+                        Todo = item.Todo
+                    });
+                }
                 int result = db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = result };
             }

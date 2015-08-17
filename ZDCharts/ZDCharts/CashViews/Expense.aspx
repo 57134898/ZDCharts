@@ -147,6 +147,8 @@
             //添加按钮
             $('#toolbtn_add').click(function () {
                 $('#customerCollapse').collapse('toggle');
+                // alert(1);
+                $('#tablediv').toggle();
                 //设置日期默认值为当天
                 var mydate = new Date();
                 var today = mydate.getFullYear().toString()
@@ -233,7 +235,7 @@
                         var data = $(this).parents('tr').find('td');
                         //table.row()
                         // if ($("#mark").val() == "rmb") {
-                        $("#nocdec").val(data.eq(0).html() + ":" + data.eq(1).html());
+                        $("#nocdec").val(data.eq(0).html() + "-" + data.eq(1).html());
                         $("#nocdec").attr("code", data.eq(0).html());
                         //} else {
                         //$("#nocden").val(data.eq(0).html() + ":" + data.eq(1).html());
@@ -258,9 +260,9 @@
                     if ($("#Rmb").val() == "") {
                         errormsg += "金额不能为空!<br/>";
                     }
-                    if (isNaN($("#Note").val())) {
-                        errormsg += "金额必须为数字!<br/>";
-                    }
+                    //if (isNaN($("#Note").val())) {
+                    //    errormsg += "金额必须为数字!<br/>";
+                    //}
 
                     if ($("#Note").val() == "") {
                         errormsg += "金额不能为空!<br/>";
@@ -283,15 +285,27 @@
                     //封装formdata
                     var formdata = {};
                     formdata.Date = $("#datepicker1").val();
-
+                    formdata.RmbType = $("#rmbtype").val();
                     formdata.Rmb = Number($("#Rmb").val());
-                    formdata.Note = Number($("#Note").val());
-                    formdata.CashType = $("#rmbtype").val();
-                    formdata.NCodeC = $("#nocdec").attr("code");
-                    formdata.NCodeN = $("#nocdec").attr("code");
-                    formdata.Todo = $("#Todo").val();
+                    //formdata.Note = Number($("#Note").val());
 
+                    var list = [];
+                    $("#addrowbody tr").each(function (i, item) {
+                        //alert($(subitem).html());
+                        var listitem = {};
+                        listitem.Todo = $(item).find("td").eq(0).html();
+                        listitem.NCode = $(item).find("td").eq(1).html();
+                        listitem.Rmb = $(item).find("td").eq(2).html();
+                        list.push(listitem);
+                    })
+                    formdata.RList = list;
+
+                    //formdata.CashType = $("#rmbtype").val();
+                    //formdata.NCodeC = $("#nocdec").attr("code");
+                    //formdata.NCodeN = $("#nocdec").attr("code");
+                    formdata.Todo = $("#Todo").val();
                     //alert(JSON.stringify(formdata));
+                    //return;
                     var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
                     $.ajax({
                         type: 'POST',
@@ -318,10 +332,8 @@
                             $("#Todo").val("");
                             $("#nocdec").attr("code", "");
                             $("#nocdec").val("");
-                            $("#nocden").attr("code", "");
-                            $("#nocden").val("");
-                            $("#rmbtype").val("现金");
-
+                            $("#addrowbody").empty();
+                            $("#rmbrow").val("");
                             spinner1.stop();
                         },
                         dataType: 'JSON'
@@ -349,6 +361,29 @@
             //工具栏按钮tooltip设置
             $('[data-toggle="tooltip"]').tooltip();
 
+            $("#addrowbtn").click(function () {
+                var sHtml = "<tr>";
+                sHtml += "<td>" + $("#todorow").val() + "</td>";
+                sHtml += "<td>" + $("#nocdec").val() + "</td>";
+                sHtml += "<td style='text-align: right'>" + $("#rmbrow").val() + "</td>";
+                sHtml += "<td><button name='delrow' type='button' class='btn btn-block  btn-default'>删除行</button></td></tr>";
+                $("#addrowbody").append(sHtml);
+                $("#Rmb").val(dosum());
+                $("[name='delrow']").click(function () {
+                    $(this).parent().parent().remove();
+                    $("#Rmb").val(dosum());
+                });
+            });
+            function dosum() {
+                var _total = 0;
+                $("#addrowbody tr").each(function (i, item) {
+                    var _rmb = $.trim($(item).find("td").eq(2).html());
+                    if (!(_rmb == "" || isNaN(_rmb))) {
+                        _total += Number(_rmb);
+                    }
+                });
+                return _total;
+            }
         });
     </script>
 </head>
@@ -397,83 +432,130 @@
                     <div class="panel-body">
                         <!--action很重要！！！！！！！！！！！！！！！！！！！！！！！！！1-->
                         <form>
-                            <div class="form-group">
-                                <label for="Todo" class="control-label">摘要</label>
-                                <input type="text" class="form-control" id="Todo" placeholder="摘要" />
-                            </div>
                             <table style="width: 100%">
                                 <tr>
                                     <td style="width: 49%">
                                         <div class="form-group">
-                                            <label for="Rmb" class="control-label">现金</label>
-                                            <input type="number" class="form-control" id="Rmb" placeholder="现金" />
+                                            <label for="Todo" class="control-label">摘要</label>
+                                            <input type="text" class="form-control" id="Todo" placeholder="摘要" />
                                         </div>
                                     </td>
                                     <td style="width: 2%"></td>
                                     <td style="width: 49%">
                                         <div class="form-group">
-                                            <label for="Note" class="control-label">票据</label>
-                                            <input type="number" class="form-control" id="Note" placeholder="票据" />
+                                            <label for="datepicker1" class="control-label">日期</label>
+                                            <input id="datepicker1" disabled="disabled" type="date" class="form-control" placeholder="请选择日期" />
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="width: 49%">
+                                        <div class="form-group">
+                                            <label for="Rmb" class="control-label">金额</label>
+                                            <input disabled="disabled" type="number" class="form-control" id="Rmb" placeholder="金额" />
+                                        </div>
+                                    </td>
+                                    <td style="width: 2%"></td>
+                                    <td style="width: 49%">
 
-                                <%--<div class="form-group">
-                                            <label for="nocdec" class="control-label">票据资金项目</label>
-                                            <div class="input-group">
-                                                <input disabled="disabled" id="nocden" type="text" class="form-control" placeholder="请选票据资金项目" aria-describedby="nocdec-addon" />
-                                                <span class="input-group-btn">
-                                                    <button id="nocden-addon" class="btn btn-default" type="button">查找</button>
-                                                </span>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="rmbtype" class="control-label">类型</label>
+                                            <select id="rmbtype" class="selectpicker" data-width="100%" data-style="btn-default">
+                                                <option>现金</option>
+                                                <option>票据</option>
+                                                <%--                                                <option>报账卡</option>
+                                                <option>内部票</option>--%>
+                                            </select>
+                                        </div>
+                                        <%--            <div class="form-group">
+                                            <label for="Note" class="control-label">票据</label>
+                                            <input type="number" class="form-control" id="Note" placeholder="票据" />
                                         </div>--%>
+                                    </td>
+                                </tr>
                             </table>
-                            <div class="form-group">
-                                <label for="nocdec" class="control-label">资金项目</label>
-                                <div class="input-group">
-                                    <input disabled="disabled" id="nocdec" type="text" class="form-control" placeholder="请选资金项目" aria-describedby="nocdec-addon" />
-                                    <span class="input-group-btn">
-                                        <button id="nocdec-addon" class="btn btn-default" type="button">查找</button>
-                                    </span>
-                                </div>
+                            <div class="panel panel-info">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">明细</div>
+                                <!-- Table -->
+                                <table id="datalist" class="table  table-hover  table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style='text-align: center'>摘要</th>
+                                            <th style='text-align: center'>资金项目</th>
+                                            <th style='text-align: center'>金额</th>
+                                            <th style='text-align: center'>删除行</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="addrowbody">
+                                        <!--行模板-->
+                                        <%--                                       <tr>
+                                            <td>销售公司电费</td>
+                                            <td>电费</td>
+                                            <td style='text-align: right'>1100
+                                            </td>
+                                            <td>
+                                                <button id="delrowbtn" type="button" class="btn btn-block  btn-default">删除行</button>
+                                            </td>
+                                        </tr>--%>
+                                    </tbody>
+                                </table>
+
                             </div>
+                            <table id="addtab" style="width: 100%">
+                                <thead>
 
-
-
-
-
-
-                            <!--                  
-                            <div class="form-group">
-                                <label for="rmbtype" class="control-label">类型</label>
-                                <select id="rmbtype" class="selectpicker" data-width="100%" data-style="btn-default">
-                                    <option>现金</option>
-                                    <option>银行</option>
-                                    <option>报账卡</option>
-                                    <option>内部票</option>
-                                </select>
-                            </div>-->
-
-
-
-
-
-
-                            <div class="form-group">
-                                <label for="datepicker1" class="control-label">日期</label>
-                                <input id="datepicker1" disabled="disabled" type="date" class="form-control" placeholder="请选择日期" />
-                            </div>
-
-
+                                    <tr>
+                                        <th style="width: 25%">
+                                            <div class="form-group">
+                                                <label for="todorow" class="control-label">摘要</label>
+                                                <input type="text" class="form-control" id="todorow" placeholder="摘要" />
+                                            </div>
+                                        </th>
+                                        <th style="width: 1%"></th>
+                                        <th style="width: 25%">
+                                            <div class="form-group">
+                                                <label for="nocdec" class="control-label">资金项目</label>
+                                                <div class="input-group">
+                                                    <input disabled="disabled" id="nocdec" type="text" class="form-control" placeholder="请选资金项目" aria-describedby="nocdec-addon" />
+                                                    <span class="input-group-btn">
+                                                        <button id="nocdec-addon" class="btn btn-default" type="button">查找</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th style="width: 1%"></th>
+                                        <th style="width: 25%">
+                                            <div class="form-group">
+                                                <label for="rmbrow" class="control-label">金额</label>
+                                                <input type="number" class="form-control" id="rmbrow" placeholder="金额" />
+                                            </div>
+                                        </th>
+                                        <th style="width: 1%"></th>
+                                        <th style="width: 22%">
+                                            <div class="form-group">
+                                                <label class="control-label">&nbsp;</label>
+                                                <button id="addrowbtn" type="button" class="btn btn-block  btn-default">&nbsp;添加明细&nbsp;</button>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </form>
+
                     </div>
-                    <div class="panel-footer">
-                        <button id="savbtn" type="button" data-toggle="popover" class="btn btn-primary">&nbsp;&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;&nbsp;</button>
-                        <button id="canbtn" type="button" class="btn btn-default">&nbsp;&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;&nbsp;</button>
-                    </div>
+
+                </div>
+                <div class="panel-footer">
+
+                    <button id="savbtn" type="button" data-toggle="popover" class="btn btn-primary">&nbsp;&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;&nbsp;</button>
+                    <button id="canbtn" type="button" class="btn btn-default">&nbsp;&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;&nbsp;</button>
+
                 </div>
             </div>
+        </div>
 
+        <div id="tablediv">
             <table id="dvtable" class="display" cellspacing="0" width="100%">
                 <thead>
                     <tr>
@@ -502,6 +584,7 @@
             </table>
         </div>
     </div>
+
     <!--资金项目弹出层-->
     <div class="modal fade" id="myitemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
