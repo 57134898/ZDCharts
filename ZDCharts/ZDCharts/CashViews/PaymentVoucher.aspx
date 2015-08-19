@@ -332,7 +332,7 @@
                                 <label for="rmb" class="control-label">实际支出现汇</label>
                                 <input id="rmb" type="number" class="form-control glyphicon-align-right" placeholder="请现汇金额" />
                             </div>
-        <%--                    <div class="form-group">
+                            <%--<div class="form-group">
                                 <label for="note" class="control-label">实际支出票据</label>
                                 <input id="note" type="number" class="form-control" placeholder="请票据金额" />
                             </div>--%>
