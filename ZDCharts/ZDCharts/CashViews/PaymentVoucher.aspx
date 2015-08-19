@@ -40,10 +40,10 @@
                                 { "data": "FName" },
                                 { "data": "Rmb", 'sClass': "text-right" },
                                 { "data": "Rmb1", 'sClass': "text-right" },
-                                { "data": "CashItemName" },
-                                { "data": "Note", 'sClass': "text-right" },
-                                { "data": "Note1", 'sClass': "text-right" },
-                                { "data": "NoteItemName" },
+                                //{ "data": "CashItemName" },
+                                //{ "data": "Note", 'sClass': "text-right" },
+                                //{ "data": "Note1", 'sClass': "text-right" },
+                                //{ "data": "NoteItemName" },
                                 { "data": "ApprovalStatusName" },
                                 { "data": null, defaultContent: (state == 1000 ? "<button class='btn btn-default btn-block btn-sm' mark='1'>确定</button>" : "") },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" }
@@ -164,7 +164,7 @@
 
                 $("#myitemModal").modal('show');
                 $("#rmb").val(data.eq(4).html());
-                $("#note").val(data.eq(7).html());
+                //$("#note").val(data.eq(7).html());
                 $("#mark").val(data.eq(0).html());
                 //$("#myitemModal").modal('hide');
 
@@ -204,7 +204,7 @@
                 var postdata = {};
                 postdata.ID = $("#mark").val();//$("#dvtable  tr.selected td:eq(0)").text();
                 postdata.Cash = Number($("#rmb").val());
-                postdata.Note = Number($("#note").val());
+                //postdata.Note = Number($("#note").val());
                 //postdata.NCodeC = $("#nocdec").attr("code");
                 //postdata.NCodeN = $("#nocden").attr("code");
                 $.ajax({
@@ -258,8 +258,8 @@
                         <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">公司</th>
                         <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">日期</th>
                         <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder">摘要</th>
-                        <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
-                        <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>
+                        <th colspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
+                        <%--<th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>--%>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批状态</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">生成凭证</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批进度</th>
@@ -267,10 +267,10 @@
                     <tr>
                         <th class="myRigthBorder">预计</th>
                         <th class="myRigthBorder">实出</th>
-                        <th class="myRigthBorder">资金项目</th>
+                        <%--<th class="myRigthBorder">资金项目</th>
                         <th class="myRigthBorder">预计</th>
                         <th class="myRigthBorder">实出</th>
-                        <th class="myRigthBorder">资金项目</th>
+                        <th class="myRigthBorder">资金项目</th>--%>
                     </tr>
                 </thead>
                 <tfoot>
@@ -281,10 +281,10 @@
                         <th>摘要</th>
                         <th>预计</th>
                         <th>实出</th>
-                        <th>资金项目</th>
+                        <%--<th>资金项目</th>
                         <th>预计</th>
                         <th>实出</th>
-                        <th>资金项目</th>
+                        <th>资金项目</th>--%>
                         <th>审批状态</th>
                         <th>生成凭证</th>
                         <th>审批进度</th>
@@ -332,10 +332,10 @@
                                 <label for="rmb" class="control-label">实际支出现汇</label>
                                 <input id="rmb" type="number" class="form-control glyphicon-align-right" placeholder="请现汇金额" />
                             </div>
-                            <div class="form-group">
+        <%--                    <div class="form-group">
                                 <label for="note" class="control-label">实际支出票据</label>
                                 <input id="note" type="number" class="form-control" placeholder="请票据金额" />
-                            </div>
+                            </div>--%>
                         </div>
                     </div>
                 </div>

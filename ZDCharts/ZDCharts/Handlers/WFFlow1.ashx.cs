@@ -164,7 +164,7 @@ namespace ZDCharts.Handlers
                     var wf4r = db.WF_Flow4.SingleOrDefault(p => p.ID == _rowid);
                     wf4r.Result = item["result"].ToString();
                 }
-                wf3.Rmb = db.WF_Flow4.Where(p => p.FlowID == wf4.FlowID).Sum(p => p.Rmb);
+                wf3.Rmb = db.WF_Flow4.Where(p => p.FlowID == wf4.FlowID && p.Result != "N").Sum(p => p.Rmb);
                 db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
             }
