@@ -145,7 +145,7 @@ namespace ZDCharts.Handlers
                 }
                 else
                 {
-                    //所有行都未通过点则审批结束
+                    //所有行都未通过点则审批结束/
                     flow.IsFinished = "Y";
                     flow.Result = "N";
                     flow.ApprovalStatus = COMN.MyVars.ApprovalStatus_IsRefused;
