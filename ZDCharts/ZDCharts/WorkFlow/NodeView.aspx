@@ -184,7 +184,7 @@
                         $("#listdiv").append(shtml);
                         //公司列表单击事件
                         $("#a" + i.toString()).click(function () {
-                            alert(1);
+                            //alert(1);
                             loadcontract($(this).attr("myid"));
                         });
                     }
