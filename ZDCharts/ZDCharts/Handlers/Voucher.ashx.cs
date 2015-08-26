@@ -25,12 +25,18 @@ namespace ZDCharts.Handlers
                 var fowRows = db.V_ExpenseRows.Where(p => p.ID == id && p.WF4RowResult == "Y");
                 DAL.WF_Flow3 wf3 = db.WF_Flow3.SingleOrDefault(p => p.FlowID == flow.FID);
                 int vtype = 0;
+                string acode_cr = string.Empty;
+                string acode_dr = string.Empty;
                 if (wf3.RmbType == "票据")
                 {
+                    acode_cr = "100801";
+                    acode_dr = "1011";
                     vtype = 4;
                 }
                 else
                 {
+                    acode_cr = "100801";
+                    acode_dr = "1010";
                     vtype = 3;
                 }
                 //-- 生成凭证头ID
@@ -74,7 +80,7 @@ namespace ZDCharts.Handlers
                                     ,DateTime.Now.ToShortDateString()
                                     ,item.Todo
                                     ,-1
-                                    ,"100801"
+                                    ,acode_cr
                                     ,flow.CompanyID
                                     ,item.NCode
                                     ,item.WF4RowRmb
@@ -95,7 +101,7 @@ namespace ZDCharts.Handlers
                                     ,DateTime.Now.ToShortDateString()
                                     ,flow.FName
                                     ,1
-                                    ,"1010"
+                                    ,acode_dr
                                     ,flow.CompanyID
                                     ,""//TODO 借方NCODE 为空 待议
                                     ,wf3.Rmb
