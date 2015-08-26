@@ -22,8 +22,17 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 var flow = db.V_Expense.SingleOrDefault(p => p.ID == id);
-                var fowRows = db.V_ExpenseRows.Where(p => p.ID == id);
+                var fowRows = db.V_ExpenseRows.Where(p => p.ID == id && p.WF4RowResult == "Y");
                 DAL.WF_Flow3 wf3 = db.WF_Flow3.SingleOrDefault(p => p.FlowID == flow.FID);
+                int vtype = 0;
+                if (wf3.RmbType == "票据")
+                {
+                    vtype = 4;
+                }
+                else
+                {
+                    vtype = 3;
+                }
                 //-- 生成凭证头ID
                 string sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[DBO].[HVOUCHER]", COMN.MyVars.CWDB);
                 string hid = DBHelper.ExecuteScalar(sql).ToString().PadLeft(16, '0');
@@ -39,7 +48,7 @@ namespace ZDCharts.Handlers
                                     ,hid
                                     ,DateTime.Now.Year
                                     ,DateTime.Now.Month
-                                    ,3
+                                    ,vtype
                                     ,vno
                                     ,"01"
                                     ,DateTime.Now.ToShortDateString()
@@ -50,6 +59,7 @@ namespace ZDCharts.Handlers
                                     ,DateTime.Now.ToShortDateString()});
                 #endregion
                 #region 添加凭证行
+                int mark = 0;
                 foreach (var item in fowRows)
                 {
                     sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
@@ -59,17 +69,17 @@ namespace ZDCharts.Handlers
                                     ,100
                                     ,DateTime.Now.Year
                                     ,DateTime.Now.Month
-                                    ,3
+                                    ,vtype
                                     ,vno
                                     ,DateTime.Now.ToShortDateString()
-                                    ,flow.FName
+                                    ,item.Todo
                                     ,-1
                                     ,"100801"
                                     ,flow.CompanyID
                                     ,item.NCode
                                     ,item.WF4RowRmb
                                     ,DateTime.Now.ToShortDateString()
-                                    ,vid.ToString().PadLeft(16, '0')
+                                    ,(vid+mark++).ToString().PadLeft(16, '0')
                                     ,""});
                 }
 
@@ -80,7 +90,7 @@ namespace ZDCharts.Handlers
                                     ,200
                                     ,DateTime.Now.Year
                                     ,DateTime.Now.Month
-                                    ,3
+                                    ,vtype
                                     ,vno
                                     ,DateTime.Now.ToShortDateString()
                                     ,flow.FName
@@ -90,7 +100,7 @@ namespace ZDCharts.Handlers
                                     ,""//TODO 借方NCODE 为空 待议
                                     ,wf3.Rmb
                                     ,DateTime.Now.ToShortDateString()
-                                    ,(vid+1).ToString().PadLeft(16, '0')
+                                    ,(vid+mark).ToString().PadLeft(16, '0')
                                     ,""});
                 #endregion
 
