@@ -22,7 +22,7 @@ namespace ZDCharts.Handlers
                 }
                 MODEL.UserInfo user = (MODEL.UserInfo)oUser;
                 //根据部门与角色查找用户可以审批的节点
-                var fList = db.V_Flows.Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == user.RoleID && p.CustomerID == selectCustomerID).ToList();
+                var fList = db.V_Flows.Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == user.RoleID && p.CustomerID == selectCustomerID && p.F1Result != "Y").ToList();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = fList };
             }
         }
@@ -152,6 +152,7 @@ namespace ZDCharts.Handlers
                     db.WF_Flow1.Attach(wf1);
                     db.Entry(wf1).State = System.Data.Entity.EntityState.Modified;
                 }
+                //flow1.Rmb=db.WF_Flow2
                 db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
             }

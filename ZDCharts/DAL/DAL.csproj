@@ -90,6 +90,9 @@
     <Compile Include="Sys_ApprovalStatus.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Sys_MenuPermission.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Sys_Menus.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

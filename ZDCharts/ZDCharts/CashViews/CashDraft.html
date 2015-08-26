@@ -198,9 +198,9 @@
             //添加按钮
             $('#toolbtn_add').click(function () {
                 //设置日期默认值为当天
-            
+
                 var mydate = new Date();
-               
+
                 var today = mydate.getFullYear().toString()
                     + "-"
                     + ((mydate.getMonth() + 1).toString().length == 1 ? ("0" + (mydate.getMonth() + 1).toString()) : (mydate.getMonth() + 1).toString())
@@ -210,6 +210,8 @@
                 $("#datepicker1").val(today);
 
                 $('#customerCollapse').collapse('toggle');
+                $('#tablediv').toggle();
+
                 //资金项目按钮事件
                 $('#nocdec-addon').click(function () {
                     $("#mark").val("rmb");
@@ -768,48 +770,49 @@
                     </div>
                 </div>
             </div>
-
-            <table id="dvtable" class="display" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">编号</th>
-                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">客户</th>
-                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">日期</th>
-                        <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder" style="text-align: center;">合同付款金额</th>
-                        <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
-                        <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>
-                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批状态</th>
-                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批进度</th>
-                        <!--<th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">修改</th>
-                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">删除</th>-->
-                    </tr>
-                    <tr>
-                        <th class="myRigthBorder">预计</th>
-                        <th class="myRigthBorder">实出</th>
-                        <th class="myRigthBorder">资金项目</th>
-                        <th class="myRigthBorder">预计</th>
-                        <th class="myRigthBorder">实出</th>
-                        <th class="myRigthBorder">资金项目</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>编号</th>
-                        <th>客户</th>
-                        <th>日期</th>
-                        <th>合同付款金额</th>
-                        <th>预计</th>
-                        <th>实出</th>
-                        <th>资金项目</th>
-                        <th>预计</th>
-                        <th>实出</th>
-                        <th>资金项目</th>
-                        <th>审批状态</th>
-                        <!--<th>修改</th>
-                        <th>删除</th>-->
-                    </tr>
-                </tfoot>
-            </table>
+            <div id="tablediv">
+                <table id="dvtable" class="display" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">编号</th>
+                            <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">客户</th>
+                            <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">日期</th>
+                            <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder" style="text-align: center;">合同付款金额</th>
+                            <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
+                            <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>
+                            <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批状态</th>
+                            <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批进度</th>
+                            <!--<th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">修改</th>
+                            <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">删除</th>-->
+                        </tr>
+                        <tr>
+                            <th class="myRigthBorder">预计</th>
+                            <th class="myRigthBorder">实出</th>
+                            <th class="myRigthBorder">资金项目</th>
+                            <th class="myRigthBorder">预计</th>
+                            <th class="myRigthBorder">实出</th>
+                            <th class="myRigthBorder">资金项目</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>编号</th>
+                            <th>客户</th>
+                            <th>日期</th>
+                            <th>合同付款金额</th>
+                            <th>预计</th>
+                            <th>实出</th>
+                            <th>资金项目</th>
+                            <th>预计</th>
+                            <th>实出</th>
+                            <th>资金项目</th>
+                            <th>审批状态</th>
+                            <!--<th>修改</th>
+                            <th>删除</th>-->
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
     <!--客户弹出层-->

@@ -40,6 +40,14 @@
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Sys_MenuPermission">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="varchar" MaxLength="20" />
+          <Property Name="MenuID" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="Sys_Menus">
           <Key>
             <PropertyRef Name="MenuID" />
@@ -680,6 +688,7 @@
           <EntitySet Name="Org_Emps" EntityType="Self.Org_Emps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Org_Roles" EntityType="Self.Org_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sys_ApprovalStatus" EntityType="Self.Sys_ApprovalStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sys_MenuPermission" EntityType="Self.Sys_MenuPermission" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sys_Menus" EntityType="Self.Sys_Menus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_CompanyToTem" EntityType="Self.WF_CompanyToTem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WF_Flow1" EntityType="Self.WF_Flow1" Schema="dbo" store:Type="Tables" />
@@ -1538,6 +1547,7 @@
           <EntitySet Name="WF_Flow3" EntityType="RMBModel.WF_Flow3" />
           <EntitySet Name="V_Expense" EntityType="RMBModel.V_Expense" />
           <EntitySet Name="V_ExpenseRows" EntityType="RMBModel.V_ExpenseRows" />
+          <EntitySet Name="Sys_MenuPermission" EntityType="RMBModel.Sys_MenuPermission" />
         </EntityContainer>
         <EntityType Name="WF_CompanyToTem">
           <Key>
@@ -1758,6 +1768,14 @@
           <Property Name="Todo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="WF4RowResult" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Sys_MenuPermission">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MenuID" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2363,6 +2381,15 @@
                 <ScalarProperty Name="CurNode" ColumnName="CurNode" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sys_MenuPermission">
+            <EntityTypeMapping TypeName="RMBModel.Sys_MenuPermission">
+              <MappingFragment StoreEntitySet="Sys_MenuPermission">
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
