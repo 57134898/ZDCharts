@@ -73,7 +73,7 @@ namespace ZDCharts.Handlers
             {
                 //根据部门与角色查找用户可以审批的节点
                 var fList = db.V_ExpenseRows
-                    .Where(p => p.WF4RowResult != COMN.MyVars.No && p.ID == myid)
+                    .Where(p => p.WF4RowResult == COMN.MyVars.Yes && p.ID == myid)
                     .ToList();
                 return new Tools.JsonResponse()
                 {
