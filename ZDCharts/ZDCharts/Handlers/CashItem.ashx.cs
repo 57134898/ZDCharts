@@ -339,7 +339,7 @@ namespace ZDCharts.Handlers
                 //}
                 // TODO 正式需要执行
                 //保存
-                //int result = db.SaveChanges();
+                int result = db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = "" };
             }
         }
