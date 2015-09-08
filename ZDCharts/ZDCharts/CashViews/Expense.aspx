@@ -184,11 +184,11 @@
                         "sPaginationType": "full_numbers",
                         "processing": true,//显示进度条
                         "serverSide": true,//发送服务器请求
-                        "ajax": {
-                            "url": "../handlers/CashItem.ashx",
-                            "type": "POST",
-                            "data": { Action: 'GetNcodeList' }
-                        },
+                        //"ajax": {
+                        //    "url": "../handlers/CashItem.ashx",
+                        //    "type": "POST",
+                        //    "data": { Action: 'GetNcodeLista' }
+                        //},
                         "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-block btn-default'>选中</button>" }],//"bVisible": false  style="display:none,
                         "columnDefs": [{
                             "targets": -1,
@@ -221,7 +221,7 @@
                                 "type": "POST",
                                 "url": "../handlers/CashItem.ashx",
                                 "dataType": "json",
-                                "data": { p: JSON.stringify(aoData), Action: 'GetNcodeList' }, // 以json格式传递
+                                "data": { p: JSON.stringify(aoData), Action: 'GetNcodeList1' }, // 以json格式传递
                                 "success": function (resp) {
                                     //alert(JSON.stringify(resp));
                                     fnCallback(resp.data);
@@ -368,6 +368,8 @@
                 sHtml += "<td style='text-align: right'>" + $("#rmbrow").val() + "</td>";
                 sHtml += "<td><button name='delrow' type='button' class='btn btn-block  btn-default'>删除行</button></td></tr>";
                 $("#addrowbody").append(sHtml);
+                $("#todorow").val("");
+                $("#rmbrow").val("");
                 $("#Rmb").val(dosum());
                 $("[name='delrow']").click(function () {
                     $(this).parent().parent().remove();

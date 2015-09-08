@@ -71,7 +71,10 @@ namespace ZDCharts.Handlers
             }
 
         }
-
+        /// <summary>
+        /// 合同资金项目
+        /// </summary>
+        /// <returns></returns>
         public Tools.JsonResponse GetNcodeList()
         {
             using (DAL.ContractEntities db = new DAL.ContractEntities())
@@ -103,11 +106,73 @@ namespace ZDCharts.Handlers
                     IQueryable<DAL.V_Ncode> tempList;
                     if (string.IsNullOrEmpty(searchTxt))
                     {
-                        tempList = db.V_Ncode;
+                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf("0201") >= 0 || p.ncode.IndexOf("0202") >= 0);
                     }
                     else
                     {
-                        tempList = db.V_Ncode.Where(p =>
+                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf("0201") >= 0 || p.ncode.IndexOf("0202") >= 0).Where(p =>
+                            p.ncode.IndexOf(searchTxt) >= 0
+                         || p.nname.IndexOf(searchTxt) >= 0);
+                    }
+                    var pageList = tempList.OrderBy(p => p.ncode).Skip(pStart).Take(pLength).ToList();
+                    //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+                    pageTotal = tempList.Count();
+                    jo.Add("data", JToken.FromObject(pageList));
+                    jo.Add("recordsTotal", pageTotal);
+                    jo.Add("recordsFiltered", pageTotal);
+                    return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
+                    ////分页集合 p.ncode).Skip(pStart).Take(pLength).ToList();
+                    ////总条数
+                    //var pageList = db.V_Ncode.OrderBy(p =>
+                    //int pageTotal = db.V_Ncode.Count();
+                    //JObject jo = new JObject();
+                    //jo.Add("data", JToken.FromObject(pageList));
+                    //jo.Add("recordsTotal", pageTotal);
+                    //jo.Add("recordsFiltered", pageTotal);
+                    //return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
+                }
+            }
+        }
+        /// <summary>
+        /// 费用资金项目
+        /// </summary>
+        /// <returns></returns>
+        public Tools.JsonResponse GetNcodeList1()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                string pStr = context.Request.Form["p"];
+                //string companyid = context.Request.Form["CompanyID"];
+                //string companycusotmerid = companyid.Substring(2);
+                if (string.IsNullOrEmpty(pStr))
+                {
+                    JObject jo = new JObject();
+                    jo.Add("data", "");
+                    jo.Add("recordsTotal", 0);
+                    jo.Add("recordsFiltered", 0);
+                    return new Tools.JsonResponse() { Code = "0", Msg = "", Data = jo };
+                }
+                else
+                {
+                    JArray pJArr = JArray.Parse(pStr);
+                    var pageStartJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "start");
+                    var pageLengthJo = pJArr.SingleOrDefault(p => p["name"].ToString() == "length");
+                    int pStart = int.Parse(pageStartJo["value"].ToString());
+                    int pLength = int.Parse(pageLengthJo["value"].ToString());
+
+                    var searchObj = pJArr.SingleOrDefault(p => p["name"].ToString() == "search");
+                    var searchTxt = searchObj["value"]["value"].ToString();
+                    JObject jo = new JObject();
+                    int pageTotal = 0;
+                    //业务逻辑代码↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+                    IQueryable<DAL.V_Ncode> tempList;
+                    if (string.IsNullOrEmpty(searchTxt))
+                    {
+                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf("0201") < 0 && p.ncode.IndexOf("0202") < 0);
+                    }
+                    else
+                    {
+                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf("0201") < 0 && p.ncode.IndexOf("0202") < 0).Where(p =>
                             p.ncode.IndexOf(searchTxt) >= 0
                          || p.nname.IndexOf(searchTxt) >= 0);
                     }
