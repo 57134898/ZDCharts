@@ -17,7 +17,7 @@ namespace ZDCharts
                 string password = this.pswInput.Value;
                 using (DAL.ContractEntities db = new DAL.ContractEntities())
                 {
-                    var emp = db.V_Emps.SingleOrDefault(p => p.EmpID == username && password == p.Psw);
+                    var emp = db.V_Emps.SingleOrDefault(p => p.EmpName == username && password == p.Psw);
                     if (emp == null)
                     {
                         this.errormsg.InnerText = "用户名或者密码错误";
