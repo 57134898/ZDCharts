@@ -40,7 +40,7 @@
                                 { "data": "FName" },
                                 { "data": "Rmb", 'sClass': "text-right" },
                                 { "data": "Rmb1", 'sClass': "text-right" },
-                                //{ "data": "CashItemName" },
+                                { "data": "RmbType" },
                                 //{ "data": "Note", 'sClass': "text-right" },
                                 //{ "data": "Note1", 'sClass': "text-right" },
                                 //{ "data": "NoteItemName" },
@@ -216,6 +216,7 @@
                         //请求失败跳转到错误页
                         $("#myitemModal").modal('hide');
                         spinner1.stop();
+                        location.reload();
                     },
                     dataType: 'JSON'
                 });
@@ -258,7 +259,7 @@
                         <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">公司</th>
                         <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">日期</th>
                         <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder">摘要</th>
-                        <th colspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
+                        <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">金额</th>
                         <%--<th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>--%>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批状态</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">生成凭证</th>
@@ -267,6 +268,7 @@
                     <tr>
                         <th class="myRigthBorder">预计</th>
                         <th class="myRigthBorder">实出</th>
+                        <th class="myRigthBorder">类型</th>
                         <%--<th class="myRigthBorder">资金项目</th>
                         <th class="myRigthBorder">预计</th>
                         <th class="myRigthBorder">实出</th>
@@ -281,6 +283,7 @@
                         <th>摘要</th>
                         <th>预计</th>
                         <th>实出</th>
+                        <th>类型</th>
                         <%--<th>资金项目</th>
                         <th>预计</th>
                         <th>实出</th>
