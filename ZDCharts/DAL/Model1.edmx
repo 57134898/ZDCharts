@@ -344,6 +344,7 @@
           <Property Name="ApprovalStatus" Type="int" />
           <Property Name="ApprovalStatusName" Type="nvarchar" MaxLength="50" />
           <Property Name="FlowID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="19" Scale="2" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_Emps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -838,7 +839,8 @@
     [V_CashItem].[ContractTotal] AS [ContractTotal], 
     [V_CashItem].[ApprovalStatus] AS [ApprovalStatus], 
     [V_CashItem].[ApprovalStatusName] AS [ApprovalStatusName], 
-    [V_CashItem].[FlowID] AS [FlowID]
+    [V_CashItem].[FlowID] AS [FlowID], 
+    [V_CashItem].[Total] AS [Total]
     FROM [dbo].[V_CashItem] AS [V_CashItem]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Emps" EntityType="Self.V_Emps" store:Type="Views" store:Schema="dbo">
@@ -1651,6 +1653,7 @@
           <Property Name="ApprovalStatus" Type="Int32" />
           <Property Name="ApprovalStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FlowID" Type="Guid" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="19" Scale="2" />
         </EntityType>
         <EntityType Name="WF_Flow4">
           <Key>
@@ -2255,6 +2258,7 @@
           <EntitySetMapping Name="V_CashItem">
             <EntityTypeMapping TypeName="RMBModel.V_CashItem">
               <MappingFragment StoreEntitySet="V_CashItem">
+                <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="FlowID" ColumnName="FlowID" />
                 <ScalarProperty Name="ApprovalStatusName" ColumnName="ApprovalStatusName" />
                 <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />

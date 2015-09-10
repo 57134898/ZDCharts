@@ -40,6 +40,7 @@
                                 { "data": "Note", 'sClass': "text-right" },
                                 { "data": "Note1", 'sClass': "text-right" },
                                 { "data": "NCodeNName" },
+                                { "data": "Total" },
                                 { "data": "ApprovalStatusName" },
                                 { "data": null, defaultContent: (state == 1000 ? "<button class='btn btn-default btn-block btn-sm' mark='1'>确定</button>" : "") },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='3'>取消</button>" },
@@ -292,6 +293,7 @@
                         <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder" style="text-align: center;">合同付款金额</th>
                         <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
                         <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>
+                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">合计</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批状态</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">生成凭证</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">取消</th>
@@ -318,6 +320,7 @@
                         <th>预计</th>
                         <th>实出</th>
                         <th>资金项目</th>
+                        <th>合计</th>
                         <th>审批状态</th>
                         <th>生成凭证</th>
                         <th>取消</th>
