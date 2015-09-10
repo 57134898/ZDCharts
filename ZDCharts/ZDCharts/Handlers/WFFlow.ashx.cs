@@ -152,6 +152,17 @@ namespace ZDCharts.Handlers
                     db.WF_Flow1.Attach(wf1);
                     db.Entry(wf1).State = System.Data.Entity.EntityState.Modified;
                 }
+                var total = db.WF_Flow1.Where(p => p.FlowID == curguid && p.Result == "N").Sum(p => p.Rmb);
+                var wf2 = db.WF_Flow2.SingleOrDefault(p => p.FlowID == curguid);
+                if (wf2.Cash == null || wf2.Cash - total < 0)
+                {
+                    wf2.Cash = 0;
+                    wf2.Note = wf2.Note - total;
+                }
+                else
+                {
+                    wf2.Cash = wf2.Cash - total;
+                }
                 //flow1.Rmb=db.WF_Flow2
                 db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
