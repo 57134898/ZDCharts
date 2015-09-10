@@ -46,6 +46,7 @@
                                 //{ "data": "NoteItemName" },
                                 { "data": "ApprovalStatusName" },
                                 { "data": null, defaultContent: (state == 1000 ? "<button class='btn btn-default btn-block btn-sm' mark='1'>确定</button>" : "") },
+                                { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='3'>取消</button>" },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" }
 
                         // <th>流水号</th>
@@ -170,6 +171,26 @@
 
                 //alert(data.eq(0).html());
             });
+
+            //表格内按钮点击事件 取消按钮
+            $('#dvtable tbody').on('click', "button[mark='3']", function () {
+                var data = $(this).parents('tr').find('td');
+                $("#tag").val(data.eq(0).html());
+                $("#cancelModal").modal('show');
+            });
+            //单据取消按钮事件
+            $("#cancelBtn").click(function myfunction() {
+                var spinner11 = new Spinner(getSpinOpts()).spin(document.getElementById('cancelModal'));
+                $.ajax({
+                    type: 'POST',
+                    url: '../Handlers/WFFlow1.ashx',
+                    data: { action: 'CancelDoc', id: $("#tag").val() },
+                    success: function suc(result) {
+                        location.reload();
+                    },
+                    dataType: 'JSON'
+                });
+            });
             //选中行变色 单行
             $('table tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
@@ -263,6 +284,7 @@
                         <%--<th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>--%>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批状态</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">生成凭证</th>
+                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">取消</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批进度</th>
                     </tr>
                     <tr>
@@ -284,12 +306,14 @@
                         <th>预计</th>
                         <th>实出</th>
                         <th>类型</th>
+
                         <%--<th>资金项目</th>
                         <th>预计</th>
                         <th>实出</th>
                         <th>资金项目</th>--%>
                         <th>审批状态</th>
                         <th>生成凭证</th>
+                        <th>取消</th>
                         <th>审批进度</th>
                     </tr>
 
@@ -344,6 +368,25 @@
                 </div>
                 <div class="modal-footer">
                     <button id="commitBtn" type="button" data-toggle="popover" class="btn btn-primary btn-lg">生成凭证</button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%--单据取消弹出层--%>
+    <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">单据取消确认</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="tag" type="hidden" />
+                    <button id="cancelBtn" type="button" data-toggle="popover" class="btn btn-primary btn-lg btn-block">确定</button>
+                </div>
+                <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
                 </div>
             </div>

@@ -34,5 +34,9 @@ namespace COMN
         /// 业务处理完成
         /// </summary>
         public readonly static int ApprovalStatus_IsFinished = 10000;
+        /// <summary>
+        /// 取消
+        /// </summary>
+        public readonly static int ApprovalStatus_Canceled = 100000;
     }
 }

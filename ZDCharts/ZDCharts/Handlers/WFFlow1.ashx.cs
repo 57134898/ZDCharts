@@ -73,7 +73,7 @@ namespace ZDCharts.Handlers
             {
                 //根据部门与角色查找用户可以审批的节点
                 var fList = db.V_ExpenseRows
-                    .Where(p => p.WF4RowResult == COMN.MyVars.Yes && p.ID == myid)
+                    .Where(p => p.WF4RowResult != COMN.MyVars.No && p.ID == myid)
                     .ToList();
                 return new Tools.JsonResponse()
                 {
@@ -167,6 +167,24 @@ namespace ZDCharts.Handlers
                 wf3.Rmb = db.WF_Flow4.Where(p => p.FlowID == wf4.FlowID && p.Result != "N").Sum(p => p.Rmb);
                 db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
+            }
+        }
+
+
+        public Tools.JsonResponse CancelDoc()
+        {
+            int id = int.Parse(this.GetParam("id"));
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                var curNode = db.WF_Flows.SingleOrDefault(p => p.ID == id);
+                curNode.ApprovalStatus = COMN.MyVars.ApprovalStatus_Canceled;
+                int result = db.SaveChanges();
+                return new Tools.JsonResponse()
+                {
+                    Code = "0",
+                    Msg = curNode.CurNode.ToString(),
+                    Data = result
+                };
             }
         }
     }
