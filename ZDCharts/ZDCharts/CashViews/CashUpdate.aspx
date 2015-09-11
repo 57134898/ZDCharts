@@ -110,6 +110,16 @@
                 $("#rmb").val(data.eq(4).html());
                 $("#note").val(data.eq(7).html());
                 $("#mark").val(data.eq(0).html());
+                $("#total").val(data.eq(10).html());
+
+                $("#rmb").unbind();
+                $("#note").unbind();
+                $("#rmb").on("input", function (e) {
+                    $("#note").val(Number($("#total").val()) - Number($("#rmb").val()));
+                });
+                $("#note").on("input", function (e) {
+                    $("#rmb").val(Number($("#total").val()) - Number($("#note").val()));
+                });
                 //$("#myitemModal").modal('hide');
             });
             //表格内按钮点击事件 查看审批进度按钮
@@ -345,6 +355,10 @@
                         <%--<div class="panel-heading">新增一条记录</div>--%>
                         <div class="panel-body">
                             <input type="hidden" id="mark" />
+                            <div class="form-group">
+                                <label for="total" class="control-label">本次合计</label>
+                                <input disabled="disabled" id="total" type="number" class="form-control glyphicon-align-right" placeholder="本次合计" />
+                            </div>
                             <div class="form-group">
                                 <label for="rmb" class="control-label">实际支出现汇</label>
                                 <input id="rmb" type="number" class="form-control glyphicon-align-right" placeholder="请现汇金额" />

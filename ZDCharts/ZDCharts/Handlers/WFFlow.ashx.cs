@@ -15,6 +15,24 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 string selectCustomerID = context.Request.Form["SelectCustomerID"];
+                Guid guid = Guid.Parse(selectCustomerID);
+                object oUser = context.Session["user"];
+                if (oUser == null)
+                {
+                    return new Tools.JsonResponse() { Code = "1000", Msg = "session用户过期" };
+                }
+                MODEL.UserInfo user = (MODEL.UserInfo)oUser;
+                //根据部门与角色查找用户可以审批的节点
+                var fList = db.V_Flows.Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == user.RoleID && p.CashID == guid && p.F1Result != "N").ToList();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = fList };
+            }
+        }
+
+        public Tools.JsonResponse GetListByDoc()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                string selectCustomerID = context.Request.Form["SelectCustomerID"];
                 object oUser = context.Session["user"];
                 if (oUser == null)
                 {

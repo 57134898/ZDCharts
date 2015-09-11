@@ -86,11 +86,12 @@
                         if (i == 0) {
                             shtml = shtml.concat("<a href='javascript: loadcompany() ' class='list-group-item list-group-item-success'>返回上级</a>");
                         }
-                        shtml = shtml.concat("<a id='" + "aa" + i.toString() + "' cid='" + result.data[i].CustomerID + "' href='#' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].Customer + "</a>");
+                        shtml = shtml.concat("<a id='" + "aa" + i.toString() + "' cashid='" + result.data[i].CashID + "' cid='" + result.data[i].CustomerID + "' href='#' class='list-group-item'><span class='badge'>" + result.data[i].Total + "</span>" + result.data[i].Customer + "</a>");
                         $("#listdiv").append(shtml);
                         //switch按钮样式设置
                         $("#aa" + i.toString()).click(function () {
-                            loadcontract($(this).attr("cid"));
+                            //alert($(this).attr("cashid"));
+                            loadcontract($(this).attr("cashid"));
                         });
                     }
                     spinner1.stop();
