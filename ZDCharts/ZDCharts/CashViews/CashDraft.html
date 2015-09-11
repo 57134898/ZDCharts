@@ -149,48 +149,6 @@
                     dataType: 'JSON'
                 });
             });
-            ////表格内按钮点击事件 修改按钮
-            //$('#dvtable tbody').on('click', "button[mark='3']", function () {
-            //    alert("这是修改");
-            //    return;
-            //    var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('progressModalBody'));
-            //    var data = $(this).parents('tr').find('td');
-            //    $("#progressModal").modal('show');
-            //    //data.eq(0).html()
-            //    //progressBody
-            //    $.ajax({
-            //        type: 'POST',
-            //        url: '../Handlers/WFFlow1.ashx',
-            //        data: { action: 'GetStepList', flowid: data.eq(0).html() },
-            //        success: function suc(result) {
-            //            //alert(JSON.stringify(result));
-            //            //请求失败跳转到错误页
-            //            spinner1.stop();
-            //        },
-            //        dataType: 'JSON'
-            //    });
-            //});
-            ////表格内按钮点击事件 删除按钮
-            //$('#dvtable tbody').on('click', "button[mark='4']", function () {
-            //    alert("这是删除");
-            //    return;
-            //    var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('progressModalBody'));
-            //    var data = $(this).parents('tr').find('td');
-            //    $("#progressModal").modal('show');
-            //    //data.eq(0).html()
-            //    //progressBody
-            //    $.ajax({
-            //        type: 'POST',
-            //        url: '../Handlers/WFFlow1.ashx',
-            //        data: { action: 'GetStepList', flowid: data.eq(0).html() },
-            //        success: function suc(result) {
-            //            //alert(JSON.stringify(result));
-            //            //请求失败跳转到错误页
-            //            spinner1.stop();
-            //        },
-            //        dataType: 'JSON'
-            //    });
-            //});
             //刷新按钮
             $('#toolbtn_refresh').click(function () {
                 location.reload();
@@ -440,6 +398,7 @@
                 $("#canbtn").click(function () {
                     $('#customerCollapse').collapse('toggle');
                 });
+
             });
             //删除按钮
             $('#toolbtn_del').click(function () {
@@ -457,7 +416,6 @@
                 }
 
             });
-
             //浏览按钮
             $('#toolbtn_stateview').click(function () {
                 var table = $('#dvtable').DataTable();
@@ -468,7 +426,6 @@
             $('#toolbtn_update').click(function () {
                 alert($("table tr.selected td:eq(0)").text());
             });
-
             //工具栏按钮tooltip设置
             $('[data-toggle="tooltip"]').tooltip();
             //$('[data-toggle="popover"]').popover();
@@ -602,7 +559,7 @@
                                         shtml = shtml.concat("<td>" + result.data[i].HCODE + "</td>");
                                         shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].Total + "</td>");
                                         shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].NonRmb + "</td>");
-                                        shtml = shtml.concat("<td style='text-align:center'><input type='text' class='form-control text-right' id='currmb' placeholder='" + result.data[i].HCODE + "本次付款金额'></td>");
+                                        shtml = shtml.concat("<td style='text-align:center'><input type='text' class='form-control text-right' id='currmb' placeholder='" + result.data[i].HCODE + "本次付款金额'  changemark='a'></td>");
                                         shtml = shtml.concat("<td style='text-align:center'><select class='selectpicker form-control'>");
                                         //销售合同号下拉列表数据绑定
                                         var xslist = eval("(" + result.data[i].XSHCODE + ")");
@@ -618,6 +575,18 @@
                                         alert(e.message)
                                     };
                                 }
+                                //计算余额
+                                $("input[changemark='a']").unbind();
+                                $("input[changemark='a']").on("input", function (e) {
+                                    var total = 0;
+                                    $("#tablebody tr").each(function (i, item) {
+                                        var currmb = $.trim($(item).find("td").find("input").val());
+                                        if (!(currmb == "" || isNaN(currmb))) {
+                                            total += Number(currmb);
+                                        }
+                                    });
+                                    $("#balrmb").val(Number($("#Rmb").val()) + Number($("#Note").val()) - total);
+                                });
                                 spinner1.stop();
                             },
                             dataType: 'JSON'
@@ -693,14 +662,14 @@
                                     <td width="30%">
                                         <div class="form-group">
                                             <label for="rmb1" class="control-label">现汇</label>
-                                            <input type="number" class="form-control" id="Rmb" placeholder="现汇">
+                                            <input type="number" class="form-control" id="Rmb" placeholder="现汇" changemark="a">
                                         </div>
                                     </td>
                                     <td width="5%"></td>
                                     <td width="30%">
                                         <div class="form-group">
                                             <label for="rmb1" class="control-label">票据</label>
-                                            <input type="number" class="form-control" id="Note" placeholder="票据">
+                                            <input type="number" class="form-control" id="Note" placeholder="票据" changemark="a">
                                         </div>
                                     </td>
                                     <td width="5%"></td>
