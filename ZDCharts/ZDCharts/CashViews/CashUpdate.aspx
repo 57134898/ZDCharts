@@ -107,6 +107,21 @@
                 var data = $(this).parents('tr').find('td');
                 //alert(111);
                 $("#myitemModal").modal('show');
+
+                //获取资金池余额
+                $.ajax({
+                    "type": "POST",
+                    "url": "../handlers/Finance.ashx",
+                    "dataType": "json",
+                    "data": { Action: 'GetBalanceBy1221' }, // 以json格式传递
+                    "success": function (resp) {
+                        var bal = eval("(" + resp.data + ")");
+                        $("#balrmb").val(bal.rmb);
+                        $("#balnote").val(bal.note);
+                        $("#baltotal").val(bal.total);
+                    }
+                });
+
                 $("#rmb").val(data.eq(4).html());
                 $("#note").val(data.eq(7).html());
                 $("#mark").val(data.eq(0).html());
@@ -352,6 +367,35 @@
                 </div>
                 <div class="modal-body">
                     <div class="panel panel-info">
+                        <div class="panel-heading">资金池余额</div>
+                        <div class="panel-body">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 30%">
+                                        <div class="form-group">
+                                            <label for="baltotal" class="control-label">合计</label>
+                                            <input disabled="disabled" id="baltotal" type="number" class="form-control" placeholder="合计" />
+                                        </div>
+                                    </td>
+                                    <td style="width: 5%"></td>
+                                    <td style="width: 30%">
+                                        <div class="form-group">
+                                            <label for="balcash" class="control-label">现金</label>
+                                            <input disabled="disabled" id="balrmb" type="number" class="form-control glyphicon-align-right" placeholder="现金" />
+                                        </div>
+                                    </td>
+                                    <td style="width: 5%"></td>
+                                    <td style="width: 30%">
+                                        <div class="form-group">
+                                            <label for="balnote" class="control-label">票据</label>
+                                            <input disabled="disabled" id="balnote" type="number" class="form-control glyphicon-align-right" placeholder="票据" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel panel-info">
                         <%--<div class="panel-heading">新增一条记录</div>--%>
                         <div class="panel-body">
                             <input type="hidden" id="mark" />
@@ -369,10 +413,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="commitBtn" type="button" data-toggle="popover" class="btn btn-primary btn-lg">生成凭证</button>
-                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
+                    <div class="modal-footer">
+                        <button id="commitBtn" type="button" data-toggle="popover" class="btn btn-primary btn-lg">生成凭证</button>
+                        <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -422,6 +466,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>

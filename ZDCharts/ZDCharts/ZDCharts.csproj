@@ -330,6 +330,7 @@
     <Content Include="WorkFlow\NodeView.aspx" />
     <Content Include="Handlers\WFFlow1.ashx" />
     <Content Include="Handlers\Voucher.ashx" />
+    <Content Include="Handlers\Finance.ashx" />
     <None Include="Properties\PublishProfiles\conf.pubxml" />
     <None Include="Properties\PublishProfiles\rmb.pubxml" />
     <None Include="Web.Debug.config">
@@ -487,6 +488,9 @@
     </Compile>
     <Compile Include="Handlers\Expense.ashx.cs">
       <DependentUpon>Expense.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Finance.ashx.cs">
+      <DependentUpon>Finance.ashx</DependentUpon>
     </Compile>
     <Compile Include="Handlers\Handler1.ashx.cs">
       <DependentUpon>Handler1.ashx</DependentUpon>
