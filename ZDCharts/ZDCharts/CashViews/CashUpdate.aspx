@@ -44,7 +44,8 @@
                                 { "data": "ApprovalStatusName" },
                                 { "data": null, defaultContent: (state == 1000 ? "<button class='btn btn-default btn-block btn-sm' mark='1'>确定</button>" : "") },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='3'>取消</button>" },
-                                { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" }
+                                { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" },
+                                { "data": "Hdw" }
                     ],
                     //汉化
                     "language":
@@ -113,7 +114,7 @@
                     "type": "POST",
                     "url": "../handlers/Finance.ashx",
                     "dataType": "json",
-                    "data": { Action: 'GetBalanceBy1221' }, // 以json格式传递
+                    "data": { Action: 'GetBalanceBy1221', companyid: data.eq(15).html() }, // 以json格式传递
                     "success": function (resp) {
                         var bal = eval("(" + resp.data + ")");
                         $("#balrmb").val(bal.rmb);
@@ -323,6 +324,7 @@
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">生成凭证</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">取消</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批进度</th>
+                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">公司</th>
                     </tr>
                     <tr>
                         <th class="myRigthBorder">预计</th>
@@ -350,6 +352,7 @@
                         <th>生成凭证</th>
                         <th>取消</th>
                         <th>审批进度</th>
+                        <th>公司</th>
                     </tr>
 
                 </tfoot>

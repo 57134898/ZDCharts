@@ -55,7 +55,7 @@ namespace ZDCharts.Handlers
                     return new Tools.JsonResponse() { Code = "1000", Msg = "session用户过期" };
                 }
                 MODEL.UserInfo user = (MODEL.UserInfo)oUser;
-                // TODO 根据公司角色查找用户可以审批的节点 01与02与集团 可以看所有
+                //根据公司角色查找用户可以审批的节点 01与02与集团 可以看所有
                 if (user.RoleID == "01" || user.RoleID == "02")
                 {
                     var fList = db.V_Flow_GB_Company.Where(p => p.RoleID == user.RoleID).ToList();

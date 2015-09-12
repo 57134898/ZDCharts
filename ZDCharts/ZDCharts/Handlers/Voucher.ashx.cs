@@ -199,7 +199,6 @@ namespace ZDCharts.Handlers
                 {
                     wf.ApprovalStatus = COMN.MyVars.ApprovalStatus_IsFinished;
                 }
-                //todo  正式需要打开
                 int result = db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = "" };
             }
