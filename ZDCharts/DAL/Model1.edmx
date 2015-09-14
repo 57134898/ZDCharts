@@ -310,6 +310,20 @@
           <Property Name="PID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“RMB.dbo.V_Balance”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Balance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Company" Type="nvarchar" MaxLength="50" />
+          <Property Name="Rmb" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="Note" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="Total" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="状态" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="类型" Type="varchar" MaxLength="4" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_CashItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_CashItem">
           <Key>
@@ -816,6 +830,17 @@
     [V_ApprovalSteps].[Result] AS [Result], 
     [V_ApprovalSteps].[PID] AS [PID]
     FROM [dbo].[V_ApprovalSteps] AS [V_ApprovalSteps]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_Balance" EntityType="Self.V_Balance" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Balance].[ID] AS [ID], 
+    [V_Balance].[Company] AS [Company], 
+    [V_Balance].[Rmb] AS [Rmb], 
+    [V_Balance].[Note] AS [Note], 
+    [V_Balance].[Total] AS [Total], 
+    [V_Balance].[状态] AS [状态], 
+    [V_Balance].[类型] AS [类型]
+    FROM [dbo].[V_Balance] AS [V_Balance]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_CashItem" EntityType="Self.V_CashItem" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1550,6 +1575,7 @@
           <EntitySet Name="V_Expense" EntityType="RMBModel.V_Expense" />
           <EntitySet Name="V_ExpenseRows" EntityType="RMBModel.V_ExpenseRows" />
           <EntitySet Name="Sys_MenuPermission" EntityType="RMBModel.Sys_MenuPermission" />
+          <EntitySet Name="V_Balance" EntityType="RMBModel.V_Balance" />
         </EntityContainer>
         <EntityType Name="WF_CompanyToTem">
           <Key>
@@ -1779,6 +1805,18 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="MenuID" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_Balance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rmb" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="Note" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="状态" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="类型" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2393,6 +2431,19 @@
               <MappingFragment StoreEntitySet="Sys_MenuPermission">
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Balance">
+            <EntityTypeMapping TypeName="RMBModel.V_Balance">
+              <MappingFragment StoreEntitySet="V_Balance">
+                <ScalarProperty Name="类型" ColumnName="类型" />
+                <ScalarProperty Name="状态" ColumnName="状态" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

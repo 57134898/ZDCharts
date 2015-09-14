@@ -102,6 +102,9 @@
     <Compile Include="V_ApprovalSteps.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="V_Balance.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="V_CashItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

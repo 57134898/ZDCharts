@@ -315,7 +315,8 @@
                             //alert(JSON.stringify(result));
                             //请求失败跳转到错误页
                             if (result.code != "0") {
-                                redirecToErrorPage(result);
+                                alert(JSON.stringify(result));
+                                //redirecToErrorPage(result);
                                 return;
                             }
                             if (result.data == null || result.data.length <= 0) {
