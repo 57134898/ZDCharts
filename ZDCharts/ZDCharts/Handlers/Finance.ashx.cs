@@ -20,6 +20,21 @@ namespace ZDCharts.Handlers
                 {
                     companyid = this.UserInfo.CompanyID;
                 }
+                if (companyid == "company1")
+                {
+                    string docid = GetParam("DocID");
+                    Guid guid = Guid.Parse(docid);
+                    var wf2 = db.WF_Flow2.SingleOrDefault(p => p.CashID == guid);
+                    companyid = wf2.Hdw;
+                }
+                if (companyid == "company2")
+                {
+                    int docid = int.Parse(GetParam("DocID"));
+                    var vex = db.V_Expense.SingleOrDefault(p => p.ID == docid);
+                    companyid = vex.CompanyID;
+                }
+
+
                 string sql = string.Format("EXEC [dbo].[GetBalance] @YEAR = {0}, @MONTH = {1} ,@BCODE = N'{2}'", DateTime.Now.Year, DateTime.Now.Month, companyid);
                 System.Data.DataTable dt = DBHelper.ExecuteDataTable(sql);
                 var bal = db.V_Balance

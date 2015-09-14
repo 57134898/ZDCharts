@@ -82,12 +82,37 @@
                         return;
                     }
                     listclear();
+                    //显示资金池余额
+                    //获取资金池余额
+                    $.ajax({
+                        "type": "POST",
+                        "url": "../handlers/Finance.ashx",
+                        "dataType": "json",
+                        "data": { Action: 'GetBalanceBy1221', companyid: "company2", DocID: myid }, // 以json格式传递
+                        "success": function (resp) {
+                            var bal = eval("(" + resp.data + ")");
+                            //$("#balrmb4").html(bal.rmb4);
+                            //$("#balnote4").html(bal.note4);
+                            //$("#baltotal4").html(bal.total4);
+                            var ss = "<a href='#' class='list-group-item' nodeid='node1'>";
+                            ss += "<div class='panel panel-primary'>";
+                            ss += "<div class='panel-heading'>资金池余额</div>";
+                            ss += "<div class='panel-body'>";
+                            ss += "<table class='table  table-striped'>";
+                            ss += "<tr><td>合计:</td><td class='numFormat'>" + bal.total4 + "</td></tr>";
+                            ss += "<tr><td>现汇:</td><td class='numFormat'>" + bal.rmb4 + "</td></tr>";
+                            ss += "<tr><td>票据:</td><td class='numFormat'>" + bal.note4 + "</td></tr>";
+                            ss += "</table></div></div></a>";
+                            $("#listdiv").prepend(ss);
+                            $("#listdiv").prepend("<a href='javascript: loadcompany() ' class='list-group-item list-group-item-success'>返回上级</a>");
+                        }
+                    });
                     //绑定数据
                     for (var i = 0; i < result.data.length; i++) {
                         var shtml = "";
-                        if (i == 0) {
-                            shtml = shtml.concat("<a href='javascript: loadcompany() ' class='list-group-item list-group-item-success'>返回上级</a>");
-                        }
+                        //if (i == 0) {
+                        //    shtml = shtml.concat("<a href='javascript: loadcompany() ' class='list-group-item list-group-item-success'>返回上级</a>");
+                        //}
                         //alert(result.data[i].FID);
                         shtml = shtml.concat("<a class='list-group-item' nodeid='N" + result.data[i].WF4RowID + "'>");
                         shtml = shtml.concat("<div class='panel panel-primary'>");
@@ -116,6 +141,7 @@
                         //shtml = shtml.concat("<input  avalue='N' name='c" + i.toString() + "' data-label-text='拒绝' type='radio' flowid='" + result.data[i].FID + "'>");
                         shtml = shtml.concat("</div></div></a>");
                         $("#listdiv").append(shtml);
+
                         $("input[type='radio']").change(function () {
 
                             var sp = $("span[fid='" + $(this).attr('nodeid') + "']");
