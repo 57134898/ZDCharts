@@ -16,6 +16,10 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 string companyid = GetParam("companyid");
+                if (companyid=="company")
+                {
+                    companyid = this.UserInfo.CompanyID;
+                }
                 string sql = string.Format("EXEC [dbo].[GetBalance] @YEAR = {0}, @MONTH = {1} ,@BCODE = N'{2}'", DateTime.Now.Year, DateTime.Now.Month, companyid);
                 System.Data.DataTable dt = DBHelper.ExecuteDataTable(sql);
                 var bal = db.V_Balance

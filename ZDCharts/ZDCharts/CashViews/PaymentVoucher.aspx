@@ -47,7 +47,8 @@
                                 { "data": "ApprovalStatusName" },
                                 { "data": null, defaultContent: (state == 1000 ? "<button class='btn btn-default btn-block btn-sm' mark='1'>确定</button>" : "") },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='3'>取消</button>" },
-                                { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" }
+                                { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" },
+                                { "data": "CompanyID" }
 
                         // <th>流水号</th>
                         //<th>公司</th>
@@ -164,12 +165,39 @@
                 //});
 
                 $("#myitemModal").modal('show');
+
                 $("#rmb").val(data.eq(4).html());
                 //$("#note").val(data.eq(7).html());
                 $("#mark").val(data.eq(0).html());
-                //$("#myitemModal").modal('hide');
+                //获取资金池余额
+                $.ajax({
+                    "type": "POST",
+                    "url": "../handlers/Finance.ashx",
+                    "dataType": "json",
+                    "data": { Action: 'GetBalanceBy1221', companyid: data.eq(11).html() }, // 以json格式传递
+                    "success": function (resp) {
+                        var bal = eval("(" + resp.data + ")");
+                        $("#balrmb").html(bal.rmb);
+                        $("#balnote").html(bal.note);
+                        $("#baltotal").html(bal.total);
 
-                //alert(data.eq(0).html());
+                        $("#balrmb1").html(bal.rmb1);
+                        $("#balnote1").html(bal.note1);
+                        $("#baltotal1").html(bal.total1);
+
+                        $("#balrmb2").html(bal.rmb2);
+                        $("#balnote2").html(bal.note2);
+                        $("#baltotal2").html(bal.total2);
+
+                        $("#balrmb3").html(bal.rmb3);
+                        $("#balnote3").html(bal.note3);
+                        $("#baltotal3").html(bal.total3);
+
+                        $("#balrmb4").html(bal.rmb4);
+                        $("#balnote4").html(bal.note4);
+                        $("#baltotal4").html(bal.total4);
+                    }
+                });
             });
 
             //表格内按钮点击事件 取消按钮
@@ -286,6 +314,7 @@
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">生成凭证</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">取消</th>
                         <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批进度</th>
+                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">公司编号</th>
                     </tr>
                     <tr>
                         <th class="myRigthBorder">预计</th>
@@ -315,6 +344,8 @@
                         <th>生成凭证</th>
                         <th>取消</th>
                         <th>审批进度</th>
+                        <th>公司编号</th>
+
                     </tr>
 
                 </tfoot>
@@ -351,6 +382,88 @@
                     <h4 class="modal-title" id="myModalLabel">金额确认</h4>
                 </div>
                 <div class="modal-body">
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading">资金池余额</div>
+                        <div class="panel-body">
+                            <table style="width: 100%" class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 25%; text-align: left">类型\金额</th>
+                                        <th style="width: 25%; text-align: center">合计</th>
+                                        <th style="width: 25%; text-align: center">现金</th>
+                                        <th style="width: 25%; text-align: center">票据</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 25%">财务</td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="baltotal" />
+                                        </td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="balrmb" />
+                                        </td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="balnote" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 25%">已审批</td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="baltotal1" />
+                                        </td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="balrmb1" />
+                                        </td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="balnote1" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 25%">未审批</td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="baltotal2" />
+                                        </td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="balrmb2" />
+                                        </td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="balnote2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 25%">已生成凭证</td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="baltotal3" />
+                                        </td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="balrmb3" />
+                                        </td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="balnote3" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td style="width: 25%">总计</td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="baltotal4" />
+                                        </td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="balrmb4" />
+                                        </td>
+                                        <td style="width: 25%; text-align: right">
+                                            <div id="balnote4" />
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
                     <div class="panel panel-info">
                         <%--<div class="panel-heading">新增一条记录</div>--%>
                         <div class="panel-body">
