@@ -16,7 +16,7 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 string companyid = GetParam("companyid");
-                if (companyid=="company")
+                if (companyid == "company")
                 {
                     companyid = this.UserInfo.CompanyID;
                 }
@@ -74,9 +74,9 @@ namespace ZDCharts.Handlers
                     }
                 }
                 total = rmb + note;
-                rmb4 = rmb - rmb1 - rmb2;
-                note4 = note - note1 - note2;
-                total4 = total - total1 - total2;
+                rmb4 = rmb - rmb1 - rmb2 - rmb3;
+                note4 = note - note1 - note2 - note3;
+                total4 = total - total1 - total2 - total3;
                 //TODO 现金与票据数需要减去 资金系统里的数 取数为 未生成凭证的数，包括已申请 与审批中 与 审批通过数 明天写
                 //**************************************
                 //**************************************

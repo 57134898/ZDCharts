@@ -391,7 +391,7 @@
                                     <tr>
                                         <th style="width: 25%; text-align: left">类型\金额</th>
                                         <th style="width: 25%; text-align: center">合计</th>
-                                        <th style="width: 25%; text-align: center">现金</th>
+                                        <th style="width: 25%; text-align: center">现汇</th>
                                         <th style="width: 25%; text-align: center">票据</th>
                                     </tr>
 

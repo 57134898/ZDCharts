@@ -461,6 +461,86 @@
         <div class="panel-body">
             <div class="collapse" id="customerCollapse">
                 <!--表单区域-->
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">资金池余额</div>
+                    <div class="panel-body">
+                        <table style="width: 100%" class="table">
+                            <thead>
+                                <tr>
+                                    <!--<th style="width: 25%; text-align: left">类型\金额</th>-->
+                                    <th style="width: 25%; text-align: center">合计</th>
+                                    <th style="width: 25%; text-align: center">现汇</th>
+                                    <th style="width: 25%; text-align: center">票据</th>
+                                </tr>
+
+                            </thead>
+                            <!--<tbody>
+                    <tr style="visibility:collapse">
+                        <td style="width: 25%">财务</td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="baltotal" />
+                        </td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="balrmb" />
+                        </td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="balnote" />
+                        </td>
+                    </tr>
+                    <tr style="visibility:collapse">
+                        <td style="width: 25%">已审批</td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="baltotal1" />
+                        </td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="balrmb1" />
+                        </td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="balnote1" />
+                        </td>
+                    </tr>
+                    <tr style="visibility:collapse">
+                        <td style="width: 25%">未审批</td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="baltotal2" />
+                        </td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="balrmb2" />
+                        </td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="balnote2" />
+                        </td>
+                    </tr>
+                    <tr style="visibility:collapse">
+                        <td style="width: 25%">已生成凭证</td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="baltotal3" />
+                        </td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="balrmb3" />
+                        </td>
+                        <td style="width: 25%; text-align: right">
+                            <div id="balnote3" />
+                        </td>
+                    </tr>
+                </tbody>-->
+                            <tfoot>
+                                <tr>
+                                    <!--<td style="width: 25%">总计</td>-->
+                                    <td style="width: 25%; text-align: center">
+                                        <div id="baltotal4" />
+                                    </td>
+                                    <td style="width: 25%; text-align: center">
+                                        <div id="balrmb4" />
+                                    </td>
+                                    <td style="width: 25%; text-align: center">
+                                        <div id="balnote4" />
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">新增一条记录</div>
                     <div class="panel-body">
@@ -587,86 +667,7 @@
 
                     </div>
                 </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">资金池余额</div>
-                    <div class="panel-body">
-                        <table style="width: 100%" class="table">
-                            <thead>
-                                <tr>
-                                    <th style="width: 25%; text-align: left">类型\金额</th>
-                                    <th style="width: 25%; text-align: center">合计</th>
-                                    <th style="width: 25%; text-align: center">现金</th>
-                                    <th style="width: 25%; text-align: center">票据</th>
-                                </tr>
-
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="width: 25%">财务</td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="baltotal" />
-                                    </td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="balrmb" />
-                                    </td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="balnote" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%">已审批</td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="baltotal1" />
-                                    </td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="balrmb1" />
-                                    </td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="balnote1" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%">未审批</td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="baltotal2" />
-                                    </td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="balrmb2" />
-                                    </td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="balnote2" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%">已生成凭证</td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="baltotal3" />
-                                    </td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="balrmb3" />
-                                    </td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="balnote3" />
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td style="width: 25%">总计</td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="baltotal4" />
-                                    </td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="balrmb4" />
-                                    </td>
-                                    <td style="width: 25%; text-align: right">
-                                        <div id="balnote4" />
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
+                
             </div>
         </div>
 
