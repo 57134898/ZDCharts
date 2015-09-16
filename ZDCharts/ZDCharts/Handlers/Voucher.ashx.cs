@@ -103,7 +103,7 @@ namespace ZDCharts.Handlers
                                     ,1
                                     ,acode_dr
                                     ,flow.CompanyID
-                                    ,""//TODO 借方NCODE 为空 待议
+                                    ,""// 借方NCODE 为空 待议
                                     ,wf3.Rmb
                                     ,DateTime.Now.ToShortDateString()
                                     ,(vid+mark).ToString().PadLeft(16, '0')

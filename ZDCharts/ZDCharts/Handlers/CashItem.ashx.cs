@@ -216,8 +216,6 @@ namespace ZDCharts.Handlers
                 wf2.Cash1 = cashItem.Cash;
                 wf2.Note1 = cashItem.Note;
                 wf2.IsFinished = "Y";
-                //TODO 插入数据到CASH 
-                //var cid = db.ACash.Max(p => p.CID) + 1;
                 var list = db.WF_Flow1.Where(p => p.CashID == wf2.CashID);
                 decimal? total1 = cashItem.Cash + cashItem.Note;
                 decimal? total2 = list.Where(p => p.Result == "Y").Sum(p => p.Rmb);
@@ -230,6 +228,8 @@ namespace ZDCharts.Handlers
                         Data = string.Format("合同总金额{0}", total2)
                     };
                 }
+                #region 添加凭证
+
                 //添加现汇申请凭证
                 if (cashItem.Cash > 0)
                 {
@@ -371,37 +371,38 @@ namespace ZDCharts.Handlers
                     int result_sql = DBHelper.ExecuteNonQuery(sql);
                     wf2.NoteVoucherID = hid;
                 }
-                //int cid = db.AddCash(DateTime.Now, wf2.Cash1, wf2.Note1, false, wf2.Ccode, wf2.Hdw, "付款");
-                //TODO 插入数据到CASH 
-                //db.ACash.Add(new DAL.ACash()
-                //    {
-                //        CID = cid,
-                //        ExchangeDate = DateTime.Now,
-                //        Cash = wf2.Cash1,
-                //        Note = wf2.Note1,
-                //        VoucherFlag = false,
-                //        Ccode = wf2.Ccode,
-                //        HDW = this.UserInfo.CompanyID,
-                //        Type = "付款"
-                //    });
-                //TODO 插入数据到AFKXX
-                //foreach (var item in list)
-                //{
-                //    if (item.Result == "Y")
-                //    {
-                //        db.AFKXX.Add(new DAL.AFKXX()
-                //        {
-                //            rmb = item.Rmb,
-                //            xshth = item.XSHcode,
-                //            CID = cid,
-                //            date = DateTime.Now,
-                //            hth = item.HCode,
-                //            type = "付款",
-                //            fkfs = "",
-                //            fklx = ""
-                //        });
-                //    }
-                //}
+
+                #endregion
+
+                #region 添加合同付款信息
+                string sql1 = string.Empty;
+                sql1 = "INSERT INTO ACash (ExchangeDate, Cash, Note,VoucherFlag,Ccode,Type,Mz,hdw) VALUES (";
+                sql1 += "'" + DateTime.Now.ToShortDateString() + "',";
+                sql1 += "'" + cashItem.Cash + "',";
+                sql1 += "'" + cashItem.Note + "',";
+                sql1 += "'0',";
+                sql1 += "'" + wf2.Ccode + "',";
+                sql1 += "'付款',";
+                sql1 += "'0'";
+                sql1 += ",'" + wf2.Hdw + "') ";
+                string cid = DBHelper.ExecuteScalar(sql1).ToString();
+                string sql2 = string.Empty;
+                foreach (var item in list)
+                {
+                    if (item.Result == "Y")
+                    {
+                        sql2 += " INSERT INTO AFKXX ([rmb], [hth], [xshth], [type],Cid,date) VALUES(";
+                        sql2 += "'" + item.Result + "',";
+                        sql2 += "'" + item.HCode + "',";
+                        sql2 += "'" + item.XSHcode + "',";
+                        sql2 += "'付款',";
+                        sql2 += cid + ",'" + DateTime.Now.ToShortDateString() + "') ";
+                    }
+                }
+                DBHelper.ExecuteNonQuery(sql2);
+
+                #endregion
+               
                 //保存
                 int result = db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = "" };
