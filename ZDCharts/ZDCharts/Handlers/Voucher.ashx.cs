@@ -24,6 +24,7 @@ namespace ZDCharts.Handlers
                 var flow = db.V_Expense.SingleOrDefault(p => p.ID == id);
                 var fowRows = db.V_ExpenseRows.Where(p => p.ID == id && p.WF4RowResult == "Y");
                 DAL.WF_Flow3 wf3 = db.WF_Flow3.SingleOrDefault(p => p.FlowID == flow.FID);
+                var wf = db.WF_Flows.SingleOrDefault(p => p.FID == flow.FID);
                 int vtype = 0;
                 string acode_cr = string.Empty;
                 string acode_dr = string.Empty;
@@ -49,7 +50,7 @@ namespace ZDCharts.Handlers
                 int vid = int.Parse(DBHelper.ExecuteScalar(sql).ToString());
                 #region 添加凭证头
                 sql = string.Format(@"INSERT INTO {0}.dbo.hvoucher([id],[year],[month],[vtype],[vno],[bcode],[vdate],[vappendix],[vprepare],[vcheck],[vexpl],[modifydate])
-                                                   VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}');",
+                                                   VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}');",
                     new object[]{COMN.MyVars.CWDB
                                     ,hid
                                     ,DateTime.Now.Year
@@ -59,10 +60,10 @@ namespace ZDCharts.Handlers
                                     ,"01"
                                     ,DateTime.Now.ToShortDateString()
                                     ,0
-                                    ,this.UserInfo.UserName
-                                    ,this.UserInfo.UserName
+                                    ,wf.Creater
+                                    ,wf.Creater
                                     ,flow.FName
-                                    ,DateTime.Now.ToShortDateString()});
+                                    ,DateTime.Now.ToShortDateString(),wf.Creater});
                 #endregion
                 #region 添加凭证行
                 int mark = 0;
@@ -194,7 +195,7 @@ namespace ZDCharts.Handlers
                 //                    wf3.Note1 = note1;
                 //                }
                 //标记审批状态为已经处理完成
-                var wf = db.WF_Flows.SingleOrDefault(p => p.FID == flow.FID);
+                //var wf = db.WF_Flows.SingleOrDefault(p => p.FID == flow.FID);
                 if (wf != null)
                 {
                     wf.ApprovalStatus = COMN.MyVars.ApprovalStatus_IsFinished;

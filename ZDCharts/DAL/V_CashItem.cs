@@ -36,5 +36,6 @@ namespace DAL
         public string ApprovalStatusName { get; set; }
         public System.Guid FlowID { get; set; }
         public Nullable<decimal> Total { get; set; }
+        public string CompanyName { get; set; }
     }
 }

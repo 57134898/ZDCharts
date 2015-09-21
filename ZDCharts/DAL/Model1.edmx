@@ -313,6 +313,8 @@
 警告 6002: 表/视图“RMB.dbo.V_Balance”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Balance">
           <Key>
+            
+            
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" Nullable="false" />
@@ -359,6 +361,7 @@
           <Property Name="ApprovalStatusName" Type="nvarchar" MaxLength="50" />
           <Property Name="FlowID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Total" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="4000" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_Emps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -865,7 +868,8 @@
     [V_CashItem].[ApprovalStatus] AS [ApprovalStatus], 
     [V_CashItem].[ApprovalStatusName] AS [ApprovalStatusName], 
     [V_CashItem].[FlowID] AS [FlowID], 
-    [V_CashItem].[Total] AS [Total]
+    [V_CashItem].[Total] AS [Total], 
+    [V_CashItem].[CompanyName] AS [CompanyName]
     FROM [dbo].[V_CashItem] AS [V_CashItem]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Emps" EntityType="Self.V_Emps" store:Type="Views" store:Schema="dbo">
@@ -1680,6 +1684,7 @@
           <Property Name="ApprovalStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FlowID" Type="Guid" Nullable="false" />
           <Property Name="Total" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="CompanyName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="WF_Flow4">
           <Key>
@@ -2296,6 +2301,7 @@
           <EntitySetMapping Name="V_CashItem">
             <EntityTypeMapping TypeName="RMBModel.V_CashItem">
               <MappingFragment StoreEntitySet="V_CashItem">
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="FlowID" ColumnName="FlowID" />
                 <ScalarProperty Name="ApprovalStatusName" ColumnName="ApprovalStatusName" />

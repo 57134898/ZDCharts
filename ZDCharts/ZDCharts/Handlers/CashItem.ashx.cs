@@ -243,7 +243,7 @@ namespace ZDCharts.Handlers
                     int vid = int.Parse(DBHelper.ExecuteScalar(sql).ToString());
                     //--	添加凭证头
                     sql = string.Format(@"INSERT INTO {0}.dbo.hvoucher([id],[year],[month],[vtype],[vno],[bcode],[vdate],[vappendix],[vprepare],[vcheck],[vexpl],[modifydate])
-                                                   VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}');",
+                                                   VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}');",
                                         new object[]{COMN.MyVars.CWDB
                                     ,hid
                                     ,DateTime.Now.Year
@@ -253,10 +253,10 @@ namespace ZDCharts.Handlers
                                     ,"01"
                                     ,DateTime.Now.ToShortDateString()
                                     ,0
-                                    ,this.UserInfo.UserName
-                                    ,this.UserInfo.UserName
-                                    ,"付["+vcash.CNAME+"]货款"
-                                    ,DateTime.Now.ToShortDateString()});
+                                    ,wf.Creater
+                                    ,wf.Creater
+                                    ,"["+vcash.CompanyName+"]付["+vcash.CNAME+"]货款"
+                                    ,DateTime.Now.ToShortDateString(),wf.Creater});
 
                     //--	添加凭证行
                     sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
@@ -392,7 +392,7 @@ namespace ZDCharts.Handlers
                     if (item.Result == "Y")
                     {
                         sql2 += " INSERT INTO AFKXX ([rmb], [hth], [xshth], [type],Cid,date) VALUES(";
-                        sql2 += "'" + item.Result + "',";
+                        sql2 += "'" + item.Rmb + "',";
                         sql2 += "'" + item.HCode + "',";
                         sql2 += "'" + item.XSHcode + "',";
                         sql2 += "'付款',";
@@ -402,7 +402,7 @@ namespace ZDCharts.Handlers
                 DBHelper.ExecuteNonQuery(sql2);
 
                 #endregion
-               
+
                 //保存
                 int result = db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = "" };
