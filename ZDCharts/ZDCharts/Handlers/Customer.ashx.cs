@@ -69,7 +69,7 @@ namespace ZDCharts.Handlers
                 IQueryable<DAL.ACLIENTS> tempList;
                 if (string.IsNullOrEmpty(searchTxt))
                 {
-                    tempList = db.ACLIENTS.Where(p => p.CCODE.StartsWith("02" + companycusotmerid));
+                    tempList = db.ACLIENTS.Where(p => p.CCODE.StartsWith("02" + companycusotmerid) || p.CCODE.StartsWith("01") || p.CCODE.StartsWith("05"));
                 }
                 else
                 {
