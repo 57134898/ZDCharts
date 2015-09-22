@@ -100,7 +100,9 @@ namespace ZDCharts.Handlers
             {
                 string pStr = context.Request.Form["CustomerID"];
                 //&& p.Category == "0301" 为方便测试用需要去掉  Take(10) 也要去掉
-                var list = db.V_UnfinishedContracts.Where(p => p.NonRmb != 0 && p.CustomerID == pStr).ToList();
+                var list = db.V_UnfinishedContracts
+                    .Where(p => p.NonRmb != 0 && p.CustomerID == pStr)
+                    .ToList();
 
                 foreach (var item in list)
                 {

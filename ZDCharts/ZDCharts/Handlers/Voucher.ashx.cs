@@ -25,6 +25,12 @@ namespace ZDCharts.Handlers
                 var fowRows = db.V_ExpenseRows.Where(p => p.ID == id && p.WF4RowResult == "Y");
                 DAL.WF_Flow3 wf3 = db.WF_Flow3.SingleOrDefault(p => p.FlowID == flow.FID);
                 var wf = db.WF_Flows.SingleOrDefault(p => p.FID == flow.FID);
+
+
+                var temRow = db.WF_TemRows.SingleOrDefault(p => p.TemID == wf.TemID && p.NextID == 0);
+                var emp = db.V_Emps.SingleOrDefault(p => p.RoleID == temRow.RoleID);
+
+
                 int vtype = 0;
                 string acode_cr = string.Empty;
                 string acode_dr = string.Empty;
@@ -49,7 +55,7 @@ namespace ZDCharts.Handlers
                 sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[dbo].[ivoucher]", COMN.MyVars.CWDB);
                 int vid = int.Parse(DBHelper.ExecuteScalar(sql).ToString());
                 #region 添加凭证头
-                sql = string.Format(@"INSERT INTO {0}.dbo.hvoucher([id],[year],[month],[vtype],[vno],[bcode],[vdate],[vappendix],[vprepare],[vcheck],[vexpl],[modifydate])
+                sql = string.Format(@"INSERT INTO {0}.dbo.hvoucher([id],[year],[month],[vtype],[vno],[bcode],[vdate],[vappendix],[vprepare],[vcheck],[vexpl],[modifydate],[vcheck0])
                                                    VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}');",
                     new object[]{COMN.MyVars.CWDB
                                     ,hid
@@ -61,9 +67,9 @@ namespace ZDCharts.Handlers
                                     ,DateTime.Now.ToShortDateString()
                                     ,0
                                     ,wf.Creater
-                                    ,wf.Creater
+                                    ,"李惠"
                                     ,flow.FName
-                                    ,DateTime.Now.ToShortDateString(),wf.Creater});
+                                    ,DateTime.Now.ToShortDateString(),emp.EmpName});
                 #endregion
                 #region 添加凭证行
                 int mark = 0;
