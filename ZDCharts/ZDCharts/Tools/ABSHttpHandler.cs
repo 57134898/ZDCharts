@@ -59,6 +59,16 @@ namespace ZDCharts.Tools
             if (jresp.Data != null)
             {
                 jo.Add("data", Newtonsoft.Json.Linq.JToken.FromObject(jresp.Data));
+                if (jresp.Data1 != null)
+                {
+                    jo.Add("data1", Newtonsoft.Json.Linq.JToken.FromObject(jresp.Data1));
+                }
+                if (jresp.Data0 != null)
+                {
+                    jo.Add("data0", Newtonsoft.Json.Linq.JToken.FromObject(jresp.Data0));
+                }
+
+
             }
             context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(jo));
         }

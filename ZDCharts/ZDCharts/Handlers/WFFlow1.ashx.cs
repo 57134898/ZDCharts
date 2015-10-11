@@ -170,7 +170,6 @@ namespace ZDCharts.Handlers
             }
         }
 
-
         public Tools.JsonResponse CancelDoc()
         {
             int id = int.Parse(this.GetParam("id"));
@@ -185,6 +184,37 @@ namespace ZDCharts.Handlers
                     Msg = curNode.CurNode.ToString(),
                     Data = result
                 };
+            }
+        }
+        public Tools.JsonResponse GetModelByID()
+        {
+            int id = int.Parse(this.GetParam("id"));
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                var curNode = db.WF_Flows.SingleOrDefault(p => p.ID == id);
+                var vflow = db.V_Flows.Where(p => p.FID == curNode.FID).ToList();
+                var vcashitem = db.V_CashItem.SingleOrDefault(p => p.FlowID == curNode.FID);
+
+                return new Tools.JsonResponse()
+                {
+                    Code = "0",
+                    Msg = curNode.CurNode.ToString(),
+                    Data = vcashitem,
+                    Data0 = vflow
+                };
+            }
+        }
+
+        public Tools.JsonResponse DoUpdateDoc()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                int id = int.Parse(this.GetParam("id"));
+                string jsonstr = context.Request.Form["PayInfo"];
+                MODEL.PayInfo payinfo = (MODEL.PayInfo)Newtonsoft.Json.JsonConvert.DeserializeObject(jsonstr, typeof(MODEL.PayInfo));
+                //TODO 修改保存 未完------------------------------------------------------
+                int result = db.SaveChanges();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = result };
             }
         }
     }

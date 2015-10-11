@@ -11,5 +11,7 @@ namespace ZDCharts.Tools
         public string Msg { get; set; }
         //public HttpContext context { get; set; }
         public object Data { get; set; }
+        public object Data1 { get; set; }
+        public object Data0 { get; set; }
     }
 }
