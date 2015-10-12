@@ -218,6 +218,7 @@ namespace ZDCharts.Handlers
                 var wf2 = db.WF_Flow2.SingleOrDefault(p => p.FlowID == flow.FID);
                 wf2.NCodeC = payinfo.NCodeC;
                 wf2.NCodeN = payinfo.NCodeC;
+
                 if (flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsStarted
                     || flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsHandling)
                 {
@@ -235,6 +236,22 @@ namespace ZDCharts.Handlers
                             XSHcode = item.XSHCODE,
                             Result = COMN.MyVars.Pending
                         });
+                    }
+                }
+                if (flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsFinished)
+                {
+                    string sql = string.Empty;
+                    if (!string.IsNullOrEmpty(wf2.CashVoucherID))
+                    {
+                        sql += string.Format(@"  UPDATE {0}.dbo.ivoucher SET [ncode] ='{1}' WHERE 1=1 AND HID ='{2}'", COMN.MyVars.CWDB, payinfo.NCodeC, wf2.CashVoucherID);
+                    }
+                    if (!string.IsNullOrEmpty(wf2.NoteVoucherID))
+                    {
+                        sql += string.Format(@"  UPDATE {0}.dbo.ivoucher SET [ncode] ='{1}' WHERE 1=1 AND HID ='{2}' ", COMN.MyVars.CWDB, payinfo.NCodeC, wf2.NoteVoucherID);
+                    }
+                    if (!string.IsNullOrEmpty(sql))
+                    {
+                        int result_sql = DBHelper.ExecuteNonQuery(sql);
                     }
                 }
                 int result = db.SaveChanges();

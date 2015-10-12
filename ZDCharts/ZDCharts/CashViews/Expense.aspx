@@ -43,6 +43,7 @@
                                 { "data": "CreatedDate" },
                                 { "data": "RName" },
                                 { "data": "ApprovalStatusName" },
+                                { "data": null, defaultContent: (state == 1000 ? "<button class='btn btn-default btn-block btn-sm' mark='3'>修改</button>" : "") },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block' mark='2'>查询</button>" }
                     ],
                     //汉化
@@ -461,7 +462,7 @@
         <div class="panel-body">
             <div class="collapse" id="customerCollapse">
                 <!--表单区域-->
-                  <div class="panel panel-primary">
+                <div class="panel panel-primary">
                     <div class="panel-heading">资金池余额</div>
                     <div class="panel-body">
                         <table style="width: 100%" class="table">
@@ -667,7 +668,7 @@
 
                     </div>
                 </div>
-                
+
             </div>
         </div>
 
@@ -682,6 +683,7 @@
                         <th>日期</th>
                         <th>审批阶段</th>
                         <th>状态</th>
+                        <th>修改</th>
                         <th>审批查询</th>
                     </tr>
                 </thead>
@@ -694,6 +696,7 @@
                         <th>日期</th>
                         <th>审批阶段</th>
                         <th>状态</th>
+                        <th>修改</th>
                         <th>审批查询</th>
                     </tr>
                 </tfoot>

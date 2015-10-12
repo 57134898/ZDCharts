@@ -45,6 +45,7 @@
                                 { "data": null, defaultContent: (state == 1000 ? "<button class='btn btn-default btn-block btn-sm' mark='1'>确定</button>" : "") },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='3'>取消</button>" },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" },
+                                { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='4'>修改</button>" },
                                 { "data": "Hdw" }
                     ],
                     //汉化
@@ -220,6 +221,231 @@
                     dataType: 'JSON'
                 });
             });
+            //表格内按钮点击事件 修改记录
+            $('#dvtable tbody').on('click', "button[mark='4']", function () {
+                $("#updateModal").modal();
+                $("#panelheadtext").text("修改记录");
+                $('#customerCollapse').collapse('toggle');
+                $('#tablediv').toggle();
+                var data = $(this).parents('tr').find('td');
+                $("#docid").val(data.eq(0).html());
+                $("#canbtn").unbind();
+                $("#canbtn").click(function myfunction() {
+                    $('#customerCollapse').collapse('toggle');
+                    $('#tablediv').toggle();
+                });
+
+                $("#customer-addon").attr("disabled", true);
+                $('#nocdec-addon').unbind();
+                $('#nocdec-addon').click(function () {
+                    $("#mark").val("rmb");
+                    loadnode();
+                });
+                //获取资金池余额
+                $.ajax({
+                    "type": "POST",
+                    "url": "../handlers/Finance.ashx",
+                    "dataType": "json",
+                    "data": { Action: 'GetBalanceBy1221', companyid: "company" }, // 以json格式传递
+                    "success": function (resp) {
+                        var bal = eval("(" + resp.data + ")");
+                        $("#balrmb").html(bal.rmb);
+                        $("#balnote").html(bal.note);
+                        $("#baltotal").html(bal.total);
+
+                        $("#balrmb1").html(bal.rmb1);
+                        $("#balnote1").html(bal.note1);
+                        $("#baltotal1").html(bal.total1);
+
+                        $("#balrmb2").html(bal.rmb2);
+                        $("#balnote2").html(bal.note2);
+                        $("#baltotal2").html(bal.total2);
+
+                        $("#balrmb3").html(bal.rmb3);
+                        $("#balnote3").html(bal.note3);
+                        $("#baltotal3").html(bal.total3);
+
+                        $("#balrmb4").html(bal.rmb4);
+                        $("#balnote4").html(bal.note4);
+                        $("#baltotal4").html(bal.total4);
+                    }
+                });
+                $.ajax({
+                    "type": "POST",
+                    "url": "../handlers/WFFlow1.ashx",
+                    "dataType": "json",
+                    "data": { Action: 'GetModelByID', id: $("#docid").val() }, // 以json格式传递
+                    "success": function (resp) {
+                        //alert(JSON.stringify(resp.data0));
+                        $("#datepicker1").val(resp.data.ExchangeDate.toString().substr(0, 10));
+                        $("#Rmb").val(resp.data.Cash);
+                        $("#Note").val(resp.data.Note);
+                        $("#nocdec").attr("code", resp.data.NCodeC);
+                        $("#nocdec").val(resp.data.NCodeCName);
+                        $("#customer").val(resp.data.CNAME);
+                        $.ajax({
+                            type: 'POST',
+                            url: '../Handlers/Customer.ashx',
+                            data: { action: 'GetContractByCustomer', CustomerID: resp.data.Ccode },
+                            success: function suc(result) {
+                                //alert(JSON.stringify(result));
+                                //请求失败跳转到错误页
+                                if (result.code != "0") {
+                                    redirecToErrorPage(result);
+                                    return;
+                                }
+                                if (result.data == null || result.data.length <= 0) {
+                                    $("#tablebody").empty();
+                                    $("#tablebody").append("无数据");
+                                    spinner1.stop();
+                                    return;
+                                }
+                                $("#tablebody").empty();
+                                //绑定数据
+                                for (var i = 0; i < result.data.length; i++) {
+                                    var shtml = "";
+                                    try {
+                                        shtml = shtml.concat("<tr>");
+                                        shtml = shtml.concat("<td>" + result.data[i].HCODE + "</td>");
+                                        shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].Total + "</td>");
+                                        shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].NonRmb + "</td>");
+                                        shtml = shtml.concat("<td style='text-align:center'><input type='text' class='form-control text-right' id='currmb' placeholder='" + result.data[i].HCODE + "本次付款金额'  changemark='a'></td>");
+                                        shtml = shtml.concat("<td style='text-align:center'><select class='selectpicker form-control'>");
+                                        //销售合同号下拉列表数据绑定
+                                        var xslist = eval("(" + result.data[i].XSHCODE + ")");
+                                        for (var j = 0; j < xslist.length; j++) {
+                                            shtml = shtml.concat("<option>" + xslist[j] + "</option>");
+                                        };
+                                        shtml = shtml.concat("</select></td>");
+                                        shtml = shtml.concat("</tr>");
+                                        $("#tablebody").append(shtml);
+                                        $("select.selectpicker").each(function () {
+                                        });
+                                    } catch (e) {
+                                        alert(e.message)
+                                    };
+                                }
+                                if (resp.data.ApprovalStatus != "0") {
+                                    //alert(resp.data.ApprovalStatus);
+                                    $("#panelheadtext").text("修改记录（已经在审批中的单据职能修改资金项目）");
+                                    $("#Rmb").attr("disabled", true);
+                                    $("#Note").attr("disabled", true);
+                                    $("#tablebody tr").each(function (i, item) {
+                                        $(item).find("td").find("input").attr("disabled", true);
+                                    });
+                                }
+                                //计算余额
+                                $("input[changemark='a']").unbind();
+                                $("input[changemark='a']").on("input", function (e) {
+                                    var total = 0;
+                                    $("#tablebody tr").each(function (i, item) {
+                                        var currmb = $.trim($(item).find("td").find("input").val());
+                                        if (!(currmb == "" || isNaN(currmb))) {
+                                            total += Number(currmb);
+                                        }
+                                    });
+                                    $("#balrmb").val(Number($("#Rmb").val()) + Number($("#Note").val()) - total);
+                                });
+                                //alert(resp.data0.length);
+                                for (var i = 0; i < resp.data0.length; i++) {
+                                    $("#tablebody tr").each(function (i, item) {
+                                        //alert($(item).find("td").eq(0).html());
+                                        //alert( resp.data0[i].HCode.toString());
+                                        //alert($(item).find("td").eq(0).html());
+                                        if ($(item).find("td").eq(0).html() == resp.data0[i].HCode) {
+                                            $(item).find("td").find("input").val(resp.data0[i].CurRmb);
+                                        }
+                                    });
+                                }
+                                spinner1.stop();
+                            },
+                            dataType: 'JSON'
+                        });
+
+                    }
+                });
+                $("#savbtn").unbind();
+                $("#savbtn").click(function () {
+                    //验证表单
+                    var errormsg = "";
+                    if ($("#datepicker1").val() == "") {
+                        errormsg += "日期必须写!<br/>";
+                    }
+                    if ($("#customer").attr("code") == "") {
+                        errormsg += "客户必须填写!<br/>";
+                    }
+                    //验证现汇与票据的和与合同分配的金额是否相等  未完
+                    var _total = 0;
+                    $("#tablebody tr").each(function (i, item) {
+                        var _rmb = $.trim($(item).find("td").find("input").val());
+                        if (!(_rmb == "" || isNaN(_rmb))) {
+                            _total += Number(_rmb);
+                        }
+                    });
+                    if (isNaN($("#Rmb").val()) || isNaN($("#Note").val())) {
+                        errormsg += "金额必须为数字!<br/>";
+                    }
+                    var _total1 = Number($("#Rmb").val()) + Number($("#Note").val());
+                    if (_total != _total1) {
+                        errormsg += "总金额与合同分配金额不相等!<br/>";
+                    }
+                    if ($("#nocdec").attr("code") == "" && $("#Rmb").val() != "") {
+                        errormsg += "现汇资金项目不能为空!<br/>";
+                    }
+                    if ($("#nocden").attr("code") == "" && $("#Note").val() != "") {
+                        errormsg += "票据资金项目不能为空!<br/>";
+                    }
+
+                    if (errormsg != "") {
+                        $('#savbtn').popover({ "title": "提示", "content": errormsg, "placement": 'top', html: true });
+                        $('#savbtn').popover('show');
+                        setTimeout(function () {
+                            $('#savbtn').popover('destroy');
+                        }, 5000);
+                        return;
+                    }
+
+                    //封装payinfo
+                    var paym = {};
+                    paym.PayDate = $("#datepicker1").val();
+                    if ($("#Rmb").val() == "") {
+                        paym.Rmb = 0;
+                    } else {
+                        paym.Rmb = $("#Rmb").val();
+                    }
+                    if ($("#Note").val() == "") {
+                        paym.Note = 0;
+                    } else {
+                        paym.Note = $("#Note").val();
+                    }
+                    paym.NCodeC = $("#nocdec").attr("code");
+                    var paymList = [];
+                    paym.List = paymList;
+                    $("#tablebody tr").each(function (i, item) {
+                        var currmb = $.trim($(item).find("td").find("input").val());
+                        if (!(currmb == "" || isNaN(currmb))) {
+                            var paymitem = {};
+                            paymitem.HCODE = $(item).find("td").eq(0).html();
+                            paymitem.CurRmb = currmb;
+                            paymitem.XSHCODE = $.trim($(item).find("td").find("select").val());;
+                            paymList.push(paymitem);
+                        }
+                    });
+                    var spinner22 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
+                    $.ajax({
+                        type: 'POST',
+                        url: '../Handlers/WFFlow1.ashx',
+                        data: { action: 'DoUpdateDoc', PayInfo: JSON.stringify(paym), id: $("#docid").val() },
+                        success: function suc(result) {
+
+                            location.reload();
+                        },
+                        dataType: 'JSON'
+                    });
+                    //****************************
+                    //alert(JSON.stringify(paym));
+                });
+            });
             //审批状态下拉菜单事件
             $("#dropdownMenu li a").click(function () {
                 $("#dropdownMenuTitleBtn").text($(this).text());
@@ -296,28 +522,107 @@
         </div>
         <div class="panel-body">
             <div class="collapse" id="customerCollapse">
-                <!--表单区域-->
+
+
+
                 <div class="panel panel-primary">
-                    <div class="panel-heading">新增一条记录</div>
+                    <div class="panel-heading" id="panelheadtext">新增一条记录</div>
                     <div class="panel-body">
-                        <form method="post">
-                            <%--                           <table style="width: 100%">
+                        <input id="docid" type="hidden" />
+                        <!--action很重要！！！！！！！！！！！！！！！！！！！！！！！！！1-->
+                        <form>
+                            <div class="form-group">
+                                <label for="customer" class="control-label">客户</label>
+                                <div class="input-group">
+                                    <input disabled id="customer" type="text" class="form-control" placeholder="请选择客户" aria-describedby="customer-addon">
+                                    <span class="input-group-btn">
+                                        <button id="customer-addon" class="btn btn-default" type="button">查找</button></span>
+                                </div>
+                            </div>
+                            <table width="100%">
                                 <tr>
-                                    <td style="width: 45%">
+                                    <td width="30%">
                                         <div class="form-group">
-                                            <label for="rmb" class="control-label">实际支出现汇</label>
-                                            <input id="rmb" type="number" class="form-control" placeholder="请现汇金额" />
+                                            <label for="rmb1" class="control-label">现汇</label>
+                                            <input type="number" class="form-control" id="Rmb" placeholder="现汇" changemark="a">
                                         </div>
                                     </td>
-                                    <td style="width: 10%"></td>
-                                    <td style="width: 45%">
+                                    <td width="5%"></td>
+                                    <td width="30%">
                                         <div class="form-group">
-                                            <label for="note" class="control-label">实际支出票据</label>
-                                            <input id="note" type="number" class="form-control" placeholder="请票据金额" />
+                                            <label for="rmb1" class="control-label">票据</label>
+                                            <input type="number" class="form-control" id="Note" placeholder="票据" changemark="a">
+                                        </div>
+                                    </td>
+                                    <td width="5%"></td>
+                                    <td width="30%">
+                                        <div class="form-group">
+                                            <label for="balrmb" class="control-label">本次余额</label>
+                                            <input disabled="disabled" type="number" class="form-control" id="balrmb" placeholder="余额">
                                         </div>
                                     </td>
                                 </tr>
-                            </table>--%>
+                            </table>
+                            <div class="form-group">
+                                <label for="nocdec" class="control-label">资金项目</label>
+                                <div class="input-group">
+                                    <input disabled="disabled" id="nocdec" type="text" class="form-control" placeholder="请选资金项目" aria-describedby="nocdec-addon" />
+                                    <span class="input-group-btn">
+                                        <button id="nocdec-addon" class="btn btn-default" type="button">查找</button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!--<td style="width: 10%"></td>
+                            <td style="width: 45%">
+                                <div class="form-group">
+                                    <label for="nocden" class="control-label">票据资金项目</label>
+                                    <div class="input-group">
+                                        <input disabled="disabled" id="nocden" type="text" class="form-control" placeholder="请选择票据资金项目" aria-describedby="nocden-addon" />
+                                        <span class="input-group-btn">
+                                            <button id="nocden-addon" class="btn btn-default" type="button">查找</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>-->
+                            <div class="form-group">
+                                <label class="control-label">日期</label>
+                                <input id="datepicker1" disabled="disabled" type="date" class="form-control" placeholder="请选择日期">
+                            </div>
+
+                            <div class="panel panel-info">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">合同信息</div>
+                                <!-- Table -->
+                                <table id="datalist" class="table  table-hover  table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style='text-align: center'>合同号</th>
+                                            <th style='text-align: center'>金额</th>
+                                            <th style='text-align: center'>未付款</th>
+                                            <th style='text-align: center'>本次</th>
+                                            <th style='text-align: center'>销售合同</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablebody">
+                                        <!--行模板-->
+                                        <!--<tr>
+                                            <td>ZD001</td>
+                                            <td style='text-align:right'>150,000</td>
+                                            <td style='text-align:right'>50,000</td>
+                                            <td style='text-align:center'>
+                                                <input type="text" class="form-control text-right" id="currmb" placeholder="ZD001付款金额">
+                                            </td>
+                                            <td style='text-align:center'>
+                                                <select class='selectpicker form-control'>
+                                                    <option>2012</option>
+                                                    <option>2013</option>
+                                                </select>
+                                            </td>
+                                        </tr>-->
+                                    </tbody>
+                                </table>
+                            </div>
                         </form>
                     </div>
                     <div class="panel-footer">
@@ -325,54 +630,60 @@
                         <button id="canbtn" type="button" class="btn btn-default">&nbsp;&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;&nbsp;</button>
                     </div>
                 </div>
-            </div>
-            <table id="dvtable" class="display compact cell-border" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">编号</th>
-                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">客户</th>
-                        <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">日期</th>
-                        <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder" style="text-align: center;">合同付款金额</th>
-                        <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
-                        <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>
-                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">合计</th>
-                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批状态</th>
-                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">生成凭证</th>
-                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">取消</th>
-                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批进度</th>
-                        <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">公司</th>
-                    </tr>
-                    <tr>
-                        <th class="myRigthBorder">预计</th>
-                        <th class="myRigthBorder">实出</th>
-                        <th class="myRigthBorder">资金项目</th>
-                        <th class="myRigthBorder">预计</th>
-                        <th class="myRigthBorder">实出</th>
-                        <th class="myRigthBorder">资金项目</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>编号</th>
-                        <th>客户</th>
-                        <th>日期</th>
-                        <th>合同付款金额</th>
-                        <th>预计</th>
-                        <th>实出</th>
-                        <th>资金项目</th>
-                        <th>预计</th>
-                        <th>实出</th>
-                        <th>资金项目</th>
-                        <th>合计</th>
-                        <th>审批状态</th>
-                        <th>生成凭证</th>
-                        <th>取消</th>
-                        <th>审批进度</th>
-                        <th>公司</th>
-                    </tr>
 
-                </tfoot>
-            </table>
+
+            </div>
+            <div id="tablediv">
+                <table id="dvtable" class="display compact cell-border" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">编号</th>
+                            <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">客户</th>
+                            <th rowspan="2" class="myTopBorder myLeftBorder" style="text-align: center;">日期</th>
+                            <th rowspan="2" class="myTopBorder myLeftBorder myRigthBorder" style="text-align: center;">合同付款金额</th>
+                            <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">现汇</th>
+                            <th colspan="3" class="myTopBorder myRigthBorder" style="text-align: center;">票据</th>
+                            <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">合计</th>
+                            <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批状态</th>
+                            <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">生成凭证</th>
+                            <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">取消</th>
+                            <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">审批进度</th>
+                            <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">修改</th>
+                            <th rowspan="2" class="myTopBorder myRigthBorder" style="text-align: center;">公司</th>
+                        </tr>
+                        <tr>
+                            <th class="myRigthBorder">预计</th>
+                            <th class="myRigthBorder">实出</th>
+                            <th class="myRigthBorder">资金项目</th>
+                            <th class="myRigthBorder">预计</th>
+                            <th class="myRigthBorder">实出</th>
+                            <th class="myRigthBorder">资金项目</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>编号</th>
+                            <th>客户</th>
+                            <th>日期</th>
+                            <th>合同付款金额</th>
+                            <th>预计</th>
+                            <th>实出</th>
+                            <th>资金项目</th>
+                            <th>预计</th>
+                            <th>实出</th>
+                            <th>资金项目</th>
+                            <th>合计</th>
+                            <th>审批状态</th>
+                            <th>生成凭证</th>
+                            <th>取消</th>
+                            <th>审批进度</th>
+                            <th>修改</th>
+                            <th>公司</th>
+                        </tr>
+
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
 
