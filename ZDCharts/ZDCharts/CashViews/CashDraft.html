@@ -155,7 +155,6 @@
                 $("#panelheadtext").text("修改记录");
                 $('#customerCollapse').collapse('toggle');
                 $('#tablediv').toggle();
-                $("#op").val("U");
                 var data = $(this).parents('tr').find('td');
                 $("#docid").val(data.eq(0).html());
                 $("#canbtn").unbind();
@@ -163,11 +162,41 @@
                     $('#customerCollapse').collapse('toggle');
                     $('#tablediv').toggle();
                 });
+
                 $("#customer-addon").attr("disabled", true);
                 $('#nocdec-addon').unbind();
                 $('#nocdec-addon').click(function () {
                     $("#mark").val("rmb");
                     loadnode();
+                });
+                //获取资金池余额
+                $.ajax({
+                    "type": "POST",
+                    "url": "../handlers/Finance.ashx",
+                    "dataType": "json",
+                    "data": { Action: 'GetBalanceBy1221', companyid: "company" }, // 以json格式传递
+                    "success": function (resp) {
+                        var bal = eval("(" + resp.data + ")");
+                        $("#balrmb").html(bal.rmb);
+                        $("#balnote").html(bal.note);
+                        $("#baltotal").html(bal.total);
+
+                        $("#balrmb1").html(bal.rmb1);
+                        $("#balnote1").html(bal.note1);
+                        $("#baltotal1").html(bal.total1);
+
+                        $("#balrmb2").html(bal.rmb2);
+                        $("#balnote2").html(bal.note2);
+                        $("#baltotal2").html(bal.total2);
+
+                        $("#balrmb3").html(bal.rmb3);
+                        $("#balnote3").html(bal.note3);
+                        $("#baltotal3").html(bal.total3);
+
+                        $("#balrmb4").html(bal.rmb4);
+                        $("#balnote4").html(bal.note4);
+                        $("#baltotal4").html(bal.total4);
+                    }
                 });
                 $.ajax({
                     "type": "POST",
@@ -199,7 +228,6 @@
                                     spinner1.stop();
                                     return;
                                 }
-
                                 $("#tablebody").empty();
                                 //绑定数据
                                 for (var i = 0; i < result.data.length; i++) {
@@ -224,6 +252,15 @@
                                     } catch (e) {
                                         alert(e.message)
                                     };
+                                }
+                                if (resp.data.ApprovalStatus != "0") {
+                                    //alert(resp.data.ApprovalStatus);
+                                    $("#panelheadtext").text("修改记录（已经在审批中的单据职能修改资金项目）");
+                                    $("#Rmb").attr("disabled", true);
+                                    $("#Note").attr("disabled", true);
+                                    $("#tablebody tr").each(function (i, item) {
+                                        $(item).find("td").find("input").attr("disabled", true);
+                                    });
                                 }
                                 //计算余额
                                 $("input[changemark='a']").unbind();
@@ -464,16 +501,16 @@
                     }
                 });
                 //资金项目按钮事件
-
+                $('#nocdec-addon').unbind();
                 $('#nocdec-addon').click(function () {
                     $("#mark").val("rmb");
                     loadnode();
                 });
                 //资金项目按钮事件
-                $('#nocden-addon').click(function () {
-                    $("#mark").val("note");
-                    loadnode();
-                });
+                //$('#nocden-addon').click(function () {
+                //    $("#mark").val("note");
+                //    loadnode();
+                //});
 
                 //日期控件格式设置 暂时不用
                 //$('input[name="daterange"]').daterangepicker({
@@ -954,8 +991,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading" id="panelheadtext">新增一条记录</div>
                     <div class="panel-body">
-                        <input id="op" type="text" />
-                        <input id="docid" type="text" />
+                        <input id="docid" type="hidden" />
                         <!--action很重要！！！！！！！！！！！！！！！！！！！！！！！！！1-->
                         <form>
                             <div class="form-group">
