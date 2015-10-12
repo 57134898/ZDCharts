@@ -152,7 +152,7 @@ namespace ZDCharts.Handlers
                     Hdw = userinfo.CompanyID,
                     FlowID = flowid,
                     NCodeC = payinfo.NCodeC,
-                    NCodeN = payinfo.NCodeN,
+                    NCodeN = payinfo.NCodeC,
                     IsFinished = "N"
                 });
                 foreach (var item in payinfo.List)
