@@ -43,7 +43,7 @@
                                 { "data": "CreatedDate" },
                                 { "data": "RName" },
                                 { "data": "ApprovalStatusName" },
-                                { "data": null, defaultContent: (state == 1000 ? "<button class='btn btn-default btn-block btn-sm' mark='3'>修改</button>" : "") },
+                                { "data": null, defaultContent: (state == 0 ? "<button class='btn btn-default btn-block' mark='3'>修改</button>" : "") },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block' mark='2'>查询</button>" }
                     ],
                     //汉化
@@ -323,11 +323,10 @@
 
                     var list = [];
                     $("#addrowbody tr").each(function (i, item) {
-                        //alert($(subitem).html());
                         var listitem = {};
-                        listitem.Todo = $(item).find("td").eq(0).html();
-                        listitem.NCode = $(item).find("td").eq(1).html();
-                        listitem.Rmb = $(item).find("td").eq(2).html();
+                        listitem.Todo = $(item).find("td").find("input").eq(0).val();
+                        listitem.NCode = $(item).find("td").find("input").eq(1).val();
+                        listitem.Rmb = $(item).find("td").find("input").eq(2).val();
                         list.push(listitem);
                     })
                     formdata.RList = list;
@@ -396,10 +395,19 @@
 
             $("#addrowbtn").click(function () {
                 var sHtml = "<tr>";
-                sHtml += "<td>" + $("#todorow").val() + "</td>";
-                sHtml += "<td>" + $("#nocdec").val() + "</td>";
-                sHtml += "<td style='text-align: right'>" + $("#rmbrow").val() + "</td>";
-                sHtml += "<td><button name='delrow' type='button' class='btn btn-block  btn-default'>删除行</button></td></tr>";
+                sHtml += "<td style='width: 30%'><input type='text'  class='form-control'  value='" + $("#todorow").val() + "' /></td>";
+                sHtml += "<td style='width: 30%'><div class='form-group'>";
+                //sHtml += "<label for='nocdec' class='control-label'>资金项目</label>";
+                sHtml += "<div class='input-group'>";
+                sHtml += "<input disabled='disabled' type='text' value='" + $("#nocdec").val() + "'  class='form-control' placeholder='请选资金项目' aria-describedby='nocdec-addon' />";
+                sHtml += "<span class='input-group-btn'>";
+                sHtml += "<button class='btn btn-default' type='button'>查找</button";
+                sHtml += "</span></div></div></td>";
+                sHtml += "<td style='width: 30%;text-align: right'><input type='number' class='form-control' placeholder='金额'  value='" + $("#rmbrow").val() + "' /></td>";
+                sHtml += "<td style='width: 30%'><button name='delrow' type='button' class='btn btn-block  btn-default'>删除行</button></td></tr>";
+
+            
+
                 $("#addrowbody").append(sHtml);
                 $("#todorow").val("");
                 $("#rmbrow").val("");
@@ -412,7 +420,7 @@
             function dosum() {
                 var _total = 0;
                 $("#addrowbody tr").each(function (i, item) {
-                    var _rmb = $.trim($(item).find("td").eq(2).html());
+                    var _rmb = $.trim($(item).find("td").find("input").eq(2).val());
                     if (!(_rmb == "" || isNaN(_rmb))) {
                         _total += Number(_rmb);
                     }
@@ -599,7 +607,7 @@
                                             <th style='text-align: center'>摘要</th>
                                             <th style='text-align: center'>资金项目</th>
                                             <th style='text-align: center'>金额</th>
-                                            <th style='text-align: center'>删除行</th>
+                                            <th style='text-align: center'>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody id="addrowbody">
