@@ -50,5 +50,6 @@ namespace DAL
         public string Todo { get; set; }
         public string NCode { get; set; }
         public string WF4RowResult { get; set; }
+        public string NName { get; set; }
     }
 }

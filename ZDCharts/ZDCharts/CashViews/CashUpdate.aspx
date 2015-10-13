@@ -43,7 +43,7 @@
                                 { "data": "Total" },
                                 { "data": "ApprovalStatusName" },
                                 { "data": null, defaultContent: (state == 1000 ? "<button class='btn btn-default btn-block btn-sm' mark='1'>确定</button>" : "") },
-                                { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='3'>取消</button>" },
+                                { "data": null, defaultContent: (state != 10000 ? "<button class='btn btn-default btn-block btn-sm' mark='3'>取消</button>" : "") },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='2'>查询</button>" },
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block btn-sm' mark='4'>修改</button>" },
                                 { "data": "Hdw" }

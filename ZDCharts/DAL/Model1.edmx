@@ -442,6 +442,7 @@
             <PropertyRef Name="ID" />
             <PropertyRef Name="Rmb1" />
             <PropertyRef Name="WF4RowID" />
+            <PropertyRef Name="NName" />
           </Key>
           <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FName" Type="nvarchar" MaxLength="50" />
@@ -479,6 +480,7 @@
           <Property Name="Todo" Type="nvarchar" MaxLength="50" />
           <Property Name="NCode" Type="varchar" MaxLength="20" />
           <Property Name="WF4RowResult" Type="varchar" MaxLength="1" />
+          <Property Name="NName" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_Flow_GB_Company”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -960,7 +962,8 @@
     [V_ExpenseRows].[WF4RowRmb] AS [WF4RowRmb], 
     [V_ExpenseRows].[Todo] AS [Todo], 
     [V_ExpenseRows].[NCode] AS [NCode], 
-    [V_ExpenseRows].[WF4RowResult] AS [WF4RowResult]
+    [V_ExpenseRows].[WF4RowResult] AS [WF4RowResult], 
+    [V_ExpenseRows].[NName] AS [NName]
     FROM [dbo].[V_ExpenseRows] AS [V_ExpenseRows]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Flow_GB_Company" EntityType="Self.V_Flow_GB_Company" store:Type="Views" store:Schema="dbo">
@@ -1765,6 +1768,7 @@
             <PropertyRef Name="ID" />
             <PropertyRef Name="Rmb1" />
             <PropertyRef Name="WF4RowID" />
+            <PropertyRef Name="NName" />
           </Key>
           <Property Name="FID" Type="Guid" Nullable="false" />
           <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1802,6 +1806,7 @@
           <Property Name="Todo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="WF4RowResult" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="NName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Sys_MenuPermission">
           <Key>
@@ -2393,6 +2398,7 @@
           <EntitySetMapping Name="V_ExpenseRows">
             <EntityTypeMapping TypeName="RMBModel.V_ExpenseRows">
               <MappingFragment StoreEntitySet="V_ExpenseRows">
+                <ScalarProperty Name="NName" ColumnName="NName" />
                 <ScalarProperty Name="WF4RowResult" ColumnName="WF4RowResult" />
                 <ScalarProperty Name="NCode" ColumnName="NCode" />
                 <ScalarProperty Name="Todo" ColumnName="Todo" />

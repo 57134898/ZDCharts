@@ -204,6 +204,25 @@ namespace ZDCharts.Handlers
                 };
             }
         }
+        public Tools.JsonResponse GetModelByID_Expense()
+        {
+            int id = int.Parse(this.GetParam("id"));
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                var curNode = db.WF_Flows.SingleOrDefault(p => p.ID == id);
+                var vexp = db.V_Expense.SingleOrDefault(p => p.FID == curNode.FID);
+                var vvexpr = db.V_ExpenseRows.Where(p => p.FID == curNode.FID).ToList();
+
+                return new Tools.JsonResponse()
+                {
+                    Code = "0",
+                    Msg = curNode.CurNode.ToString(),
+                    Data = vexp,
+                    Data0 = vvexpr
+                };
+            }
+        }
+
 
         public Tools.JsonResponse DoUpdateDoc()
         {
@@ -219,8 +238,7 @@ namespace ZDCharts.Handlers
                 wf2.NCodeC = payinfo.NCodeC;
                 wf2.NCodeN = payinfo.NCodeC;
 
-                if (flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsStarted
-                    || flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsHandling)
+                if (flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsStarted)
                 {
                     wf2.Cash = payinfo.Rmb;
                     wf2.Note = payinfo.Note;
@@ -254,6 +272,54 @@ namespace ZDCharts.Handlers
                         int result_sql = DBHelper.ExecuteNonQuery(sql);
                     }
                 }
+                int result = db.SaveChanges();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = result };
+            }
+        }
+        public Tools.JsonResponse DoUpdateDoc_Expense()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                int id = int.Parse(this.GetParam("id"));
+                string jsonStr = context.Request.Form["formdata"];
+                var formdata = Newtonsoft.Json.JsonConvert.DeserializeObject<MODEL.Expense>(jsonStr);
+                var flow = db.WF_Flows.SingleOrDefault(p => p.ID == id);
+                var wf3 = db.WF_Flow3.SingleOrDefault(p => p.FlowID == flow.FID);
+                var wf4 = db.WF_Flow4.Where(p => p.FlowID == flow.FID).ToList();
+                if (flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsStarted)
+                {
+                    flow.FName = formdata.Todo;
+                    wf3.Rmb = formdata.Rmb;
+                    wf3.RmbType = formdata.RmbType;
+                    db.WF_Flow4.RemoveRange(wf4);
+                    foreach (var item in formdata.RList)
+                    {
+                        db.WF_Flow4.Add(new DAL.WF_Flow4()
+                        {
+                            FlowID = wf3.FlowID,
+                            NCode = COMN.MyFuncs.GetCodeFromStr(item.NCode, '-'),
+                            Result = "O",
+                            Rmb = item.Rmb,
+                            Todo = item.Todo
+                        });
+                    }
+                }
+                //if (flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsFinished)
+                //{
+                //    string sql = string.Empty;
+                //    if (!string.IsNullOrEmpty(wf2.CashVoucherID))
+                //    {
+                //        sql += string.Format(@"  UPDATE {0}.dbo.ivoucher SET [ncode] ='{1}' WHERE 1=1 AND HID ='{2}'", COMN.MyVars.CWDB, payinfo.NCodeC, wf2.CashVoucherID);
+                //    }
+                //    if (!string.IsNullOrEmpty(wf2.NoteVoucherID))
+                //    {
+                //        sql += string.Format(@"  UPDATE {0}.dbo.ivoucher SET [ncode] ='{1}' WHERE 1=1 AND HID ='{2}' ", COMN.MyVars.CWDB, payinfo.NCodeC, wf2.NoteVoucherID);
+                //    }
+                //    if (!string.IsNullOrEmpty(sql))
+                //    {
+                //        int result_sql = DBHelper.ExecuteNonQuery(sql);
+                //    }
+                //}
                 int result = db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = result };
             }

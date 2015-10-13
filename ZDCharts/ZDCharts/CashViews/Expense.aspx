@@ -39,7 +39,9 @@
                                 { "data": "CreatedDate" },
                                 { "data": "RName" },
                                 { "data": "ApprovalStatusName" },
+                                { "data": null, defaultContent: (state != 10000 ? "<button class='btn btn-default btn-block btn-sm' mark='4'>取消</button>" : "") },
                                 { "data": null, defaultContent: (state == 0 ? "<button class='btn btn-default btn-block' mark='3'>修改</button>" : "") },
+
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block' mark='2'>查询</button>" }
                     ],
                     //汉化
@@ -125,6 +127,154 @@
                         spinner1.stop();
                     },
                     dataType: 'JSON'
+                });
+            });
+            //表格内按钮点击事件 修改按钮
+            $('#dvtable tbody').on('click', "button[mark='3']", function () {
+                var data = $(this).parents('tr').find('td');
+                $('#customerCollapse').collapse('toggle');
+                $('#tablediv').toggle();
+                $("#docid").val(data.eq(0).html());
+                //获取资金池余额
+                $.ajax({
+                    "type": "POST",
+                    "url": "../handlers/Finance.ashx",
+                    "dataType": "json",
+                    "data": { Action: 'GetBalanceBy1221', companyid: "company" }, // 以json格式传递
+                    "success": function (resp) {
+                        var bal = eval("(" + resp.data + ")");
+                        $("#balrmb").html(bal.rmb);
+                        $("#balnote").html(bal.note);
+                        $("#baltotal").html(bal.total);
+
+                        $("#balrmb1").html(bal.rmb1);
+                        $("#balnote1").html(bal.note1);
+                        $("#baltotal1").html(bal.total1);
+
+                        $("#balrmb2").html(bal.rmb2);
+                        $("#balnote2").html(bal.note2);
+                        $("#baltotal2").html(bal.total2);
+
+                        $("#balrmb3").html(bal.rmb3);
+                        $("#balnote3").html(bal.note3);
+                        $("#baltotal3").html(bal.total3);
+
+                        $("#balrmb4").html(bal.rmb4);
+                        $("#balnote4").html(bal.note4);
+                        $("#baltotal4").html(bal.total4);
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: '../Handlers/WFFlow1.ashx',
+                    data: { action: 'GetModelByID_Expense', id: data.eq(0).html() },
+                    success: function suc(result) {
+                        $("#rmbtype").val(result.data.RmbType);
+                        $("#datepicker1").val(result.data.CreatedDate.toString().substr(0, 10));
+                        $("#Rmb").val(result.data.Rmb);
+                        $("#Todo").val(result.data.FName);
+                        $("#addrowbody").empty();
+                        for (var i = 0; i < result.data0.length; i++) {
+                            var sHtml = "<tr>";
+                            sHtml += "<td style='width: 30%'><input type='text'  class='form-control' value='" + result.data0[i].Todo + "' /></td>";
+                            sHtml += "<td style='width: 30%'><div class='form-group'>";
+                            sHtml += "<div class='input-group'>";
+                            sHtml += "<input disabled='disabled' type='text' class='form-control' value='" + result.data0[i].NCode + "-" + result.data0[i].NName + "'  placeholder='请选资金项目' aria-describedby='nocdec-addon' />";
+                            sHtml += "<span class='input-group-btn'>";
+                            sHtml += "<button class='btn btn-default' name='addrow' type='button'>查找</button";
+                            sHtml += "</span></div></div></td>";
+                            sHtml += "<td style='width: 30%;text-align: right'><input type='number' value='" + result.data0[i].WF4RowRmb + "'  changemark='a' class='form-control' placeholder='金额' /></td>";
+                            sHtml += "<td style='width: 30%'><button name='delrow' type='button' class='btn btn-block  btn-default'>删除行</button></td></tr>";
+                            $("#addrowbody").append(sHtml);
+                        }
+                        $("input[changemark='a']").unbind();
+                        $("input[changemark='a']").on("input", function (e) {
+                            $("#Rmb").val(dosum());
+                        });
+                        //取消按钮
+                        $("#canbtn").unbind();
+                        $("#canbtn").click(function () {
+                            $('#customerCollapse').collapse('toggle');
+                            $('#tablediv').toggle();
+                        });
+                        //保存按钮
+                        $("#savbtn").unbind();
+                        $("#savbtn").click(function () {
+                            //验证表单
+                            var errormsg = "";
+                            if ($("#datepicker1").val() == "") {
+                                errormsg += "日期必须写!<br/>";
+                            }
+                            //验证现汇与票据的和与合同分配的金额是否相等  未完
+                            if (isNaN($("#Rmb").val())) {
+                                errormsg += "金额必须为数字!<br/>";
+                            }
+                            if ($("#Rmb").val() == "") {
+                                errormsg += "金额不能为空!<br/>";
+                            }
+                            if ($("#Note").val() == "") {
+                                errormsg += "金额不能为空!<br/>";
+                            }
+                            //if ($("#nocdec").attr("code") == undefined || $("#nocdec").attr("code") == "") {
+                            //    errormsg += "资金项目不能为空!<br/>";
+                            //}
+                            if (errormsg != "") {
+                                $('#savbtn').popover({ "title": "提示", "content": errormsg, "placement": 'top', html: true });
+                                $('#savbtn').popover('show');
+                                setTimeout(function () {
+                                    $('#savbtn').popover('destroy');
+                                }, 5000);
+                                return;
+                            }
+                            //封装formdata
+                            var formdata = {};
+                            formdata.Date = $("#datepicker1").val();
+                            formdata.RmbType = $("#rmbtype").val();
+                            formdata.Rmb = Number($("#Rmb").val());
+                            var list = [];
+                            $("#addrowbody tr").each(function (i, item) {
+                                var listitem = {};
+                                listitem.Todo = $(item).find("td").find("input").eq(0).val();
+                                listitem.NCode = $(item).find("td").find("input").eq(1).val();
+                                listitem.Rmb = $(item).find("td").find("input").eq(2).val();
+                                list.push(listitem);
+                            })
+                            formdata.RList = list;
+                            formdata.Todo = $("#Todo").val();
+                            var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
+                            $.ajax({
+                                type: 'POST',
+                                url: '../Handlers/WFFlow1.ashx',
+                                data: { action: 'DoUpdateDoc_Expense', formdata: JSON.stringify(formdata), id: $("#docid").val() },
+                                success: function suc(result) {
+                                    location.reload();
+                                },
+                                dataType: 'JSON'
+                            });
+                        });
+                        spinner1.stop();
+                    },
+                    dataType: 'JSON'
+                });
+            });
+            //表格内按钮点击事件 取消按钮
+            $('#dvtable tbody').on('click', "button[mark='4']", function () {
+                var data = $(this).parents('tr').find('td');
+                $("#tag").val(data.eq(0).html());
+                $("#cancelModal").modal('show');
+                //单据取消按钮事件
+                $("#cancelBtn").unbind();
+                $("#cancelBtn").click(function myfunction() {
+                    var spinner11 = new Spinner(getSpinOpts()).spin(document.getElementById('cancelModal'));
+                    $.ajax({
+                        type: 'POST',
+                        url: '../Handlers/WFFlow1.ashx',
+                        data: { action: 'CancelDoc', id: $("#tag").val() },
+                        success: function suc(result) {
+                            location.reload();
+                        },
+                        dataType: 'JSON'
+                    });
                 });
             });
             //选中行变色 单行
@@ -382,7 +532,7 @@
                 });
             });
             //计算合计
-    
+
             //计算合计
             function dosum() {
                 var _total = 0;
@@ -472,6 +622,7 @@
                     <div class="panel-body">
                         <!--action很重要！！！！！！！！！！！！！！！！！！！！！！！！！1-->
                         <form>
+                            <input id="docid" type="hidden" />
                             <table style="width: 100%">
                                 <tr>
                                     <td style="width: 49%">
@@ -499,8 +650,8 @@
                                     <td style="width: 49%">
 
                                         <div class="form-group">
-                                            <label for="rmbtype" class="control-label">类型</label>
-                                            <select id="rmbtype" class="selectpicker" data-width="100%" data-style="btn-default">
+                                            <label class="control-label">类型</label>
+                                            <select id="rmbtype" data-width="100%" class="form-control" style="width: '100%'; height: '100%'">
                                                 <option>现金</option>
                                                 <option>票据</option>
                                                 <%--                                                <option>报账卡</option>
@@ -610,6 +761,7 @@
                         <th>日期</th>
                         <th>审批阶段</th>
                         <th>状态</th>
+                        <th>取消</th>
                         <th>修改</th>
                         <th>审批查询</th>
                     </tr>
@@ -623,6 +775,7 @@
                         <th>日期</th>
                         <th>审批阶段</th>
                         <th>状态</th>
+                        <th>取消</th>
                         <th>修改</th>
                         <th>审批查询</th>
                     </tr>
@@ -685,6 +838,24 @@
                 <%--<div class="modal-footer">
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
                 </div>--%>
+            </div>
+        </div>
+    </div>
+        <!--单据取消弹出层-->
+    <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">单据取消确认</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="tag" type="hidden" />
+                    <button id="cancelBtn" type="button" data-toggle="popover" class="btn btn-primary btn-lg btn-block">确定</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
+                </div>
             </div>
         </div>
     </div>
