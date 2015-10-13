@@ -1,7 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Expense.aspx.cs" Inherits="ZDCharts.CashViews.Expense" %>
 
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -19,13 +18,10 @@
     <script src="../Scripts/myjs.js"></script>
     <script src="../Scripts/DataTables/jquery.dataTables.min.js"></script>
     <link href="../Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
-
     <script src="../Scripts/moment.min.js"></script>
     <script src="../Scripts/daterangepicker.js"></script>
     <link href="../Content/daterangepicker-bs3.css" rel="stylesheet" />
-
     <script type="text/javascript">
-
         $(document).ready(function () {
             function loadData(state) {
                 $('#dvtable').dataTable({
@@ -142,12 +138,80 @@
                 }
             });
             //刷新按钮
+            $('#toolbtn_refresh').unbind();
             $('#toolbtn_refresh').click(function () {
                 location.reload();
             });
+            function loadnode() {
+                $("#myitemModal").modal();
+                var tLength = $("#nodetable tr").length;
+                //如果加载过数据则直接显示Modal
+                if (tLength > 1) {
+                    return;
+                }
+                $('#nodetable').dataTable({
+                    "sPaginationType": "full_numbers",
+                    "processing": true,//显示进度条
+                    "serverSide": true,//发送服务器请求
+                    "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-block btn-default'>选中</button>" }],//"bVisible": false  style="display:none,
+                    "columnDefs": [{
+                        "targets": -1,
+                        "data": null,
+                        "defaultContent": "<button>Click!</button>"
+                    }],
+                    "language":
+            {
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "抱歉， 没有找到",
+                "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                "sInfoEmpty": "没有数据",
+                "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+                "sZeroRecords": "没有检索到数据",
+                "sProcessing": "<img src='../Images/loading.gif'>加载中...",
+                "sSearch": "查找"
+            },
+                    //请求处理函数
+                    "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
+                        // 将客户名称加入参数数组
+                        //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
+                        $.ajax({
+                            "type": "POST",
+                            "url": "../handlers/CashItem.ashx",
+                            "dataType": "json",
+                            "data": { p: JSON.stringify(aoData), Action: 'GetNcodeList1' }, // 以json格式传递
+                            "success": function (resp) {
+                                //alert(JSON.stringify(resp));
+                                fnCallback(resp.data);
+                            }
+                        });
+                    }
+                });
+                //NCODE按钮点击事件
+                $('#nodetable tbody').on('click', 'button', function () {
+                    var data = $(this).parents('tr').find('td');
+                    if ($("#mark").val() == "rmb") {
+                        $("#nocdec").val(data.eq(0).html() + "-" + data.eq(1).html());
+                        $("#nocdec").attr("code", data.eq(0).html());
+                    } else {
+
+                        //alert($("#addrowbody tr").eq($("#mark").val()).html());
+                        $("#addrowbody tr").eq($("#mark").val()).find("td :input").eq(1).val(data.eq(0).html() + "-" + data.eq(1).html());
+                        //$("#rowstab tr td :input").eq(1).val();
+                    }
+                    $("#myitemModal").modal('hide');
+                });
+            }
             //添加按钮
+            $('#toolbtn_add').unbind();
             $('#toolbtn_add').click(function () {
                 $('#customerCollapse').collapse('toggle');
+
                 // alert(1);
                 $('#tablediv').toggle();
                 //设置日期默认值为当天
@@ -188,123 +252,36 @@
                         $("#baltotal4").html(bal.total4);
                     }
                 });
-
                 //资金项目按钮事件
+                $('#nocdec-addon').unbind();
                 $('#nocdec-addon').click(function () {
                     $("#mark").val("rmb");
                     loadnode();
                 });
-                //资金项目按钮事件
-                $('#nocden-addon').click(function () {
-                    $("#mark").val("note");
-                    loadnode();
-                });
-
                 //下拉列表初始化
                 $('.selectpicker').selectpicker();
 
-
-
-                function loadnode() {
-                    $("#myitemModal").modal();
-                    var tLength = $("#nodetable tr").length;
-                    //如果加载过数据则直接显示Modal
-                    if (tLength > 1) {
-                        return;
-                    }
-                    $('#nodetable').dataTable({
-                        "sPaginationType": "full_numbers",
-                        "processing": true,//显示进度条
-                        "serverSide": true,//发送服务器请求
-                        //"ajax": {
-                        //    "url": "../handlers/CashItem.ashx",
-                        //    "type": "POST",
-                        //    "data": { Action: 'GetNcodeLista' }
-                        //},
-                        "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-block btn-default'>选中</button>" }],//"bVisible": false  style="display:none,
-                        "columnDefs": [{
-                            "targets": -1,
-                            "data": null,
-                            "defaultContent": "<button>Click!</button>"
-                        }],
-                        //汉化
-                        "language":
-                {
-                    "sLengthMenu": "每页显示 _MENU_ 条记录",
-                    "sZeroRecords": "抱歉， 没有找到",
-                    "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-                    "sInfoEmpty": "没有数据",
-                    "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-                    "oPaginate": {
-                        "sFirst": "首页",
-                        "sPrevious": "上一页",
-                        "sNext": "下一页",
-                        "sLast": "末页"
-                    },
-                    "sZeroRecords": "没有检索到数据",
-                    "sProcessing": "<img src='../Images/loading.gif'>加载中...",
-                    "sSearch": "查找"
-                },
-                        //请求处理函数
-                        "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
-                            // 将客户名称加入参数数组
-                            //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
-                            $.ajax({
-                                "type": "POST",
-                                "url": "../handlers/CashItem.ashx",
-                                "dataType": "json",
-                                "data": { p: JSON.stringify(aoData), Action: 'GetNcodeList1' }, // 以json格式传递
-                                "success": function (resp) {
-                                    //alert(JSON.stringify(resp));
-                                    fnCallback(resp.data);
-                                }
-                            });
-                        }
-                    });
-
-                    //NCODE按钮点击事件
-                    $('#nodetable tbody').on('click', 'button', function () {
-                        var data = $(this).parents('tr').find('td');
-                        //table.row()
-                        // if ($("#mark").val() == "rmb") {
-                        $("#nocdec").val(data.eq(0).html() + "-" + data.eq(1).html());
-                        $("#nocdec").attr("code", data.eq(0).html());
-                        //} else {
-                        //$("#nocden").val(data.eq(0).html() + ":" + data.eq(1).html());
-                        //$("#nocden").attr("code", data.eq(0).html());
-                        //}
-                        $("#myitemModal").modal('hide');
-                    });
-                }
                 //保存按钮
+                $("#savbtn").unbind();
                 $("#savbtn").click(function () {
                     //验证表单
                     var errormsg = "";
                     if ($("#datepicker1").val() == "") {
                         errormsg += "日期必须写!<br/>";
                     }
-
                     //验证现汇与票据的和与合同分配的金额是否相等  未完
                     if (isNaN($("#Rmb").val())) {
                         errormsg += "金额必须为数字!<br/>";
                     }
-
                     if ($("#Rmb").val() == "") {
                         errormsg += "金额不能为空!<br/>";
                     }
-                    //if (isNaN($("#Note").val())) {
-                    //    errormsg += "金额必须为数字!<br/>";
-                    //}
-
                     if ($("#Note").val() == "") {
                         errormsg += "金额不能为空!<br/>";
                     }
-
-                    //alert($("#nocdec").attr("code"));
-                    if ($("#nocdec").attr("code") == undefined || $("#nocdec").attr("code") == "") {
-                        errormsg += "资金项目不能为空!<br/>";
-                    }
-
+                    //if ($("#nocdec").attr("code") == undefined || $("#nocdec").attr("code") == "") {
+                    //    errormsg += "资金项目不能为空!<br/>";
+                    //}
                     if (errormsg != "") {
                         $('#savbtn').popover({ "title": "提示", "content": errormsg, "placement": 'top', html: true });
                         $('#savbtn').popover('show');
@@ -313,14 +290,11 @@
                         }, 5000);
                         return;
                     }
-
                     //封装formdata
                     var formdata = {};
                     formdata.Date = $("#datepicker1").val();
                     formdata.RmbType = $("#rmbtype").val();
                     formdata.Rmb = Number($("#Rmb").val());
-                    //formdata.Note = Number($("#Note").val());
-
                     var list = [];
                     $("#addrowbody tr").each(function (i, item) {
                         var listitem = {};
@@ -330,35 +304,23 @@
                         list.push(listitem);
                     })
                     formdata.RList = list;
-
-                    //formdata.CashType = $("#rmbtype").val();
-                    //formdata.NCodeC = $("#nocdec").attr("code");
-                    //formdata.NCodeN = $("#nocdec").attr("code");
                     formdata.Todo = $("#Todo").val();
-                    //alert(JSON.stringify(formdata));
-                    //return;
                     var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
                     $.ajax({
                         type: 'POST',
                         url: '../Handlers/Expense.ashx',
                         data: { action: 'Commit', formdata: JSON.stringify(formdata) },
                         success: function suc(result) {
-                            //alert(JSON.stringify(result));
                             //请求失败跳转到错误页
                             if (result.code != "0") {
                                 alert(JSON.stringify(result));
-                                //redirecToErrorPage(result);
                                 return;
                             }
                             if (result.data == null || result.data.length <= 0) {
-                                //$("#tablebody").empty();
-                                //$("#tablebody").append("无数据");
                                 spinner1.stop();
                                 return;
                             }
                             //操做成功 清空表单
-                            // $("#tablebody").empty();
-                            //$("#datepicker1").val("");
                             $("#Rmb").val("");
                             $("#Note").val("");
                             $("#Todo").val("");
@@ -370,20 +332,16 @@
                         },
                         dataType: 'JSON'
                     });
-                    //****************************
-                    //alert(JSON.stringify(paym));
                 });
+                //取消按钮
+                $("#canbtn").unbind();
                 $("#canbtn").click(function () {
                     $('#customerCollapse').collapse('toggle');
+                    $('#tablediv').toggle();
                 });
             });
-            //浏览按钮
-            $('#toolbtn_stateview').click(function () {
-                var table = $('#dvtable').DataTable();
-                table.column(1).visible(false);
-
-            });
             //审批状态下拉菜单事件
+            $("#dropdownMenu li a").unbind();
             $("#dropdownMenu li a").click(function () {
                 $("#dropdownMenuTitleBtn").text($(this).text());
 
@@ -392,31 +350,40 @@
             });
             //工具栏按钮tooltip设置
             $('[data-toggle="tooltip"]').tooltip();
-
+            $("#addrowbtn").unbind();
             $("#addrowbtn").click(function () {
                 var sHtml = "<tr>";
-                sHtml += "<td style='width: 30%'><input type='text'  class='form-control'  value='" + $("#todorow").val() + "' /></td>";
+                sHtml += "<td style='width: 30%'><input type='text'  class='form-control' /></td>";
                 sHtml += "<td style='width: 30%'><div class='form-group'>";
-                //sHtml += "<label for='nocdec' class='control-label'>资金项目</label>";
                 sHtml += "<div class='input-group'>";
-                sHtml += "<input disabled='disabled' type='text' value='" + $("#nocdec").val() + "'  class='form-control' placeholder='请选资金项目' aria-describedby='nocdec-addon' />";
+                sHtml += "<input disabled='disabled' type='text' class='form-control' placeholder='请选资金项目' aria-describedby='nocdec-addon' />";
                 sHtml += "<span class='input-group-btn'>";
-                sHtml += "<button class='btn btn-default' type='button'>查找</button";
+                sHtml += "<button class='btn btn-default' name='addrow' type='button'>查找</button";
                 sHtml += "</span></div></div></td>";
-                sHtml += "<td style='width: 30%;text-align: right'><input type='number' class='form-control' placeholder='金额'  value='" + $("#rmbrow").val() + "' /></td>";
+                sHtml += "<td style='width: 30%;text-align: right'><input type='number' changemark='a' class='form-control' placeholder='金额' /></td>";
                 sHtml += "<td style='width: 30%'><button name='delrow' type='button' class='btn btn-block  btn-default'>删除行</button></td></tr>";
-
-            
-
                 $("#addrowbody").append(sHtml);
                 $("#todorow").val("");
                 $("#rmbrow").val("");
-                $("#Rmb").val(dosum());
+                $("[name='delrow']").unbind();
                 $("[name='delrow']").click(function () {
                     $(this).parent().parent().remove();
                     $("#Rmb").val(dosum());
                 });
+                $("input[changemark='a']").unbind();
+                $("input[changemark='a']").on("input", function (e) {
+                    $("#Rmb").val(dosum());
+                });
+                $("[name='addrow']").unbind();
+                $("[name='addrow']").click(function () {
+                    //alert($(this).parent().parent().parent().parent().parent().index());
+                    $("#mark").val($(this).parent().parent().parent().parent().parent().index());
+                    loadnode();
+                });
             });
+            //计算合计
+    
+            //计算合计
             function dosum() {
                 var _total = 0;
                 $("#addrowbody tr").each(function (i, item) {
@@ -483,56 +450,6 @@
                                 </tr>
 
                             </thead>
-                            <!--<tbody>
-                    <tr style="visibility:collapse">
-                        <td style="width: 25%">财务</td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="baltotal" />
-                        </td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="balrmb" />
-                        </td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="balnote" />
-                        </td>
-                    </tr>
-                    <tr style="visibility:collapse">
-                        <td style="width: 25%">已审批</td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="baltotal1" />
-                        </td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="balrmb1" />
-                        </td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="balnote1" />
-                        </td>
-                    </tr>
-                    <tr style="visibility:collapse">
-                        <td style="width: 25%">未审批</td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="baltotal2" />
-                        </td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="balrmb2" />
-                        </td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="balnote2" />
-                        </td>
-                    </tr>
-                    <tr style="visibility:collapse">
-                        <td style="width: 25%">已生成凭证</td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="baltotal3" />
-                        </td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="balrmb3" />
-                        </td>
-                        <td style="width: 25%; text-align: right">
-                            <div id="balnote3" />
-                        </td>
-                    </tr>
-                </tbody>-->
                             <tfoot>
                                 <tr>
                                     <!--<td style="width: 25%">总计</td>-->
@@ -599,7 +516,9 @@
                             </table>
                             <div class="panel panel-info">
                                 <!-- Default panel contents -->
-                                <div class="panel-heading">明细</div>
+                                <div class="panel-heading">
+                                    <button id="addrowbtn" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加明细&nbsp;</button>
+                                </div>
                                 <!-- Table -->
                                 <table id="datalist" class="table  table-hover  table-bordered">
                                     <thead>
@@ -625,7 +544,7 @@
                                 </table>
 
                             </div>
-                            <table id="addtab" style="width: 100%">
+                            <%--<table id="addtab" style="width: 100%">
                                 <thead>
 
                                     <tr>
@@ -663,7 +582,7 @@
                                         </th>
                                     </tr>
                                 </thead>
-                            </table>
+                            </table>--%>
                         </form>
 
                     </div>
@@ -711,7 +630,6 @@
             </table>
         </div>
     </div>
-
     <!--资金项目弹出层-->
     <div class="modal fade" id="myitemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
