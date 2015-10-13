@@ -277,7 +277,7 @@
                                 }
                                 if (resp.data.ApprovalStatus != "0") {
                                     //alert(resp.data.ApprovalStatus);
-                                    $("#panelheadtext").text("修改记录（已经在审批中的单据职能修改资金项目）");
+                                    $("#panelheadtext").text("修改记录（已经在审批中的单据只能修改资金项目）");
                                     $("#Rmb").attr("disabled", true);
                                     $("#Note").attr("disabled", true);
                                     $("#tablebody tr").each(function (i, item) {

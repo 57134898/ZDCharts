@@ -104,6 +104,64 @@
                     //alert("点击的行索引为：" + $("table tr.selected td:eq(0)").text());
                 }
             });
+            function loadnode() {
+                $("#myitemModal1").modal();
+                var tLength = $("#nodetable1 tr").length;
+                //如果加载过数据则直接显示Modal
+                if (tLength > 1) {
+                    return;
+                }
+                $('#nodetable1').dataTable({
+                    "sPaginationType": "full_numbers",
+                    "processing": true,//显示进度条
+                    "serverSide": true,//发送服务器请求
+                    "columns": [{ "data": "ncode" }, { "data": "nname" }, { "data": null, defaultContent: "<button class='btn btn-block btn-default'>选中</button>" }],//"bVisible": false  style="display:none,
+                    "columnDefs": [{
+                        "targets": -1,
+                        "data": null,
+                        "defaultContent": "<button>Click!</button>"
+                    }],
+                    "language":
+            {
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "抱歉， 没有找到",
+                "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                "sInfoEmpty": "没有数据",
+                "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+                "sZeroRecords": "没有检索到数据",
+                "sProcessing": "<img src='../Images/loading.gif'>加载中...",
+                "sSearch": "查找"
+            },
+                    //请求处理函数
+                    "fnServerData": function retrieveData(sSource, aoData, fnCallback) {
+                        // 将客户名称加入参数数组
+                        //aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数
+                        $.ajax({
+                            "type": "POST",
+                            "url": "../handlers/CashItem.ashx",
+                            "dataType": "json",
+                            "data": { p: JSON.stringify(aoData), Action: 'GetNcodeList1' }, // 以json格式传递
+                            "success": function (resp) {
+                                //alert(JSON.stringify(resp));
+                                fnCallback(resp.data);
+                            }
+                        });
+                    }
+                });
+                //NCODE按钮点击事件
+                $('#nodetable1 tbody').on('click', 'button', function () {
+                    var data = $(this).parents('tr').find('td');
+                    $("#nocdec").val(data.eq(1).html());
+                    $("#nocdec").attr("code", data.eq(0).html());
+                    $("#myitemModal1").modal('hide');
+                });
+            }
             //表格内按钮点击事件 生成凭证按钮
             $('#dvtable tbody').on('click', "button[mark='1']", function () {
                 var data = $(this).parents('tr').find('td');
@@ -843,6 +901,32 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--资金项目弹出层-->
+    <div class="modal fade" id="myitemModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel1">选择资金项目</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-body">
+                        <input type="hidden" id="mark1" />
+                        <table id="nodetable1" class="display compact" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>编码</th>
+                                    <th>项目</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
