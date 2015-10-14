@@ -248,6 +248,12 @@
                                 listitem.NCode = $(item).find("td").find("input").eq(1).val();
                                 listitem.Rmb = $(item).find("td").find("input").eq(2).val();
                                 list.push(listitem);
+                                if (listitem.Todo == "" || listitem.NCode == "" || listitem.Rmb == "" || listitem.RID == "") {
+                                    $(item).remove();
+                                }
+                                else {
+                                    list.push(listitem);
+                                }
                             })
                             formdata.RList = list;
                             formdata.Todo = $("#Todo").val();
@@ -458,10 +464,16 @@
                     var list = [];
                     $("#addrowbody tr").each(function (i, item) {
                         var listitem = {};
+
                         listitem.Todo = $(item).find("td").find("input").eq(0).val();
                         listitem.NCode = $(item).find("td").find("input").eq(1).val();
                         listitem.Rmb = $(item).find("td").find("input").eq(2).val();
-                        list.push(listitem);
+                        if (listitem.Todo == "" || listitem.NCode == "" || listitem.Rmb == "") {
+                            $(item).remove();
+                        }
+                        else {
+                            list.push(listitem);
+                        }
                     })
                     formdata.RList = list;
                     formdata.Todo = $("#Todo").val();
