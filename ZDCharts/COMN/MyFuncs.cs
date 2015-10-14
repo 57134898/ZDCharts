@@ -15,6 +15,10 @@ namespace COMN
                 return string.Empty;
             }
             int end = str.IndexOf(separator);
+            if (end < 0)
+            {
+                return str;
+            }
             return str.Substring(0, end);
         }
     }

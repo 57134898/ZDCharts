@@ -18,6 +18,7 @@ namespace MODEL
 
     public class ExpenseRowList
     {
+        public int RID { get; set; }
         public string Todo { get; set; }
         public string NCode { get; set; }
         public decimal Rmb { get; set; }

@@ -20,5 +20,6 @@ namespace DAL
         public string Todo { get; set; }
         public string NCode { get; set; }
         public string Result { get; set; }
+        public Nullable<int> VoucherRowID { get; set; }
     }
 }

@@ -40,7 +40,7 @@
                                 { "data": "RName" },
                                 { "data": "ApprovalStatusName" },
                                 { "data": null, defaultContent: (state != 10000 ? "<button class='btn btn-default btn-block btn-sm' mark='4'>取消</button>" : "") },
-                                { "data": null, defaultContent: (state == 0 ? "<button class='btn btn-default btn-block' mark='3'>修改</button>" : "") },
+                                { "data": null, defaultContent: (0 == 0 ? "<button class='btn btn-default btn-block' mark='3'>修改</button>" : "") },
 
                                 { "data": null, defaultContent: "<button class='btn btn-default btn-block' mark='2'>查询</button>" }
                     ],
@@ -175,21 +175,30 @@
                         $("#Todo").val(result.data.FName);
                         $("#addrowbody").empty();
                         for (var i = 0; i < result.data0.length; i++) {
+                            if (result.data.ApprovalStatus != "0") {
+                                $("#addrowbtn").attr("disabled", "disabled");
+                            }
                             var sHtml = "<tr>";
-                            sHtml += "<td style='width: 30%'><input type='text'  class='form-control' value='" + result.data0[i].Todo + "' /></td>";
+                            sHtml += "<td style='width: 30%'><input " + (result.data.ApprovalStatus == "0" ? "" : "disabled='disabled'") + " type='text' wf4rid='" + result.data0[i].WF4RowID + "'  class='form-control' value='" + result.data0[i].Todo + "' /></td>";
                             sHtml += "<td style='width: 30%'><div class='form-group'>";
                             sHtml += "<div class='input-group'>";
-                            sHtml += "<input disabled='disabled' type='text' class='form-control' value='" + result.data0[i].NCode + "-" + result.data0[i].NName + "'  placeholder='请选资金项目' aria-describedby='nocdec-addon' />";
+                            sHtml += "<input disabled='disabled' type='text' class='form-control' value='" + result.data0[i].NCode + "-" + result.data0[i].nname + "'  placeholder='请选资金项目' aria-describedby='nocdec-addon' />";
                             sHtml += "<span class='input-group-btn'>";
                             sHtml += "<button class='btn btn-default' name='addrow' type='button'>查找</button";
                             sHtml += "</span></div></div></td>";
-                            sHtml += "<td style='width: 30%;text-align: right'><input type='number' value='" + result.data0[i].WF4RowRmb + "'  changemark='a' class='form-control' placeholder='金额' /></td>";
-                            sHtml += "<td style='width: 30%'><button name='delrow' type='button' class='btn btn-block  btn-default'>删除行</button></td></tr>";
+                            sHtml += "<td style='width: 30%;text-align: right'><input " + (result.data.ApprovalStatus == "0" ? "" : "disabled='disabled'") + " type='number' value='" + result.data0[i].WF4RowRmb + "'  changemark='a' class='form-control' placeholder='金额' /></td>";
+                            sHtml += "<td style='width: 30%'>" + (result.data.ApprovalStatus != "0" ? "" : "<button name='delrow' type='button' class='btn btn-block  btn-default'>删除行</button>") + "</td></tr>";
                             $("#addrowbody").append(sHtml);
                         }
                         $("input[changemark='a']").unbind();
                         $("input[changemark='a']").on("input", function (e) {
                             $("#Rmb").val(dosum());
+                        });
+                        $("[name='addrow']").unbind();
+                        $("[name='addrow']").click(function () {
+                            //alert($(this).parent().parent().parent().parent().parent().index());
+                            $("#mark").val($(this).parent().parent().parent().parent().parent().index());
+                            loadnode();
                         });
                         //取消按钮
                         $("#canbtn").unbind();
@@ -234,6 +243,7 @@
                             var list = [];
                             $("#addrowbody tr").each(function (i, item) {
                                 var listitem = {};
+                                listitem.RID = $(item).find("td").find("input").eq(0).attr("wf4rid");
                                 listitem.Todo = $(item).find("td").find("input").eq(0).val();
                                 listitem.NCode = $(item).find("td").find("input").eq(1).val();
                                 listitem.Rmb = $(item).find("td").find("input").eq(2).val();
@@ -531,8 +541,6 @@
                     loadnode();
                 });
             });
-            //计算合计
-
             //计算合计
             function dosum() {
                 var _total = 0;
@@ -841,7 +849,7 @@
             </div>
         </div>
     </div>
-        <!--单据取消弹出层-->
+    <!--单据取消弹出层-->
     <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

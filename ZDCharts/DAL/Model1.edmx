@@ -122,6 +122,7 @@
           <Property Name="Todo" Type="nvarchar" MaxLength="50" />
           <Property Name="NCode" Type="varchar" MaxLength="20" />
           <Property Name="Result" Type="varchar" MaxLength="1" />
+          <Property Name="VoucherRowID" Type="int" />
         </EntityType>
         <EntityType Name="WF_Flows">
           <Key>
@@ -329,15 +330,7 @@
 警告 6002: 表/视图“RMB.dbo.V_CashItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_CashItem">
           <Key>
-            <PropertyRef Name="CashID" />
-            <PropertyRef Name="Cash" />
-            <PropertyRef Name="Note" />
-            <PropertyRef Name="Mz" />
             <PropertyRef Name="ID" />
-            <PropertyRef Name="Cash1" />
-            <PropertyRef Name="Note1" />
-            <PropertyRef Name="ContractTotal" />
-            <PropertyRef Name="FlowID" />
           </Key>
           <Property Name="CashID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ExchangeDate" Type="date" />
@@ -432,17 +425,8 @@
 警告 6002: 表/视图“RMB.dbo.V_ExpenseRows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_ExpenseRows">
           <Key>
-            <PropertyRef Name="FID" />
-            <PropertyRef Name="RID" />
-            <PropertyRef Name="RName" />
-            <PropertyRef Name="NextID" />
-            <PropertyRef Name="PreID" />
-            <PropertyRef Name="NextNode" />
-            <PropertyRef Name="PreNode" />
             <PropertyRef Name="ID" />
-            <PropertyRef Name="Rmb1" />
             <PropertyRef Name="WF4RowID" />
-            <PropertyRef Name="NName" />
           </Key>
           <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FName" Type="nvarchar" MaxLength="50" />
@@ -480,7 +464,8 @@
           <Property Name="Todo" Type="nvarchar" MaxLength="50" />
           <Property Name="NCode" Type="varchar" MaxLength="20" />
           <Property Name="WF4RowResult" Type="varchar" MaxLength="1" />
-          <Property Name="NName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="nname" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="VoucherRowID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_Flow_GB_Company”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -963,7 +948,8 @@
     [V_ExpenseRows].[Todo] AS [Todo], 
     [V_ExpenseRows].[NCode] AS [NCode], 
     [V_ExpenseRows].[WF4RowResult] AS [WF4RowResult], 
-    [V_ExpenseRows].[NName] AS [NName]
+    [V_ExpenseRows].[nname] AS [nname], 
+    [V_ExpenseRows].[VoucherRowID] AS [VoucherRowID]
     FROM [dbo].[V_ExpenseRows] AS [V_ExpenseRows]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Flow_GB_Company" EntityType="Self.V_Flow_GB_Company" store:Type="Views" store:Schema="dbo">
@@ -1580,9 +1566,9 @@
           <EntitySet Name="WF_Flow4" EntityType="RMBModel.WF_Flow4" />
           <EntitySet Name="WF_Flow3" EntityType="RMBModel.WF_Flow3" />
           <EntitySet Name="V_Expense" EntityType="RMBModel.V_Expense" />
-          <EntitySet Name="V_ExpenseRows" EntityType="RMBModel.V_ExpenseRows" />
           <EntitySet Name="Sys_MenuPermission" EntityType="RMBModel.Sys_MenuPermission" />
           <EntitySet Name="V_Balance" EntityType="RMBModel.V_Balance" />
+          <EntitySet Name="V_ExpenseRows" EntityType="RMBModel.V_ExpenseRows" />
         </EntityContainer>
         <EntityType Name="WF_CompanyToTem">
           <Key>
@@ -1655,15 +1641,7 @@
         </EntityType>
         <EntityType Name="V_CashItem">
           <Key>
-            <PropertyRef Name="CashID" />
-            <PropertyRef Name="Cash" />
-            <PropertyRef Name="Note" />
-            <PropertyRef Name="Mz" />
             <PropertyRef Name="ID" />
-            <PropertyRef Name="Cash1" />
-            <PropertyRef Name="Note1" />
-            <PropertyRef Name="ContractTotal" />
-            <PropertyRef Name="FlowID" />
           </Key>
           <Property Name="CashID" Type="Guid" Nullable="false" />
           <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
@@ -1699,6 +1677,7 @@
           <Property Name="Todo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="VoucherRowID" Type="Int32" />
         </EntityType>
         <EntityType Name="WF_Flow3">
           <Key>
@@ -1756,19 +1735,30 @@
           <Property Name="Rmb1" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="RmbType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Sys_MenuPermission">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MenuID" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_Balance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rmb" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="Note" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="状态" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="类型" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="V_ExpenseRows">
           <Key>
-            <PropertyRef Name="FID" />
-            <PropertyRef Name="RID" />
-            <PropertyRef Name="RName" />
-            <PropertyRef Name="NextID" />
-            <PropertyRef Name="PreID" />
-            <PropertyRef Name="NextNode" />
-            <PropertyRef Name="PreNode" />
             <PropertyRef Name="ID" />
-            <PropertyRef Name="Rmb1" />
             <PropertyRef Name="WF4RowID" />
-            <PropertyRef Name="NName" />
           </Key>
           <Property Name="FID" Type="Guid" Nullable="false" />
           <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1806,27 +1796,8 @@
           <Property Name="Todo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="WF4RowResult" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="NName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Sys_MenuPermission">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="MenuID" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="V_Balance">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="Company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Rmb" Type="Decimal" Precision="38" Scale="2" />
-          <Property Name="Note" Type="Decimal" Precision="38" Scale="2" />
-          <Property Name="Total" Type="Decimal" Precision="38" Scale="2" />
-          <Property Name="状态" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
-          <Property Name="类型" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="nname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VoucherRowID" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2336,6 +2307,7 @@
           <EntitySetMapping Name="WF_Flow4">
             <EntityTypeMapping TypeName="RMBModel.WF_Flow4">
               <MappingFragment StoreEntitySet="WF_Flow4">
+                <ScalarProperty Name="VoucherRowID" ColumnName="VoucherRowID" />
                 <ScalarProperty Name="Result" ColumnName="Result" />
                 <ScalarProperty Name="NCode" ColumnName="NCode" />
                 <ScalarProperty Name="Todo" ColumnName="Todo" />
@@ -2395,10 +2367,33 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Sys_MenuPermission">
+            <EntityTypeMapping TypeName="RMBModel.Sys_MenuPermission">
+              <MappingFragment StoreEntitySet="Sys_MenuPermission">
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Balance">
+            <EntityTypeMapping TypeName="RMBModel.V_Balance">
+              <MappingFragment StoreEntitySet="V_Balance">
+                <ScalarProperty Name="类型" ColumnName="类型" />
+                <ScalarProperty Name="状态" ColumnName="状态" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="V_ExpenseRows">
             <EntityTypeMapping TypeName="RMBModel.V_ExpenseRows">
               <MappingFragment StoreEntitySet="V_ExpenseRows">
-                <ScalarProperty Name="NName" ColumnName="NName" />
+                <ScalarProperty Name="VoucherRowID" ColumnName="VoucherRowID" />
+                <ScalarProperty Name="nname" ColumnName="nname" />
                 <ScalarProperty Name="WF4RowResult" ColumnName="WF4RowResult" />
                 <ScalarProperty Name="NCode" ColumnName="NCode" />
                 <ScalarProperty Name="Todo" ColumnName="Todo" />
@@ -2435,28 +2430,6 @@
                 <ScalarProperty Name="CurNode" ColumnName="CurNode" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Sys_MenuPermission">
-            <EntityTypeMapping TypeName="RMBModel.Sys_MenuPermission">
-              <MappingFragment StoreEntitySet="Sys_MenuPermission">
-                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_Balance">
-            <EntityTypeMapping TypeName="RMBModel.V_Balance">
-              <MappingFragment StoreEntitySet="V_Balance">
-                <ScalarProperty Name="类型" ColumnName="类型" />
-                <ScalarProperty Name="状态" ColumnName="状态" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="Rmb" ColumnName="Rmb" />
-                <ScalarProperty Name="Company" ColumnName="Company" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

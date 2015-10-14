@@ -304,22 +304,31 @@ namespace ZDCharts.Handlers
                         });
                     }
                 }
-                //if (flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsFinished)
-                //{
-                //    string sql = string.Empty;
-                //    if (!string.IsNullOrEmpty(wf2.CashVoucherID))
-                //    {
-                //        sql += string.Format(@"  UPDATE {0}.dbo.ivoucher SET [ncode] ='{1}' WHERE 1=1 AND HID ='{2}'", COMN.MyVars.CWDB, payinfo.NCodeC, wf2.CashVoucherID);
-                //    }
-                //    if (!string.IsNullOrEmpty(wf2.NoteVoucherID))
-                //    {
-                //        sql += string.Format(@"  UPDATE {0}.dbo.ivoucher SET [ncode] ='{1}' WHERE 1=1 AND HID ='{2}' ", COMN.MyVars.CWDB, payinfo.NCodeC, wf2.NoteVoucherID);
-                //    }
-                //    if (!string.IsNullOrEmpty(sql))
-                //    {
-                //        int result_sql = DBHelper.ExecuteNonQuery(sql);
-                //    }
-                //}
+                if (flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsAccpeted
+                    || flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsHandling
+                    || flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsFinished)
+                {
+                    foreach (var item in formdata.RList)
+                    {
+                        var row = db.WF_Flow4.SingleOrDefault(p => p.ID == item.RID);
+                        if (row != null)
+                        {
+                            row.NCode = COMN.MyFuncs.GetCodeFromStr(item.NCode, '-');
+                        }
+                        if (flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsFinished)
+                        {
+                            string sql = string.Empty;
+                            var _wf4row = db.WF_Flow4.SingleOrDefault(p => p.ID == item.RID);
+                            sql += string.Format(@"  UPDATE {0}.dbo.ivoucher SET [ncode] ='{1}' WHERE HID='{2}'  AND INO ='{3}'",
+                                new object[] { COMN.MyVars.CWDB, COMN.MyFuncs.GetCodeFromStr(item.NCode, '-'), wf3.VoucherID, _wf4row.VoucherRowID });
+                            if (!string.IsNullOrEmpty(sql))
+                            {
+                                int result_sql = DBHelper.ExecuteNonQuery(sql);
+                            }
+                        }
+                    }
+                }
+
                 int result = db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = result };
             }
