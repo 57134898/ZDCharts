@@ -266,6 +266,11 @@
                             sHtml += "<td style='width: 30%'>" + (result.data.ApprovalStatus != "0" ? "" : "<button name='delrow' type='button' class='btn btn-block  btn-default'>删除行</button>") + "</td></tr>";
                             $("#addrowbody").append(sHtml);
                         }
+                        $("[name='delrow']").unbind();
+                        $("[name='delrow']").click(function () {
+                            $(this).parent().parent().remove();
+                            $("#Rmb").val(dosum());
+                        });
                         $("input[changemark='a']").unbind();
                         $("input[changemark='a']").on("input", function (e) {
                             $("#Rmb").val(dosum());

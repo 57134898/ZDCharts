@@ -285,13 +285,14 @@ namespace ZDCharts.Handlers
                 var formdata = Newtonsoft.Json.JsonConvert.DeserializeObject<MODEL.Expense>(jsonStr);
                 var flow = db.WF_Flows.SingleOrDefault(p => p.ID == id);
                 var wf3 = db.WF_Flow3.SingleOrDefault(p => p.FlowID == flow.FID);
-                var wf4 = db.WF_Flow4.Where(p => p.FlowID == flow.FID).ToList();
+                //var wf4 = db.WF_Flow4.Where(p => p.FlowID == flow.FID);
                 if (flow.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsStarted)
                 {
                     flow.FName = formdata.Todo;
                     wf3.Rmb = formdata.Rmb;
                     wf3.RmbType = formdata.RmbType;
-                    db.WF_Flow4.RemoveRange(wf4);
+                    db.WF_Flow4.RemoveRange(db.WF_Flow4.Where(p => p.FlowID == flow.FID));
+
                     foreach (var item in formdata.RList)
                     {
                         db.WF_Flow4.Add(new DAL.WF_Flow4()

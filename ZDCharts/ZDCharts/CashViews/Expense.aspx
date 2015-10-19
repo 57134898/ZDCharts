@@ -190,6 +190,11 @@
                             sHtml += "<td style='width: 30%'>" + (result.data.ApprovalStatus != "0" ? "" : "<button name='delrow' type='button' class='btn btn-block  btn-default'>删除行</button>") + "</td></tr>";
                             $("#addrowbody").append(sHtml);
                         }
+                        $("[name='delrow']").unbind();
+                        $("[name='delrow']").click(function () {
+                            $(this).parent().parent().remove();
+                            $("#Rmb").val(dosum());
+                        });
                         $("input[changemark='a']").unbind();
                         $("input[changemark='a']").on("input", function (e) {
                             $("#Rmb").val(dosum());
@@ -247,7 +252,6 @@
                                 listitem.Todo = $(item).find("td").find("input").eq(0).val();
                                 listitem.NCode = $(item).find("td").find("input").eq(1).val();
                                 listitem.Rmb = $(item).find("td").find("input").eq(2).val();
-                                list.push(listitem);
                                 if (listitem.Todo == "" || listitem.NCode == "" || listitem.Rmb == "" || listitem.RID == "") {
                                     $(item).remove();
                                 }
