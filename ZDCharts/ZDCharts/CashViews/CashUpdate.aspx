@@ -83,6 +83,7 @@
                     }
                 });
             }
+            //alert(1);
             //默认加载 审批完成但未生成凭证的数据 
             loadData(1000);
             //工具栏样式设置
@@ -299,35 +300,6 @@
                     $("#mark").val("rmb");
                     loadnode();
                 });
-                //获取资金池余额
-                $.ajax({
-                    "type": "POST",
-                    "url": "../handlers/Finance.ashx",
-                    "dataType": "json",
-                    "data": { Action: 'GetBalanceBy1221', companyid: companyid: data.eq(15).html() }, // 以json格式传递
-                    "success": function (resp) {
-                        var bal = eval("(" + resp.data + ")");
-                        $("#balrmb").html(bal.rmb);
-                        $("#balnote").html(bal.note);
-                        $("#baltotal").html(bal.total);
-
-                        $("#balrmb1").html(bal.rmb1);
-                        $("#balnote1").html(bal.note1);
-                        $("#baltotal1").html(bal.total1);
-
-                        $("#balrmb2").html(bal.rmb2);
-                        $("#balnote2").html(bal.note2);
-                        $("#baltotal2").html(bal.total2);
-
-                        $("#balrmb3").html(bal.rmb3);
-                        $("#balnote3").html(bal.note3);
-                        $("#baltotal3").html(bal.total3);
-
-                        $("#balrmb4").html(bal.rmb4);
-                        $("#balnote4").html(bal.note4);
-                        $("#baltotal4").html(bal.total4);
-                    }
-                });
                 $.ajax({
                     "type": "POST",
                     "url": "../handlers/WFFlow1.ashx",
@@ -422,6 +394,7 @@
 
                     }
                 });
+
                 $("#savbtn").unbind();
                 $("#savbtn").click(function () {
                     //验证表单
