@@ -316,7 +316,7 @@
                         $.ajax({
                             type: 'POST',
                             url: '../Handlers/Customer.ashx',
-                            data: { action: 'GetContractByCustomer', CustomerID: resp.data.Ccode },
+                            data: { action: 'GetContractByCustomer', CustomerID: resp.data.Ccode, CompanyID: data.eq(16).html() },
                             success: function suc(result) {
                                 //alert(JSON.stringify(result));
                                 //请求失败跳转到错误页

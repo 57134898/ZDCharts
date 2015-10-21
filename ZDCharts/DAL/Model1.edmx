@@ -330,7 +330,15 @@
 警告 6002: 表/视图“RMB.dbo.V_CashItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_CashItem">
           <Key>
+            
+            
+            
+            
             <PropertyRef Name="ID" />
+            
+            
+            
+            
           </Key>
           <Property Name="CashID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ExchangeDate" Type="date" />
@@ -425,8 +433,17 @@
 警告 6002: 表/视图“RMB.dbo.V_ExpenseRows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_ExpenseRows">
           <Key>
+            
+            
+            
+            
+            
+            
+            
             <PropertyRef Name="ID" />
+            
             <PropertyRef Name="WF4RowID" />
+            
           </Key>
           <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FName" Type="nvarchar" MaxLength="50" />
@@ -564,9 +581,7 @@
         <EntityType Name="V_UnfinishedContracts">
           <Key>
             <PropertyRef Name="HCODE" />
-            <PropertyRef Name="RMB" />
-            <PropertyRef Name="INV" />
-            <PropertyRef Name="XSHCODE" />
+            <PropertyRef Name="CompanyID" />
           </Key>
           <Property Name="HCODE" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CustomerID" Type="nvarchar" MaxLength="50" />
@@ -577,6 +592,7 @@
           <Property Name="NonInv" Type="numeric" Precision="38" Scale="2" />
           <Property Name="XSHCODE" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="Category" Type="nvarchar" MaxLength="50" />
+          <Property Name="CompanyID" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_WF3-HVoucher”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1038,7 +1054,8 @@
     [V_UnfinishedContracts].[NonRmb] AS [NonRmb], 
     [V_UnfinishedContracts].[NonInv] AS [NonInv], 
     [V_UnfinishedContracts].[XSHCODE] AS [XSHCODE], 
-    [V_UnfinishedContracts].[Category] AS [Category]
+    [V_UnfinishedContracts].[Category] AS [Category], 
+    [V_UnfinishedContracts].[CompanyID] AS [CompanyID]
     FROM [dbo].[V_UnfinishedContracts] AS [V_UnfinishedContracts]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_WF3-HVoucher" EntityType="Self.V_WF3-HVoucher" store:Type="Views" store:Schema="dbo">
@@ -1416,9 +1433,7 @@
         <EntityType Name="V_UnfinishedContracts">
           <Key>
             <PropertyRef Name="HCODE" />
-            <PropertyRef Name="RMB" />
-            <PropertyRef Name="INV" />
-            <PropertyRef Name="XSHCODE" />
+            <PropertyRef Name="CompanyID" />
           </Key>
           <Property Name="HCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CustomerID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1429,6 +1444,7 @@
           <Property Name="NonInv" Type="Decimal" Precision="38" Scale="2" />
           <Property Name="XSHCODE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="V_WF3_HVoucher">
           <Key>
@@ -2110,6 +2126,7 @@
           <EntitySetMapping Name="V_UnfinishedContracts">
             <EntityTypeMapping TypeName="RMBModel.V_UnfinishedContracts">
               <MappingFragment StoreEntitySet="V_UnfinishedContracts">
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="HCODE" ColumnName="HCODE" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="Total" ColumnName="Total" />

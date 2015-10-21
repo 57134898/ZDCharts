@@ -168,9 +168,9 @@
                         shtml = shtml.concat("</table></div>");
                         shtml = shtml.concat("<div class='panel-footer'>");
                         shtml = shtml.concat("<div class='btn-group' data-toggle='buttons'>");
-                        shtml = shtml.concat("<label class='btn btn-default active'>");
-                        shtml = shtml.concat("<input type='radio' result='O' name='options" + i.toString() + "' nodeid='" + result.data[i].F1ID + "' autocomplete='off' checked>待定");
-                        shtml = shtml.concat("</label>");
+                        //shtml = shtml.concat("<label class='btn btn-default active'>");
+                        //shtml = shtml.concat("<input type='radio' result='O' name='options" + i.toString() + "' nodeid='" + result.data[i].F1ID + "' autocomplete='off' checked>待定");
+                        //shtml = shtml.concat("</label>");
                         shtml = shtml.concat("<label class='btn btn-default'>");
                         shtml = shtml.concat("<input type='radio' result='Y'  name='options" + i.toString() + "' nodeid='" + result.data[i].F1ID + "' autocomplete='off'>通过");
                         shtml = shtml.concat("</label>");
@@ -203,11 +203,11 @@
                             //return;
 
                             //设置首页提交确认按钮数字图标
-                            var pcount = $(".glyphicon-ok,.glyphicon-remove").length;
+                            var pcount = $(".glyphicon-ok").length;
                             if (pcount == 0) {
                                 $(window.parent.document).find("#pendspan").text("");
                             } else {
-                                $(window.parent.document).find("#pendspan").text($(".glyphicon-ok,.glyphicon-remove").length);
+                                $(window.parent.document).find("#pendspan").text($(".glyphicon-ok").length);
                             }
                         });
                     }

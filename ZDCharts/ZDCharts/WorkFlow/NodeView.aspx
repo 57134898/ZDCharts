@@ -127,9 +127,9 @@
                         shtml = shtml.concat("</table></div>");
                         shtml = shtml.concat("<div class='panel-footer'>");
                         shtml = shtml.concat("<div class='btn-group' data-toggle='buttons'>");
-                        shtml = shtml.concat("<label class='btn btn-default active'>");
-                        shtml = shtml.concat("<input type='radio' result='O' name='options" + i.toString() + "' nodeid='N" + result.data[i].WF4RowID + "' autocomplete='off' checked>待定");
-                        shtml = shtml.concat("</label>");
+                        //shtml = shtml.concat("<label class='btn btn-default active'>");
+                        //shtml = shtml.concat("<input type='radio' result='O' name='options" + i.toString() + "' nodeid='N" + result.data[i].WF4RowID + "' autocomplete='off' checked>待定");
+                        //shtml = shtml.concat("</label>");
                         shtml = shtml.concat("<label class='btn btn-default'>");
                         shtml = shtml.concat("<input type='radio' result='Y'  name='options" + i.toString() + "' nodeid='N" + result.data[i].WF4RowID + "' autocomplete='off'>通过");
                         shtml = shtml.concat("</label>");
@@ -167,7 +167,7 @@
                             if (pcount == 0) {
                                 $(window.parent.document).find("#pendspan").text("");
                             } else {
-                                $(window.parent.document).find("#pendspan").text($(".glyphicon-ok,.glyphicon-remove").length);
+                                $(window.parent.document).find("#pendspan").text($(".glyphicon-ok").length);
                             }
                         });
                     }

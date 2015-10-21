@@ -23,5 +23,6 @@ namespace DAL
         public Nullable<decimal> NonInv { get; set; }
         public string XSHCODE { get; set; }
         public string Category { get; set; }
+        public string CompanyID { get; set; }
     }
 }

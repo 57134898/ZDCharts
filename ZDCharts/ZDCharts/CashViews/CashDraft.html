@@ -122,7 +122,7 @@
                     });
                 });
             });
- 
+
             //审批
             //表格内按钮点击事件 查看审批进度按钮
             $('#dvtable tbody').on('click', "button[mark='2']", function () {
@@ -236,7 +236,7 @@
                         $.ajax({
                             type: 'POST',
                             url: '../Handlers/Customer.ashx',
-                            data: { action: 'GetContractByCustomer', CustomerID: resp.data.Ccode },
+                            data: { action: 'GetContractByCustomer', CustomerID: resp.data.Ccode, CompanyID: data.eq(16).html() },
                             success: function suc(result) {
                                 //alert(JSON.stringify(result));
                                 //请求失败跳转到错误页
@@ -255,11 +255,12 @@
                                 for (var i = 0; i < result.data.length; i++) {
                                     var shtml = "";
                                     try {
+                                        //alert(result.data[i].CurRmb);
                                         shtml = shtml.concat("<tr>");
                                         shtml = shtml.concat("<td>" + result.data[i].HCODE + "</td>");
                                         shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].Total + "</td>");
                                         shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].NonRmb + "</td>");
-                                        shtml = shtml.concat("<td style='text-align:center'><input type='text' class='form-control text-right' id='currmb' placeholder='" + result.data[i].HCODE + "本次付款金额'  changemark='a'></td>");
+                                        shtml = shtml.concat("<td style='text-align:center'><input type='text' class='form-control text-right' id='currmb' placeholder='" + result.data[i].HCODE + "本次付款金额'   changemark='a'></td>");
                                         shtml = shtml.concat("<td style='text-align:center'><select class='selectpicker form-control'>");
                                         //销售合同号下拉列表数据绑定
                                         var xslist = eval("(" + result.data[i].XSHCODE + ")");
@@ -816,7 +817,7 @@
                         $.ajax({
                             type: 'POST',
                             url: '../Handlers/Customer.ashx',
-                            data: { action: 'GetContractByCustomer', CustomerID: $("#customer").attr("code") },
+                            data: { action: 'GetContractByCustomer', CustomerID: $("#customer").attr("code"), CompanyID: "C" },
                             success: function suc(result) {
                                 //alert(JSON.stringify(result));
                                 //请求失败跳转到错误页

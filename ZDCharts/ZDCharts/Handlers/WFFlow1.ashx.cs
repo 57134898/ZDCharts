@@ -192,7 +192,7 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 var curNode = db.WF_Flows.SingleOrDefault(p => p.ID == id);
-                var vflow = db.V_Flows.Where(p => p.FID == curNode.FID).ToList();
+                var vflow = db.V_Flows.Where(p => p.FID == curNode.FID && p.F1Result != "N").ToList();
                 var vcashitem = db.V_CashItem.SingleOrDefault(p => p.FlowID == curNode.FID);
 
                 return new Tools.JsonResponse()
@@ -211,7 +211,7 @@ namespace ZDCharts.Handlers
             {
                 var curNode = db.WF_Flows.SingleOrDefault(p => p.ID == id);
                 var vexp = db.V_Expense.SingleOrDefault(p => p.FID == curNode.FID);
-                var vvexpr = db.V_ExpenseRows.Where(p => p.FID == curNode.FID).ToList();
+                var vvexpr = db.V_ExpenseRows.Where(p => p.FID == curNode.FID && p.WF4RowResult != "N").ToList();
 
                 return new Tools.JsonResponse()
                 {

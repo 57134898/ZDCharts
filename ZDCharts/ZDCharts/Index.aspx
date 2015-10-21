@@ -78,8 +78,8 @@
         $(".btn-default")[0].click();
         //提交按钮点击事件
         $("#commitbtn").click(function () {
-            if ($("#pendspan").text() == "")
-                return;
+            //if ($("#pendspan").text() == "")
+            //    return;
             //调用子NewMsg.html页面方法
             $("#mainform")[0].contentWindow.showmodal();
         });

@@ -253,6 +253,7 @@
                         for (var i = 0; i < result.data0.length; i++) {
                             if (result.data.ApprovalStatus != "0") {
                                 $("#addrowbtn").attr("disabled", "disabled");
+                                $("#rmbtype").attr("disabled", "disabled");
                             }
                             var sHtml = "<tr>";
                             sHtml += "<td style='width: 30%'><input " + (result.data.ApprovalStatus == "0" ? "" : "disabled='disabled'") + " type='text' wf4rid='" + result.data0[i].WF4RowID + "'  class='form-control' value='" + result.data0[i].Todo + "' /></td>";
@@ -318,18 +319,28 @@
                             }
                             //封装formdata
                             var formdata = {};
+                            var isChecked = false;
                             formdata.Date = $("#datepicker1").val();
                             formdata.RmbType = $("#rmbtype").val();
                             formdata.Rmb = Number($("#Rmb").val());
                             var list = [];
                             $("#addrowbody tr").each(function (i, item) {
                                 var listitem = {};
-                                listitem.RID = $(item).find("td").find("input").eq(0).attr("wf4rid");
+
                                 listitem.Todo = $(item).find("td").find("input").eq(0).val();
                                 listitem.NCode = $(item).find("td").find("input").eq(1).val();
                                 listitem.Rmb = $(item).find("td").find("input").eq(2).val();
-                                list.push(listitem);
-                            })
+                                if (listitem.Todo == "" || listitem.NCode == "" || listitem.Rmb == "") {
+                                    isChecked = true;
+                                }
+                                else {
+                                    list.push(listitem);
+                                }
+                            });
+                            if (isChecked) {
+                                alert("明细输入不完整！")
+                                return;
+                            }
                             formdata.RList = list;
                             formdata.Todo = $("#Todo").val();
                             var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('customerCollapse'));
