@@ -256,6 +256,7 @@
                                 $("#rmbtype").attr("disabled", "disabled");
                             }
                             var sHtml = "<tr>";
+
                             sHtml += "<td style='width: 30%'><input " + (result.data.ApprovalStatus == "0" ? "" : "disabled='disabled'") + " type='text' wf4rid='" + result.data0[i].WF4RowID + "'  class='form-control' value='" + result.data0[i].Todo + "' /></td>";
                             sHtml += "<td style='width: 30%'><div class='form-group'>";
                             sHtml += "<div class='input-group'>";
@@ -326,7 +327,7 @@
                             var list = [];
                             $("#addrowbody tr").each(function (i, item) {
                                 var listitem = {};
-
+                                listitem.RID = $(item).find("td").find("input").eq(0).attr("wf4rid");
                                 listitem.Todo = $(item).find("td").find("input").eq(0).val();
                                 listitem.NCode = $(item).find("td").find("input").eq(1).val();
                                 listitem.Rmb = $(item).find("td").find("input").eq(2).val();
