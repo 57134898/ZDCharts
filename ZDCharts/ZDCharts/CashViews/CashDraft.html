@@ -236,14 +236,16 @@
                         $.ajax({
                             type: 'POST',
                             url: '../Handlers/Customer.ashx',
-                            data: { action: 'GetContractByCustomer', CustomerID: resp.data.Ccode, CompanyID: data.eq(16).html() },
+                            data: { action: 'GetContractByCustomer', CustomerID: resp.data.Ccode, CompanyID: "C" },
                             success: function suc(result) {
                                 //alert(JSON.stringify(result));
                                 //请求失败跳转到错误页
+                                //alert(JSON.stringify(result));
                                 if (result.code != "0") {
                                     redirecToErrorPage(result);
                                     return;
                                 }
+
                                 if (result.data == null || result.data.length <= 0) {
                                     $("#tablebody").empty();
                                     $("#tablebody").append("无数据");
@@ -252,6 +254,7 @@
                                 }
                                 $("#tablebody").empty();
                                 //绑定数据
+
                                 for (var i = 0; i < result.data.length; i++) {
                                     var shtml = "";
                                     try {

@@ -180,6 +180,7 @@
                                 $("#rmbtype").attr("disabled", "disabled");
                             }
                             var sHtml = "<tr>";
+
                             sHtml += "<td style='width: 30%'><input " + (result.data.ApprovalStatus == "0" ? "" : "disabled='disabled'") + " type='text' wf4rid='" + result.data0[i].WF4RowID + "'  class='form-control' value='" + result.data0[i].Todo + "' /></td>";
                             sHtml += "<td style='width: 30%'><div class='form-group'>";
                             sHtml += "<div class='input-group'>";

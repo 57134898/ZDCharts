@@ -147,7 +147,7 @@
                             "type": "POST",
                             "url": "../handlers/CashItem.ashx",
                             "dataType": "json",
-                            "data": { p: JSON.stringify(aoData), Action: 'GetNcodeList1' }, // 以json格式传递
+                            "data": { p: JSON.stringify(aoData), Action: 'GetNcodeList' }, // 以json格式传递
                             "success": function (resp) {
                                 //alert(JSON.stringify(resp));
                                 fnCallback(resp.data);
