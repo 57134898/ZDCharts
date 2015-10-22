@@ -489,6 +489,18 @@
                     $("#myitemModal1").modal('hide');
                 });
             }
+
+            //计算合计
+            function dosum() {
+                var _total = 0;
+                $("#addrowbody tr").each(function (i, item) {
+                    var _rmb = $.trim($(item).find("td").find("input").eq(2).val());
+                    if (!(_rmb == "" || isNaN(_rmb))) {
+                        _total += Number(_rmb);
+                    }
+                });
+                return _total;
+            }
         });
     </script>
 </head>
