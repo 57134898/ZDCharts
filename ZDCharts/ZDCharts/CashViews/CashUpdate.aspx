@@ -386,6 +386,10 @@
                                         if ($(item).find("td").eq(0).html() == resp.data0[i].HCode.toString()) {
                                             
                                             $(item).find("td").find("input").val(resp.data0[i].CurRmb);
+                                        } else {
+                                            if (resp.data.ApprovalStatus != "0") {
+                                                $(item).remove();
+                                            }
                                         }
                                     });
                                 }
