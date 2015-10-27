@@ -355,15 +355,7 @@
                                         alert(e.message)
                                     };
                                 }
-                                if (resp.data.ApprovalStatus != "0") {
-                                    //alert(resp.data.ApprovalStatus);
-                                    $("#panelheadtext").text("修改记录（已经在审批中的单据职能修改资金项目）");
-                                    $("#Rmb").attr("disabled", true);
-                                    $("#Note").attr("disabled", true);
-                                    $("#tablebody tr").each(function (i, item) {
-                                        $(item).find("td").find("input").attr("disabled", true);
-                                    });
-                                }
+
                                 //计算余额
                                 $("input[changemark='a']").unbind();
                                 $("input[changemark='a']").on("input", function (e) {
@@ -376,20 +368,22 @@
                                     });
                                     $("#balrmb").val(Number($("#Rmb").val()) + Number($("#Note").val()) - total);
                                 });
-                                //alert(resp.data0.length);
                                 for (var i = 0; i < resp.data0.length; i++) {
                                     $("#tablebody tr").each(function (j, item) {
-                                        //alert($(item).find("td").eq(0).html());
-                                        //alert( resp.data0[i].HCode.toString());
-                                        //alert($(item).find("td").eq(0).html() + "|" + resp.data0[i].HCode.toString());
-                                        
-                                        if ($(item).find("td").eq(0).html() == resp.data0[i].HCode.toString()) {
-                                            
+                                        if ($(item).find("td").eq(0).html() == resp.data0[i].HCode) {
                                             $(item).find("td").find("input").val(resp.data0[i].CurRmb);
-                                        } else {
-                                            if (resp.data.ApprovalStatus != "0") {
-                                                $(item).remove();
-                                            }
+                                        }
+                                    });
+                                }
+                                if (resp.data.ApprovalStatus != "0") {
+                                    //alert(resp.data.ApprovalStatus);
+                                    $("#panelheadtext").text("修改记录（已经在审批中的单据只能修改资金项目）");
+                                    $("#Rmb").attr("disabled", true);
+                                    $("#Note").attr("disabled", true);
+                                    $("#tablebody tr").each(function (i, item) {
+                                        $(item).find("td").find("input").attr("disabled", true);
+                                        if ($(item).find("td").find("input").val() == "") {
+                                            $(item).remove();
                                         }
                                     });
                                 }
