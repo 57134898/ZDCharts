@@ -378,11 +378,13 @@
                                 });
                                 //alert(resp.data0.length);
                                 for (var i = 0; i < resp.data0.length; i++) {
-                                    $("#tablebody tr").each(function (i, item) {
+                                    $("#tablebody tr").each(function (j, item) {
                                         //alert($(item).find("td").eq(0).html());
                                         //alert( resp.data0[i].HCode.toString());
-                                        //alert($(item).find("td").eq(0).html());
-                                        if ($(item).find("td").eq(0).html() == resp.data0[i].HCode) {
+                                        //alert($(item).find("td").eq(0).html() + "|" + resp.data0[i].HCode.toString());
+                                        
+                                        if ($(item).find("td").eq(0).html() == resp.data0[i].HCode.toString()) {
+                                            
                                             $(item).find("td").find("input").val(resp.data0[i].CurRmb);
                                         }
                                     });
