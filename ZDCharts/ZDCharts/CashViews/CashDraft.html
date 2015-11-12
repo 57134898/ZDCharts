@@ -122,7 +122,6 @@
                     });
                 });
             });
-
             //审批
             //表格内按钮点击事件 查看审批进度按钮
             $('#dvtable tbody').on('click', "button[mark='2']", function () {
@@ -230,6 +229,7 @@
                         $("#datepicker1").val(resp.data.ExchangeDate.toString().substr(0, 10));
                         $("#Rmb").val(resp.data.Cash);
                         $("#Note").val(resp.data.Note);
+                        $("#MNote").val(resp.data.MinusNote);
                         $("#nocdec").attr("code", resp.data.NCodeC);
                         $("#nocdec").val(resp.data.NCodeCName);
                         $("#customer").val(resp.data.CNAME);
@@ -290,7 +290,7 @@
                                             total += Number(currmb);
                                         }
                                     });
-                                    $("#balrmb").val(Number($("#Rmb").val()) + Number($("#Note").val()) - total);
+                                    $("#balrmb").val(Number($("#Rmb").val()) + Number($("#Note").val()) - Number($("#MNote").val()) - total);
                                 });
                                 for (var i = 0; i < resp.data0.length; i++) {
                                     $("#tablebody tr").each(function (j, item) {
@@ -340,7 +340,7 @@
                     if (isNaN($("#Rmb").val()) || isNaN($("#Note").val())) {
                         errormsg += "金额必须为数字!<br/>";
                     }
-                    var _total1 = Number($("#Rmb").val()) + Number($("#Note").val());
+                    var _total1 = Number($("#Rmb").val()) + Number($("#Note").val()) - Number($("#MNote").val());
                     if (_total != _total1) {
                         errormsg += "总金额与合同分配金额不相等!<br/>";
                     }
@@ -373,6 +373,11 @@
                     } else {
                         paym.Note = $("#Note").val();
                     }
+                    if ($("#MNote").val() == "") {
+                        paym.MNote = 0;
+                    } else {
+                        paym.MNote = $("#MNote").val();
+                    }
                     paym.NCodeC = $("#nocdec").attr("code");
                     var paymList = [];
                     paym.List = paymList;
@@ -401,7 +406,6 @@
                     //alert(JSON.stringify(paym));
                 });
             });
-
             //刷新按钮
             $('#toolbtn_refresh').click(function () {
                 location.reload();
@@ -583,7 +587,7 @@
                         errormsg += "金额必须为数字!<br/>";
                     }
 
-                    var _total1 = Number($("#Rmb").val()) + Number($("#Note").val());
+                    var _total1 = Number($("#Rmb").val()) + Number($("#Note").val()) - Number($("#MNote").val());
 
                     //alert(Number(''));
                     // alert(_total1);
@@ -621,6 +625,11 @@
                         paym.Note = 0;
                     } else {
                         paym.Note = $("#Note").val();
+                    }
+                    if ($("#MNote").val() == "") {
+                        paym.MNote = 0;
+                    } else {
+                        paym.MNote = $("#MNote").val();
                     }
                     var userinfo = eval("(" + $('#userinfoinput', parent.document).val() + ")");
                     paym.ComanyID = userinfo.companyid;
@@ -871,7 +880,7 @@
                                             total += Number(currmb);
                                         }
                                     });
-                                    $("#balrmb").val(Number($("#Rmb").val()) + Number($("#Note").val()) - total);
+                                    $("#balrmb").val(Number($("#Rmb").val()) + Number($("#Note").val()) - Number($("#MNote").val()) - total);
                                 });
                                 spinner1.stop();
                             },
@@ -1027,21 +1036,29 @@
                             </div>
                             <table width="100%">
                                 <tr>
-                                    <td width="30%">
+                                    <td width="48%">
                                         <div class="form-group">
-                                            <label for="rmb1" class="control-label">现汇</label>
+                                            <label for="Rmb" class="control-label">现汇</label>
                                             <input type="number" class="form-control" id="Rmb" placeholder="现汇" changemark="a">
                                         </div>
                                     </td>
-                                    <td width="5%"></td>
-                                    <td width="30%">
+                                    <td width="4%"></td>
+                                    <td width="48%">
                                         <div class="form-group">
-                                            <label for="rmb1" class="control-label">票据</label>
+                                            <label for="Note" class="control-label">票据</label>
                                             <input type="number" class="form-control" id="Note" placeholder="票据" changemark="a">
                                         </div>
                                     </td>
-                                    <td width="5%"></td>
-                                    <td width="30%">
+                                </tr>
+                                <tr>
+                                    <td width="48%">
+                                        <div class="form-group">
+                                            <label for="mnote" class="control-label">退票据</label>
+                                            <input type="number" class="form-control" id="MNote" placeholder="退票据" changemark="a">
+                                        </div>
+                                    </td>
+                                    <td width="4%"></td>
+                                    <td width="48%">
                                         <div class="form-group">
                                             <label for="balrmb" class="control-label">本次余额</label>
                                             <input disabled="disabled" type="number" class="form-control" id="balrmb" placeholder="余额">

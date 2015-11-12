@@ -12,6 +12,7 @@ namespace MODEL
         public string PayDate { get; set; }
         public decimal Rmb { get; set; }
         public decimal Note { get; set; }
+        public decimal MNote { get; set; }
         public string ComanyID { get; set; }
         public List<NonRmb> List { get; set; }
         public string NCodeC { get; set; }

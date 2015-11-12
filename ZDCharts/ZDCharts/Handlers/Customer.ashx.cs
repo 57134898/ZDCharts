@@ -165,7 +165,8 @@ namespace ZDCharts.Handlers
                     FlowID = flowid,
                     NCodeC = payinfo.NCodeC,
                     NCodeN = payinfo.NCodeC,
-                    IsFinished = "N"
+                    IsFinished = "N",
+                    MinusNote = payinfo.MNote
                 });
                 foreach (var item in payinfo.List)
                 {

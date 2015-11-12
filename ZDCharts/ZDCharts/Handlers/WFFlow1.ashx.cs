@@ -242,6 +242,7 @@ namespace ZDCharts.Handlers
                 {
                     wf2.Cash = payinfo.Rmb;
                     wf2.Note = payinfo.Note;
+                    wf2.MinusNote = payinfo.MNote;
                     db.WF_Flow1.RemoveRange(wf1);
                     foreach (var item in payinfo.List)
                     {
