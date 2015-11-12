@@ -5,38 +5,38 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f0acd0d0eeee45e59b6a2c7d96039b91" Name="Diagram1" ShowGrid="true" ZoomLevel="100" DisplayType="true">
-        <EntityTypeShape EntityType="RMBModel.Org_Depts" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.Org_Emps" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.Org_Roles" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.Sys_ApprovalStatus" Width="1.5" PointX="2.75" PointY="2.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.Sys_Menus" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.WF_TemRows" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.WF_Tems" Width="1.5" PointX="4.75" PointY="2.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.ACLIENTS" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.ACONTRACT" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.AFKXX" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.AWX" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.V_ApprovalSteps" Width="1.5" PointX="6.75" PointY="2.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.V_Emps" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.V_Flow_GB_Company" Width="1.5" PointX="4.75" PointY="6.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.V_Flow_GB_Customer" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.V_Flows" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.V_Ncode" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.V_UnfinishedContracts" Width="1.5" PointX="8.75" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RMBModel.V_WF3_HVoucher" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.vcontracts" Width="1.5" PointX="6.75" PointY="5.5" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.WF_CompanyToTem" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.WF_Flow1" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.WF_Flow2" Width="1.5" PointX="6.75" PointY="8.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.WF_Flows" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.WF_Nodes" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="RMBModel.V_CashItem" Width="1.5" PointX="10.75" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RMBModel.WF_Flow4" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RMBModel.WF_Flow3" Width="1.5" PointX="9.375" PointY="8.75" />
-        <EntityTypeShape EntityType="RMBModel.V_Expense" Width="1.5" PointX="5.375" PointY="10.75" />
-        <EntityTypeShape EntityType="RMBModel.Sys_MenuPermission" Width="1.5" PointX="7.375" PointY="11.75" />
-        <EntityTypeShape EntityType="RMBModel.V_Balance" Width="1.5" PointX="9.375" PointY="11.75" />
-        <EntityTypeShape EntityType="RMBModel.V_ExpenseRows" Width="1.5" PointX="11.375" PointY="8.75" />
+        <EntityTypeShape EntityType="RMBModel.Org_Depts" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.Org_Emps" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.Org_Roles" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.Sys_ApprovalStatus" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.Sys_Menus" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.WF_TemRows" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.WF_Tems" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.ACLIENTS" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.ACONTRACT" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.AFKXX" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.AWX" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.V_ApprovalSteps" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.V_Emps" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.V_Flow_GB_Company" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.V_Flow_GB_Customer" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.V_Flows" Width="1.5" PointX="10.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.V_Ncode" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.V_UnfinishedContracts" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.V_WF3_HVoucher" Width="1.5" PointX="2.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.vcontracts" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.WF_CompanyToTem" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.WF_Flow1" Width="1.5" PointX="14.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.WF_Flow2" Width="1.5" PointX="4.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.WF_Flows" Width="1.5" PointX="14.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.WF_Nodes" Width="1.5" PointX="6.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.V_CashItem" Width="1.5" PointX="14.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.WF_Flow4" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RMBModel.WF_Flow3" Width="1.5" PointX="0.75" PointY="16.75" />
+        <EntityTypeShape EntityType="RMBModel.V_Expense" Width="1.5" PointX="16.75" PointY="3.75" />
+        <EntityTypeShape EntityType="RMBModel.Sys_MenuPermission" Width="1.5" PointX="16.75" PointY="10.75" />
+        <EntityTypeShape EntityType="RMBModel.V_Balance" Width="1.5" PointX="12.75" PointY="16.75" />
+        <EntityTypeShape EntityType="RMBModel.V_ExpenseRows" Width="1.5" PointX="16.75" PointY="13.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -37,5 +37,7 @@ namespace DAL
         public System.Guid FlowID { get; set; }
         public Nullable<decimal> Total { get; set; }
         public string CompanyName { get; set; }
+        public decimal MinusNote { get; set; }
+        public decimal MinusNote1 { get; set; }
     }
 }
