@@ -219,9 +219,10 @@ namespace ZDCharts.Handlers
 
                 wf2.Cash1 = cashItem.Cash;
                 wf2.Note1 = cashItem.Note;
+                wf2.MinusNote1 = cashItem.MNote;
                 wf2.IsFinished = "Y";
                 var list = db.WF_Flow1.Where(p => p.CashID == wf2.CashID);
-                decimal? total1 = cashItem.Cash + cashItem.Note;
+                decimal? total1 = cashItem.Cash + cashItem.Note - cashItem.MNote;
                 decimal? total2 = list.Where(p => p.Result == "Y").Sum(p => p.Rmb);
                 if (total1 != total2)
                 {
