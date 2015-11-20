@@ -380,6 +380,38 @@ namespace ZDCharts.Handlers
                 #endregion
 
                 #region 添加合同付款信息
+                //退现金合同号
+                string mHcode1 = string.Empty;
+                //退票据合同号
+                string mHcode2 = string.Empty;
+                if (cashItem.Cash <= 0)
+                {
+                    var mh1 = list.FirstOrDefault();
+                    string _sql1 = string.Empty;
+                    _sql1 = "INSERT INTO ACash (ExchangeDate, Cash, Note,VoucherFlag,Ccode,Type,Mz,hdw) VALUES (";
+                    _sql1 += "'" + DateTime.Now.ToShortDateString() + "',";
+                    _sql1 += "'" + cashItem.Cash + "',";
+                    _sql1 += "'0',";
+                    _sql1 += "'0',";
+                    _sql1 += "'" + wf2.Ccode + "',";
+                    _sql1 += "'付款',";
+                    _sql1 += "'0'";
+                    _sql1 += ",'" + wf2.Hdw + "') ";
+                    string _cid = DBHelper.ExecuteScalar(_sql1).ToString();
+                    wf2.CID1 = _cid;
+                    string _sql2 = string.Empty;
+                    _sql2 += " INSERT INTO AFKXX ([rmb], [hth], [xshth], [type],Cid,date) VALUES(";
+                    _sql2 += "'" + mh1.Rmb + "',";
+                    _sql2 += "'" + mh1.HCode + "',";
+                    _sql2 += "'" + mh1.XSHcode + "',";
+                    _sql2 += "'付款',";
+                    _sql2 += _cid + ",'" + DateTime.Now.ToShortDateString() + "') ";
+                    DBHelper.ExecuteNonQuery(_sql2);
+                }
+                if (cashItem.MNote != 0)
+                {
+                    var mh2 = list.FirstOrDefault();
+                }
                 string sql1 = string.Empty;
                 sql1 = "INSERT INTO ACash (ExchangeDate, Cash, Note,VoucherFlag,Ccode,Type,Mz,hdw) VALUES (";
                 sql1 += "'" + DateTime.Now.ToShortDateString() + "',";
@@ -391,6 +423,7 @@ namespace ZDCharts.Handlers
                 sql1 += "'0'";
                 sql1 += ",'" + wf2.Hdw + "') ";
                 string cid = DBHelper.ExecuteScalar(sql1).ToString();
+                wf2.CID = cid;
                 string sql2 = string.Empty;
                 foreach (var item in list)
                 {

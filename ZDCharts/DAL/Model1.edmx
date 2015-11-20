@@ -101,6 +101,9 @@
           <Property Name="NoteVoucherID" Type="varchar" MaxLength="16" />
           <Property Name="MinusNote" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MinusNote1" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CID" Type="varchar" MaxLength="10" />
+          <Property Name="CID1" Type="varchar" MaxLength="10" />
+          <Property Name="CID2" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="WF_Flow3">
           <Key>
@@ -365,7 +368,7 @@
           <Property Name="ApprovalStatus" Type="int" />
           <Property Name="ApprovalStatusName" Type="nvarchar" MaxLength="50" />
           <Property Name="FlowID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Total" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="Total" Type="decimal" Precision="20" Scale="2" />
           <Property Name="CompanyName" Type="nvarchar" MaxLength="4000" />
           <Property Name="MinusNote" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="MinusNote1" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -1643,6 +1646,9 @@
           <Property Name="NoteVoucherID" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
           <Property Name="MinusNote" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="MinusNote1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CID1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CID2" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="WF_Flows">
           <Key>
@@ -1698,7 +1704,7 @@
           <Property Name="ApprovalStatus" Type="Int32" />
           <Property Name="ApprovalStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FlowID" Type="Guid" Nullable="false" />
-          <Property Name="Total" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="20" Scale="2" />
           <Property Name="CompanyName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="MinusNote" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="MinusNote1" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
@@ -2264,6 +2270,9 @@
           <EntitySetMapping Name="WF_Flow2">
             <EntityTypeMapping TypeName="RMBModel.WF_Flow2">
               <MappingFragment StoreEntitySet="WF_Flow2">
+                <ScalarProperty Name="CID2" ColumnName="CID2" />
+                <ScalarProperty Name="CID1" ColumnName="CID1" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
                 <ScalarProperty Name="MinusNote1" ColumnName="MinusNote1" />
                 <ScalarProperty Name="MinusNote" ColumnName="MinusNote" />
                 <ScalarProperty Name="NoteVoucherID" ColumnName="NoteVoucherID" />

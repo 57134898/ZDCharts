@@ -32,5 +32,8 @@ namespace DAL
         public string NoteVoucherID { get; set; }
         public Nullable<decimal> MinusNote { get; set; }
         public Nullable<decimal> MinusNote1 { get; set; }
+        public string CID { get; set; }
+        public string CID1 { get; set; }
+        public string CID2 { get; set; }
     }
 }
