@@ -306,6 +306,11 @@ namespace ZDCharts.Handlers
                     wf2.CashVoucherID = hid;
 
                 }
+                //退现金凭证
+                else
+                {
+
+                }
                 ////添加票据申请凭证
                 if (cashItem.Note > 0)
                 {
@@ -401,7 +406,7 @@ namespace ZDCharts.Handlers
                     wf2.CID1 = _cid;
                     string _sql2 = string.Empty;
                     _sql2 += " INSERT INTO AFKXX ([rmb], [hth], [xshth], [type],Cid,date) VALUES(";
-                    _sql2 += "'" + mh1.Rmb + "',";
+                    _sql2 += "'" + cashItem.Cash + "',";
                     _sql2 += "'" + mh1.HCode + "',";
                     _sql2 += "'" + mh1.XSHcode + "',";
                     _sql2 += "'付款',";
@@ -411,6 +416,26 @@ namespace ZDCharts.Handlers
                 if (cashItem.MNote != 0)
                 {
                     var mh2 = list.FirstOrDefault();
+                    string __sql1 = string.Empty;
+                    __sql1 = "INSERT INTO ACash (ExchangeDate, Cash, Note,VoucherFlag,Ccode,Type,Mz,hdw) VALUES (";
+                    __sql1 += "'" + DateTime.Now.ToShortDateString() + "',";
+                    __sql1 += "'" + (cashItem.MNote * -1) + "',";
+                    __sql1 += "'0',";
+                    __sql1 += "'0',";
+                    __sql1 += "'" + wf2.Ccode + "',";
+                    __sql1 += "'付款',";
+                    __sql1 += "'0'";
+                    __sql1 += ",'" + wf2.Hdw + "') ";
+                    string __cid = DBHelper.ExecuteScalar(__sql1).ToString();
+                    wf2.CID2 = __cid;
+                    string __sql2 = string.Empty;
+                    __sql2 += " INSERT INTO AFKXX ([rmb], [hth], [xshth], [type],Cid,date) VALUES(";
+                    __sql2 += "'" + (cashItem.MNote * -1) + "',";
+                    __sql2 += "'" + mh2.HCode + "',";
+                    __sql2 += "'" + mh2.XSHcode + "',";
+                    __sql2 += "'付款',";
+                    __sql2 += __cid + ",'" + DateTime.Now.ToShortDateString() + "') ";
+                    DBHelper.ExecuteNonQuery(__sql2);
                 }
                 string sql1 = string.Empty;
                 sql1 = "INSERT INTO ACash (ExchangeDate, Cash, Note,VoucherFlag,Ccode,Type,Mz,hdw) VALUES (";
