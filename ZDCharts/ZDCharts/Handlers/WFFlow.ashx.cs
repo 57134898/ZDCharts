@@ -177,14 +177,21 @@ namespace ZDCharts.Handlers
                 }
                 //var total = db.WF_Flow1.Where(p => p.FlowID == curguid && p.Result == "N").Sum(p => p.Rmb);
                 var wf2 = db.WF_Flow2.SingleOrDefault(p => p.FlowID == curguid);
-                if (wf2.Cash - total >= 0)
+                if (wf2.Cash < 0)
                 {
-                    wf2.Cash -= total;
+                    wf2.Note -= total;
                 }
                 else
                 {
-                    wf2.Note -= (total - wf2.Cash);
-                    wf2.Cash = 0;
+                    if (wf2.Cash - total >= 0)
+                    {
+                        wf2.Cash -= total;
+                    }
+                    else
+                    {
+                        wf2.Note -= (total - wf2.Cash);
+                        wf2.Cash = 0;
+                    }
                 }
                 //flow1.Rmb=db.WF_Flow2
                 db.SaveChanges();

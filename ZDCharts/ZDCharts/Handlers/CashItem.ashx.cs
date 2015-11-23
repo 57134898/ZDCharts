@@ -309,7 +309,7 @@ namespace ZDCharts.Handlers
                 //退现金凭证
                 else
                 {
-
+                    //暂时不用做
                 }
                 ////添加票据申请凭证
                 if (cashItem.Note > 0)
@@ -385,13 +385,13 @@ namespace ZDCharts.Handlers
                 #endregion
 
                 #region 添加合同付款信息
-                //退现金合同号
-                string mHcode1 = string.Empty;
-                //退票据合同号
-                string mHcode2 = string.Empty;
+                //退款金额
+                decimal mRmb = decimal.Zero;
+                //退款合同对象
+                var mh1 = list.FirstOrDefault();
                 if (cashItem.Cash <= 0)
                 {
-                    var mh1 = list.FirstOrDefault();
+                    mRmb += (cashItem.Cash * -1);
                     string _sql1 = string.Empty;
                     _sql1 = "INSERT INTO ACash (ExchangeDate, Cash, Note,VoucherFlag,Ccode,Type,Mz,hdw) VALUES (";
                     _sql1 += "'" + DateTime.Now.ToShortDateString() + "',";
@@ -415,7 +415,7 @@ namespace ZDCharts.Handlers
                 }
                 if (cashItem.MNote != 0)
                 {
-                    var mh2 = list.FirstOrDefault();
+                    mRmb += (cashItem.MNote);
                     string __sql1 = string.Empty;
                     __sql1 = "INSERT INTO ACash (ExchangeDate, Cash, Note,VoucherFlag,Ccode,Type,Mz,hdw) VALUES (";
                     __sql1 += "'" + DateTime.Now.ToShortDateString() + "',";
@@ -431,8 +431,8 @@ namespace ZDCharts.Handlers
                     string __sql2 = string.Empty;
                     __sql2 += " INSERT INTO AFKXX ([rmb], [hth], [xshth], [type],Cid,date) VALUES(";
                     __sql2 += "'" + (cashItem.MNote * -1) + "',";
-                    __sql2 += "'" + mh2.HCode + "',";
-                    __sql2 += "'" + mh2.XSHcode + "',";
+                    __sql2 += "'" + mh1.HCode + "',";
+                    __sql2 += "'" + mh1.XSHcode + "',";
                     __sql2 += "'付款',";
                     __sql2 += __cid + ",'" + DateTime.Now.ToShortDateString() + "') ";
                     DBHelper.ExecuteNonQuery(__sql2);
@@ -455,7 +455,15 @@ namespace ZDCharts.Handlers
                     if (item.Result == "Y")
                     {
                         sql2 += " INSERT INTO AFKXX ([rmb], [hth], [xshth], [type],Cid,date) VALUES(";
-                        sql2 += "'" + item.Rmb + "',";
+                        if (item.HCode == mh1.HCode)
+                        {
+                            sql2 += "'" + (item.Rmb + mRmb).ToString() + "',";
+                        }
+                        else
+                        {
+                            sql2 += "'" + item.Rmb + "',";
+                        }
+
                         sql2 += "'" + item.HCode + "',";
                         sql2 += "'" + item.XSHcode + "',";
                         sql2 += "'付款',";
