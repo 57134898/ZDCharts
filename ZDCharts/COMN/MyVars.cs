@@ -8,7 +8,9 @@ namespace COMN
 {
     public class MyVars
     {
-        public readonly static string CWDB = "ZJCCS";
+        //资金数据库名
+        public  static string CWDB = "";
+        //public readonly static string CWDB = "ZJCCS";
 
         public readonly static string Yes = "Y";
         public readonly static string No = "N";

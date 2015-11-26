@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>铸锻公司资金审批</title>
     <script src="Scripts/jquery-2.1.3.min.js"></script>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
 

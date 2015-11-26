@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -12,6 +13,7 @@ namespace ZDCharts
         protected void Application_Start(object sender, EventArgs e)
         {
             DBHelper.DBHelperInit(1);
+            COMN.MyVars.CWDB = ConfigurationManager.AppSettings["rmbdb"];
             //DBHelper.DBHelperInit(2);
         }
 
