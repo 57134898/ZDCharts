@@ -397,7 +397,7 @@
                     + "-"
                     + ((mydate.getMonth() + 1).toString().length == 1 ? ("0" + (mydate.getMonth() + 1).toString()) : (mydate.getMonth() + 1).toString())
                     + "-"
-                    + ((mydate.getDate() + 1).toString().length == 1 ? ("0" + (mydate.getDate() + 1).toString()) : (mydate.getDate() + 1).toString());
+                    + ((mydate.getDate()).toString().length == 1 ? ("0" + (mydate.getDate()).toString()) : (mydate.getDate()).toString());
                 $("#datepicker1").val(today);
 
                 //获取资金池余额

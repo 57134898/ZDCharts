@@ -28,8 +28,8 @@ namespace ZDCharts.Handlers
 
 
                 var temRow = db.WF_TemRows.SingleOrDefault(p => p.TemID == wf.TemID && p.NextID == 0);
-                var emp = db.V_Emps.SingleOrDefault(p => p.RoleID == temRow.RoleID);
-
+                var node = db.WF_Nodes.SingleOrDefault(p => p.FlowID == wf3.FlowID && p.TemRowID == temRow.RID);
+                var emp = db.V_Emps.SingleOrDefault(p => p.EmpID == node.EmpID);
 
                 int vtype = 0;
                 string acode_cr = string.Empty;

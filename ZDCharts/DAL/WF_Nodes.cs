@@ -18,7 +18,7 @@ namespace DAL
         public Nullable<int> TemRowID { get; set; }
         public string Result { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<System.Guid> EmpID { get; set; }
+        public string EmpID { get; set; }
         public Nullable<System.Guid> FlowID { get; set; }
     }
 }

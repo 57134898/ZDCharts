@@ -154,7 +154,8 @@ namespace ZDCharts.Handlers
                         TemRowID = flow.CurNode,
                         FlowID = flow.FID,
                         Result = "N",
-                        CreatedDate = DateTime.Now
+                        CreatedDate = DateTime.Now,
+                        EmpID = this.UserInfo.UserID
                     });
                 }
                 flow.CurNode = temrow.NextID;

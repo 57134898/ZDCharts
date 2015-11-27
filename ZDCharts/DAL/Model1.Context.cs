@@ -51,7 +51,6 @@ namespace DAL
         public virtual DbSet<WF_Flow1> WF_Flow1 { get; set; }
         public virtual DbSet<WF_Flow2> WF_Flow2 { get; set; }
         public virtual DbSet<WF_Flows> WF_Flows { get; set; }
-        public virtual DbSet<WF_Nodes> WF_Nodes { get; set; }
         public virtual DbSet<V_CashItem> V_CashItem { get; set; }
         public virtual DbSet<WF_Flow4> WF_Flow4 { get; set; }
         public virtual DbSet<WF_Flow3> WF_Flow3 { get; set; }
@@ -59,6 +58,7 @@ namespace DAL
         public virtual DbSet<Sys_MenuPermission> Sys_MenuPermission { get; set; }
         public virtual DbSet<V_Balance> V_Balance { get; set; }
         public virtual DbSet<V_ExpenseRows> V_ExpenseRows { get; set; }
+        public virtual DbSet<WF_Nodes> WF_Nodes { get; set; }
     
         public virtual int AddCashVoucher(ObjectParameter hID, Nullable<decimal> rMB, string eXPL, string vPREPARE, string vCHECK, Nullable<int> vTYPE, ObjectParameter vNO, string dR, string cR, Nullable<int> yEAR, Nullable<int> mONTH, string bCODE, string nCODE)
         {

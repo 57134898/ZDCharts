@@ -153,7 +153,7 @@
           <Property Name="TemRowID" Type="int" />
           <Property Name="Result" Type="varchar" MaxLength="1" />
           <Property Name="CreatedDate" Type="smalldatetime" />
-          <Property Name="EmpID" Type="uniqueidentifier" />
+          <Property Name="EmpID" Type="varchar" MaxLength="50" />
           <Property Name="FlowID" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="WF_TemRows">
@@ -1585,7 +1585,6 @@
           <EntitySet Name="WF_Flow1" EntityType="RMBModel.WF_Flow1" />
           <EntitySet Name="WF_Flow2" EntityType="RMBModel.WF_Flow2" />
           <EntitySet Name="WF_Flows" EntityType="RMBModel.WF_Flows" />
-          <EntitySet Name="WF_Nodes" EntityType="RMBModel.WF_Nodes" />
           <EntitySet Name="V_CashItem" EntityType="RMBModel.V_CashItem" />
           <FunctionImport Name="AddCash">
             <Parameter Name="ExchangeDate" Mode="In" Type="DateTime" />
@@ -1602,6 +1601,7 @@
           <EntitySet Name="Sys_MenuPermission" EntityType="RMBModel.Sys_MenuPermission" />
           <EntitySet Name="V_Balance" EntityType="RMBModel.V_Balance" />
           <EntitySet Name="V_ExpenseRows" EntityType="RMBModel.V_ExpenseRows" />
+          <EntitySet Name="WF_Nodes" EntityType="RMBModel.WF_Nodes" />
         </EntityContainer>
         <EntityType Name="WF_CompanyToTem">
           <Key>
@@ -1665,17 +1665,6 @@
           <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ApprovalStatus" Type="Int32" />
-        </EntityType>
-        <EntityType Name="WF_Nodes">
-          <Key>
-            <PropertyRef Name="NID" />
-          </Key>
-          <Property Name="NID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TemRowID" Type="Int32" />
-          <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
-          <Property Name="EmpID" Type="Guid" />
-          <Property Name="FlowID" Type="Guid" />
         </EntityType>
         <EntityType Name="V_CashItem">
           <Key>
@@ -1840,6 +1829,17 @@
           <Property Name="WF4RowResult" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="nname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VoucherRowID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="WF_Nodes">
+          <Key>
+            <PropertyRef Name="NID" />
+          </Key>
+          <Property Name="NID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemRowID" Type="Int32" />
+          <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="EmpID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlowID" Type="Guid" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2311,18 +2311,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WF_Nodes">
-            <EntityTypeMapping TypeName="RMBModel.WF_Nodes">
-              <MappingFragment StoreEntitySet="WF_Nodes">
-                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
-                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="TemRowID" ColumnName="TemRowID" />
-                <ScalarProperty Name="NID" ColumnName="NID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="V_CashItem">
             <EntityTypeMapping TypeName="RMBModel.V_CashItem">
               <MappingFragment StoreEntitySet="V_CashItem">
@@ -2481,6 +2469,18 @@
                 <ScalarProperty Name="CurNode" ColumnName="CurNode" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_Nodes">
+            <EntityTypeMapping TypeName="RMBModel.WF_Nodes">
+              <MappingFragment StoreEntitySet="WF_Nodes">
+                <ScalarProperty Name="FlowID" ColumnName="FlowID" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="TemRowID" ColumnName="TemRowID" />
+                <ScalarProperty Name="NID" ColumnName="NID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

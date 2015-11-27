@@ -158,7 +158,8 @@ namespace ZDCharts.Handlers
                     TemRowID = flow.CurNode,
                     FlowID = flow.FID,
                     Result = result,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.Now,
+                    EmpID = this.UserInfo.UserID
                 });
                 //需要先天剑到NODE后表再赋值
                 f.CurNode = temrow.NextID;
