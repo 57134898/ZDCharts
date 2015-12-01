@@ -36,7 +36,7 @@ namespace ZDCharts.Handlers
                 string acode_dr = string.Empty;
                 if (wf3.RmbType == "票据")
                 {
-                    acode_cr = "100801";
+                    acode_cr = "100802";
                     acode_dr = "1011";
                     vtype = 4;
                 }
