@@ -173,7 +173,7 @@
                     "type": "POST",
                     "url": "../handlers/Finance.ashx",
                     "dataType": "json",
-                    "data": { Action: 'GetBalanceBy1221', companyid: data.eq(11).html() }, // 以json格式传递
+                    "data": { Action: 'GetBalanceBy1221', companyid: data.eq(12).html() }, // 以json格式传递
                     "success": function (resp) {
                         var bal = eval("(" + resp.data + ")");
                         $("#balrmb").html(bal.rmb);

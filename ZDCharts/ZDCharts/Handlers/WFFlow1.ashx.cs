@@ -139,7 +139,8 @@ namespace ZDCharts.Handlers
                         TemRowID = flow.CurNode,
                         FlowID = flow.FID,
                         Result = "Y",
-                        CreatedDate = DateTime.Now
+                        CreatedDate = DateTime.Now,
+                        EmpID = this.UserInfo.UserID
                     });
                     //TODO没有全部拒绝审批继续 
                 }

@@ -50,7 +50,7 @@ namespace ZDCharts.Handlers
                 string sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[DBO].[HVOUCHER]", COMN.MyVars.CWDB);
                 string hid = DBHelper.ExecuteScalar(sql).ToString().PadLeft(16, '0');
                 //-- 生成凭证号 根据年,月,凭证类型
-                sql = string.Format("SELECT	ISNULL((SELECT MAX(VNO)+1 FROM {0}.[DBO].[HVOUCHER] WHERE [year] = {1} AND [month] = {2} AND [vtype] = 3),1)", COMN.MyVars.CWDB, DateTime.Now.Year, DateTime.Now.Month);
+                sql = string.Format("SELECT	ISNULL((SELECT MAX(VNO)+1 FROM {0}.[DBO].[HVOUCHER] WHERE [year] = {1} AND [month] = {2} AND [vtype] = " + vtype + "),1)", COMN.MyVars.CWDB, DateTime.Now.Year, DateTime.Now.Month);
                 string vno = DBHelper.ExecuteScalar(sql).ToString();
                 sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[dbo].[ivoucher]", COMN.MyVars.CWDB);
                 int vid = int.Parse(DBHelper.ExecuteScalar(sql).ToString());
