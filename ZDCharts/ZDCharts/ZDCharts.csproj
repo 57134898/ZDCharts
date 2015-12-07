@@ -329,6 +329,7 @@
     <Content Include="Handlers\CashItem.ashx" />
     <Content Include="Handlers\Expense.ashx" />
     <Content Include="SysViews\AlterPsw.aspx" />
+    <Content Include="SysViews\User.aspx" />
     <Content Include="WorkFlow\NodeView.aspx" />
     <Content Include="Handlers\WFFlow1.ashx" />
     <Content Include="Handlers\Voucher.ashx" />
@@ -557,6 +558,13 @@
     </Compile>
     <Compile Include="SysViews\AlterPsw.aspx.designer.cs">
       <DependentUpon>AlterPsw.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysViews\User.aspx.cs">
+      <DependentUpon>User.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysViews\User.aspx.designer.cs">
+      <DependentUpon>User.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temp.aspx.cs">
       <DependentUpon>Temp.aspx</DependentUpon>
