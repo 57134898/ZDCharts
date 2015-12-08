@@ -57,14 +57,112 @@
                 "serverSide": true,//发送服务器请求
                 "columns": columns, "language": language, "fnServerData": func
             });
+            //选中行变色 单行
+            $('table tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    $('table tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+            //新增按钮
+            $("#toolbtn_add").click(function () {
+                $('#empCollapse').collapse('toggle');
+                $('#tablediv').toggle();
+                if ($("#dept").children().length > 0) {
+                    return;
+                }
+                $.ajax({
+                    "type": "POST",
+                    "url": "/handlers/sys.ashx",
+                    "dataType": "json",
+                    "data": { Action: 'GetDeptAndRoleList' }, // 以json格式传递
+                    "success": function (resp) {
+                        //var bal = eval("(" + resp.data + ")");
+                        //$("#balrmb").html(bal.rmb);
+                        //alert(resp.data);
+                        for (var i = 0; i < resp.data0.length; i++) {
+                            var option = $("<option>").val(1).text(resp.data0[i].RoleID + "-    " + resp.data0[i].RoleName);
+                            $("#role").append(option);
+                        }
+                        for (var i = 0; i < resp.data.length; i++) {
+                            var option = $("<option>").val(1).text(resp.data[i].DeptID + "-    " + resp.data[i].DeptName);
+                            $("#dept").append(option);
+                        }
+                    }
+                });
+
+            });
+            //刷新
+            $("#toolbtn_refresh").click(function () {
+                location.reload();
+            });
+            $("#canbtn").click(function () {
+                $('#empCollapse').collapse('toggle');
+                $('#tablediv').toggle();
+            });
+            $("#savbtn").click(function () {
+                //验证表单
+                var errormsg = "";
+                if ($("#empid").val() == "") {
+                    errormsg += "用户编号不能为空!<br/>";
+                }
+                if ($("#empname").val() == "") {
+                    errormsg += "用户名不能为空!<br/>";
+                }
+                if ($("#dept").val() == "") {
+                    errormsg += "部门不能为空!<br/>";
+                }
+                if ($("#role").val() == "") {
+                    errormsg += "角色不能为空!<br/>";
+                }
+                if ($("#psw").val() == "") {
+                    errormsg += "密码不能为空!<br/>";
+                }
+                if (errormsg != "") {
+                    $('#savbtn').popover({ "title": "提示", "content": errormsg, "placement": 'top', html: true });
+                    $('#savbtn').popover('show');
+                    setTimeout(function () {
+                        $('#savbtn').popover('destroy');
+                    }, 5000);
+                    return;
+                }
+                var userinfo = {};
+                userinfo.EmpID = $("#empid").val();
+                userinfo.EmpName = $("#empname").val();
+                userinfo.DeptID = $("#dept").find("option:selected").text();
+                userinfo.RoleID = $("#role").find("option:selected").text();
+                userinfo.Psw = $("#psw").val();
+                //alert(userinfo.DeptID);
+                //return;
+                $.ajax({
+                    "type": "POST",
+                    "url": "/handlers/sys.ashx",
+                    "dataType": "json",
+                    "data": { Action: 'AddUser', userinfo: JSON.stringify(userinfo) }, // 以json格式传递
+                    "success": function (resp) {
+                        if (resp.code == "0") {
+                            $('#msgtext').html("添加成功！");
+                            $("#psw").val("");
+                            $("#empname").val("");
+                            $("#empid").val("");
+                        } else {
+                            $('#msgtext').html(resp.msg);
+                        }
+                        $('#msgmodal').modal('show');
+                    }
+                });
+            });
         });
     </script>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <%--    <form id="form1" runat="server">
         <div>
         </div>
-    </form>
+    </form>--%>
     <div class="panel">
         <div class="panel-heading">
             <!--  工具栏-->
@@ -88,124 +186,38 @@
             </div>
         </div>
         <div class="panel-body">
-            <div class="collapse" id="customerCollapse">
-
-
-
+            <div class="collapse" id="empCollapse">
                 <div class="panel panel-primary">
                     <div class="panel-heading" id="panelheadtext">新增一条记录</div>
                     <div class="panel-body">
-                        <input id="docid" type="hidden" />
-                        <!--action很重要！！！！！！！！！！！！！！！！！！！！！！！！！1-->
-                        <form>
-                            <div class="form-group">
-                                <label for="customer" class="control-label">客户</label>
-                                <div class="input-group">
-                                    <input disabled id="customer" type="text" class="form-control" placeholder="请选择客户" aria-describedby="customer-addon">
-                                    <span class="input-group-btn">
-                                        <button id="customer-addon" class="btn btn-default" type="button">查找</button></span>
-                                </div>
-                            </div>
-                            <table width="100%">
-                                <tr>
-                                    <td width="48%">
-                                        <div class="form-group">
-                                            <label for="Rmb" class="control-label">现汇</label>
-                                            <input type="number" class="form-control" id="Rmb" placeholder="现汇" changemark="a">
-                                        </div>
-                                    </td>
-                                    <td width="4%"></td>
-                                    <td width="48%">
-                                        <div class="form-group">
-                                            <label for="Note" class="control-label">票据</label>
-                                            <input type="number" class="form-control" id="Note" placeholder="票据" changemark="a">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="48%">
-                                        <div class="form-group">
-                                            <label for="mnote" class="control-label">退票据</label>
-                                            <input type="number" class="form-control" id="MNote" placeholder="退票据" changemark="a">
-                                        </div>
-                                    </td>
-                                    <td width="4%"></td>
-                                    <td width="48%">
-                                        <div class="form-group">
-                                            <label for="curbalrmb" class="control-label">本次余额</label>
-                                            <input disabled="disabled" type="number" class="form-control" id="curbalrmb" placeholder="余额">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <div class="form-group">
-                                    <label for="nocdec" class="control-label">资金项目</label>
-                                    <div class="input-group">
-                                        <input disabled="disabled" id="nocdec" type="text" class="form-control" placeholder="请选资金项目" aria-describedby="nocdec-addon" />
-                                        <span class="input-group-btn">
-                                            <button id="nocdec-addon" class="btn btn-default" type="button">查找</button>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <!--<td style="width: 10%"></td>
-                            <td style="width: 45%">
-                                <div class="form-group">
-                                    <label for="nocden" class="control-label">票据资金项目</label>
-                                    <div class="input-group">
-                                        <input disabled="disabled" id="nocden" type="text" class="form-control" placeholder="请选择票据资金项目" aria-describedby="nocden-addon" />
-                                        <span class="input-group-btn">
-                                            <button id="nocden-addon" class="btn btn-default" type="button">查找</button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </td>-->
-                                <div class="form-group">
-                                    <label class="control-label">日期</label>
-                                    <input id="datepicker1" disabled="disabled" type="date" class="form-control" placeholder="请选择日期" />
-                                </div>
-
-                                <div class="panel panel-info">
-                                    <!-- Default panel contents -->
-                                    <div class="panel-heading">合同信息</div>
-                                    <!-- Table -->
-                                    <table id="datalist" class="table  table-hover  table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th style='text-align: center'>合同号</th>
-                                                <th style='text-align: center'>金额</th>
-                                                <th style='text-align: center'>未付款</th>
-                                                <th style='text-align: center'>本次</th>
-                                                <th style='text-align: center'>销售合同</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tablebody">
-                                            <!--行模板-->
-                                            <!--<tr>
-                                            <td>ZD001</td>
-                                            <td style='text-align:right'>150,000</td>
-                                            <td style='text-align:right'>50,000</td>
-                                            <td style='text-align:center'>
-                                                <input type="text" class="form-control text-right" id="currmb" placeholder="ZD001付款金额">
-                                            </td>
-                                            <td style='text-align:center'>
-                                                <select class='selectpicker form-control'>
-                                                    <option>2012</option>
-                                                    <option>2013</option>
-                                                </select>
-                                            </td>
-                                        </tr>-->
-                                        </tbody>
-                                    </table>
-                                </div>
-                        </form>
+                        <input id="tempid" type="hidden" />
+                        <div class="form-group">
+                            <label for="empid" class="control-label">用户编号</label>
+                            <input type="text" class="form-control" id="empid" placeholder="用户编号" />
+                        </div>
+                        <div class="form-group">
+                            <label for="empname" class="control-label">用户名</label>
+                            <input type="text" class="form-control" id="empname" placeholder="用户名" />
+                        </div>
+                        <div class="form-group">
+                            <label for="psw" class="control-label">密码</label>
+                            <input type="text" class="form-control" id="psw" placeholder="密码" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">部门</label>
+                            <select id="dept" data-width="100%" class="form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">角色</label>
+                            <select id="role" data-width="100%" class="form-control"></select>
+                        </div>
                     </div>
                     <div class="panel-footer">
                         <button id="savbtn" type="button" data-toggle="popover" class="btn btn-primary">&nbsp;&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;&nbsp;</button>
+                        <label id="msg"></label>
                         <button id="canbtn" type="button" class="btn btn-default">&nbsp;&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;&nbsp;</button>
                     </div>
                 </div>
-
-
             </div>
             <div id="tablediv">
                 <table id="dvtable" class="display compact" cellspacing="0" width="100%">
@@ -229,5 +241,26 @@
             </div>
         </div>
     </div>
+    <%--消息提示--%>
+    <div id="msgmodal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">系统消息</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="msgtext"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+                    <%--<button type="button" class="btn btn-primary">Save changes</button>--%>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 </body>
 </html>

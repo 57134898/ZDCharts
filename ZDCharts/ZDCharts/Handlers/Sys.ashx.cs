@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,6 +78,38 @@ namespace ZDCharts.Handlers
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = jo };
             }
         }
-
+        public Tools.JsonResponse GetDeptAndRoleList()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                var depts = db.Org_Depts.ToList();
+                var roles = db.Org_Roles.ToList();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = depts, Data0 = roles };
+            }
+        }
+        public Tools.JsonResponse AddUser()
+        {
+            DAL.Org_Emps user = JsonConvert.DeserializeObject<DAL.Org_Emps>(this.GetParam("userinfo"));
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                var userlist = db.V_Emps.Where(p => p.EmpID == user.EmpID || p.EmpName == user.EmpName);
+                if (userlist.Count() > 0)
+                {
+                    return new Tools.JsonResponse() { Code = "-1", Msg = "用户已经存在" };
+                }
+                db.Org_Emps.Add(new DAL.Org_Emps()
+                {
+                    EmpID = user.EmpID,
+                    Psw = user.Psw,
+                    DeptID = COMN.MyFuncs.GetCodeFromStr(user.DeptID, '-'),
+                    RoleID = COMN.MyFuncs.GetCodeFromStr(user.RoleID, '-'),
+                    EmpName = user.EmpName,
+                    CompanyID = user.DeptID.Substring(0, 4),
+                    IsEnabled = "Y"
+                });
+                db.SaveChanges();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
+            }
+        }
     }
 }
