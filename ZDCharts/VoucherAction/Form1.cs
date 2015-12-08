@@ -92,13 +92,29 @@ namespace VoucherAction
                         }
                     }
                     string sql3 = string.Format(@"  SELECT * FROM [WF_Flow3]  WHERE VoucherID = '{0}' ", r["id"].ToString());
-                    DataTable flow3list = DBHelper.ExecuteDataTable(sql2);
+                    DataTable flow3list = DBHelper.ExecuteDataTable(sql3);
                     foreach (DataRow r3 in flow3list.Rows)
                     {
                         if (r["id"].ToString() == r3["VoucherID"].ToString())
                         {
                             string sql4 = string.Format(@"  SELECT * FROM [WF_Flow4]  WHERE FlowID = '{0}' ", r3["FlowID"].ToString());
                             DataTable flow4list = DBHelper.ExecuteDataTable(sql4);
+                            int vtype = 0;
+                            string acode_cr = string.Empty;
+                            string acode_dr = string.Empty;
+                            if (r3["RmbType"].ToString() == "票据")
+                            {
+                                acode_cr = "100802";
+                                acode_dr = "1011";
+                                vtype = 4;
+                            }
+                            else
+                            {
+                                acode_cr = "100801";
+                                acode_dr = "1010";
+                                vtype = 3;
+                            }
+                            int ino = 100;
                             #region 生成凭证
                             string sqlvid = "select max(id)+1 from ivoucher";
                             object obj = DBHelper1.ExecuteScalar(sqlvid);
@@ -106,24 +122,24 @@ namespace VoucherAction
                             {
                                 string vid = obj.ToString().PadLeft(16, '0');
                                 string sql_expense = string.Empty;
-                                foreach (DataRow item in flow4list.Rows)
+                                foreach (DataRow r4 in flow4list.Rows)
                                 {
                                     sql_expense += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
                                                VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
                                      new object[] { COMN.MyVars.CWDB 
                                     ,r["id"].ToString()
-                                    ,r["vno"].ToString()
+                                    ,ino
                                     ,r["year"].ToString()
                                     ,r["month"].ToString()
                                     ,vtype
-                                    ,vno
+                                    ,r["vno"].ToString()
                                     ,r["vdate"].ToString()
-                                    ,item.Todo
+                                    ,r4["Todo"].ToString()
                                     ,-1
                                     ,acode_cr
-                                    ,flow.CompanyID
-                                    ,item.NCode
-                                    ,item.WF4RowRmb
+                                    ,r3["CompanyID"].ToString()
+                                    ,r4["NCode"].ToString()
+                                    ,r4["Rmb"].ToString()
                                     ,DateTime.Now.ToShortDateString()
                                     ,vid
                                     ,""});
@@ -133,21 +149,21 @@ namespace VoucherAction
                                 sql_expense += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
                                                VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
                                     new object[] { COMN.MyVars.CWDB 
-                                    ,hid
+                                    ,r["id"].ToString()
                                     ,ino
-                                    ,DateTime.Now.Year
-                                    ,DateTime.Now.Month
+                                    ,r["year"].ToString()
+                                    ,r["month"].ToString()
                                     ,vtype
-                                    ,vno
-                                    ,DateTime.Now.ToShortDateString()
-                                    ,flow.FName
+                                    ,r["vno"].ToString()
+                                    ,r["vdate"].ToString()
+                                    ,r["vexpl"].ToString()
                                     ,1
                                     ,acode_dr
-                                    ,flow.CompanyID
+                                    ,r3["CompanyID"].ToString()
                                     ,""// 借方NCODE 为空 待议
-                                    ,wf3.Rmb
+                                    ,r3["Rmb"].ToString()
                                     ,DateTime.Now.ToShortDateString()
-                                    ,(vid+mark).ToString().PadLeft(16, '0')
+                                    ,vid
                                     ,""});
                                 int result = DBHelper1.ExecuteNonQuery(sql_expense);
                                 Console.WriteLine(sql_expense);
