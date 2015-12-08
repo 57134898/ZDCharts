@@ -31,6 +31,12 @@ namespace VoucherAction
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            Application.DoEvents();
+            if (this.progressBar1.Value == 9)
+            {
+                this.progressBar1.Value = 0;
+            }
+            this.progressBar1.Value++;
             try
             {
                 Console.WriteLine("作业中....");
@@ -140,7 +146,7 @@ namespace VoucherAction
                                     ,r3["CompanyID"].ToString()
                                     ,r4["NCode"].ToString()
                                     ,r4["Rmb"].ToString()
-                                    ,DateTime.Now.ToShortDateString()
+                                    ,r["vdate"].ToString()
                                     ,vid
                                     ,""});
                                     ino += 100;
@@ -162,7 +168,7 @@ namespace VoucherAction
                                     ,r3["CompanyID"].ToString()
                                     ,""// 借方NCODE 为空 待议
                                     ,r3["Rmb"].ToString()
-                                    ,DateTime.Now.ToShortDateString()
+                                    ,r["vdate"].ToString()
                                     ,vid
                                     ,""});
                                 int result = DBHelper1.ExecuteNonQuery(sql_expense);
