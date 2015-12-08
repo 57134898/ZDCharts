@@ -32,7 +32,7 @@ namespace VoucherAction
         private void timer1_Tick(object sender, EventArgs e)
         {
             Application.DoEvents();
-            if (this.progressBar1.Value == 9)
+            if (this.progressBar1.Value == 10)
             {
                 this.progressBar1.Value = 0;
             }
