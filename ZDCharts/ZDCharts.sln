@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZDCharts", "ZDCharts\ZDCharts.csproj", "{C01CA1E1-6CE4-45A8-AA5D-D9E86983C895}"
 EndProject
@@ -17,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COMN", "COMN\COMN.csproj", "{4688FFBC-140C-4CA8-979E-B80F0AD93F69}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MODEL", "MODEL\MODEL.csproj", "{22C5C7C6-66DE-4833-B1BE-7C158CB9DF40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoucherAction", "VoucherAction\VoucherAction.csproj", "{69A45901-C0B0-45BE-9759-E497319F3C7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,10 @@ Global
 		{22C5C7C6-66DE-4833-B1BE-7C158CB9DF40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22C5C7C6-66DE-4833-B1BE-7C158CB9DF40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22C5C7C6-66DE-4833-B1BE-7C158CB9DF40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69A45901-C0B0-45BE-9759-E497319F3C7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69A45901-C0B0-45BE-9759-E497319F3C7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69A45901-C0B0-45BE-9759-E497319F3C7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69A45901-C0B0-45BE-9759-E497319F3C7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
