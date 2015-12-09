@@ -16,7 +16,7 @@ namespace ZDCharts.Handlers
             string password = context.Request.Form["p"];
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
-                var user = db.Org_Emps.SingleOrDefault(p => p.EmpName == username && password == p.Psw);
+                var user = db.Org_Emps.SingleOrDefault(p => p.EmpName == username && password == p.Psw && p.IsEnabled == "Y");
                 if (user == null)
                 {
                     return new Tools.JsonResponse() { Code = "9009", Msg = "用户名或者密码错误", Data = "" };

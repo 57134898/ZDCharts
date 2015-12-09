@@ -67,10 +67,71 @@
                     $(this).addClass('selected');
                 }
             });
+            //表格内按钮点击事件 修改按钮
+            $('#dvtable tbody').on('click', "button[mark='1']", function () {
+                var data = $(this).parents('tr').find('td');
+                $('#empCollapse').collapse('toggle');
+                $('#tablediv').toggle();
+                $("#tempid").val(data.eq(0).html());
+                $("#action").val("U");
+                $("#psw").val(data.eq(2).html());
+                $("#empname").val(data.eq(1).html());
+                $("#empid").val(data.eq(0).html());
+                $("#empid").attr("disabled", true);
+                $.ajax({
+                    "type": "POST",
+                    "url": "/handlers/sys.ashx",
+                    "dataType": "json",
+                    "data": { Action: 'GetDeptAndRoleList' }, // 以json格式传递
+                    "success": function (resp) {
+                        //var bal = eval("(" + resp.data + ")");
+                        //$("#balrmb").html(bal.rmb);
+                        //alert(resp.data);
+                        for (var i = 0; i < resp.data0.length; i++) {
+                            var option = $("<option>").val(1).text(resp.data0[i].RoleID + "-" + resp.data0[i].RoleName);
+                            if ((data.eq(5).html() + "-" + data.eq(6).html()) == option.text()) {
+                                option.attr("selected", true);
+                            }
+                            $("#role").append(option);
+                        }
+                        for (var i = 0; i < resp.data.length; i++) {
+                            var option = $("<option>").val(1).text(resp.data[i].DeptID + "-" + resp.data[i].DeptName);
+                            if ((data.eq(3).html() + "-" + data.eq(4).html()) == option.text()) {
+                                option.attr("selected", true);
+                            }
+                            $("#dept").append(option);
+                        }
+                    }
+                });
+            });
+            //表格内按钮点击事件 停用按钮
+            $('#dvtable tbody').on('click', "button[mark='2']", function () {
+                $('#checkmodal').modal('show');
+                var data = $(this).parents('tr').find('td');
+                $("#tempuserid").val(data.eq(0).html());
+            });
+
+            $("#commit").click(function () {
+                $.ajax({
+                    "type": "POST",
+                    "url": "/handlers/sys.ashx",
+                    "dataType": "json",
+                    "data": { Action: 'StopUser', userid: $("#tempuserid").val() }, // 以json格式传递
+                    "success": function (resp) {
+                        location.reload();
+                    }
+                });
+            });
+
+
             //新增按钮
             $("#toolbtn_add").click(function () {
                 $('#empCollapse').collapse('toggle');
                 $('#tablediv').toggle();
+                $("#psw").val("");
+                $("#empname").val("");
+                $("#empid").val("");
+                $("#empid").attr("disabled", false);
                 if ($("#dept").children().length > 0) {
                     return;
                 }
@@ -84,11 +145,11 @@
                         //$("#balrmb").html(bal.rmb);
                         //alert(resp.data);
                         for (var i = 0; i < resp.data0.length; i++) {
-                            var option = $("<option>").val(1).text(resp.data0[i].RoleID + "-    " + resp.data0[i].RoleName);
+                            var option = $("<option>").val(1).text(resp.data0[i].RoleID + "-" + resp.data0[i].RoleName);
                             $("#role").append(option);
                         }
                         for (var i = 0; i < resp.data.length; i++) {
-                            var option = $("<option>").val(1).text(resp.data[i].DeptID + "-    " + resp.data[i].DeptName);
+                            var option = $("<option>").val(1).text(resp.data[i].DeptID + "-" + resp.data[i].DeptName);
                             $("#dept").append(option);
                         }
                     }
@@ -137,23 +198,41 @@
                 userinfo.Psw = $("#psw").val();
                 //alert(userinfo.DeptID);
                 //return;
-                $.ajax({
-                    "type": "POST",
-                    "url": "/handlers/sys.ashx",
-                    "dataType": "json",
-                    "data": { Action: 'AddUser', userinfo: JSON.stringify(userinfo) }, // 以json格式传递
-                    "success": function (resp) {
-                        if (resp.code == "0") {
-                            $('#msgtext').html("添加成功！");
-                            $("#psw").val("");
-                            $("#empname").val("");
-                            $("#empid").val("");
-                        } else {
-                            $('#msgtext').html(resp.msg);
+                if ($("#action").val() == "U") {
+                    $.ajax({
+                        "type": "POST",
+                        "url": "/handlers/sys.ashx",
+                        "dataType": "json",
+                        "data": { Action: 'UpdateUser', userinfo: JSON.stringify(userinfo) }, // 以json格式传递
+                        "success": function (resp) {
+                            if (resp.code == "0") {
+                                $('#msgtext').html("修改成功！");
+                                location.reload();
+                            } else {
+                                $('#msgtext').html(resp.msg);
+                            }
+                            $('#msgmodal').modal('show');
                         }
-                        $('#msgmodal').modal('show');
-                    }
-                });
+                    });
+                } else {
+                    $.ajax({
+                        "type": "POST",
+                        "url": "/handlers/sys.ashx",
+                        "dataType": "json",
+                        "data": { Action: 'AddUser', userinfo: JSON.stringify(userinfo) }, // 以json格式传递
+                        "success": function (resp) {
+                            if (resp.code == "0") {
+                                $('#msgtext').html("添加成功！");
+                                $("#psw").val("");
+                                $("#empname").val("");
+                                $("#empid").val("");
+                            } else {
+                                $('#msgtext').html(resp.msg);
+                            }
+                            $('#msgmodal').modal('show');
+                        }
+                    });
+                }
             });
         });
     </script>
@@ -191,6 +270,7 @@
                     <div class="panel-heading" id="panelheadtext">新增一条记录</div>
                     <div class="panel-body">
                         <input id="tempid" type="hidden" />
+                        <input id="action" type="hidden" />
                         <div class="form-group">
                             <label for="empid" class="control-label">用户编号</label>
                             <input type="text" class="form-control" id="empid" placeholder="用户编号" />
@@ -209,7 +289,8 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">角色</label>
-                            <select id="role" data-width="100%" class="form-control"></select>
+                            <select id="role" data-width="100%" class="form-control">
+                            </select>
                         </div>
                     </div>
                     <div class="panel-footer">
@@ -255,6 +336,28 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
                     <%--<button type="button" class="btn btn-primary">Save changes</button>--%>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <%--消息提示--%>
+    <div id="checkmodal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">系统消息</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="tempuserid" type="hidden" />
+                    <p>确定执行操作？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button id="commit" type="button" class="btn btn-primary">保存</button>
                 </div>
             </div>
             <!-- /.modal-content -->

@@ -104,9 +104,49 @@ namespace ZDCharts.Handlers
                     DeptID = COMN.MyFuncs.GetCodeFromStr(user.DeptID, '-'),
                     RoleID = COMN.MyFuncs.GetCodeFromStr(user.RoleID, '-'),
                     EmpName = user.EmpName,
-                    CompanyID = user.DeptID.Substring(0, 4),
+                    CompanyID = (COMN.MyFuncs.GetCodeFromStr(user.RoleID, '-').Length == 2 ? COMN.MyFuncs.GetCodeFromStr(user.RoleID, '-') : user.DeptID.Substring(0, 4)),
                     IsEnabled = "Y"
                 });
+                db.SaveChanges();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
+            }
+        }
+
+        public Tools.JsonResponse UpdateUser()
+        {
+            DAL.Org_Emps user = JsonConvert.DeserializeObject<DAL.Org_Emps>(this.GetParam("userinfo"));
+
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                var userlist = db.V_Emps.Where(p => p.EmpID != user.EmpID && p.EmpName == user.EmpName);
+                if (userlist.Count() > 0)
+                {
+                    return new Tools.JsonResponse() { Code = "-1", Msg = "用户已经存在" };
+                }
+                var userinfo = db.Org_Emps.SingleOrDefault(p => p.EmpID == user.EmpID);
+                userinfo.EmpName = user.EmpName;
+                userinfo.Psw = user.Psw;
+                userinfo.DeptID = COMN.MyFuncs.GetCodeFromStr(user.DeptID, '-');
+                userinfo.RoleID = COMN.MyFuncs.GetCodeFromStr(user.RoleID, '-');
+                userinfo.CompanyID = user.DeptID.Substring(0, 4);
+                db.SaveChanges();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
+            }
+        }
+        public Tools.JsonResponse StopUser()
+        {
+            string userid = this.GetParam("userid");
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                var user = db.Org_Emps.SingleOrDefault(p => p.EmpID == userid);
+                if (user.IsEnabled == "Y")
+                {
+                    user.IsEnabled = "N";
+                }
+                else
+                {
+                    user.IsEnabled = "Y";
+                }
                 db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
             }
