@@ -14,7 +14,7 @@ namespace DAL
     
     public partial class V_Flow_GB_Customer
     {
-        public Nullable<System.Guid> CashID { get; set; }
+        public System.Guid CashID { get; set; }
         public string CustomerID { get; set; }
         public string Customer { get; set; }
         public string RoleID { get; set; }

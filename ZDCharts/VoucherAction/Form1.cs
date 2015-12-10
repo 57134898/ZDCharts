@@ -19,6 +19,7 @@ namespace VoucherAction
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.button1.Enabled = false;
             this.dataGridView1.Rows.Clear();
             this.timer1.Interval = Convert.ToInt16(this.numericUpDown1.Value);
             this.timer1.Start();
@@ -26,6 +27,7 @@ namespace VoucherAction
 
         private void button2_Click(object sender, EventArgs e)
         {
+            this.button1.Enabled = true;
             this.timer1.Stop();
         }
 
@@ -193,6 +195,15 @@ namespace VoucherAction
             this.timer1.Interval = Convert.ToInt16(this.numericUpDown1.Value);
             DBHelper.DBHelperInit(1);
             DBHelper1.DBHelperInit(2);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+           string sql = @"SELECT [id],[year],[month],[vtype],[vno],[bcode],[vdate],[vappendix],[vprepare],[vcheck0],[vcheck],[vkeeper],[gentype],[vexpl],[modifydate]
+                              FROM HVOUCHER WHERE id not in (SELECT distinct hid FROM IVOUCHER ) and year >2014 and vprepare != 'system' and vprepare!= 'Admin'";
+            DataTable dt = DBHelper1.ExecuteDataTable(sql);
+            this.dataGridView1.DataSource = dt;
         }
     }
 }

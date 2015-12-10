@@ -58,5 +58,6 @@ namespace DAL
         public string Result { get; set; }
         public string DocType { get; set; }
         public Nullable<decimal> MinusNote { get; set; }
+        public Nullable<int> ApprovalStatus { get; set; }
     }
 }

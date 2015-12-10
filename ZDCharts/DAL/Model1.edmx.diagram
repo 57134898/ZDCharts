@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f0acd0d0eeee45e59b6a2c7d96039b91" Name="Diagram1" ShowGrid="true" ZoomLevel="100" DisplayType="true">
+      <Diagram DiagramId="f0acd0d0eeee45e59b6a2c7d96039b91" Name="Diagram1" ShowGrid="true" ZoomLevel="109" DisplayType="true">
         <EntityTypeShape EntityType="RMBModel.Org_Depts" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RMBModel.Org_Emps" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RMBModel.Org_Roles" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />

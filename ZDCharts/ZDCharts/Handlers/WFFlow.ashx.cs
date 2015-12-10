@@ -82,7 +82,7 @@ namespace ZDCharts.Handlers
                 }
                 MODEL.UserInfo user = (MODEL.UserInfo)oUser;
                 //根据部门与角色查找用户可以审批的节点
-                var fList = db.V_Flow_GB_Customer.Where(p => p.RoleID == user.RoleID && p.CompanyID == selectCompanyID).ToList();
+                var fList = db.V_Flow_GB_Customer.Where(p => p.RoleID == user.RoleID && p.CompanyID == selectCompanyID).OrderBy(p => new { p.Customer, p.Total }).ToList();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = fList };
             }
         }

@@ -22,7 +22,7 @@ namespace ZDCharts.Handlers
                 //根据部门与角色查找用户可以审批的节点
                 //权限控制 0199 为资金池李慧 01 和02 为副总
                 var fList = db.V_Expense
-                    .Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == user.RoleID)
+                    .Where(p => p.IsFinished == COMN.MyVars.No && p.RoleID == user.RoleID && p.ApprovalStatus != COMN.MyVars.ApprovalStatus_Canceled)
                     .GroupBy(p => new
                     {
                         p.CompanyID,

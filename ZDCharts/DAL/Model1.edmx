@@ -497,10 +497,11 @@
 警告 6002: 表/视图“RMB.dbo.V_Flow_GB_Company”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Flow_GB_Company">
           <Key>
-            <PropertyRef Name="Total" />
+            
+            <PropertyRef Name="CompanyID" />
           </Key>
           <Property Name="Company" Type="nvarchar" MaxLength="4000" />
-          <Property Name="CompanyID" Type="nvarchar" MaxLength="50" />
+          <Property Name="CompanyID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RoleID" Type="varchar" MaxLength="20" />
           <Property Name="Total" Type="decimal" Precision="38" Scale="2" Nullable="false" />
           <Property Name="RID" Type="int" />
@@ -509,9 +510,10 @@
 警告 6002: 表/视图“RMB.dbo.V_Flow_GB_Customer”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Flow_GB_Customer">
           <Key>
-            <PropertyRef Name="Total" />
+            
+            <PropertyRef Name="CashID" />
           </Key>
-          <Property Name="CashID" Type="uniqueidentifier" />
+          <Property Name="CashID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CustomerID" Type="nvarchar" MaxLength="50" />
           <Property Name="Customer" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleID" Type="varchar" MaxLength="20" />
@@ -525,10 +527,7 @@
 警告 6002: 表/视图“RMB.dbo.V_Flows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Flows">
           <Key>
-            <PropertyRef Name="FID" />
             <PropertyRef Name="F1ID" />
-            <PropertyRef Name="NextNode" />
-            <PropertyRef Name="PreNode" />
           </Key>
           <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FName" Type="nvarchar" MaxLength="50" />
@@ -574,6 +573,7 @@
           <Property Name="Result" Type="varchar" MaxLength="1" />
           <Property Name="DocType" Type="varchar" MaxLength="20" />
           <Property Name="MinusNote" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ApprovalStatus" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_Ncode”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1050,7 +1050,8 @@
     [V_Flows].[Note] AS [Note], 
     [V_Flows].[Result] AS [Result], 
     [V_Flows].[DocType] AS [DocType], 
-    [V_Flows].[MinusNote] AS [MinusNote]
+    [V_Flows].[MinusNote] AS [MinusNote], 
+    [V_Flows].[ApprovalStatus] AS [ApprovalStatus]
     FROM [dbo].[V_Flows] AS [V_Flows]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Ncode" EntityType="Self.V_Ncode" store:Type="Views" store:Schema="dbo">
@@ -1364,19 +1365,19 @@
         </EntityType>
         <EntityType Name="V_Flow_GB_Company">
           <Key>
-            <PropertyRef Name="Total" />
+            <PropertyRef Name="CompanyID" />
           </Key>
           <Property Name="Company" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Total" Type="Decimal" Precision="38" Scale="2" Nullable="false" />
           <Property Name="RID" Type="Int32" />
         </EntityType>
         <EntityType Name="V_Flow_GB_Customer">
           <Key>
-            <PropertyRef Name="Total" />
+            <PropertyRef Name="CashID" />
           </Key>
-          <Property Name="CashID" Type="Guid" />
+          <Property Name="CashID" Type="Guid" Nullable="false" />
           <Property Name="CustomerID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -1388,10 +1389,7 @@
         </EntityType>
         <EntityType Name="V_Flows">
           <Key>
-            <PropertyRef Name="FID" />
             <PropertyRef Name="F1ID" />
-            <PropertyRef Name="NextNode" />
-            <PropertyRef Name="PreNode" />
           </Key>
           <Property Name="FID" Type="Guid" Nullable="false" />
           <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1437,6 +1435,7 @@
           <Property Name="Result" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="MinusNote" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ApprovalStatus" Type="Int32" />
         </EntityType>
         <EntityType Name="V_Ncode">
           <Key>
@@ -2094,6 +2093,7 @@
           <EntitySetMapping Name="V_Flows">
             <EntityTypeMapping TypeName="RMBModel.V_Flows">
               <MappingFragment StoreEntitySet="V_Flows">
+                <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
                 <ScalarProperty Name="MinusNote" ColumnName="MinusNote" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
