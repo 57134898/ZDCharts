@@ -20,7 +20,7 @@ namespace VoucherAction
         private void button1_Click(object sender, EventArgs e)
         {
             this.button1.Enabled = false;
-            this.dataGridView1.Rows.Clear();
+
             this.timer1.Interval = Convert.ToInt16(this.numericUpDown1.Value);
             this.timer1.Start();
         }
@@ -106,7 +106,7 @@ namespace VoucherAction
                     {
                         if (r["id"].ToString() == r3["VoucherID"].ToString())
                         {
-                            string sql4 = string.Format(@"  SELECT * FROM [WF_Flow4]  WHERE FlowID = '{0}' ", r3["FlowID"].ToString());
+                            string sql4 = string.Format(@"  SELECT * FROM [WF_Flow4]  WHERE Result='Y' and FlowID = '{0}' ", r3["FlowID"].ToString());
                             DataTable flow4list = DBHelper.ExecuteDataTable(sql4);
                             int vtype = 0;
                             string acode_cr = string.Empty;
@@ -200,7 +200,7 @@ namespace VoucherAction
         private void button3_Click(object sender, EventArgs e)
         {
 
-           string sql = @"SELECT [id],[year],[month],[vtype],[vno],[bcode],[vdate],[vappendix],[vprepare],[vcheck0],[vcheck],[vkeeper],[gentype],[vexpl],[modifydate]
+            string sql = @"SELECT [id],[year],[month],[vtype],[vno],[bcode],[vdate],[vappendix],[vprepare],[vcheck0],[vcheck],[vkeeper],[gentype],[vexpl],[modifydate]
                               FROM HVOUCHER WHERE id not in (SELECT distinct hid FROM IVOUCHER ) and year >2014 and vprepare != 'system' and vprepare!= 'Admin'";
             DataTable dt = DBHelper1.ExecuteDataTable(sql);
             this.dataGridView1.DataSource = dt;
