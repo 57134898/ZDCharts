@@ -69,7 +69,7 @@ namespace VoucherAction
                                 sql_cash += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
                                                VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}',{15},'{16}');",
                                       new object[] { COMN.MyVars.CWDB ,r1["CashVoucherID"].ToString(),200,r["year"].ToString() ,r["month"].ToString() ,3,r["vno"].ToString() ,DateTime.Now.ToShortDateString()
-                                                ,r["vexpl"].ToString() ,-1,"1010",r1["hdw"].ToString(),r1["NCodeC"].ToString(),r1["Cash1"].ToString(),r["vdate"].ToString() ,vid,""});
+                                                ,r["vexpl"].ToString() ,1,"1010",r1["hdw"].ToString(),r1["NCodeC"].ToString(),r1["Cash1"].ToString(),r["vdate"].ToString() ,vid,""});
                                 int result = DBHelper1.ExecuteNonQuery(sql_cash);
                                 Console.WriteLine(sql_cash);
                             }
@@ -88,11 +88,11 @@ namespace VoucherAction
                                 sql_note += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
                                                VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}',{15},'{16}');",
                                       new object[] { COMN.MyVars.CWDB ,r1["NoteVoucherID"].ToString(),100,r["year"].ToString() ,r["month"].ToString() ,4,r["vno"].ToString() ,DateTime.Now.ToShortDateString()
-                                                ,r["vexpl"].ToString() ,-1,"100802",r1["hdw"].ToString(),r1["NCodeC"].ToString(),r1["Cash1"].ToString(),r["vdate"].ToString() ,vid,""});
+                                                ,r["vexpl"].ToString() ,-1,"100802",r1["hdw"].ToString(),r1["NCodeC"].ToString(),r1["Note1"].ToString(),r["vdate"].ToString() ,vid,""});
                                 sql_note += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
                                                VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}',{15},'{16}');",
                                       new object[] { COMN.MyVars.CWDB ,r1["NoteVoucherID"].ToString(),200,r["year"].ToString() ,r["month"].ToString() ,4,r["vno"].ToString() ,DateTime.Now.ToShortDateString()
-                                                ,r["vexpl"].ToString() ,-1,"1011",r1["hdw"].ToString(),r1["NCodeC"].ToString(),r1["Cash1"].ToString(),r["vdate"].ToString() ,vid,""});
+                                                ,r["vexpl"].ToString() ,1,"1011",r1["hdw"].ToString(),r1["NCodeC"].ToString(),r1["Note1"].ToString(),r["vdate"].ToString() ,vid,""});
                                 //Console.WriteLine(sql_note);
                                 int result = DBHelper1.ExecuteNonQuery(sql_note);
                                 Console.WriteLine(sql_note);
