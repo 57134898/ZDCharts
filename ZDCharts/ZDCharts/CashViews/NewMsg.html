@@ -216,7 +216,6 @@
                 dataType: 'JSON'
             });
         }
-
         $(document).ready(function () {
 
             loadcompany();
@@ -253,6 +252,14 @@
         function showmodal() {
             //显示弹出框
             $("#myModal").modal();
+           //审批数据必须全部处理
+            if ($("span.glyphicon-asterisk").length > 0) {
+                $("#myModalLabel").text("有[" + $("span.glyphicon-asterisk").length + "]记录未处理");
+                $("#commitBtn").attr("disabled", true);
+            } else {
+                $("#myModalLabel").html("确认");
+                $("#commitBtn").attr("disabled", false);
+            }
             //待审批单据编号与状态获取
             var pendArr = [];
             $("span.glyphicon-ok,.glyphicon-remove").each(function (i, item) {
