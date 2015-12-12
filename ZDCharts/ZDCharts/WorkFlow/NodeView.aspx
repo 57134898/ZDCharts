@@ -122,6 +122,7 @@
                         shtml = shtml.concat("<tr><td>摘要:</td><td class='numFormat'></td></tr>");
                         shtml = shtml.concat("<tr><td colspan='2'>" + (result.data[i].FName == null ? "" : result.data[i].Todo) + "</td></tr>");
                         shtml = shtml.concat("<tr><td>本次:</td><td class='numFormat'><h4><span class='label label-success'>" + result.data[i].WF4RowRmb + "</span></h4></td></tr>");
+                        shtml = shtml.concat("<tr><td>资金项目:</td><td class='numFormat'>" + result.data[i].nname + "</td></tr>");
                         shtml = shtml.concat("<tr><td>申请人:</td><td class='numFormat'>" + result.data[i].Creater + "</td></tr>");
                         shtml = shtml.concat("<tr><td>日期:</td><td class='numFormat'>" + result.data[i].CreatedDate + "</td></tr>");
                         shtml = shtml.concat("</table></div>");

@@ -344,8 +344,8 @@
             
             
             
-            <PropertyRef Name="MinusNote" />
-            <PropertyRef Name="MinusNote1" />
+            
+            
           </Key>
           <Property Name="CashID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ExchangeDate" Type="date" />
@@ -397,14 +397,14 @@
         <EntityType Name="V_Expense">
           <Key>
             <PropertyRef Name="FID" />
-            <PropertyRef Name="RID" />
-            <PropertyRef Name="RName" />
-            <PropertyRef Name="NextID" />
-            <PropertyRef Name="PreID" />
-            <PropertyRef Name="NextNode" />
-            <PropertyRef Name="PreNode" />
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="Rmb1" />
+            
+            
+            
+            
+            
+            
+            
+            
           </Key>
           <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FName" Type="nvarchar" MaxLength="50" />
@@ -527,7 +527,13 @@
 警告 6002: 表/视图“RMB.dbo.V_Flows”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Flows">
           <Key>
+            
             <PropertyRef Name="F1ID" />
+            
+            
+            
+            
+            
           </Key>
           <Property Name="FID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FName" Type="nvarchar" MaxLength="50" />
@@ -550,7 +556,7 @@
           <Property Name="CustomerID" Type="nvarchar" MaxLength="50" />
           <Property Name="CompanyID" Type="nvarchar" MaxLength="50" />
           <Property Name="SalemanID" Type="nvarchar" MaxLength="50" />
-          <Property Name="BidCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="BidCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="BidType" Type="nvarchar" MaxLength="10" />
           <Property Name="TemName" Type="nvarchar" MaxLength="50" />
           <Property Name="TemIsEnabled" Type="varchar" MaxLength="1" />
@@ -574,6 +580,8 @@
           <Property Name="DocType" Type="varchar" MaxLength="20" />
           <Property Name="MinusNote" Type="decimal" Precision="18" Scale="2" />
           <Property Name="ApprovalStatus" Type="int" />
+          <Property Name="NCode" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="NName" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_Ncode”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -606,6 +614,7 @@
           <Property Name="XSHCODE" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="Category" Type="nvarchar" MaxLength="50" />
           <Property Name="CompanyID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BIDCODE" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_WF3-HVoucher”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1051,7 +1060,9 @@
     [V_Flows].[Result] AS [Result], 
     [V_Flows].[DocType] AS [DocType], 
     [V_Flows].[MinusNote] AS [MinusNote], 
-    [V_Flows].[ApprovalStatus] AS [ApprovalStatus]
+    [V_Flows].[ApprovalStatus] AS [ApprovalStatus], 
+    [V_Flows].[NCode] AS [NCode], 
+    [V_Flows].[NName] AS [NName]
     FROM [dbo].[V_Flows] AS [V_Flows]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Ncode" EntityType="Self.V_Ncode" store:Type="Views" store:Schema="dbo">
@@ -1072,7 +1083,8 @@
     [V_UnfinishedContracts].[NonInv] AS [NonInv], 
     [V_UnfinishedContracts].[XSHCODE] AS [XSHCODE], 
     [V_UnfinishedContracts].[Category] AS [Category], 
-    [V_UnfinishedContracts].[CompanyID] AS [CompanyID]
+    [V_UnfinishedContracts].[CompanyID] AS [CompanyID], 
+    [V_UnfinishedContracts].[BIDCODE] AS [BIDCODE]
     FROM [dbo].[V_UnfinishedContracts] AS [V_UnfinishedContracts]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_WF3-HVoucher" EntityType="Self.V_WF3-HVoucher" store:Type="Views" store:Schema="dbo">
@@ -1412,7 +1424,7 @@
           <Property Name="CustomerID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SalemanID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BidCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BidCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BidType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="TemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TemIsEnabled" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
@@ -1436,6 +1448,8 @@
           <Property Name="DocType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="MinusNote" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="ApprovalStatus" Type="Int32" />
+          <Property Name="NCode" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="NName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="V_Ncode">
           <Key>
@@ -1461,6 +1475,7 @@
           <Property Name="XSHCODE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BIDCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_WF3_HVoucher">
           <Key>
@@ -1668,8 +1683,6 @@
         <EntityType Name="V_CashItem">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="MinusNote" />
-            <PropertyRef Name="MinusNote1" />
           </Key>
           <Property Name="CashID" Type="Guid" Nullable="false" />
           <Property Name="ExchangeDate" Type="DateTime" Precision="0" />
@@ -1724,14 +1737,6 @@
         <EntityType Name="V_Expense">
           <Key>
             <PropertyRef Name="FID" />
-            <PropertyRef Name="RID" />
-            <PropertyRef Name="RName" />
-            <PropertyRef Name="NextID" />
-            <PropertyRef Name="PreID" />
-            <PropertyRef Name="NextNode" />
-            <PropertyRef Name="PreNode" />
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="Rmb1" />
           </Key>
           <Property Name="FID" Type="Guid" Nullable="false" />
           <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2093,6 +2098,8 @@
           <EntitySetMapping Name="V_Flows">
             <EntityTypeMapping TypeName="RMBModel.V_Flows">
               <MappingFragment StoreEntitySet="V_Flows">
+                <ScalarProperty Name="NName" ColumnName="NName" />
+                <ScalarProperty Name="NCode" ColumnName="NCode" />
                 <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
                 <ScalarProperty Name="MinusNote" ColumnName="MinusNote" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
@@ -2153,6 +2160,7 @@
           <EntitySetMapping Name="V_UnfinishedContracts">
             <EntityTypeMapping TypeName="RMBModel.V_UnfinishedContracts">
               <MappingFragment StoreEntitySet="V_UnfinishedContracts">
+                <ScalarProperty Name="BIDCODE" ColumnName="BIDCODE" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="HCODE" ColumnName="HCODE" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />

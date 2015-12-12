@@ -271,6 +271,8 @@
                                             shtml = shtml.concat("<option>" + xslist[j] + "</option>");
                                         };
                                         shtml = shtml.concat("</select></td>");
+                                        shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].NonInv + "</td>");
+                                        shtml = shtml.concat("<td>" + result.data[i].BIDCODE + "</td>");
                                         shtml = shtml.concat("</tr>");
                                         $("#tablebody").append(shtml);
                                         $("select.selectpicker").each(function () {
@@ -331,10 +333,14 @@
                     }
                     //验证现汇与票据的和与合同分配的金额是否相等  未完
                     var _total = 0;
+                    var mm = false;
                     $("#tablebody tr").each(function (i, item) {
                         var _rmb = $.trim($(item).find("td").find("input").val());
                         if (!(_rmb == "" || isNaN(_rmb))) {
                             _total += Number(_rmb);
+                        }
+                        if (Number($(item).find("td").eq(2).html()) < Number(_rmb)) {
+                            errormsg += "合同[" + $(item).find("td").eq(0).html() + "]付款金额[" + _rmb + "]大于未付款金额[" + $(item).find("td").eq(2).html() + "]<br/>";
                         }
                     });
                     if (isNaN($("#Rmb").val()) || isNaN($("#Note").val())) {
@@ -574,12 +580,14 @@
                         errormsg += "客户必须填写!<br/>";
                     }
                     //验证现汇与票据的和与合同分配的金额是否相等  未完
-
                     var _total = 0;
                     $("#tablebody tr").each(function (i, item) {
                         var _rmb = $.trim($(item).find("td").find("input").val());
                         if (!(_rmb == "" || isNaN(_rmb))) {
                             _total += Number(_rmb);
+                        }
+                        if (Number($(item).find("td").eq(2).html()) < Number(_rmb)) {
+                            errormsg += "合同[" + $(item).find("td").eq(0).html() + "]付款金额[" + _rmb + "]大于未付款金额[" + $(item).find("td").eq(2).html() + "]<br/>";
                         }
                     });
 
@@ -862,6 +870,8 @@
                                             shtml = shtml.concat("<option>" + xslist[j] + "</option>");
                                         };
                                         shtml = shtml.concat("</select></td>");
+                                        shtml = shtml.concat("<td style='text-align:right'>" + result.data[i].NonInv + "</td>");
+                                        shtml = shtml.concat("<td>" + result.data[i].BIDCODE + "</td>");
                                         shtml = shtml.concat("</tr>");
                                         $("#tablebody").append(shtml);
                                         $("select.selectpicker").each(function () {
@@ -1099,7 +1109,15 @@
                                 <!-- Table -->
                                 <table id="datalist" class="table  table-hover  table-bordered">
                                     <thead>
-                                        <tr><th style='text-align:center'>合同号</th><th style='text-align:center'>金额</th><th style='text-align:center'>未付款</th><th style='text-align:center'>本次</th><th style='text-align:center'>销售合同</th></tr>
+                                        <tr>
+                                            <th style='text-align:center'>合同号</th>
+                                            <th style='text-align:center'>金额</th>
+                                            <th style='text-align:center'>未付款</th>
+                                            <th style='text-align:center'>本次</th>
+                                            <th style='text-align:center'>销售合同</th>
+                                            <th style='text-align:center'>已收发票</th>
+                                            <th style='text-align:center'>标号</th>
+                                        </tr>
                                     </thead>
                                     <tbody id="tablebody">
                                         <!--行模板-->
