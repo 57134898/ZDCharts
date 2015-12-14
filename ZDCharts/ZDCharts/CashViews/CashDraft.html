@@ -337,7 +337,7 @@
                     $("#tablebody tr").each(function (i, item) {
                         var _rmb = $.trim($(item).find("td").find("input").val());
                         if (!(_rmb == "" || isNaN(_rmb))) {
-                            _total += Number(_rmb);
+                            _total += Number(_rmb) * 100;
                         }
                         if (Number($(item).find("td").eq(2).html()) < Number(_rmb)) {
                             errormsg += "合同[" + $(item).find("td").eq(0).html() + "]付款金额[" + _rmb + "]大于未付款金额[" + $(item).find("td").eq(2).html() + "]<br/>";
@@ -346,7 +346,7 @@
                     if (isNaN($("#Rmb").val()) || isNaN($("#Note").val())) {
                         errormsg += "金额必须为数字!<br/>";
                     }
-                    var _total1 = Number($("#Rmb").val()) + Number($("#Note").val()) - Number($("#MNote").val());
+                    var _total1 = Number($("#Rmb").val()) * 100 + Number($("#Note").val()) * 100 - Number($("#MNote").val()) * 100;
                     if (_total != _total1) {
                         errormsg += "总金额与合同分配金额不相等!<br/>";
                     }
@@ -584,7 +584,7 @@
                     $("#tablebody tr").each(function (i, item) {
                         var _rmb = $.trim($(item).find("td").find("input").val());
                         if (!(_rmb == "" || isNaN(_rmb))) {
-                            _total += Number(_rmb);
+                            _total += Number(_rmb) * 100;
                         }
                         if (Number($(item).find("td").eq(2).html()) < Number(_rmb)) {
                             errormsg += "合同[" + $(item).find("td").eq(0).html() + "]付款金额[" + _rmb + "]大于未付款金额[" + $(item).find("td").eq(2).html() + "]<br/>";
@@ -595,7 +595,7 @@
                         errormsg += "金额必须为数字!<br/>";
                     }
 
-                    var _total1 = Number($("#Rmb").val()) + Number($("#Note").val()) - Number($("#MNote").val());
+                    var _total1 = Number($("#Rmb").val()) * 100 + Number($("#Note").val()) * 100 - Number($("#MNote").val()) * 100;
 
                     //alert(Number(''));
                     // alert(_total1);
