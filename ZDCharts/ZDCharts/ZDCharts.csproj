@@ -297,6 +297,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Handlers\Report1.ashx" />
+    <Content Include="ReportsPhone\View1.aspx" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.js.map" />
     <Content Include="Content\bootstrap-select.css.map" />
@@ -552,6 +553,13 @@
       <DependentUpon>LogInPagePc.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportsPhone\View1.aspx.cs">
+      <DependentUpon>View1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportsPhone\View1.aspx.designer.cs">
+      <DependentUpon>View1.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SysViews\AlterPsw.aspx.cs">
       <DependentUpon>AlterPsw.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

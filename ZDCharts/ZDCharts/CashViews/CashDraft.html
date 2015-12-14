@@ -289,10 +289,10 @@
                                     $("#tablebody tr").each(function (i, item) {
                                         var currmb = $.trim($(item).find("td").find("input").val());
                                         if (!(currmb == "" || isNaN(currmb))) {
-                                            total += Number(currmb);
+                                            total += Number(currmb) * 100;
                                         }
                                     });
-                                    $("#balrmb").val(Number($("#Rmb").val()) + Number($("#Note").val()) - Number($("#MNote").val()) - total);
+                                    $("#balrmb").val((Number($("#Rmb").val()) * 100 + Number($("#Note").val()) * 100 - Number($("#MNote").val()) * 100 - total) / 100);
                                 });
                                 for (var i = 0; i < resp.data0.length; i++) {
                                     $("#tablebody tr").each(function (j, item) {
@@ -887,10 +887,10 @@
                                     $("#tablebody tr").each(function (i, item) {
                                         var currmb = $.trim($(item).find("td").find("input").val());
                                         if (!(currmb == "" || isNaN(currmb))) {
-                                            total += Number(currmb);
+                                            total += Number(currmb) * 100;
                                         }
                                     });
-                                    $("#balrmb").val(Number($("#Rmb").val()) + Number($("#Note").val()) - Number($("#MNote").val()) - total);
+                                    $("#balrmb").val((Number($("#Rmb").val()) * 100 + Number($("#Note").val()) * 100 - Number($("#MNote").val()) * 100 - total) / 100);
                                 });
                                 spinner1.stop();
                             },

@@ -31,7 +31,7 @@
             <button type="button" class="btn btn-default" urlstr="WorkFlow/NodeView.aspx">费用审批</button>
         </div>
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default">其他</button>
+            <button type="button" class="btn btn-default" urlstr="ReportsPhone/View1.aspx">查询</button>
         </div>
     </div>
     <iframe id="mainform" frameborder="0" scrolling="auto" marginheight="0" marginwidth="0" width="100%" style="overflow-x: hidden"></iframe>
