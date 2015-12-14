@@ -89,9 +89,12 @@ namespace ZDCharts.Handlers
                     }
                 }
                 total = rmb + note;
-                rmb4 = rmb - rmb1 - rmb3;
-                note4 = note - note1 - note3;
-                total4 = total - total1 - total3;
+                rmb4 = rmb - rmb1;
+                note4 = note - note1;
+                total4 = total - total1;
+                //rmb4 = rmb - rmb1 - rmb3;
+                //note4 = note - note1 - note3;
+                //total4 = total - total1 - total3;
                 JObject jo = new JObject();
                 jo.Add("rmb", rmb);
                 jo.Add("note", note);

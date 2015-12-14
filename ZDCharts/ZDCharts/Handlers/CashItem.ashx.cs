@@ -106,13 +106,15 @@ namespace ZDCharts.Handlers
                     IQueryable<DAL.V_Ncode> tempList;
                     if (string.IsNullOrEmpty(searchTxt))
                     {
-                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf("0201") >= 0 || p.ncode.IndexOf("0202") >= 0);
+                        tempList = db.V_Ncode;
+                        //tempList = db.V_Ncode.Where(p => p.ncode.IndexOf("0201") >= 0 || p.ncode.IndexOf("0202") >= 0);
                     }
                     else
                     {
-                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf("0201") >= 0 || p.ncode.IndexOf("0202") >= 0).Where(p =>
-                            p.ncode.IndexOf(searchTxt) >= 0
-                         || p.nname.IndexOf(searchTxt) >= 0);
+                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf(searchTxt) >= 0 || p.nname.IndexOf(searchTxt) >= 0);
+                        //tempList = db.V_Ncode.Where(p => p.ncode.IndexOf("0201") >= 0 || p.ncode.IndexOf("0202") >= 0).Where(p =>
+                        //    p.ncode.IndexOf(searchTxt) >= 0
+                        // || p.nname.IndexOf(searchTxt) >= 0);
                     }
                     var pageList = tempList.OrderBy(p => p.ncode).Skip(pStart).Take(pLength).ToList();
                     //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
@@ -168,13 +170,11 @@ namespace ZDCharts.Handlers
                     IQueryable<DAL.V_Ncode> tempList;
                     if (string.IsNullOrEmpty(searchTxt))
                     {
-                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf("0201") < 0 && p.ncode.IndexOf("0202") < 0);
+                        tempList = db.V_Ncode;
                     }
                     else
                     {
-                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf("0201") < 0 && p.ncode.IndexOf("0202") < 0).Where(p =>
-                            p.ncode.IndexOf(searchTxt) >= 0
-                         || p.nname.IndexOf(searchTxt) >= 0);
+                        tempList = db.V_Ncode.Where(p => p.ncode.IndexOf(searchTxt) >= 0 || p.nname.IndexOf(searchTxt) >= 0);
                     }
                     var pageList = tempList.OrderBy(p => p.ncode).Skip(pStart).Take(pLength).ToList();
                     //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
@@ -466,10 +466,18 @@ namespace ZDCharts.Handlers
                         sql2 += " INSERT INTO AFKXX ([rmb], [hth], [xshth], [type],Cid,date) VALUES(";
                         if (item.HCode == mh1.HCode)
                         {
+                            if ((item.Rmb + mRmb) == 0)
+                            {
+                                continue;
+                            }
                             sql2 += "'" + (item.Rmb + mRmb).ToString() + "',";
                         }
                         else
                         {
+                            if (item.Rmb == 0)
+                            {
+                                continue;
+                            }
                             sql2 += "'" + item.Rmb + "',";
                         }
 
