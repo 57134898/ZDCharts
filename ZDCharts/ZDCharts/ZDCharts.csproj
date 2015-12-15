@@ -335,6 +335,7 @@
     <Content Include="Handlers\WFFlow1.ashx" />
     <Content Include="Handlers\Voucher.ashx" />
     <Content Include="Handlers\Finance.ashx" />
+    <Content Include="Handlers\Quary1.ashx" />
     <None Include="Properties\PublishProfiles\conf.pubxml" />
     <None Include="Properties\PublishProfiles\rmb.pubxml" />
     <None Include="Web.Debug.config">
@@ -508,6 +509,9 @@
     </Compile>
     <Compile Include="Handlers\LogIn.ashx.cs">
       <DependentUpon>LogIn.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Quary1.ashx.cs">
+      <DependentUpon>Quary1.ashx</DependentUpon>
     </Compile>
     <Compile Include="Handlers\Report1.ashx.cs">
       <DependentUpon>Report1.ashx</DependentUpon>
