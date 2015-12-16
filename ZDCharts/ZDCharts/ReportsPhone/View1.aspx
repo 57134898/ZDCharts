@@ -20,72 +20,120 @@
                 $('#collapse2').collapse('toggle');
                 $("#listdiv").empty();
                 $("#listdiv").append("<a href='javascript: doagain()' class='list-group-item list-group-item-success'>更改查询条件</a>");
-                var filter = {};
-                filter.date1 = $("#date1").val();
-                filter.date2 = $("#date2").val();
-                filter.ctype = $("#ctype").val();
-                filter.cstatus = $("#cstatus").val();
-                var titlecss = "";
-                if ($("#cstatus").val() == "同意") {
-                    titlecss = " panel-success";
-                } else {
-                    titlecss = " panel-danger";
-                }
-                var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('listdiv'));
-                $.ajax({
-                    "type": "POST",
-                    "url": "/handlers/Quary1.ashx",
-                    "dataType": "json",
-                    "data": { Action: 'GetContractCashList', filter: JSON.stringify(filter) }, // 以json格式传递
-                    "success": function (resp) {
-                        if (resp.data.length==0) {
-                            $("#listdiv").append("无数据");
-                        }
-                        for (var i = 0; i < resp.data.length; i++) {
-                            var shtml = "";
-                            if ($("#ctype").val() == "合同") {
-                                shtml = shtml.concat("<a class='list-group-item'>");
-                                shtml = shtml.concat("<div class='panel" + titlecss + "'>");
-                                shtml = shtml.concat("<div class='panel-heading'> <span class='glyphicon glyphicon-asterisk' aria-hidden='true'></span>&nbsp;" + resp.data[i].CashItems.CompanyName + "</div>");
-                                shtml = shtml.concat("<div class='panel-body'>");
-                                shtml = shtml.concat("<table class='table  table-striped'>");
-                                shtml = shtml.concat("<tr><td>客户:</td><td class='numFormat'>" + resp.data[i].CashItems.CNAME + "</td></tr>");
-                                shtml = shtml.concat("<tr><td>金额:</td><td class='numFormat'>" + resp.data[i].CashItems.Total + "</td></tr>");
-                                shtml = shtml.concat("<tr><td>审批日期:</td><td class='numFormat'>" + resp.data[i].Nodes.CreatedDate + "</td></tr>");
-                                shtml = shtml.concat("<tr><td>资金项目:</td><td class='numFormat'>" + resp.data[i].CashItems.NCodeCName + "</td></tr>");
-                                shtml = shtml.concat("<tr><td>状态:</td><td class='numFormat'>" + resp.data[i].CashItems.ApprovalStatusName + "</td></tr>");
-                                shtml = shtml.concat("<tr><td>现汇:</td><td class='numFormat'>" + resp.data[i].CashItems.Cash + "</td></tr>");
-                                shtml = shtml.concat("<tr><td>票据:</td><td class='numFormat'>" + resp.data[i].CashItems.Note + "</td></tr>");
-                                shtml = shtml.concat("<tr><td>退票据:</td><td class='numFormat'>" + resp.data[i].CashItems.MinusNote + "</td></tr>");
-                                shtml = shtml.concat("</table></div>");
-                                shtml = shtml.concat("<div class='panel-footer'>");
-                                shtml = shtml.concat("</div></div></a>");
-                            } else {
-                                shtml = shtml.concat("<a class='list-group-item'>");
-                                shtml = shtml.concat("<div class='panel" + titlecss + "'>");
-                                shtml = shtml.concat("<div class='panel-heading'> <span class='glyphicon glyphicon-asterisk' aria-hidden='true'></span>&nbsp;" + resp.data[i].Expenses.CompanyName + "</div>");
-                                shtml = shtml.concat("<div class='panel-body'>");
-                                shtml = shtml.concat("<table class='table  table-striped'>");
-                                shtml = shtml.concat("<tr><td>摘要:</td><td class='numFormat'>" + resp.data[i].Expenses.FName + "</td></tr>");
-                                shtml = shtml.concat("<tr><td>金额:</td><td class='numFormat'>" + resp.data[i].Expenses.Rmb + "</td></tr>");
-                                shtml = shtml.concat("<tr><td>审批日期:</td><td class='numFormat'>" + resp.data[i].Nodes.CreatedDate + "</td></tr>");
-                                shtml = shtml.concat("<tr><td>状态:</td><td class='numFormat'>" + resp.data[i].Expenses.ApprovalStatusName + "</td></tr>");
-                                shtml = shtml.concat("<tr><td>类型:</td><td class='numFormat'>" + resp.data[i].Expenses.RmbType + "</td></tr>");
-                                shtml = shtml.concat("</table></div>");
-                                shtml = shtml.concat("<div class='panel-footer'>");
-                                shtml = shtml.concat("</div></div></a>");
-                            }
-                            $("#listdiv").append(shtml);
-                        }
-                        spinner1.stop();
-                    }
-                });
+                loadcompany();
             });
         })
         //重查
         function doagain() {
             $('#collapse1').collapse('toggle');
             $('#collapse2').collapse('toggle');
+        }
+        function loadcompany() {
+            var filter = {};
+            filter.date1 = $("#date1").val();
+            filter.date2 = $("#date2").val();
+            filter.ctype = $("#ctype").val();
+            filter.cstatus = $("#cstatus").val();
+            var titlecss = "";
+            if ($("#cstatus").val() == "同意") {
+                titlecss = " panel-success";
+            } else {
+                titlecss = " panel-danger";
+            }
+            var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('listdiv'));
+            $.ajax({
+                "type": "POST",
+                "url": "/handlers/Quary1.ashx",
+                "dataType": "json",
+                "data": { Action: 'GetContractCashListByCompany', filter: JSON.stringify(filter) }, // 以json格式传递
+                "success": function (resp) {
+                    if (resp.data.length == 0) {
+                        $("#listdiv").append("无数据");
+                    }
+                    for (var i = 0; i < resp.data.length; i++) {
+                        var shtml = "";
+                        if ($("#ctype").val() == "合同") {
+                            //alert()
+                            shtml = shtml.concat("<a mark='r' ctype='c' href='javascript:void(0)' companyid='" + resp.data[i].CompanyID + "' class='list-group-item'><span class='badge'>" + resp.data[i].Total + "</span>" + resp.data[i].CompanyName + "</a>");
+
+                        } else {
+                            shtml = shtml.concat("<a mark='r'  ctype='e' href='javascript:void(0)' companyid='" + resp.data[i].CompanyID + "' class='list-group-item'><span class='badge'>" + resp.data[i].Total + "</span>" + resp.data[i].CompanyName + "</a>");
+                        }
+                        $("#listdiv").append(shtml);
+                    }
+                    $("a[mark='r']").click(function () {
+                        if ($(this).attr("ctype") == "c") {
+                            alert(1);
+                        } else {
+                            alert(2);
+                        }
+                    });
+                    spinner1.stop();
+                }
+            });
+        }
+
+        function loadlist() {
+            var filter = {};
+            filter.date1 = $("#date1").val();
+            filter.date2 = $("#date2").val();
+            filter.ctype = $("#ctype").val();
+            filter.cstatus = $("#cstatus").val();
+            var titlecss = "";
+            if ($("#cstatus").val() == "同意") {
+                titlecss = " panel-success";
+            } else {
+                titlecss = " panel-danger";
+            }
+            var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('listdiv'));
+            $.ajax({
+                "type": "POST",
+                "url": "/handlers/Quary1.ashx",
+                "dataType": "json",
+                "data": { Action: 'GetContractCashList', filter: JSON.stringify(filter) }, // 以json格式传递
+                "success": function (resp) {
+                    if (resp.data.length == 0) {
+                        $("#listdiv").append("无数据");
+                    }
+                    for (var i = 0; i < resp.data.length; i++) {
+                        var shtml = "";
+                        if ($("#ctype").val() == "合同") {
+                            shtml = shtml.concat("<a class='list-group-item'>");
+                            shtml = shtml.concat("<div class='panel" + titlecss + "'>");
+                            shtml = shtml.concat("<div class='panel-heading'> <span class='glyphicon glyphicon-asterisk' aria-hidden='true'></span>&nbsp;" + resp.data[i].CashItems.CompanyName + "</div>");
+                            shtml = shtml.concat("<div class='panel-body'>");
+                            shtml = shtml.concat("<table class='table  table-striped'>");
+                            shtml = shtml.concat("<tr><td>客户:</td><td class='numFormat'>" + resp.data[i].CashItems.CNAME + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>金额:</td><td class='numFormat'>" + resp.data[i].CashItems.Total + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>审批日期:</td><td class='numFormat'>" + resp.data[i].Nodes.CreatedDate + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>资金项目:</td><td class='numFormat'>" + resp.data[i].CashItems.NCodeCName + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>状态:</td><td class='numFormat'>" + resp.data[i].CashItems.ApprovalStatusName + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>现汇:</td><td class='numFormat'>" + resp.data[i].CashItems.Cash + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>票据:</td><td class='numFormat'>" + resp.data[i].CashItems.Note + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>退票据:</td><td class='numFormat'>" + resp.data[i].CashItems.MinusNote + "</td></tr>");
+                            shtml = shtml.concat("</table></div>");
+                            shtml = shtml.concat("<div class='panel-footer'>");
+                            shtml = shtml.concat("</div></div></a>");
+                        } else {
+                            shtml = shtml.concat("<a class='list-group-item'>");
+                            shtml = shtml.concat("<div class='panel" + titlecss + "'>");
+                            shtml = shtml.concat("<div class='panel-heading'> <span class='glyphicon glyphicon-asterisk' aria-hidden='true'></span>&nbsp;" + resp.data[i].Expenses.CompanyName + "</div>");
+                            shtml = shtml.concat("<div class='panel-body'>");
+                            shtml = shtml.concat("<table class='table  table-striped'>");
+                            shtml = shtml.concat("<tr><td>摘要:</td><td class='numFormat'>" + resp.data[i].Expenses.FName + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>金额:</td><td class='numFormat'>" + resp.data[i].Expenses.Rmb + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>审批日期:</td><td class='numFormat'>" + resp.data[i].Nodes.CreatedDate + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>状态:</td><td class='numFormat'>" + resp.data[i].Expenses.ApprovalStatusName + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>类型:</td><td class='numFormat'>" + resp.data[i].Expenses.RmbType + "</td></tr>");
+                            shtml = shtml.concat("</table></div>");
+                            shtml = shtml.concat("<div class='panel-footer'>");
+                            shtml = shtml.concat("</div></div></a>");
+                        }
+                        $("#listdiv").append(shtml);
+                    }
+                    spinner1.stop();
+                }
+            });
         }
     </script>
 </head>
