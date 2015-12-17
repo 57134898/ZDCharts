@@ -11,6 +11,64 @@ namespace ZDCharts.Handlers
     /// </summary>
     public class Quary1 : Tools.ABSHttpHandler
     {
+        public Tools.JsonResponse GetContractCashListByCustomer()
+        {
+            string str = this.GetParam("filter");
+            string companyID = this.GetParam("companyid");
+            JObject jo = JObject.Parse(str);
+            DateTime date1;
+            if (jo["date1"] == null || string.IsNullOrEmpty(jo["date1"].ToString()))
+            {
+                date1 = DateTime.Now.AddDays(-3);
+            }
+            else
+            {
+                date1 = DateTime.Parse(jo["date1"].ToString());
+            }
+            DateTime date2;
+            if (jo["date2"] == null || string.IsNullOrEmpty(jo["date2"].ToString()))
+            {
+                date2 = DateTime.Now;
+            }
+            else
+            {
+                date2 = DateTime.Parse(jo["date1"].ToString());
+            }
+            string ctype = jo["ctype"].ToString();
+            string cstatus = jo["cstatus"].ToString();
+            string result = string.Empty;
+            if (cstatus == "同意")
+            {
+                result = "Y";
+            }
+            else
+            {
+                result = "N";
+            }
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                var list = db.WF_Nodes
+                                  .Where(p => p.EmpID == this.UserInfo.UserID && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
+                                  .Join(db.V_CashItem.Where(p => p.Hdw == companyID)
+                                  , p => p.FlowID
+                                  , q => q.FlowID,
+                                  (p, q) => new
+                                  {
+                                      Nodes = p,
+                                      CashItems = q
+                                  })
+                                  .GroupBy(p => new { p.CashItems.Ccode, p.CashItems.CNAME })
+                                  .Select(p => new
+                                  {
+                                      CustomerID = p.Key.Ccode,
+                                      CustomerName = p.Key.CNAME,
+                                      Total = p.Sum(q => q.CashItems.Total)
+                                  })
+                                  .OrderBy(p => p.CustomerName)
+                                  .ToList();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
+            }
+        }
         public Tools.JsonResponse GetContractCashListByCompany()
         {
             string str = this.GetParam("filter");
@@ -65,7 +123,7 @@ namespace ZDCharts.Handlers
                                           CompanyName = p.Key.CompanyName,
                                           Total = p.Sum(q => q.CashItems.Total)
                                       })
-                                      .OrderByDescending(p => p.CompanyID)
+                                      .OrderBy(p => p.CompanyID)
                                       .ToList();
                     return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
                 }
@@ -88,7 +146,7 @@ namespace ZDCharts.Handlers
                                           CompanyName = p.Key.CompanyName,
                                           Total = p.Sum(q => q.Expenses.Rmb)
                                       })
-                                      .OrderByDescending(p => p.CompanyID)
+                                      .OrderBy(p => p.CompanyID)
                                       .ToList();
                     return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
                 }
@@ -97,6 +155,7 @@ namespace ZDCharts.Handlers
         public Tools.JsonResponse GetContractCashList()
         {
             string str = this.GetParam("filter");
+            string id = this.GetParam("id");
             JObject jo = JObject.Parse(str);
             DateTime date1;
             if (jo["date1"] == null || string.IsNullOrEmpty(jo["date1"].ToString()))
@@ -133,7 +192,7 @@ namespace ZDCharts.Handlers
                 {
                     var list = db.WF_Nodes
                                       .Where(p => p.EmpID == this.UserInfo.UserID && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
-                                      .Join(db.V_CashItem
+                                      .Join(db.V_CashItem.Where(p => p.Ccode == id)
                                       , p => p.FlowID
                                       , q => q.FlowID,
                                       (p, q) => new
@@ -149,7 +208,7 @@ namespace ZDCharts.Handlers
                 {
                     var list = db.WF_Nodes
                                       .Where(p => p.EmpID == this.UserInfo.UserID && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
-                                      .Join(db.V_Expense
+                                      .Join(db.V_Expense.Where(p => p.CompanyID == id)
                                       , p => p.FlowID
                                       , q => q.FID,
                                       (p, q) => new

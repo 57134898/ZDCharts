@@ -18,8 +18,7 @@
             $("#enterBtn").click(function () {
                 $('#collapse1').collapse('toggle');
                 $('#collapse2').collapse('toggle');
-                $("#listdiv").empty();
-                $("#listdiv").append("<a href='javascript: doagain()' class='list-group-item list-group-item-success'>更改查询条件</a>");
+                //$("#listdiv").append("<a href='javascript: doagain()' class='list-group-item list-group-item-success'>更改查询条件</a>");
                 loadcompany();
             });
         })
@@ -47,6 +46,7 @@
                 "dataType": "json",
                 "data": { Action: 'GetContractCashListByCompany', filter: JSON.stringify(filter) }, // 以json格式传递
                 "success": function (resp) {
+                    $("#listdiv").empty();
                     if (resp.data.length == 0) {
                         $("#listdiv").append("无数据");
                     }
@@ -63,9 +63,9 @@
                     }
                     $("a[mark='r']").click(function () {
                         if ($(this).attr("ctype") == "c") {
-                            alert(1);
+                            loadcontractbycustomer($(this).attr("companyid"));
                         } else {
-                            alert(2);
+                            loadlist($(this).attr("companyid"));
                         }
                     });
                     spinner1.stop();
@@ -73,7 +73,7 @@
             });
         }
 
-        function loadlist() {
+        function loadcontractbycustomer(companyid) {
             var filter = {};
             filter.date1 = $("#date1").val();
             filter.date2 = $("#date2").val();
@@ -90,8 +90,46 @@
                 "type": "POST",
                 "url": "/handlers/Quary1.ashx",
                 "dataType": "json",
-                "data": { Action: 'GetContractCashList', filter: JSON.stringify(filter) }, // 以json格式传递
+                "data": { Action: 'GetContractCashListByCustomer', filter: JSON.stringify(filter), companyid: companyid }, // 以json格式传递
                 "success": function (resp) {
+                    $("#listdiv").empty();
+                    if (resp.data.length == 0) {
+                        $("#listdiv").append("无数据");
+                    }
+                    for (var i = 0; i < resp.data.length; i++) {
+                        var shtml = "";
+                        shtml = shtml.concat("<a mark='r1' ctype='c' href='javascript:void(0)' customerid='" + resp.data[i].CustomerID + "' class='list-group-item'><span class='badge'>" + resp.data[i].Total + "</span>" + resp.data[i].CustomerName + "</a>");
+                        $("#listdiv").append(shtml);
+                        $("a[mark='r1']").click(function () {
+                            loadlist($(this).attr("customerid"));
+                        });
+                    }
+                    spinner1.stop();
+                }
+            });
+        }
+
+        function loadlist(id) {
+            var filter = {};
+            filter.date1 = $("#date1").val();
+            filter.date2 = $("#date2").val();
+            filter.ctype = $("#ctype").val();
+            filter.cstatus = $("#cstatus").val();
+            var titlecss = "";
+            if ($("#cstatus").val() == "同意") {
+                titlecss = " panel-success";
+            } else {
+                titlecss = " panel-danger";
+            }
+            var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('listdiv'));
+            $.ajax({
+                "type": "POST",
+                "url": "/handlers/Quary1.ashx",
+                "dataType": "json",
+                "data": { Action: 'GetContractCashList', filter: JSON.stringify(filter), id: id }, // 以json格式传递
+                "success": function (resp) {
+                    $("#listdiv").empty();
+                    $("#listdiv").append("<a href='javascript: loadcompany()' class='list-group-item list-group-item-success'>返回</a>");
                     if (resp.data.length == 0) {
                         $("#listdiv").append("无数据");
                     }
@@ -165,10 +203,10 @@
         <div id="msg" runat="server"></div>
     </div>
     <div class="collapse" id="collapse2">
+        <button type="button" class="btn  btn-info btn-lg btn-block" onclick="doagain()">更改查询条件</button>
         <div class="list-group" id="listdiv">
-
-            <a class='list-group-item'>
-                <%--<div class='panel panel-danger'>
+            <%--<a class='list-group-item'>
+                <div class='panel panel-danger'>
                     <div class='panel-heading'><span class='glyphicon glyphicon-asterisk' aria-hidden='true'></span>&nbsp;11111</div>
                     <div class='panel-body'>
                         <table class='table  table-striped'>
@@ -179,8 +217,8 @@
                         </table>
                     </div>
                     <div class='panel-footer'></div>
-                </div>--%>
-            </a>
+                </div>
+            </a>--%>
         </div>
     </div>
 
