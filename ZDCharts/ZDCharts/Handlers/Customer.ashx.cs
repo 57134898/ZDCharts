@@ -128,6 +128,38 @@ namespace ZDCharts.Handlers
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
             }
         }
+        public Tools.JsonResponse GetContractByCustomer1()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                string pStr = context.Request.Form["CustomerID"];
+                //&& p.Category == "0301" 为方便测试用需要去掉  Take(10) 也要去掉
+                string comp = context.Request.Form["CompanyID"];
+                string companyid = string.Empty;
+                if (comp == "C")
+                {
+                    companyid = this.UserInfo.CompanyID;
+                }
+                else
+                {
+                    companyid = comp;
+                }
+                var list = db.V_UnfinishedContracts
+                    .Where(p => p.CustomerID == pStr && p.CompanyID == companyid)
+                    .ToList();
+
+                foreach (var item in list)
+                {
+                    var xslist = db.AWX.Where(p => p.WXHTH == item.HCODE).ToList();
+                    if (xslist != null)
+                    {
+                        item.XSHCODE = Newtonsoft.Json.JsonConvert.SerializeObject(xslist.Select(p => p.XSHTH)).ToString();
+
+                    }
+                }
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
+            }
+        }
 
         public Tools.JsonResponse DoPay()
         {
