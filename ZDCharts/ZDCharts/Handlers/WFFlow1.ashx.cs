@@ -56,7 +56,8 @@ namespace ZDCharts.Handlers
                     .Where(p =>
                         (p.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsHandling
                         || p.ApprovalStatus == COMN.MyVars.ApprovalStatus_IsStarted)
-                        && p.RoleID == this.UserInfo.RoleID)
+                        && p.RoleID == this.UserInfo.RoleID
+                        && p.CompanyID == companyid)
                     .ToList();
                 return new Tools.JsonResponse()
                 {
