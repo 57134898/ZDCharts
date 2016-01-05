@@ -48,7 +48,7 @@ namespace ZDCharts.Handlers
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 var list = db.WF_Nodes
-                                  .Where(p => p.EmpID == this.UserInfo.UserID && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
+                                  .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
                                   .Join(db.V_CashItem.Where(p => p.Hdw == companyID)
                                   , p => p.FlowID
                                   , q => q.FlowID,
@@ -107,7 +107,7 @@ namespace ZDCharts.Handlers
                 if (ctype == "合同")
                 {
                     var list = db.WF_Nodes
-                                      .Where(p => p.EmpID == this.UserInfo.UserID && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
+                                      .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
                                       .Join(db.V_CashItem
                                       , p => p.FlowID
                                       , q => q.FlowID,
@@ -130,7 +130,7 @@ namespace ZDCharts.Handlers
                 else
                 {
                     var list = db.WF_Nodes
-                                      .Where(p => p.EmpID == this.UserInfo.UserID && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
+                                      .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
                                       .Join(db.V_Expense
                                       , p => p.FlowID
                                       , q => q.FID,
@@ -191,7 +191,7 @@ namespace ZDCharts.Handlers
                 if (ctype == "合同")
                 {
                     var list = db.WF_Nodes
-                                      .Where(p => p.EmpID == this.UserInfo.UserID && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
+                                      .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
                                       .Join(db.V_CashItem.Where(p => p.Ccode == id)
                                       , p => p.FlowID
                                       , q => q.FlowID,
@@ -207,7 +207,7 @@ namespace ZDCharts.Handlers
                 else
                 {
                     var list = db.WF_Nodes
-                                      .Where(p => p.EmpID == this.UserInfo.UserID && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
+                                      .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
                                       .Join(db.V_Expense.Where(p => p.CompanyID == id)
                                       , p => p.FlowID
                                       , q => q.FID,
