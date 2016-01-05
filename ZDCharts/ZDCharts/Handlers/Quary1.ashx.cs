@@ -200,6 +200,13 @@ namespace ZDCharts.Handlers
                                           Nodes = p,
                                           CashItems = q
                                       })
+                                      .Join(db.V_Emps, p => p.Nodes.EmpID, q => q.EmpID,
+                                      (p, q) => new
+                                      {
+                                          Nodes = p.Nodes,
+                                          CashItems = p.CashItems,
+                                          Emp = q
+                                      })
                                       .OrderByDescending(p => p.Nodes.CreatedDate)
                                       .ToList();
                     return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
@@ -215,6 +222,13 @@ namespace ZDCharts.Handlers
                                       {
                                           Nodes = p,
                                           Expenses = q
+                                      })
+                                      .Join(db.V_Emps, p => p.Nodes.EmpID, q => q.EmpID,
+                                      (p, q) => new
+                                      {
+                                          Nodes = p.Nodes,
+                                          Expenses = p.Expenses,
+                                          Emp = q
                                       })
                                       .OrderByDescending(p => p.Nodes.CreatedDate)
                                       .ToList();

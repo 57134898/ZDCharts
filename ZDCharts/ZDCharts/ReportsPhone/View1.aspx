@@ -149,6 +149,7 @@
                             shtml = shtml.concat("<tr><td>现汇:</td><td class='numFormat'>" + resp.data[i].CashItems.Cash + "</td></tr>");
                             shtml = shtml.concat("<tr><td>票据:</td><td class='numFormat'>" + resp.data[i].CashItems.Note + "</td></tr>");
                             shtml = shtml.concat("<tr><td>退票据:</td><td class='numFormat'>" + resp.data[i].CashItems.MinusNote + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>审批人:</td><td class='numFormat'>" + resp.data[i].Emp.EmpName + "</td></tr>");
                             shtml = shtml.concat("</table></div>");
                             shtml = shtml.concat("<div class='panel-footer'>");
                             shtml = shtml.concat("</div></div></a>");
@@ -163,6 +164,7 @@
                             shtml = shtml.concat("<tr><td>审批日期:</td><td class='numFormat'>" + resp.data[i].Nodes.CreatedDate + "</td></tr>");
                             shtml = shtml.concat("<tr><td>状态:</td><td class='numFormat'>" + resp.data[i].Expenses.ApprovalStatusName + "</td></tr>");
                             shtml = shtml.concat("<tr><td>类型:</td><td class='numFormat'>" + resp.data[i].Expenses.RmbType + "</td></tr>");
+                            shtml = shtml.concat("<tr><td>审批人:</td><td class='numFormat'>" + resp.data[i].Emp.EmpName + "</td></tr>");
                             shtml = shtml.concat("</table></div>");
                             shtml = shtml.concat("<div class='panel-footer'>");
                             shtml = shtml.concat("</div></div></a>");
