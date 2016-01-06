@@ -25,10 +25,10 @@
     </script>
 </head>
 <body>
-    <div style="background: #99CCFF; width: 100%; height: 30%">
+    <div style="background: #6f5499; width: 100%; height: 30%">
         <br />
         <div class="page-header">
-            <h1>&nbsp;<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>&nbsp;资金审批系统</h1>
+            <h1 style="font-family: 微软雅黑; color: #FFFFFF">&nbsp;&nbsp;资金审批系统</h1>
         </div>
         <br />
     </div>

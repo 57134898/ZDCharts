@@ -204,7 +204,7 @@
         <button id="enterBtn" type="button" data-toggle="popover" class="btn btn-primary btn-lg btn-block">查询</button>
         <br />
         <a href="../ChartViews/ChartList.aspx" class="btn btn-danger btn-lg btn-block">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>图表
+            <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>图表
         </a>
         <div id="msg" runat="server"></div>
     </div>
