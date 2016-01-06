@@ -27,8 +27,8 @@ namespace ZDCharts.Tools
             object oUser = context.Session["user"];
             if (oUser == null)
             {
+                //throw new Exception("用户过期");
                 tr = new Tools.JsonResponse() { Code = "1000", Msg = "session用户过期" };
-                context.Response.Redirect("~/LogInPagePc.aspx");
             }
             if (tr != null)
             {

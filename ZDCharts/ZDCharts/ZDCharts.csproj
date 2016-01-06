@@ -79,6 +79,7 @@
     <Content Include="ChartViews\ChartViewer.html" />
     <Content Include="ChartViews\Demo.aspx" />
     <Content Include="ChartViews\WebForm1.aspx" />
+    <Content Include="ChartViews\ZZChart1.aspx" />
     <Content Include="Content\bootstrap-select.css" />
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap-switch\bootstrap2\bootstrap-switch.css" />
@@ -336,6 +337,7 @@
     <Content Include="Handlers\Voucher.ashx" />
     <Content Include="Handlers\Finance.ashx" />
     <Content Include="Handlers\Quary1.ashx" />
+    <Content Include="Handlers\Charts.ashx" />
     <None Include="Properties\PublishProfiles\conf.pubxml" />
     <None Include="Properties\PublishProfiles\rmb.pubxml" />
     <None Include="Web.Debug.config">
@@ -481,6 +483,13 @@
     <Compile Include="ChartViews\WebForm1.aspx.designer.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ChartViews\ZZChart1.aspx.cs">
+      <DependentUpon>ZZChart1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChartViews\ZZChart1.aspx.designer.cs">
+      <DependentUpon>ZZChart1.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DBHelper.cs" />
     <Compile Include="ErrorPage.aspx.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
@@ -494,6 +503,9 @@
     </Compile>
     <Compile Include="Handlers\CashItem.ashx.cs">
       <DependentUpon>CashItem.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Charts.ashx.cs">
+      <DependentUpon>Charts.ashx</DependentUpon>
     </Compile>
     <Compile Include="Handlers\Customer.ashx.cs">
       <DependentUpon>Customer.ashx</DependentUpon>
