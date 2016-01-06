@@ -7,7 +7,7 @@
     <title>铸锻公司资金审批</title>
     <script src="Scripts/jquery-2.1.3.min.js"></script>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi" />
     <script src="Scripts/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
