@@ -20,5 +20,7 @@ namespace DAL
         public Nullable<decimal> note { get; set; }
         public Nullable<decimal> mnote { get; set; }
         public Nullable<decimal> total { get; set; }
+        public int myear { get; set; }
+        public int mmonth { get; set; }
     }
 }

@@ -378,7 +378,11 @@
         <EntityType Name="V_Chart1">
           <Key>
             <PropertyRef Name="bcode" />
+            <PropertyRef Name="myear" />
+            <PropertyRef Name="mmonth" />
           </Key>
+          <Property Name="myear" Type="int" Nullable="false" />
+          <Property Name="mmonth" Type="int" Nullable="false" />
           <Property Name="bcode" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="bname" Type="varchar" MaxLength="8000" />
           <Property Name="cash" Type="decimal" Precision="38" Scale="2" />
@@ -915,6 +919,8 @@
           </EntitySet>
           <EntitySet Name="V_Chart1" EntityType="Self.V_Chart1" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [V_Chart1].[myear] AS [myear], 
+    [V_Chart1].[mmonth] AS [mmonth], 
     [V_Chart1].[bcode] AS [bcode], 
     [V_Chart1].[bname] AS [bname], 
     [V_Chart1].[cash] AS [cash], 
@@ -1873,6 +1879,8 @@
         <EntityType Name="V_Chart1">
           <Key>
             <PropertyRef Name="bcode" />
+            <PropertyRef Name="myear" />
+            <PropertyRef Name="mmonth" />
           </Key>
           <Property Name="bcode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
           <Property Name="bname" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
@@ -1880,6 +1888,8 @@
           <Property Name="note" Type="Decimal" Precision="38" Scale="2" />
           <Property Name="mnote" Type="Decimal" Precision="38" Scale="2" />
           <Property Name="total" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="myear" Type="Int32" Nullable="false" />
+          <Property Name="mmonth" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2531,6 +2541,8 @@
           <EntitySetMapping Name="V_Chart1">
             <EntityTypeMapping TypeName="RMBModel.V_Chart1">
               <MappingFragment StoreEntitySet="V_Chart1">
+                <ScalarProperty Name="mmonth" ColumnName="mmonth" />
+                <ScalarProperty Name="myear" ColumnName="myear" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="mnote" ColumnName="mnote" />
                 <ScalarProperty Name="note" ColumnName="note" />
