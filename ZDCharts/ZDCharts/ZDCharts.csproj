@@ -289,6 +289,7 @@
     <Content Include="LogInPage.html" />
     <Content Include="LogInPagePc.aspx" />
     <Content Include="LogInPagePc.html" />
+    <Content Include="logoico.ico" />
     <Content Include="packages.config" />
     <Content Include="Handlers\Handler1.ashx" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
