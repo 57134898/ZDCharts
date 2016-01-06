@@ -75,6 +75,7 @@
     <Content Include="CashViews\NCodeUpdate.aspx" />
     <Content Include="CashViews\NewMsg.html" />
     <Content Include="CashViews\PaymentVoucher.aspx" />
+    <Content Include="ChartViews\ChartList.aspx" />
     <Content Include="ChartViews\ChartViewer.aspx" />
     <Content Include="ChartViews\ChartViewer.html" />
     <Content Include="ChartViews\Demo.aspx" />
@@ -461,6 +462,13 @@
     </Compile>
     <Compile Include="CashViews\PaymentVoucher.aspx.designer.cs">
       <DependentUpon>PaymentVoucher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ChartViews\ChartList.aspx.cs">
+      <DependentUpon>ChartList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChartViews\ChartList.aspx.designer.cs">
+      <DependentUpon>ChartList.aspx</DependentUpon>
     </Compile>
     <Compile Include="ChartViews\ChartViewer.aspx.cs">
       <DependentUpon>ChartViewer.aspx</DependentUpon>

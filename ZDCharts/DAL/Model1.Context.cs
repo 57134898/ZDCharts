@@ -59,6 +59,7 @@ namespace DAL
         public virtual DbSet<V_Balance> V_Balance { get; set; }
         public virtual DbSet<V_ExpenseRows> V_ExpenseRows { get; set; }
         public virtual DbSet<WF_Nodes> WF_Nodes { get; set; }
+        public virtual DbSet<V_Chart1> V_Chart1 { get; set; }
     
         public virtual int AddCashVoucher(ObjectParameter hID, Nullable<decimal> rMB, string eXPL, string vPREPARE, string vCHECK, Nullable<int> vTYPE, ObjectParameter vNO, string dR, string cR, Nullable<int> yEAR, Nullable<int> mONTH, string bCODE, string nCODE)
         {

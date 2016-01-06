@@ -358,7 +358,7 @@
                     if (isNaN($("#Rmb").val()) || isNaN($("#Note").val())) {
                         errormsg += "金额必须为数字!<br/>";
                     }
-                    var _total1 = Number(Subtr($("#Rmb").val()) + Number($("#Note").val()), Number($("#MNote").val()));
+                    var _total1 = Number(Subtr(Number($("#Rmb").val()) + Number($("#Note").val()), Number($("#MNote").val())));
                     if (_total != _total1) {
                         errormsg += "总金额与合同分配金额不相等!<br/>";
                     }
@@ -607,8 +607,9 @@
                         errormsg += "金额必须为数字!<br/>";
                     }
 
-                    var _total1 = Number(Subtr($("#Rmb").val()) + Number($("#Note").val()), Number($("#MNote").val()));
-
+                    var _total1 = Number(Subtr(Number($("#Rmb").val()) + Number($("#Note").val()), Number($("#MNote").val())));
+                    alert(_total.toString() + "|" + _total1.toString());
+                    return;
                     //alert(Number(''));
                     // alert(_total1);
                     if (_total != _total1) {

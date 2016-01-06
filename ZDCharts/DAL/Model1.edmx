@@ -374,6 +374,19 @@
           <Property Name="MinusNote1" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“RMB.dbo.V_Chart1”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Chart1">
+          <Key>
+            <PropertyRef Name="bcode" />
+          </Key>
+          <Property Name="bcode" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="bname" Type="varchar" MaxLength="8000" />
+          <Property Name="cash" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="note" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="mnote" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="total" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_Emps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Emps">
           <Key>
@@ -599,10 +612,11 @@
         <EntityType Name="V_UnfinishedContracts">
           <Key>
             <PropertyRef Name="HCODE" />
+            
+            
+            
+            
             <PropertyRef Name="CompanyID" />
-            
-            
-            
           </Key>
           <Property Name="HCODE" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CustomerID" Type="nvarchar" MaxLength="50" />
@@ -614,7 +628,7 @@
           <Property Name="XSHCODE" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="Category" Type="nvarchar" MaxLength="50" />
           <Property Name="CompanyID" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="BIDCODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="BIDCODE" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_WF3-HVoucher”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -898,6 +912,16 @@
     [V_CashItem].[MinusNote] AS [MinusNote], 
     [V_CashItem].[MinusNote1] AS [MinusNote1]
     FROM [dbo].[V_CashItem] AS [V_CashItem]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_Chart1" EntityType="Self.V_Chart1" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Chart1].[bcode] AS [bcode], 
+    [V_Chart1].[bname] AS [bname], 
+    [V_Chart1].[cash] AS [cash], 
+    [V_Chart1].[note] AS [note], 
+    [V_Chart1].[mnote] AS [mnote], 
+    [V_Chart1].[total] AS [total]
+    FROM [dbo].[V_Chart1] AS [V_Chart1]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Emps" EntityType="Self.V_Emps" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1475,7 +1499,7 @@
           <Property Name="XSHCODE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CompanyID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="BIDCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BIDCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="V_WF3_HVoucher">
           <Key>
@@ -1616,6 +1640,7 @@
           <EntitySet Name="V_Balance" EntityType="RMBModel.V_Balance" />
           <EntitySet Name="V_ExpenseRows" EntityType="RMBModel.V_ExpenseRows" />
           <EntitySet Name="WF_Nodes" EntityType="RMBModel.WF_Nodes" />
+          <EntitySet Name="V_Chart1" EntityType="RMBModel.V_Chart1" />
         </EntityContainer>
         <EntityType Name="WF_CompanyToTem">
           <Key>
@@ -1844,6 +1869,17 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="0" />
           <Property Name="EmpID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FlowID" Type="Guid" />
+        </EntityType>
+        <EntityType Name="V_Chart1">
+          <Key>
+            <PropertyRef Name="bcode" />
+          </Key>
+          <Property Name="bcode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="bname" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="cash" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="note" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="mnote" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="total" Type="Decimal" Precision="38" Scale="2" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2489,6 +2525,18 @@
                 <ScalarProperty Name="Result" ColumnName="Result" />
                 <ScalarProperty Name="TemRowID" ColumnName="TemRowID" />
                 <ScalarProperty Name="NID" ColumnName="NID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Chart1">
+            <EntityTypeMapping TypeName="RMBModel.V_Chart1">
+              <MappingFragment StoreEntitySet="V_Chart1">
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="mnote" ColumnName="mnote" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="cash" ColumnName="cash" />
+                <ScalarProperty Name="bname" ColumnName="bname" />
+                <ScalarProperty Name="bcode" ColumnName="bcode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
