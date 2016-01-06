@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>铸锻公司资金审批</title>
-    <link rel="Shortcut icon" href="logoico.ico"/>
+    <link rel="Shortcut icon" href="logoico.ico" />
     <script src="Scripts/jquery-2.1.3.min.js"></script>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi" />
@@ -25,6 +25,14 @@
     </script>
 </head>
 <body>
+    <div style="background: #99CCFF; width: 100%; height: 30%">
+        <br />
+        <div class="page-header">
+            <h1>&nbsp;<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>&nbsp;资金审批系统</h1>
+        </div>
+        <br />
+    </div>
+    <br />
     <form action="LogInPage.aspx" method="post" id="loginform" runat="server">
         <div class="form-group">
             <label for="usernameInput" class="col-sm-2 control-label">用户名</label>
