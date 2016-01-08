@@ -96,7 +96,7 @@
                                x: '20%',
                                width: '40%',
                                funnelAlign: 'right',
-                               max: 1548,
+                               max: 100,
 
                                itemStyle: {
                                    normal: {
@@ -124,7 +124,7 @@
                                x: '60%',
                                width: '35%',
                                funnelAlign: 'left',
-                               max: 1048,
+                               max: 100,
 
                                data: []
                                //    [

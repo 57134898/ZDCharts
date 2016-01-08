@@ -20,6 +20,7 @@ namespace ZDCharts.Handlers
             List<string> list1 = new List<string>();
             List<decimal?> list2 = new List<decimal?>();
             List<decimal?> list3 = new List<decimal?>();
+            List<decimal?> list4 = new List<decimal?>();
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
                 if (smonth == "全部")
@@ -30,6 +31,7 @@ namespace ZDCharts.Handlers
                         list1.Add(item.bname);
                         list2.Add(item.cash);
                         list3.Add(item.note);
+                        list4.Add(item.total);
                     }
                 }
                 else
@@ -41,6 +43,7 @@ namespace ZDCharts.Handlers
                         list1.Add(item.bname);
                         list2.Add(item.cash);
                         list3.Add(item.note);
+                        list4.Add(item.total);
                     }
                 }
 
@@ -49,6 +52,7 @@ namespace ZDCharts.Handlers
             jo.Add("list1", JArray.FromObject(list1));
             jo.Add("list2", JArray.FromObject(list2));
             jo.Add("list3", JArray.FromObject(list3));
+            jo.Add("list4", JArray.FromObject(list4));
             //Array arr = new Array[] { list1, list2, list3 };
             if (this.UserInfo.RoleID == "01")
             {

@@ -49,7 +49,7 @@
                    option = {
                        title: { text: '合同付款审批情况', subtext: '按公司' },
                        tooltip: { trigger: 'axis' },
-                       legend: { data: ['现金', '票据'] },
+                       legend: { data: ['现金', '票据', '合计'] },
                        toolbox: {
                            show: true,
                            feature: {
@@ -62,7 +62,7 @@
                        },
                        calculable: true,
                        xAxis: [{ type: 'category', data: [] }],
-                       yAxis: [{ type: 'value' }], series: [{ name: '现金', type: 'bar', data: [] }, { name: '票据', type: 'bar', data: [], }]
+                       yAxis: [{ type: 'value' }], series: [{ name: '现金', type: 'bar', data: [] }, { name: '票据', type: 'bar', data: [] }, { name: '合计', type: 'bar', data: [] }]
                    };
                    $.ajax({
                        type: 'POST',
@@ -72,6 +72,7 @@
                            option.xAxis[0].data = result.data.list1;
                            option.series[0].data = result.data.list2;
                            option.series[1].data = result.data.list3;
+                           option.series[2].data = result.data.list4;
                            myChart.setOption(option);
                            myChart.hideLoading();
                        },
