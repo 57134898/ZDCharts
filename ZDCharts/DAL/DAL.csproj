@@ -105,10 +105,16 @@
     <Compile Include="V_Balance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="V_BCode.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="V_CashItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="V_Chart1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="V_Chart2.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="V_Emps.cs">

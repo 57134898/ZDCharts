@@ -24,7 +24,7 @@
         });
     </script>
 </head>
-<body>
+<body style="margin-right: 2px; margin-left: 2px">
     <div style="background: #6f5499; width: 100%; height: 30%">
         <br />
         <div class="page-header">
@@ -33,22 +33,22 @@
         <br />
     </div>
     <br />
-    <form action="LogInPage.aspx" method="post" id="loginform" runat="server">
+    <form action="LogInPage.aspx" method="post" id="loginform" runat="server" style="margin-right: 10%; margin-left: 10%">
         <div class="form-group">
-            <label for="usernameInput" class="col-sm-2 control-label">用户名</label>
-            <div class="col-sm-10">
+            <label for="usernameInput">用户名</label>
+            <div>
                 <input type="text" class="form-control" id="usernameInput" placeholder="输入用户名" value="0001" runat="server" />
             </div>
         </div>
         <div class="form-group">
-            <label for="pswInput" class="col-sm-2 control-label">密码</label>
-            <div class="col-sm-10">
+            <label for="pswInput">密码</label>
+            <div>
                 <input type="password" class="form-control" id="pswInput" placeholder="输入密码" value="123" runat="server" />
             </div>
         </div>
         <div id="errormsg" runat="server"></div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
+            <div>
                 <button id="login" type="submit" data-loading-text=" 登录中..." autocomplete="off" runat="server" class="btn btn-primary btn-block">登陆</button>
             </div>
         </div>

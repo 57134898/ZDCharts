@@ -111,7 +111,6 @@ namespace ZDCharts.Handlers
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
             }
         }
-
         public Tools.JsonResponse UpdateUser()
         {
             DAL.Org_Emps user = JsonConvert.DeserializeObject<DAL.Org_Emps>(this.GetParam("userinfo"));
@@ -149,6 +148,15 @@ namespace ZDCharts.Handlers
                 }
                 db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
+            }
+        }
+
+        public Tools.JsonResponse GetCompanyList()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                var list = db.V_BCode.Where(p => p.bcode.StartsWith("01")).ToList();
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
             }
         }
     }

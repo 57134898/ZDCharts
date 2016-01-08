@@ -332,6 +332,18 @@
           <Property Name="类型" Type="varchar" MaxLength="4" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“RMB.dbo.V_BCode”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_BCode">
+          <Key>
+            <PropertyRef Name="bcode" />
+            <PropertyRef Name="bname" />
+          </Key>
+          <Property Name="bcode" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="bname" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="levl" Type="smallint" />
+          <Property Name="shortname" Type="varchar" MaxLength="8000" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_CashItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_CashItem">
           <Key>
@@ -389,6 +401,25 @@
           <Property Name="note" Type="decimal" Precision="38" Scale="2" />
           <Property Name="mnote" Type="decimal" Precision="38" Scale="2" />
           <Property Name="total" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“RMB.dbo.V_Chart2”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Chart2">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="myear" Type="int" />
+          <Property Name="mmonth" Type="int" />
+          <Property Name="companyid" Type="varchar" MaxLength="20" />
+          <Property Name="wf3rmb" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="rmbtype" Type="varchar" MaxLength="10" />
+          <Property Name="ncode" Type="varchar" MaxLength="20" />
+          <Property Name="wf4rmb" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="nname" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="bname" Type="varchar" MaxLength="8000" />
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="ncodegroup" Type="varchar" MaxLength="8" />
+          <Property Name="ncodegroupname" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“RMB.dbo.V_Emps”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -888,6 +919,14 @@
     [V_Balance].[类型] AS [类型]
     FROM [dbo].[V_Balance] AS [V_Balance]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_BCode" EntityType="Self.V_BCode" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_BCode].[bcode] AS [bcode], 
+    [V_BCode].[bname] AS [bname], 
+    [V_BCode].[levl] AS [levl], 
+    [V_BCode].[shortname] AS [shortname]
+    FROM [dbo].[V_BCode] AS [V_BCode]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_CashItem" EntityType="Self.V_CashItem" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_CashItem].[CashID] AS [CashID], 
@@ -928,6 +967,22 @@
     [V_Chart1].[mnote] AS [mnote], 
     [V_Chart1].[total] AS [total]
     FROM [dbo].[V_Chart1] AS [V_Chart1]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_Chart2" EntityType="Self.V_Chart2" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Chart2].[myear] AS [myear], 
+    [V_Chart2].[mmonth] AS [mmonth], 
+    [V_Chart2].[companyid] AS [companyid], 
+    [V_Chart2].[wf3rmb] AS [wf3rmb], 
+    [V_Chart2].[rmbtype] AS [rmbtype], 
+    [V_Chart2].[ncode] AS [ncode], 
+    [V_Chart2].[wf4rmb] AS [wf4rmb], 
+    [V_Chart2].[nname] AS [nname], 
+    [V_Chart2].[bname] AS [bname], 
+    [V_Chart2].[id] AS [id], 
+    [V_Chart2].[ncodegroup] AS [ncodegroup], 
+    [V_Chart2].[ncodegroupname] AS [ncodegroupname]
+    FROM [dbo].[V_Chart2] AS [V_Chart2]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Emps" EntityType="Self.V_Emps" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1647,6 +1702,8 @@
           <EntitySet Name="V_ExpenseRows" EntityType="RMBModel.V_ExpenseRows" />
           <EntitySet Name="WF_Nodes" EntityType="RMBModel.WF_Nodes" />
           <EntitySet Name="V_Chart1" EntityType="RMBModel.V_Chart1" />
+          <EntitySet Name="V_BCode" EntityType="RMBModel.V_BCode" />
+          <EntitySet Name="V_Chart2" EntityType="RMBModel.V_Chart2" />
         </EntityContainer>
         <EntityType Name="WF_CompanyToTem">
           <Key>
@@ -1890,6 +1947,33 @@
           <Property Name="total" Type="Decimal" Precision="38" Scale="2" />
           <Property Name="myear" Type="Int32" Nullable="false" />
           <Property Name="mmonth" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="V_BCode">
+          <Key>
+            <PropertyRef Name="bcode" />
+            <PropertyRef Name="bname" />
+          </Key>
+          <Property Name="bcode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="bname" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="levl" Type="Int16" />
+          <Property Name="shortname" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="V_Chart2">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="myear" Type="Int32" />
+          <Property Name="mmonth" Type="Int32" />
+          <Property Name="companyid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="wf3rmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="rmbtype" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ncode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="wf4rmb" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="nname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="bname" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="ncodegroup" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="ncodegroupname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2549,6 +2633,34 @@
                 <ScalarProperty Name="cash" ColumnName="cash" />
                 <ScalarProperty Name="bname" ColumnName="bname" />
                 <ScalarProperty Name="bcode" ColumnName="bcode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_BCode">
+            <EntityTypeMapping TypeName="RMBModel.V_BCode">
+              <MappingFragment StoreEntitySet="V_BCode">
+                <ScalarProperty Name="shortname" ColumnName="shortname" />
+                <ScalarProperty Name="levl" ColumnName="levl" />
+                <ScalarProperty Name="bname" ColumnName="bname" />
+                <ScalarProperty Name="bcode" ColumnName="bcode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Chart2">
+            <EntityTypeMapping TypeName="RMBModel.V_Chart2">
+              <MappingFragment StoreEntitySet="V_Chart2">
+                <ScalarProperty Name="ncodegroupname" ColumnName="ncodegroupname" />
+                <ScalarProperty Name="ncodegroup" ColumnName="ncodegroup" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="bname" ColumnName="bname" />
+                <ScalarProperty Name="nname" ColumnName="nname" />
+                <ScalarProperty Name="wf4rmb" ColumnName="wf4rmb" />
+                <ScalarProperty Name="ncode" ColumnName="ncode" />
+                <ScalarProperty Name="rmbtype" ColumnName="rmbtype" />
+                <ScalarProperty Name="wf3rmb" ColumnName="wf3rmb" />
+                <ScalarProperty Name="companyid" ColumnName="companyid" />
+                <ScalarProperty Name="mmonth" ColumnName="mmonth" />
+                <ScalarProperty Name="myear" ColumnName="myear" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -6,7 +6,7 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi" />
-    <title></title>
+    <title>合同付款情况</title>
     <script src="../Scripts/jquery-2.1.3.min.js"></script>
     <link href="/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="/Scripts/bootstrap.min.js"></script>
