@@ -61,7 +61,14 @@
                            }
                        },
                        calculable: true,
-                       xAxis: [{ type: 'category', data: [] }],
+                       xAxis: [{
+                           type: 'category', data: [], axisLabel: {
+                               interval: 0,
+                               formatter: function (val) {
+                                   return val.split("").join("\n");
+                               }
+                           }
+                       }],
                        yAxis: [{ type: 'value' }], series: [{ name: '现金', type: 'bar', data: [] }, { name: '票据', type: 'bar', data: [] }, { name: '合计', type: 'bar', data: [] }]
                    };
                    $.ajax({
