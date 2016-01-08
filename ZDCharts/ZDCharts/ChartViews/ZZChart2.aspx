@@ -162,9 +162,9 @@
                    var h = $(document.body).height();
                    //alert($(document).height());
                    if (w > h) {
-                       len = Math.round(h / 5 * 4);
+                       len = Math.round(h / 2);
                    } else {
-                       len = Math.round(w / 5 * 4);
+                       len = Math.round(w / 2);
                    }
                    option.series[0].radius = [0, Math.round(len * 0.5)];
                    option.series[1].radius = [Math.round(len * 5 / 7), len];
