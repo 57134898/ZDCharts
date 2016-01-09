@@ -47,7 +47,7 @@ namespace ZDCharts.Handlers
                     vtype = 3;
                 }
                 //-- 生成凭证头ID
-                string sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[DBO].[HVOUCHER]", COMN.MyVars.CWDB);
+                string sql = string.Format("SELECT MAX(CONVERT(BIGINT,ID))+1 FROM {0}.[DBO].[HVOUCHER] WHERE HID NOT LIKE '{1}%'", COMN.MyVars.CWDB, COMN.MyVars.PREFIX_HID);
                 string hid = DBHelper.ExecuteScalar(sql).ToString().PadLeft(16, '0');
                 //-- 生成凭证号 根据年,月,凭证类型
                 sql = string.Format("SELECT	ISNULL((SELECT MAX(VNO)+1 FROM {0}.[DBO].[HVOUCHER] WHERE [year] = {1} AND [month] = {2} AND [vtype] = " + vtype + "),1)", COMN.MyVars.CWDB, DateTime.Now.Year, DateTime.Now.Month);

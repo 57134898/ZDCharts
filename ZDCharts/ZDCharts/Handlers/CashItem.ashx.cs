@@ -242,7 +242,7 @@ namespace ZDCharts.Handlers
                     if (cashItem.Cash > 0)
                     {
                         //-- 生成凭证头ID
-                        string sql = string.Format("SELECT MAX(ID)+1 FROM {0}.[DBO].[HVOUCHER]", COMN.MyVars.CWDB);
+                        string sql = string.Format("SELECT MAX(CONVERT(BIGINT,ID))+1 FROM {0}.[DBO].[HVOUCHER] WHERE HID NOT LIKE '{1}%'", COMN.MyVars.CWDB, COMN.MyVars.PREFIX_HID);
                         string hid = DBHelper.ExecuteScalar(sql).ToString().PadLeft(16, '0');
                         //-- 生成凭证号 根据年,月,凭证类型
                         sql = string.Format("SELECT	ISNULL((SELECT MAX(VNO)+1 FROM {0}.[DBO].[HVOUCHER] WHERE [year] = {1} AND [month] = {2} AND [vtype] = 3),1)", COMN.MyVars.CWDB, DateTime.Now.Year, DateTime.Now.Month);
@@ -266,44 +266,44 @@ namespace ZDCharts.Handlers
                                     ,"["+vcash.CompanyName+"]付["+vcash.CNAME+"]货款"
                                     ,DateTime.Now.ToShortDateString(),emp.EmpName});
                         #region 添加凭证行
-//                        sql_cash += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
-//                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
-//                                                new object[] { COMN.MyVars.CWDB 
-//                                    ,hid
-//                                    ,100
-//                                    ,DateTime.Now.Year
-//                                    ,DateTime.Now.Month
-//                                    ,3
-//                                    ,vno
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,"付["+vcash.CNAME+"]货款"
-//                                    ,-1
-//                                    ,"100801"
-//                                    ,wf2.Hdw
-//                                    ,wf2.NCodeC
-//                                    ,cashItem.Cash
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,vid.ToString().PadLeft(16, '0')
-//                                    ,""});
-//                        sql_cash += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
-//                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
-//                                new object[] { COMN.MyVars.CWDB 
-//                                    ,hid
-//                                    ,200
-//                                    ,DateTime.Now.Year
-//                                    ,DateTime.Now.Month
-//                                    ,3
-//                                    ,vno
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,"付["+vcash.CNAME+"]货款"
-//                                    ,1
-//                                    ,"1010"
-//                                    ,wf2.Hdw
-//                                    ,wf2.NCodeC
-//                                    ,cashItem.Cash
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,(vid+1).ToString().PadLeft(16, '0')
-//                                    ,""});
+                        //                        sql_cash += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
+                        //                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
+                        //                                                new object[] { COMN.MyVars.CWDB 
+                        //                                    ,hid
+                        //                                    ,100
+                        //                                    ,DateTime.Now.Year
+                        //                                    ,DateTime.Now.Month
+                        //                                    ,3
+                        //                                    ,vno
+                        //                                    ,DateTime.Now.ToShortDateString()
+                        //                                    ,"付["+vcash.CNAME+"]货款"
+                        //                                    ,-1
+                        //                                    ,"100801"
+                        //                                    ,wf2.Hdw
+                        //                                    ,wf2.NCodeC
+                        //                                    ,cashItem.Cash
+                        //                                    ,DateTime.Now.ToShortDateString()
+                        //                                    ,vid.ToString().PadLeft(16, '0')
+                        //                                    ,""});
+                        //                        sql_cash += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
+                        //                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
+                        //                                new object[] { COMN.MyVars.CWDB 
+                        //                                    ,hid
+                        //                                    ,200
+                        //                                    ,DateTime.Now.Year
+                        //                                    ,DateTime.Now.Month
+                        //                                    ,3
+                        //                                    ,vno
+                        //                                    ,DateTime.Now.ToShortDateString()
+                        //                                    ,"付["+vcash.CNAME+"]货款"
+                        //                                    ,1
+                        //                                    ,"1010"
+                        //                                    ,wf2.Hdw
+                        //                                    ,wf2.NCodeC
+                        //                                    ,cashItem.Cash
+                        //                                    ,DateTime.Now.ToShortDateString()
+                        //                                    ,(vid+1).ToString().PadLeft(16, '0')
+                        //                                    ,""});
                         #endregion
                         int result_sql = DBHelper.ExecuteNonQuery(sql_cash);
                         wf2.CashVoucherID = hid;
@@ -318,7 +318,7 @@ namespace ZDCharts.Handlers
                     if (cashItem.Note > 0)
                     {
                         //-- 生成凭证头ID
-                        string sql_1 = string.Format("SELECT MAX(ID)+1 FROM {0}.[DBO].[HVOUCHER]", COMN.MyVars.CWDB);
+                        string sql_1 = string.Format("SELECT MAX(CONVERT(BIGINT,ID))+1 FROM {0}.[DBO].[HVOUCHER] WHERE HID NOT LIKE '{1}%'", COMN.MyVars.CWDB, COMN.MyVars.PREFIX_HID);
                         string hid_1 = DBHelper.ExecuteScalar(sql_1).ToString().PadLeft(16, '0');
                         //-- 生成凭证号 根据年,月,凭证类型
                         sql_1 = string.Format("SELECT	ISNULL((SELECT MAX(VNO)+1 FROM {0}.[DBO].[HVOUCHER] WHERE [year] = {1} AND [month] = {2} AND [vtype] = 4),1)", COMN.MyVars.CWDB, DateTime.Now.Year, DateTime.Now.Month);
@@ -342,44 +342,44 @@ namespace ZDCharts.Handlers
                                     ,"付["+vcash.CNAME+"]货款"
                                     ,DateTime.Now.ToShortDateString(),emp.EmpName});
                         #region 添加凭证行
-//                        sql_2 += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
-//                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
-//                                            new object[] { COMN.MyVars.CWDB 
-//                                    ,hid_1
-//                                    ,100
-//                                    ,DateTime.Now.Year
-//                                    ,DateTime.Now.Month
-//                                    ,4
-//                                    ,vno_1
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,"付["+vcash.CNAME+"]货款"
-//                                    ,-1
-//                                    ,"100802"
-//                                    ,wf2.Hdw
-//                                    ,wf2.NCodeC
-//                                    ,cashItem.Note
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,vid_1.ToString().PadLeft(16, '0')
-//                                    ,""});
-//                        sql_2 += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
-//                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
-//                            new object[] { COMN.MyVars.CWDB 
-//                                    ,hid_1
-//                                    ,200
-//                                    ,DateTime.Now.Year
-//                                    ,DateTime.Now.Month
-//                                    ,4
-//                                    ,vno_1
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,"付["+vcash.CNAME+"]货款"
-//                                    ,1
-//                                    ,"1011"
-//                                    ,wf2.Hdw
-//                                    ,wf2.NCodeC
-//                                    ,cashItem.Note
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,(vid_1+1).ToString().PadLeft(16, '0')
-//                                    ,""});
+                        //                        sql_2 += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
+                        //                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
+                        //                                            new object[] { COMN.MyVars.CWDB 
+                        //                                    ,hid_1
+                        //                                    ,100
+                        //                                    ,DateTime.Now.Year
+                        //                                    ,DateTime.Now.Month
+                        //                                    ,4
+                        //                                    ,vno_1
+                        //                                    ,DateTime.Now.ToShortDateString()
+                        //                                    ,"付["+vcash.CNAME+"]货款"
+                        //                                    ,-1
+                        //                                    ,"100802"
+                        //                                    ,wf2.Hdw
+                        //                                    ,wf2.NCodeC
+                        //                                    ,cashItem.Note
+                        //                                    ,DateTime.Now.ToShortDateString()
+                        //                                    ,vid_1.ToString().PadLeft(16, '0')
+                        //                                    ,""});
+                        //                        sql_2 += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
+                        //                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
+                        //                            new object[] { COMN.MyVars.CWDB 
+                        //                                    ,hid_1
+                        //                                    ,200
+                        //                                    ,DateTime.Now.Year
+                        //                                    ,DateTime.Now.Month
+                        //                                    ,4
+                        //                                    ,vno_1
+                        //                                    ,DateTime.Now.ToShortDateString()
+                        //                                    ,"付["+vcash.CNAME+"]货款"
+                        //                                    ,1
+                        //                                    ,"1011"
+                        //                                    ,wf2.Hdw
+                        //                                    ,wf2.NCodeC
+                        //                                    ,cashItem.Note
+                        //                                    ,DateTime.Now.ToShortDateString()
+                        //                                    ,(vid_1+1).ToString().PadLeft(16, '0')
+                        //                                    ,""});
                         #endregion
                         int result_sql = DBHelper.ExecuteNonQuery(sql_2);
                         wf2.NoteVoucherID = hid_1;
@@ -465,13 +465,13 @@ namespace ZDCharts.Handlers
                     {
                         if (item.Result == "Y")
                         {
-                            sql2 += " INSERT INTO AFKXX ([rmb], [hth], [xshth], [type],Cid,date) VALUES(";
                             if (item.HCode == mh1.HCode)
                             {
                                 if ((item.Rmb + mRmb) == 0)
                                 {
                                     continue;
                                 }
+                                sql2 += " INSERT INTO AFKXX ([rmb], [hth], [xshth], [type],Cid,date) VALUES(";
                                 sql2 += "'" + (item.Rmb + mRmb).ToString() + "',";
                             }
                             else
@@ -480,6 +480,7 @@ namespace ZDCharts.Handlers
                                 {
                                     continue;
                                 }
+                                sql2 += " INSERT INTO AFKXX ([rmb], [hth], [xshth], [type],Cid,date) VALUES(";
                                 sql2 += "'" + item.Rmb + "',";
                             }
 

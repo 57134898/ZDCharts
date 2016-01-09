@@ -8,8 +8,12 @@ namespace COMN
 {
     public class MyVars
     {
+        /// <summary>
+        /// HVOUCHER前缀
+        /// </summary>
+        public static string PREFIX_HID = "01";
         //资金数据库名
-        public  static string CWDB = "";
+        public static string CWDB = "";
         //public readonly static string CWDB = "ZJCCS";
 
         public readonly static string Yes = "Y";
