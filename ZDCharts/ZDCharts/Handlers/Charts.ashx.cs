@@ -74,116 +74,97 @@ namespace ZDCharts.Handlers
             JArray jArr3 = new JArray();
             using (DAL.ContractEntities db = new DAL.ContractEntities())
             {
-                if (smonth == "全部")
-                {
-                    if (company == "全部")
-                    {
-                        foreach (var item in db.V_Chart2
-                            .Where(p => p.myear == year)
-                            .GroupBy(p => new { p.rmbtype })
-                            .Select(p => new { RmbType = p.Key.rmbtype, Total = p.Sum(q => q.wf3rmb) })
-                            .ToList())
+
+                foreach (var item in db.V_Chart2
+                    .Where(delegate(DAL.V_Chart2 p)
                         {
-                            jArr1.Add(item.RmbType);
-                            JObject jo = new JObject();
-                            jo.Add("value", item.Total);
-                            jo.Add("name", item.RmbType);
-                            jArr2.Add(jo);
+                            if (smonth == "全部")
+                            {
+                                if (company == "全部")
+                                {
+                                    if (p.myear == year)
+                                        return true;
+                                }
+                                else
+                                {
+                                    company = COMN.MyFuncs.GetCodeFromStr(company, '-');
+                                    if (p.myear == year && p.companyid == company)
+                                        return true;
+                                }
+                            }
+                            else
+                            {
+                                int month = int.Parse(smonth);
+                                if (company == "全部")
+                                {
+                                    if (p.myear == year && p.mmonth == month)
+                                        return true;
+                                }
+                                else
+                                {
+                                    company = COMN.MyFuncs.GetCodeFromStr(company, '-');
+                                    if (p.myear == year && p.companyid == company && p.mmonth == month)
+                                        return true;
+                                }
+                            }
+                            return false;
                         }
-                        foreach (var item in db.V_Chart2.Where(p => p.myear == year)
-                                              .GroupBy(p => new { p.ncodegroup, p.ncodegroupname })
-                                              .Select(p => new { NCodeGroup = p.Key.ncodegroup, NCodeGName = p.Key.ncodegroupname, Total = p.Sum(q => q.wf4rmb) })
-                                              .ToList())
+                        )
+                    .GroupBy(p => new { p.rmbtype })
+                    .Select(p => new { RmbType = p.Key.rmbtype, Total = p.Sum(q => q.wf3rmb) })
+                    .ToList())
+                {
+                    jArr1.Add(item.RmbType);
+                    JObject jo = new JObject();
+                    jo.Add("value", item.Total);
+                    jo.Add("name", item.RmbType);
+                    jArr2.Add(jo);
+                }
+                foreach (var item in db.V_Chart2.Where(delegate(DAL.V_Chart2 p)
+                {
+                    if (smonth == "全部")
+                    {
+                        if (company == "全部")
                         {
-                            jArr1.Add(item.NCodeGName);
-                            JObject jo = new JObject();
-                            jo.Add("value", item.Total);
-                            jo.Add("name", item.NCodeGName);
-                            jArr3.Add(jo);
+                            if (p.myear == year)
+                                return true;
+                        }
+                        else
+                        {
+                            company = COMN.MyFuncs.GetCodeFromStr(company, '-');
+                            if (p.myear == year && p.companyid == company)
+                                return true;
                         }
                     }
                     else
                     {
-                        company = COMN.MyFuncs.GetCodeFromStr(company, '-');
-                        foreach (var item in db.V_Chart2.Where(p => p.myear == year && p.companyid == company)
-                        .GroupBy(p => new { p.rmbtype })
-                        .Select(p => new { RmbType = p.Key.rmbtype, Total = p.Sum(q => q.wf3rmb) })
-                        .ToList())
+                        int month = int.Parse(smonth);
+                        if (company == "全部")
                         {
-                            jArr1.Add(item.RmbType);
-                            JObject jo = new JObject();
-                            jo.Add("value", item.Total);
-                            jo.Add("name", item.RmbType);
-                            jArr2.Add(jo);
+                            if (p.myear == year && p.mmonth == month)
+                                return true;
                         }
-                        foreach (var item in db.V_Chart2.Where(p => p.myear == year && p.companyid == company)
-                                              .GroupBy(p => new { p.ncodegroup, p.ncodegroupname })
-                                              .Select(p => new { NCodeGroup = p.Key.ncodegroup, NCodeGName = p.Key.ncodegroupname, Total = p.Sum(q => q.wf4rmb) })
-                                              .ToList())
+                        else
                         {
-                            jArr1.Add(item.NCodeGName);
-                            JObject jo = new JObject();
-                            jo.Add("value", item.Total);
-                            jo.Add("name", item.NCodeGName);
-                            jArr3.Add(jo);
+                            company = COMN.MyFuncs.GetCodeFromStr(company, '-');
+                            if (p.myear == year && p.companyid == company && p.mmonth == month)
+                                return true;
                         }
                     }
-                }
-                else
+                    return false;
+                })
+                                      .GroupBy(p => new { p.ncodegroup, p.ncodegroupname })
+                                      .Select(p => new { NCodeGroup = p.Key.ncodegroup, NCodeGName = p.Key.ncodegroupname, Total = p.Sum(q => q.wf4rmb) })
+                                      .ToList())
                 {
-                    int month = int.Parse(smonth);
-                    if (company == "全部")
-                    {
-                        foreach (var item in db.V_Chart2.Where(p => p.myear == year && p.mmonth == month)
-.GroupBy(p => new { p.rmbtype })
-.Select(p => new { RmbType = p.Key.rmbtype, Total = p.Sum(q => q.wf3rmb) })
-.ToList())
-                        {
-                            jArr1.Add(item.RmbType);
-                            JObject jo = new JObject();
-                            jo.Add("value", item.Total);
-                            jo.Add("name", item.RmbType);
-                            jArr2.Add(jo);
-                        }
-                        foreach (var item in db.V_Chart2.Where(p => p.myear == year && p.mmonth == month)
-                                              .GroupBy(p => new { p.ncodegroup, p.ncodegroupname })
-                                              .Select(p => new { NCodeGroup = p.Key.ncodegroup, NCodeGName = p.Key.ncodegroupname, Total = p.Sum(q => q.wf4rmb) })
-                                              .ToList())
-                        {
-                            jArr1.Add(item.NCodeGName);
-                            JObject jo = new JObject();
-                            jo.Add("value", item.Total);
-                            jo.Add("name", item.NCodeGName);
-                            jArr3.Add(jo);
-                        }
-                    }
-                    else
-                    {
-                        company = COMN.MyFuncs.GetCodeFromStr(company, '-');
-                        foreach (var item in db.V_Chart2.Where(p => p.myear == year && p.mmonth == month && p.companyid == company)
-                        .GroupBy(p => new { p.rmbtype })
-                        .Select(p => new { RmbType = p.Key.rmbtype, Total = p.Sum(q => q.wf3rmb) })
-                        .ToList())
-                        {
-                            jArr1.Add(item.RmbType);
-                            JObject jo = new JObject();
-                            jo.Add("value", item.Total);
-                            jo.Add("name", item.RmbType);
-                            jArr2.Add(jo);
-                        }
-                        foreach (var item in db.V_Chart2.Where(p => p.myear == year && p.mmonth == month && p.companyid == company)
-                                              .GroupBy(p => new { p.ncodegroup, p.ncodegroupname })
-                                              .Select(p => new { NCodeGroup = p.Key.ncodegroup, NCodeGName = p.Key.ncodegroupname, Total = p.Sum(q => q.wf4rmb) })
-                                              .ToList())
-                        {
-                            jArr1.Add(item.NCodeGName);
-                            JObject jo = new JObject();
-                            jo.Add("value", item.Total);
-                            jo.Add("name", item.NCodeGName);
-                            jArr3.Add(jo);
-                        }
-                    }
+                    jArr1.Add(item.NCodeGName);
+                    JObject jo = new JObject();
+                    jo.Add("value", item.Total);
+                    jo.Add("name", item.NCodeGName);
+                    jArr3.Add(jo);
                 }
+
+
 
                 JObject joo = new JObject();
                 joo.Add("list1", jArr1);
