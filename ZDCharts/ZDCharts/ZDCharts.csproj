@@ -82,6 +82,7 @@
     <Content Include="ChartViews\WebForm1.aspx" />
     <Content Include="ChartViews\ZZChart1.aspx" />
     <Content Include="ChartViews\ZZChart2.aspx" />
+    <Content Include="ChartViews\ZZChart3.aspx" />
     <Content Include="Content\bootstrap-select.css" />
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap-switch\bootstrap2\bootstrap-switch.css" />
@@ -507,6 +508,13 @@
     </Compile>
     <Compile Include="ChartViews\ZZChart2.aspx.designer.cs">
       <DependentUpon>ZZChart2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ChartViews\ZZChart3.aspx.cs">
+      <DependentUpon>ZZChart3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChartViews\ZZChart3.aspx.designer.cs">
+      <DependentUpon>ZZChart3.aspx</DependentUpon>
     </Compile>
     <Compile Include="DBHelper.cs" />
     <Compile Include="ErrorPage.aspx.cs">

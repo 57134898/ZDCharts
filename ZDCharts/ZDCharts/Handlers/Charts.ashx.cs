@@ -180,5 +180,61 @@ namespace ZDCharts.Handlers
                 }
             }
         }
+        public Tools.JsonResponse GetData3()
+        {
+            string syear = GetParam("year");
+            string smonth = GetParam("month");
+            if (smonth == "全部")
+            {
+                smonth = "12";
+            }
+            string contracttype = GetParam("contracttype");
+            int year = int.Parse(syear);
+            int month = int.Parse(smonth);
+            contracttype = COMN.MyFuncs.GetCodeFromStr(contracttype, '-');
+            string sql = string.Format(@"DECLARE @MYEAR INT DECLARE @MMONTH INT DECLARE @CTYPE VARCHAR(10)
+SET @MYEAR ={0}
+SET @MMONTH ={1}
+SET @CTYPE ='{2}'
+SELECT HLX,
+       BCode,
+       ShortName,
+       SUM(TOTAL) TotaL ,
+       SUM(RMB) Rmb,
+       SUM(INV)Inv
+FROM
+  (SELECT [HJSJE] TotaL,
+          [HLX] ,
+          ISNULL(
+                   (SELECT SUM(RMB)
+                    FROM AFKXX F
+                    WHERE F.HTH=H.HCODE
+                      AND YEAR([date])<= @MYEAR AND MONTH([date])<= @MMONTH
+                      AND [TYPE]= CASE WHEN SUBSTRING(HLX,1,2)='02' THEN '回款' ELSE '付款' END) ,0.00)RMB ,
+          ISNULL(
+                   (SELECT SUM(RMB)
+                    FROM AFKXX F
+                    WHERE F.HTH=H.HCODE
+                      AND YEAR([date])<= @MYEAR AND MONTH([date])<= @MMONTH
+                      AND [TYPE]= CASE WHEN SUBSTRING(HLX,1,2)='02' THEN '销项发票' ELSE '进项发票' END) ,0.00) INV ,
+          B.BCode,
+          B.ShortName
+   FROM [contract1].[dbo].[ACONTRACT] H
+   INNER JOIN BCODE B ON H.HDW=B.BCODE
+   WHERE HLX LIKE @CTYPE+'%' AND  YEAR([Hdate])<= @MYEAR AND MONTH([Hdate])<= @MMONTH) TT
+GROUP BY HLX,
+         BCode,
+         ShortName 
+", year, month, contracttype);
+            System.Data.DataTable dt = DBHelper.ExecuteDataTable(sql);
+            JArray jArr1 = new JArray();
+            if (contracttype.StartsWith("02"))
+            {
+
+            }
+            JArray jArr2 = new JArray();
+            JArray jArr3 = new JArray();
+            return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = dt };
+        }
     }
 }

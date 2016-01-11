@@ -159,5 +159,15 @@ namespace ZDCharts.Handlers
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
             }
         }
+        public Tools.JsonResponse GetContractTpyeList()
+        {
+            using (DAL.ContractEntities db = new DAL.ContractEntities())
+            {
+                System.Data.DataTable dt = DBHelper.ExecuteDataTable("SELECT [LID],[LNAME] FROM ALX");
+                //JArray jArr = JArray.FromObject(dt);
+                return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = dt };
+            }
+        }
+
     }
 }
