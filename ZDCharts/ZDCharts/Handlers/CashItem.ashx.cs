@@ -318,7 +318,7 @@ namespace ZDCharts.Handlers
                     if (cashItem.Note > 0)
                     {
                         //-- 生成凭证头ID
-                        string sql_1 = string.Format("SELECT MAX(CONVERT(BIGINT,ID))+1 FROM {0}.[DBO].[HVOUCHER] WHERE HID NOT LIKE '{1}%'", COMN.MyVars.CWDB, COMN.MyVars.PREFIX_HID);
+                        string sql_1 = string.Format("SELECT MAX(CONVERT(BIGINT,ID))+1 FROM {0}.[DBO].[HVOUCHER] WHERE ID NOT LIKE '{1}%'", COMN.MyVars.CWDB, COMN.MyVars.PREFIX_HID);
                         string hid_1 = DBHelper.ExecuteScalar(sql_1).ToString().PadLeft(16, '0');
                         //-- 生成凭证号 根据年,月,凭证类型
                         sql_1 = string.Format("SELECT	ISNULL((SELECT MAX(VNO)+1 FROM {0}.[DBO].[HVOUCHER] WHERE [year] = {1} AND [month] = {2} AND [vtype] = 4),1)", COMN.MyVars.CWDB, DateTime.Now.Year, DateTime.Now.Month);
