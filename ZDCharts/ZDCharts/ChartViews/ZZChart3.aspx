@@ -20,6 +20,7 @@
         $(function () {
             $("#year").val(2016);
             $("#btn").click(function () {
+
                 loadchart();
                 doagain();
             });
@@ -82,25 +83,26 @@
                    };
                    option = {
                        title: {
-                           text: '多维条形图',
-                           subtext: 'From ExcelHome',
-                           sublink: 'http://e.weibo.com/1341556070/AiEscco0H'
+                           text: '货款与发票',
+                           subtext: '来自合同软件',
+                           sublink: ''//'http://www.sycasting-nhi.com'
                        },
                        tooltip: {
                            trigger: 'axis',
                            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                            },
-                           formatter: '{b}<br/>{a0}:{c0}%<br/>{a2}:{c2}%<br/>{a4}:{c4}%<br/>{a6}:{c6}%'
+                           formatter: '{b}<br/>{a0}:{c0}%<br/>{a2}:{c2}%'//'{b}<br/>{a0}:{c0}%<br/>{a2}:{c2}%<br/>{a4}:{c4}%<br/>{a6}:{c6}%'
                        },
                        legend: {
                            y: 55,
                            itemGap: document.getElementById('main').offsetWidth / 8,
-                           data: ['GML', 'PYP', 'WTC', 'ZTW']
+                           data: []
                        },
                        toolbox: {
                            show: true,
                            feature: {
+                               magicType: { show: true, type: ['line', 'bar'] },
                                mark: { show: true },
                                dataView: { show: true, readOnly: false },
                                restore: { show: true },
@@ -123,95 +125,49 @@
                            {
                                type: 'category',
                                splitLine: { show: false },
-                               data: ['重庆', '天津', '上海', '北京']
+                               data: []
                            }
                        ],
-                       series: [
-                           {
-                               name: 'GML',
-                               type: 'bar',
-                               stack: '总量',
-                               itemStyle: dataStyle,
-                               data: [38, 50, 33, 72]
-                           },
-                           {
-                               name: 'GML',
-                               type: 'bar',
-                               stack: '总量',
-                               itemStyle: placeHoledStyle,
-                               data: [62, 50, 67, 28]
-                           },
-                           {
-                               name: 'PYP',
-                               type: 'bar',
-                               stack: '总量',
-                               itemStyle: dataStyle,
-                               data: [61, 41, 42, 30]
-                           },
-                           {
-                               name: 'PYP',
-                               type: 'bar',
-                               stack: '总量',
-                               itemStyle: placeHoledStyle,
-                               data: [39, 59, 58, 70]
-                           },
-                           {
-                               name: 'WTC',
-                               type: 'bar',
-                               stack: '总量',
-                               itemStyle: dataStyle,
-                               data: [37, 35, 44, 60]
-                           },
-                           {
-                               name: 'WTC',
-                               type: 'bar',
-                               stack: '总量',
-                               itemStyle: placeHoledStyle,
-                               data: [63, 65, 56, 40]
-                           },
-                           {
-                               name: 'ZTW',
-                               type: 'bar',
-                               stack: '总量',
-                               itemStyle: dataStyle,
-                               data: [71, 50, 31, 39]
-                           },
-                           {
-                               name: 'ZTW',
-                               type: 'bar',
-                               stack: '总量',
-                               itemStyle: placeHoledStyle,
-                               data: [29, 50, 69, 61]
-                           }
-                       ]
+                       series: []
                    };
 
-                   myChart.setOption(option);
-                   myChart.hideLoading();
+
+                   //myChart.setOption(option);
+                   //myChart.hideLoading();
                    //return;
 
 
-                   var len = 0;
-                   var w = $(document.body).width();
-                   var h = $(document.body).height();
-                   //alert($(document).height());
-                   if (w > h) {
-                       len = Math.round(h / 2);
-                   } else {
-                       len = Math.round(w / 2);
-                   }
-                   option.series[0].radius = [0, Math.round(len * 0.5)];
-                   option.series[1].radius = [Math.round(len * 5 / 7), len];
+                   //var len = 0;
+                   //var w = $(document.body).width();
+                   //var h = $(document.body).height();
+                   ////alert($(document).height());
+                   //if (w > h) {
+                   //    len = Math.round(h / 2);
+                   //} else {
+                   //    len = Math.round(w / 2);
+                   //}
+                   //option.series[0].radius = [0, Math.round(len * 0.5)];
+                   //option.series[1].radius = [Math.round(len * 5 / 7), len];
                    $.ajax({
                        type: 'POST',
                        url: '/Handlers/Charts.ashx',
                        data: { Action: "GetData3", contracttype: $("#contracttype").find("option:selected").text(), year: $("#year").find("option:selected").text(), month: $("#month").find("option:selected").text() },
                        success: function suc(result) {
-                           alert(JSON.stringify(result.data));
-                           return;
+
+                           //return;
+                           //alert(JSON.stringify(result.data.list3));
+
                            option.legend.data = result.data.list1;
-                           option.series[0].data = result.data.list2;
-                           option.series[1].data = result.data.list3;
+                           option.yAxis[0].data = result.data.list2;
+                           option.series = result.data.list3;
+                           //alert(JSON.stringify(option.series));
+                           for (var i = 0; i < option.series.length; i++) {
+                               if (i % 2 == 0) {
+                                   option.series[i].itemStyle = dataStyle;
+                               } else {
+                                   option.series[i].itemStyle = placeHoledStyle;
+                               }
+                           }
                            myChart.setOption(option);
                            myChart.hideLoading();
                        },

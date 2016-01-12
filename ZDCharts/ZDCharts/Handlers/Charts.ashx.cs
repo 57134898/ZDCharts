@@ -197,13 +197,13 @@ SET @MYEAR ={0}
 SET @MMONTH ={1}
 SET @CTYPE ='{2}'
 SELECT HLX,
-       BCode,
+       BCode,LName,
        ShortName,
        SUM(TOTAL) TotaL ,
        SUM(RMB) Rmb,
        SUM(INV)Inv
 FROM
-  (SELECT [HJSJE] TotaL,
+  (SELECT LName,[HJSJE] TotaL,
           [HLX] ,
           ISNULL(
                    (SELECT SUM(RMB)
@@ -220,21 +220,66 @@ FROM
           B.BCode,
           B.ShortName
    FROM [contract1].[dbo].[ACONTRACT] H
-   INNER JOIN BCODE B ON H.HDW=B.BCODE
+   INNER JOIN BCODE B ON H.HDW=B.BCODE INNER JOIN ALX L ON H.HLX=L.LID
    WHERE HLX LIKE @CTYPE+'%' AND  YEAR([Hdate])<= @MYEAR AND MONTH([Hdate])<= @MMONTH) TT
-GROUP BY HLX,
+GROUP BY HLX,LName,
          BCode,
          ShortName 
 ", year, month, contracttype);
             System.Data.DataTable dt = DBHelper.ExecuteDataTable(sql);
             JArray jArr1 = new JArray();
-            if (contracttype.StartsWith("02"))
-            {
-
-            }
+            //jArr1.Add("结算金额");
+            jArr1.Add("货款");
+            jArr1.Add("发票");
             JArray jArr2 = new JArray();
             JArray jArr3 = new JArray();
-            return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = dt };
+            foreach (System.Data.DataRow r in dt.Rows)
+            {
+                jArr2.Add(r["ShortName"].ToString().Replace("公司", "") + "-" + r["LName"].ToString());
+            }
+            foreach (var item in jArr1)
+            {
+                JObject jo1 = new JObject();
+                jo1.Add("name", item.ToString());
+                jo1.Add("type", "bar");
+                jo1.Add("stack", "总量");
+                jo1.Add("itemStyle", "dataStyle");
+                JObject jo2 = new JObject();
+                jo2.Add("name", item.ToString());
+                jo2.Add("type", "bar");
+                jo2.Add("stack", "总量");
+                jo2.Add("itemStyle", "placeHoledStyle");
+                JArray jArrData1 = new JArray();
+                JArray jArrData2 = new JArray();
+                foreach (System.Data.DataRow r in dt.Rows)
+                {
+                    if (item.ToString() == "结算金额")
+                    {
+                        jArrData1.Add(Math.Round(decimal.Parse(r["TotaL"].ToString()) / decimal.Parse(r["TotaL"].ToString()) * 100));
+                        jArrData2.Add((decimal.Parse(r["TotaL"].ToString()) - decimal.Parse(r["TotaL"].ToString())) / decimal.Parse(r["TotaL"].ToString()) * 100);
+                    }
+                    else if (item.ToString() == "货款")
+                    {
+                        jArrData1.Add(Math.Round(decimal.Parse(r["rmb"].ToString()) / decimal.Parse(r["TotaL"].ToString()) * 100));
+                        jArrData2.Add(Math.Round((decimal.Parse(r["TotaL"].ToString()) - decimal.Parse(r["rmb"].ToString())) / decimal.Parse(r["TotaL"].ToString()) * 100));
+                    }
+                    else
+                    {
+                        jArrData1.Add(Math.Round(decimal.Parse(r["Inv"].ToString()) / decimal.Parse(r["TotaL"].ToString()) * 100));
+                        jArrData2.Add(Math.Round((decimal.Parse(r["TotaL"].ToString()) - decimal.Parse(r["Inv"].ToString())) / decimal.Parse(r["TotaL"].ToString()) * 100));
+                    }
+                }
+                jo1.Add("data", jArrData1);
+                jo2.Add("data", jArrData2);
+                jArr3.Add(jo1);
+                jArr3.Add(jo2);
+            }
+
+            JObject data = new JObject();
+            data.Add("list1", jArr1);
+            data.Add("list2", jArr2);
+            data.Add("list3", jArr3);
+            return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = data };
         }
     }
 }
