@@ -1,0 +1,231 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ZZChart4.aspx.cs" Inherits="ZDCharts.ChartViews.ZZChart4" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi" />
+    <title>收支情况</title>
+    <script src="../Scripts/jquery-2.1.3.min.js"></script>
+    <link href="/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="/Scripts/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        //重查
+        function doagain() {
+            $('#collapse1').collapse('toggle');
+            $('#collapse2').collapse('toggle');
+        }
+        $(function () {
+            $("#year").val(2016);
+            $("#btn").click(function () {
+
+                loadchart();
+                doagain();
+            });
+            $.ajax({
+                type: 'POST',
+                url: '/Handlers/sys.ashx',
+                data: { Action: "GetContractTpyeList" },
+                success: function suc(result) {
+                    for (var i = 0; i < result.data.length; i++) {
+                        $("#contracttype").append(" <option>" + result.data[i].LID + "-" + result.data[i].LNAME + "</option>");
+                    }
+                },
+                dataType: 'JSON'
+            });
+            $('#collapse1').collapse('toggle');
+        });
+        function loadchart() {
+            // 路径配置
+            require.config({
+                paths: {
+                    echarts: '../dist/'
+                }
+            });
+            // 使用
+            require(
+                [
+                    'echarts',
+                    'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+                    'echarts/chart/pie',
+                    'echarts/chart/line',
+                    'echarts/chart/funnel'
+                ],
+               function (ec) {
+                   $('#main').css('height', $(window).height() * 0.8);
+                   var myChart = ec.init(document.getElementById('main'));
+                   myChart.showLoading({
+                       text: "图表数据正在努力加载...",
+                       effect: "spin"
+                   });
+
+
+                   option = {
+                       tooltip: {
+                           trigger: 'axis',
+                           axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                               type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                           }
+                       },
+                       legend: {
+                           data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+                       },
+                       toolbox: {
+                           show: true,
+                           feature: {
+                               mark: { show: true },
+                               dataView: { show: true, readOnly: false },
+                               magicType: { show: true, type: ['line', 'bar', 'stack', 'tiled'] },
+                               restore: { show: true },
+                               saveAsImage: { show: true }
+                           }
+                       },
+                       calculable: true,
+                       xAxis: [
+                           {
+                               type: 'value'
+                           }
+                       ],
+                       yAxis: [
+                           {
+                               type: 'category',
+                               data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                           }
+                       ],
+                       series: [
+                           {
+                               name: '直接访问',
+                               type: 'bar',
+                               stack: '总量',
+                               itemStyle: { normal: { label: { show: true, position: 'insideRight' } } },
+                               data: [320, 302, 301, 334, 390, 330, -320]
+                           },
+                           {
+                               name: '邮件营销',
+                               type: 'bar',
+                               stack: '总量',
+                               itemStyle: { normal: { label: { show: true, position: 'insideRight' } } },
+                               data: [120, 132, 101, 134, 90, -230, 210]
+                           },
+                           {
+                               name: '联盟广告',
+                               type: 'bar',
+                               stack: '总量',
+                               itemStyle: { normal: { label: { show: true, position: 'insideRight' } } },
+                               data: [220, 182, 191, 234, 290, 330, 310]
+                           },
+                           {
+                               name: '视频广告',
+                               type: 'bar',
+                               stack: '总量',
+                               itemStyle: { normal: { label: { show: true, position: 'insideRight' } } },
+                               data: [150, 212, 201, 154, 190, 330, 410]
+                           },
+                           {
+                               name: '搜索引擎',
+                               type: 'bar',
+                               stack: '总量',
+                               itemStyle: { normal: { label: { show: true, position: 'insideRight' } } },
+                               data: [820, 832, 901, 934, 1290, 1330, 1320]
+                           }
+                       ]
+                   };
+
+
+                   myChart.setOption(option);
+                   myChart.hideLoading();
+                   return;
+
+
+                   //var len = 0;
+                   //var w = $(document.body).width();
+                   //var h = $(document.body).height();
+                   ////alert($(document).height());
+                   //if (w > h) {
+                   //    len = Math.round(h / 2);
+                   //} else {
+                   //    len = Math.round(w / 2);
+                   //}
+                   //option.series[0].radius = [0, Math.round(len * 0.5)];
+                   //option.series[1].radius = [Math.round(len * 5 / 7), len];
+                   $.ajax({
+                       type: 'POST',
+                       url: '/Handlers/Charts.ashx',
+                       data: { Action: "GetData3", contracttype: $("#contracttype").find("option:selected").text(), year: $("#year").find("option:selected").text(), month: $("#month").find("option:selected").text() },
+                       success: function suc(result) {
+
+                           //return;
+                           //alert(JSON.stringify(result.data.list3));
+
+                           option.legend.data = result.data.list1;
+                           option.yAxis[0].data = result.data.list2;
+                           option.series = result.data.list3;
+                           //alert(JSON.stringify(option.series));
+                           for (var i = 0; i < option.series.length; i++) {
+                               if (i % 2 == 0) {
+                                   option.series[i].itemStyle = dataStyle;
+                               } else {
+                                   option.series[i].itemStyle = placeHoledStyle;
+                               }
+                           }
+                           myChart.setOption(option);
+                           myChart.hideLoading();
+                       },
+                       dataType: 'JSON'
+                   });
+               }
+        );
+        };
+        function refresh() {
+            location.reload();
+        }
+    </script>
+    <script src="/dist/echarts.js"></script>
+</head>
+<body>
+    <div class="collapse" id="collapse1">
+        <div class="form-group">
+            <label class="control-label">年</label>
+            <select id="year" data-width="100%" class="form-control" style="width: '100%'; height: '100%'">
+                <option>2014</option>
+                <option>2015</option>
+                <option>2016</option>
+                <option>2017</option>
+                <option>2018</option>
+                <option>2019</option>
+                <option>2020</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label">月份</label>
+            <select id="month" data-width="100%" class="form-control" style="width: '100%'; height: '100%'">
+                <option>全部</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label">合同类型</label>
+            <select id="contracttype" data-width="100%" class="form-control" style="width: '100%'; height: '100%'">
+            </select>
+        </div>
+        <button id="btn" class="btn  btn-info btn-lg btn-block">查询</button>
+    </div>
+    <div class="collapse" id="collapse2">
+        <button type="button" class="btn  btn-info btn-lg btn-block" onclick="refresh()">更改查询条件</button>
+        <div id="main"></div>
+    </div>
+</body>
+</html>
