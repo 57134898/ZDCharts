@@ -127,7 +127,15 @@ namespace ZDCharts.Handlers
                 userinfo.Psw = user.Psw;
                 userinfo.DeptID = COMN.MyFuncs.GetCodeFromStr(user.DeptID, '-');
                 userinfo.RoleID = COMN.MyFuncs.GetCodeFromStr(user.RoleID, '-');
-                userinfo.CompanyID = user.DeptID.Substring(0, 4);
+                if (COMN.MyFuncs.GetCodeFromStr(user.DeptID, '-').Length <= 2)
+                {
+                    userinfo.CompanyID = user.DeptID.Substring(0, 2);
+                }
+                else
+                {
+                    userinfo.CompanyID = user.DeptID.Substring(0, 4);
+                }
+
                 db.SaveChanges();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
             }
