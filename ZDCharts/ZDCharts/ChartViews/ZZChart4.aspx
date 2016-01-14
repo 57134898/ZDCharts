@@ -33,7 +33,7 @@
             myChart.showLoading();
             // 指定图表的配置项和数据
             option = {
-                title: { text: '', subtext: '样例，数据虚拟' },
+                title: { text: '', subtext: '样例，数据虚拟(单位:万元)' },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {            // 坐标轴指示器，坐标轴触发有效

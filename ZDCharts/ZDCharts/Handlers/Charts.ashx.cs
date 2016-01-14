@@ -298,7 +298,7 @@ GROUP BY HLX,LName,
                                         COMN.MyVars.CWDB);
             System.Data.DataTable dt_company = DBHelper.ExecuteDataTable(sql_company);
             //TODO 取前5条测试 正式需要去掉
-            string sql_ncode = string.Format(@"SELECT  top 5  ncode,nname FROM {0}.dbo.NCODE WHERE NCODE!='' AND LEN(NCODE)=4", COMN.MyVars.CWDB);
+            string sql_ncode = string.Format(@"SELECT  top 12  ncode,nname FROM {0}.dbo.NCODE WHERE NCODE!='' AND LEN(NCODE)=4", COMN.MyVars.CWDB);
             System.Data.DataTable dtn_code = DBHelper.ExecuteDataTable(sql_ncode);
             string sql = string.Format(@"SELECT bcode,REPLACE(REPLACE(bname,'沈阳铸锻工业有限公司',''),'分公司','') bname 
                                                         FROM {0}.dbo.BCODE WHERE LEN(BCODE)=4 AND BCODE BETWEEN 103 AND 130",
@@ -309,8 +309,8 @@ GROUP BY HLX,LName,
             jArr1.Add("本月余额");
             JArray jArr2 = new JArray();
             JArray jArr3 = new JArray();
-
-
+            //随机数
+            Random rd = new Random();
             //上月余额
             JObject jo1 = new JObject();
             jo1.Add("name", "上月余额");
@@ -334,9 +334,9 @@ GROUP BY HLX,LName,
                 //公司列表 X轴
                 jArr2.Add(r["bname"].ToString());
                 // TODO 随机数测试
-                Random rd = new Random();
                 int a = rd.Next(500);
                 jArrData1.Add(a);
+                jArrData2.Add(a);
             }
             jo1.Add("data", jArrData1);
             jo2.Add("data", jArrData2);
@@ -361,15 +361,13 @@ GROUP BY HLX,LName,
                     if (r["ncode"].ToString().StartsWith("01"))
                     {
                         // TODO 随机数测试
-                        Random rd = new Random();
                         int a = rd.Next(500);
                         _jArrData1.Add(a);
                     }
                     else
                     {
                         // TODO 随机数测试
-                        Random rd = new Random();
-                        int a = rd.Next(500);
+                        int a = rd.Next(300);
                         _jArrData1.Add(-1 * a);
                     }
                 }
