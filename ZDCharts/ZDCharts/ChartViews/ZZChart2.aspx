@@ -58,7 +58,7 @@
                 toolbox: {
                     show: true,
                     feature: {
-                        mark: { show: true },
+                        dataZoom: { show: true },
                         dataView: { show: true, readOnly: false },
                         magicType: {
                             show: true,

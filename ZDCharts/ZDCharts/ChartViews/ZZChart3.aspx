@@ -82,7 +82,8 @@
                 toolbox: {
                     show: true,
                     feature: {
-                        magicType: { show: true, type: ['line', 'bar'] },
+                        dataZoom: { show: true },
+                        magicType: { show: true, type: ['line', 'bar', 'pie'] },
                         mark: { show: true },
                         dataView: { show: true, readOnly: false },
                         restore: { show: true },
