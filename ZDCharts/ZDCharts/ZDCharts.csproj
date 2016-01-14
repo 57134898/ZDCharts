@@ -279,6 +279,7 @@
     <Content Include="dist\chart\scatter.js" />
     <Content Include="dist\echarts-all.js" />
     <Content Include="dist\echarts.js" />
+    <Content Include="dist\echarts3-0.min.js" />
     <Content Include="ErrorPage.aspx" />
     <Content Include="ErrorPages\404.html" />
     <Content Include="Icon.png" />
