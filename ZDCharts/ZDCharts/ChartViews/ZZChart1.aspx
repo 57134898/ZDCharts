@@ -45,6 +45,9 @@
                     }
                 },
                 calculable: true,
+                grid: {
+                    x: '20%',
+                },
                 xAxis: [{
                     type: 'category', data: [], axisLabel: {
                         interval: 0,

@@ -69,6 +69,9 @@
                     }
                 },
                 calculable: false,
+                grid: {
+                    x: '30%',
+                },
                 series: [
                     {
                         name: '类型',
