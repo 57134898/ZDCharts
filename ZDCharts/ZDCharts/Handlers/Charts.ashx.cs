@@ -311,14 +311,11 @@ GROUP BY HLX,LName,
             JArray jArr3 = new JArray();
 
 
-            //公司列表 X轴
-            jArr2.Add(r["bname"].ToString());
-            string stackname = "余额";
             //上月余额
             JObject jo1 = new JObject();
             jo1.Add("name", "上月余额");
             jo1.Add("type", "bar");
-            jo1.Add("stack", stackname);
+            jo1.Add("stack", "余额");
             JObject jo11 = new JObject();
             jo11.Add("normal", new JObject(new JProperty[] { new JProperty("show", true), new JProperty("position", "inside") }));
             jo1.Add("itemStyle", jo11);
@@ -327,28 +324,19 @@ GROUP BY HLX,LName,
             JObject jo2 = new JObject();
             jo2.Add("name", "本月余额");
             jo2.Add("type", "bar");
-            jo2.Add("stack", stackname);
+            jo2.Add("stack", "余额");
             JObject jo22 = new JObject();
             jo22.Add("normal", new JObject(new JProperty[] { new JProperty("show", true), new JProperty("position", "inside") }));
             jo2.Add("itemStyle", jo22);
             JArray jArrData2 = new JArray();
             foreach (System.Data.DataRow r in dt_company.Rows)
             {
-
-                foreach (System.Data.DataRow r1 in dt_company.Rows)
-                {
-                    // TODO 随机数测试
-                    Random rd = new Random();
-                    int a = rd.Next(500);
-                    jArrData1.Add(a);
-                }
-                foreach (System.Data.DataRow r1 in dt_company.Rows)
-                {
-                    // TODO 随机数测试
-                    Random rd = new Random();
-                    int a = rd.Next(500);
-                    jArrData2.Add(a);
-                }
+                //公司列表 X轴
+                jArr2.Add(r["bname"].ToString());
+                // TODO 随机数测试
+                Random rd = new Random();
+                int a = rd.Next(500);
+                jArrData1.Add(a);
             }
             jo1.Add("data", jArrData1);
             jo2.Add("data", jArrData2);
@@ -360,14 +348,14 @@ GROUP BY HLX,LName,
                 //资金类型 图例列表
                 jArr1.Add(r["nname"].ToString());
                 string stackname = "发生额";
-                JObject jo1 = new JObject();
-                jo1.Add("name", r["nname"].ToString());
-                jo1.Add("type", "bar");
-                jo1.Add("stack", stackname);
-                JObject jo11 = new JObject();
-                jo11.Add("normal", new JObject(new JProperty[] { new JProperty("show", true), new JProperty("position", "inside") }));
-                jo1.Add("itemStyle", jo11);
-                JArray jArrData1 = new JArray();
+                JObject _jo1 = new JObject();
+                _jo1.Add("name", r["nname"].ToString());
+                _jo1.Add("type", "bar");
+                _jo1.Add("stack", stackname);
+                JObject _jo11 = new JObject();
+                _jo11.Add("normal", new JObject(new JProperty[] { new JProperty("show", true), new JProperty("position", "inside") }));
+                _jo1.Add("itemStyle", _jo11);
+                JArray _jArrData1 = new JArray();
                 foreach (System.Data.DataRow r1 in dt_company.Rows)
                 {
                     if (r["ncode"].ToString().StartsWith("01"))
@@ -375,18 +363,18 @@ GROUP BY HLX,LName,
                         // TODO 随机数测试
                         Random rd = new Random();
                         int a = rd.Next(500);
-                        jArrData1.Add(a);
+                        _jArrData1.Add(a);
                     }
                     else
                     {
                         // TODO 随机数测试
                         Random rd = new Random();
                         int a = rd.Next(500);
-                        jArrData1.Add(-1 * a);
+                        _jArrData1.Add(-1 * a);
                     }
                 }
-                jo1.Add("data", jArrData1);
-                jArr3.Add(jo1);
+                _jo1.Add("data", _jArrData1);
+                jArr3.Add(_jo1);
             }
             JObject data = new JObject();
             data.Add("list1", jArr1);
