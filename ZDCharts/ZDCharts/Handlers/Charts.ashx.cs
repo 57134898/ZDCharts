@@ -310,20 +310,31 @@ GROUP BY HLX,LName,
             JArray jArr2 = new JArray();
             JArray jArr3 = new JArray();
 
+
+            //公司列表 X轴
+            jArr2.Add(r["bname"].ToString());
+            string stackname = "余额";
+            //上月余额
+            JObject jo1 = new JObject();
+            jo1.Add("name", "上月余额");
+            jo1.Add("type", "bar");
+            jo1.Add("stack", stackname);
+            JObject jo11 = new JObject();
+            jo11.Add("normal", new JObject(new JProperty[] { new JProperty("show", true), new JProperty("position", "inside") }));
+            jo1.Add("itemStyle", jo11);
+            JArray jArrData1 = new JArray();
+            //本月余额
+            JObject jo2 = new JObject();
+            jo2.Add("name", "本月余额");
+            jo2.Add("type", "bar");
+            jo2.Add("stack", stackname);
+            JObject jo22 = new JObject();
+            jo22.Add("normal", new JObject(new JProperty[] { new JProperty("show", true), new JProperty("position", "inside") }));
+            jo2.Add("itemStyle", jo22);
+            JArray jArrData2 = new JArray();
             foreach (System.Data.DataRow r in dt_company.Rows)
             {
-                //公司列表 X轴
-                jArr2.Add(r["bname"].ToString());
-                string stackname = "余额";
-                //上月余额
-                JObject jo1 = new JObject();
-                jo1.Add("name", "上月余额");
-                jo1.Add("type", "bar");
-                jo1.Add("stack", stackname);
-                JObject jo11 = new JObject();
-                jo11.Add("normal", new JObject(new JProperty[] { new JProperty("show", true), new JProperty("position", "inside") }));
-                jo1.Add("itemStyle", jo11);
-                JArray jArrData1 = new JArray();
+
                 foreach (System.Data.DataRow r1 in dt_company.Rows)
                 {
                     // TODO 随机数测试
@@ -331,17 +342,6 @@ GROUP BY HLX,LName,
                     int a = rd.Next(500);
                     jArrData1.Add(a);
                 }
-                jo1.Add("data", jArrData1);
-                jArr3.Add(jo1);
-                //本月余额
-                JObject jo2 = new JObject();
-                jo2.Add("name", "本月余额");
-                jo2.Add("type", "bar");
-                jo2.Add("stack", stackname);
-                JObject jo22 = new JObject();
-                jo22.Add("normal", new JObject(new JProperty[] { new JProperty("show", true), new JProperty("position", "inside") }));
-                jo2.Add("itemStyle", jo22);
-                JArray jArrData2 = new JArray();
                 foreach (System.Data.DataRow r1 in dt_company.Rows)
                 {
                     // TODO 随机数测试
@@ -349,9 +349,11 @@ GROUP BY HLX,LName,
                     int a = rd.Next(500);
                     jArrData2.Add(a);
                 }
-                jo2.Add("data", jArrData2);
-                jArr3.Add(jo2);
             }
+            jo1.Add("data", jArrData1);
+            jo2.Add("data", jArrData2);
+            jArr3.Add(jo1);
+            jArr3.Add(jo2);
 
             foreach (System.Data.DataRow r in dtn_code.Rows)
             {
