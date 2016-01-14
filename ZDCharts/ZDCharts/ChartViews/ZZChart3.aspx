@@ -10,7 +10,7 @@
     <script src="../Scripts/jquery-2.1.3.min.js"></script>
     <link href="/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="/Scripts/bootstrap.min.js"></script>
-
+    <script src="/dist/echarts3-0.min.js"></script>
     <script type="text/javascript">
         //重查
         function doagain() {
@@ -38,144 +38,100 @@
             $('#collapse1').collapse('toggle');
         });
         function loadchart() {
-            // 路径配置
-            require.config({
-                paths: {
-                    echarts: '../dist/'
+            $("#main").width($(document).width() * 0.9);
+            $("#main").height($(document).height() * 0.8);
+            var myChart = echarts.init(document.getElementById('main'));
+            myChart.showLoading();
+            var placeHoledStyle = {
+                normal: {
+                    barBorderColor: 'rgba(0,0,0,0)',
+                    color: 'rgba(0,0,0,0)'
+                },
+                emphasis: {
+                    barBorderColor: 'rgba(0,0,0,0)',
+                    color: 'rgba(0,0,0,0)'
                 }
-            });
-            // 使用
-            require(
-                [
-                    'echarts',
-                    'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
-                    'echarts/chart/pie',
-                    'echarts/chart/line',
-                    'echarts/chart/funnel'
+            };
+            var dataStyle = {
+                normal: {
+                    label: {
+                        show: true,
+                        position: 'insideLeft',
+                        formatter: '{c}%'
+                    }
+                }
+            };
+            option = {
+                title: {
+                    text: '货款与发票',
+                    subtext: '来自合同软件',
+                    sublink: ''//'http://www.sycasting-nhi.com'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    },
+                    formatter: '{b}<br/>{a0}:{c0}%<br/>{a2}:{c2}%'//'{b}<br/>{a0}:{c0}%<br/>{a2}:{c2}%<br/>{a4}:{c4}%<br/>{a6}:{c6}%'
+                },
+                legend: {
+                    y: 55,
+                    itemGap: document.getElementById('main').offsetWidth / 8,
+                    data: []
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        magicType: { show: true, type: ['line', 'bar'] },
+                        mark: { show: true },
+                        dataView: { show: true, readOnly: false },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                grid: {
+                    x: 150,
+                    y: 80,
+                    y2: 30
+                },
+                xAxis: [
+                    {
+                        type: 'value',
+                        position: 'top',
+                        splitLine: { show: false },
+                        axisLabel: { show: false }
+                    }
                 ],
-               function (ec) {
-                   $('#main').css('height', $(window).height() * 0.8);
-                   var myChart = ec.init(document.getElementById('main'));
-                   myChart.showLoading({
-                       text: "图表数据正在努力加载...",
-                       effect: "spin"
-                   });
-
-
-                   var placeHoledStyle = {
-                       normal: {
-                           barBorderColor: 'rgba(0,0,0,0)',
-                           color: 'rgba(0,0,0,0)'
-                       },
-                       emphasis: {
-                           barBorderColor: 'rgba(0,0,0,0)',
-                           color: 'rgba(0,0,0,0)'
-                       }
-                   };
-                   var dataStyle = {
-                       normal: {
-                           label: {
-                               show: true,
-                               position: 'insideLeft',
-                               formatter: '{c}%'
-                           }
-                       }
-                   };
-                   option = {
-                       title: {
-                           text: '货款与发票',
-                           subtext: '来自合同软件',
-                           sublink: ''//'http://www.sycasting-nhi.com'
-                       },
-                       tooltip: {
-                           trigger: 'axis',
-                           axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                               type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                           },
-                           formatter: '{b}<br/>{a0}:{c0}%<br/>{a2}:{c2}%'//'{b}<br/>{a0}:{c0}%<br/>{a2}:{c2}%<br/>{a4}:{c4}%<br/>{a6}:{c6}%'
-                       },
-                       legend: {
-                           y: 55,
-                           itemGap: document.getElementById('main').offsetWidth / 8,
-                           data: []
-                       },
-                       toolbox: {
-                           show: true,
-                           feature: {
-                               magicType: { show: true, type: ['line', 'bar'] },
-                               mark: { show: true },
-                               dataView: { show: true, readOnly: false },
-                               restore: { show: true },
-                               saveAsImage: { show: true }
-                           }
-                       },
-                       grid: {
-                           x: 200,
-                           y: 80,
-                           y2: 30
-                       },
-                       xAxis: [
-                           {
-                               type: 'value',
-                               position: 'top',
-                               splitLine: { show: false },
-                               axisLabel: { show: false }
-                           }
-                       ],
-                       yAxis: [
-                           {
-                               type: 'category',
-                               splitLine: { show: false },
-                               data: []
-                           }
-                       ],
-                       series: []
-                   };
-
-
-                   //myChart.setOption(option);
-                   //myChart.hideLoading();
-                   //return;
-
-
-                   //var len = 0;
-                   //var w = $(document.body).width();
-                   //var h = $(document.body).height();
-                   ////alert($(document).height());
-                   //if (w > h) {
-                   //    len = Math.round(h / 2);
-                   //} else {
-                   //    len = Math.round(w / 2);
-                   //}
-                   //option.series[0].radius = [0, Math.round(len * 0.5)];
-                   //option.series[1].radius = [Math.round(len * 5 / 7), len];
-                   $.ajax({
-                       type: 'POST',
-                       url: '/Handlers/Charts.ashx',
-                       data: { Action: "GetData3", contracttype: $("#contracttype").find("option:selected").text(), year: $("#year").find("option:selected").text(), month: $("#month").find("option:selected").text() },
-                       success: function suc(result) {
-
-                           //return;
-                           //alert(JSON.stringify(result.data.list3));
-
-                           option.legend.data = result.data.list1;
-                           option.yAxis[0].data = result.data.list2;
-                           option.series = result.data.list3;
-                           //alert(JSON.stringify(option.series));
-                           for (var i = 0; i < option.series.length; i++) {
-                               if (i % 2 == 0) {
-                                   option.series[i].itemStyle = dataStyle;
-                               } else {
-                                   option.series[i].itemStyle = placeHoledStyle;
-                               }
-                           }
-                           myChart.setOption(option);
-                           myChart.hideLoading();
-                       },
-                       dataType: 'JSON'
-                   });
-               }
-        );
+                yAxis: [
+                    {
+                        type: 'category',
+                        splitLine: { show: false },
+                        data: []
+                    }
+                ],
+                series: []
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/Handlers/Charts.ashx',
+                data: { Action: "GetData3", contracttype: $("#contracttype").find("option:selected").text(), year: $("#year").find("option:selected").text(), month: $("#month").find("option:selected").text() },
+                success: function suc(result) {
+                    option.legend.data = result.data.list1;
+                    option.yAxis[0].data = result.data.list2;
+                    option.series = result.data.list3;
+                    //alert(JSON.stringify(option.series));
+                    for (var i = 0; i < option.series.length; i++) {
+                        if (i % 2 == 0) {
+                            option.series[i].itemStyle = dataStyle;
+                        } else {
+                            option.series[i].itemStyle = placeHoledStyle;
+                        }
+                    }
+                    myChart.setOption(option);
+                    myChart.hideLoading();
+                },
+                dataType: 'JSON'
+            });
         };
         function refresh() {
             location.reload();

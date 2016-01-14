@@ -10,7 +10,7 @@
     <script src="../Scripts/jquery-2.1.3.min.js"></script>
     <link href="/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="/Scripts/bootstrap.min.js"></script>
-
+    <script src="/dist/echarts3-0.min.js"></script>
     <script type="text/javascript">
         //重查
         function doagain() {
@@ -26,67 +26,49 @@
             $('#collapse1').collapse('toggle');
         });
         function loadchart() {
-            // 路径配置
-            require.config({
-                paths: {
-                    echarts: '../dist/'
-                }
+            $("#main").width($(document).width() * 0.9);
+            $("#main").height($(document).height() * 0.8);
+            var myChart = echarts.init(document.getElementById('main'));
+            myChart.showLoading();
+            option = {
+                title: { text: '合同付款审批情况', subtext: '按公司' },
+                tooltip: { trigger: 'axis' },
+                legend: { data: ['现金', '票据', '合计'] },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: { show: true },
+                        dataView: { show: true, readOnly: false },
+                        magicType: { show: true, type: ['line', 'bar'] },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                calculable: true,
+                xAxis: [{
+                    type: 'category', data: [], axisLabel: {
+                        interval: 0,
+                        formatter: function (val) {
+                            return val.split("").join("\n");
+                        }
+                    }
+                }],
+                yAxis: [{ type: 'value' }], series: [{ name: '现金', type: 'bar', data: [] }, { name: '票据', type: 'bar', data: [] }, { name: '合计', type: 'bar', data: [] }]
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/Handlers/Charts.ashx',
+                data: { Action: "GetData1", year: $("#year").find("option:selected").text(), month: $("#month").find("option:selected").text() },
+                success: function suc(result) {
+                    option.xAxis[0].data = result.data.list1;
+                    option.series[0].data = result.data.list2;
+                    option.series[1].data = result.data.list3;
+                    option.series[2].data = result.data.list4;
+                    myChart.setOption(option);
+                    myChart.hideLoading();
+                },
+                dataType: 'JSON'
             });
-            // 使用
-            require(
-                [
-                    'echarts',
-                    'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
-                    'echarts/chart/line'
-                ],
-               function (ec) {
-                   $('#main').css('height', $(window).height() * 0.8);
-                   var myChart = ec.init(document.getElementById('main'));
-                   myChart.showLoading({
-                       text: "图表数据正在努力加载...",
-                       effect: "spin"
-                   });
-                   option = {
-                       title: { text: '合同付款审批情况', subtext: '按公司' },
-                       tooltip: { trigger: 'axis' },
-                       legend: { data: ['现金', '票据', '合计'] },
-                       toolbox: {
-                           show: true,
-                           feature: {
-                               mark: { show: true },
-                               dataView: { show: true, readOnly: false },
-                               magicType: { show: true, type: ['line', 'bar'] },
-                               restore: { show: true },
-                               saveAsImage: { show: true }
-                           }
-                       },
-                       calculable: true,
-                       xAxis: [{
-                           type: 'category', data: [], axisLabel: {
-                               interval: 0,
-                               formatter: function (val) {
-                                   return val.split("").join("\n");
-                               }
-                           }
-                       }],
-                       yAxis: [{ type: 'value' }], series: [{ name: '现金', type: 'bar', data: [] }, { name: '票据', type: 'bar', data: [] }, { name: '合计', type: 'bar', data: [] }]
-                   };
-                   $.ajax({
-                       type: 'POST',
-                       url: '/Handlers/Charts.ashx',
-                       data: { Action: "GetData1", year: $("#year").find("option:selected").text(), month: $("#month").find("option:selected").text() },
-                       success: function suc(result) {
-                           option.xAxis[0].data = result.data.list1;
-                           option.series[0].data = result.data.list2;
-                           option.series[1].data = result.data.list3;
-                           option.series[2].data = result.data.list4;
-                           myChart.setOption(option);
-                           myChart.hideLoading();
-                       },
-                       dataType: 'JSON'
-                   });
-               }
-        );
         };
         function refresh() {
             location.reload();

@@ -10,7 +10,7 @@
     <script src="../Scripts/jquery-2.1.3.min.js"></script>
     <link href="/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="/Scripts/bootstrap.min.js"></script>
-
+    <script src="/dist/echarts3-0.min.js"></script>
     <script type="text/javascript">
         //重查
         function doagain() {
@@ -37,152 +37,79 @@
             $('#collapse1').collapse('toggle');
         });
         function loadchart() {
-            // 路径配置
-            require.config({
-                paths: {
-                    echarts: '../dist/'
-                }
+            $("#main").width($(document).width() * 0.9);
+            $("#main").height($(document).height() * 0.8);
+            //alert($(document.body).width() + "|" + $(document).height());
+            var myChart = echarts.init(document.getElementById('main'));
+            myChart.showLoading();
+
+            option = {
+                title: { text: '费用支出' },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                },
+                legend: {
+                    top: 50,
+                    orient: 'vertical',
+                    x: 'left',
+                    data: []
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: { show: true },
+                        dataView: { show: true, readOnly: false },
+                        magicType: {
+                            show: true,
+                            type: ['pie', 'funnel']
+                        },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                calculable: false,
+                series: [
+                    {
+                        name: '类型',
+                        type: 'pie',
+                        selectedMode: 'single',
+                        radius: [0, '30%'],
+
+                        label: {
+                            normal: {
+                                position: 'inner'
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data: []
+                    },
+                    {
+                        name: '资金项目',
+                        type: 'pie',
+                        radius: ['40%', '55%'],
+                        data: []
+                    }
+                ]
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/Handlers/Charts.ashx',
+                data: { Action: "GetData2", company: $("#company").find("option:selected").text(), year: $("#year").find("option:selected").text(), month: $("#month").find("option:selected").text() },
+                success: function suc(result) {
+                    option.legend.data = result.data.list1;
+                    option.series[0].data = result.data.list2;
+                    option.series[1].data = result.data.list3;
+                    myChart.setOption(option);
+                    myChart.hideLoading();
+                },
+                dataType: 'JSON'
             });
-            // 使用
-            require(
-                [
-                    'echarts',
-                    'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
-                    'echarts/chart/pie',
-                    'echarts/chart/line',
-                    'echarts/chart/funnel'
-                ],
-               function (ec) {
-                   $('#main').css('height', $(window).height() * 0.8);
-                   var myChart = ec.init(document.getElementById('main'));
-                   myChart.showLoading({
-                       text: "图表数据正在努力加载...",
-                       effect: "spin"
-                   });
-
-                   option = {
-                       title: { text: '                         费用支出' },
-                       tooltip: {
-                           trigger: 'item',
-                           formatter: "{a} <br/>{b} : {c} ({d}%)"
-                       },
-                       legend: {
-                           orient: 'vertical',
-                           x: 'left',
-                           data: []//['直达', '营销广告', '搜索引擎', '邮件营销', '联盟广告', '视频广告', '百度', '谷歌', '必应', '其他']
-                       },
-                       toolbox: {
-                           show: true,
-                           feature: {
-                               mark: { show: true },
-                               dataView: { show: true, readOnly: false },
-                               magicType: {
-                                   show: true,
-                                   type: ['pie', 'funnel']
-                               },
-                               restore: { show: true },
-                               saveAsImage: { show: true }
-                           }
-                       },
-                       calculable: false,
-                       series: [
-                           {
-                               name: '类型',
-                               type: 'pie',
-                               selectedMode: 'single',
-                               radius: [0, 70],
-
-                               // for funnel
-                               x: '20%',
-                               width: '40%',
-                               funnelAlign: 'right',
-                               max: 100,
-
-                               itemStyle: {
-                                   normal: {
-                                       label: {
-                                           position: 'inner'
-                                       },
-                                       labelLine: {
-                                           show: false
-                                       }
-                                   }
-                               },
-                               data: []
-                               //    [
-                               //    { value: 335, name: '直达' },
-                               //    { value: 679, name: '营销广告' },
-                               //    { value: 1548, name: '搜索引擎', selected: true }
-                               //]
-                           },
-                           {
-                               name: '资金项目',
-                               type: 'pie',
-                               radius: [100, 140],
-
-                               // for funnel
-                               x: '60%',
-                               width: '35%',
-                               funnelAlign: 'left',
-                               max: 100,
-
-                               data: []
-                               //    [
-                               //    { value: 335, name: '直达' },
-                               //    { value: 310, name: '邮件营销' },
-                               //    { value: 234, name: '联盟广告' },
-                               //    { value: 135, name: '视频广告' },
-                               //    { value: 1048, name: '百度' },
-                               //    { value: 251, name: '谷歌' },
-                               //    { value: 147, name: '必应' },
-                               //    { value: 102, name: '其他' }
-                               //]
-                           }
-                       ]
-                   };
-                   var ecConfig = require('echarts/config');
-                   myChart.on(ecConfig.EVENT.PIE_SELECTED, function (param) {
-                       var selected = param.selected;
-                       var serie;
-                       var str = '当前选择： ';
-                       for (var idx in selected) {
-                           serie = option.series[idx];
-                           for (var i = 0, l = serie.data.length; i < l; i++) {
-                               if (selected[idx][i]) {
-                                   str += '【系列' + idx + '】' + serie.name + ' : ' +
-                                          '【数据' + i + '】' + serie.data[i].name + ' ';
-                               }
-                           }
-                       }
-                       document.getElementById('wrong-message').innerHTML = str;
-                   })
-
-                   var len = 0;
-                   var w = $(document.body).width();
-                   var h = $(document.body).height();
-                   //alert($(document).height());
-                   if (w > h) {
-                       len = Math.round(h / 2);
-                   } else {
-                       len = Math.round(w / 2);
-                   }
-                   option.series[0].radius = [0, Math.round(len * 0.5)];
-                   option.series[1].radius = [Math.round(len * 5 / 7), len];
-                   $.ajax({
-                       type: 'POST',
-                       url: '/Handlers/Charts.ashx',
-                       data: { Action: "GetData2", company: $("#company").find("option:selected").text(), year: $("#year").find("option:selected").text(), month: $("#month").find("option:selected").text() },
-                       success: function suc(result) {
-                           option.legend.data = result.data.list1;
-                           option.series[0].data = result.data.list2;
-                           option.series[1].data = result.data.list3;
-                           myChart.setOption(option);
-                           myChart.hideLoading();
-                       },
-                       dataType: 'JSON'
-                   });
-               }
-        );
         };
         function refresh() {
             location.reload();
