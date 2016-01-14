@@ -281,5 +281,116 @@ GROUP BY HLX,LName,
             data.Add("list3", jArr3);
             return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = data };
         }
+
+        public Tools.JsonResponse GetData4()
+        {
+            string syear = GetParam("year");
+            string smonth = GetParam("month");
+            if (smonth == "全部")
+            {
+                smonth = "12";
+            }
+            int year = int.Parse(syear);
+            int month = int.Parse(smonth);
+            //TODO 取前8条测试 正式需要去掉
+            string sql_company = string.Format(@"SELECT top 8 bcode,REPLACE(REPLACE(bname,'沈阳铸锻工业有限公司',''),'分公司','') bname 
+                                                        FROM {0}.dbo.BCODE WHERE LEN(BCODE)=4 AND BCODE BETWEEN 103 AND 130",
+                                        COMN.MyVars.CWDB);
+            System.Data.DataTable dt_company = DBHelper.ExecuteDataTable(sql_company);
+            //TODO 取前5条测试 正式需要去掉
+            string sql_ncode = string.Format(@"SELECT  top 5  ncode,nname FROM {0}.dbo.NCODE WHERE NCODE!='' AND LEN(NCODE)=4", COMN.MyVars.CWDB);
+            System.Data.DataTable dtn_code = DBHelper.ExecuteDataTable(sql_ncode);
+            string sql = string.Format(@"SELECT bcode,REPLACE(REPLACE(bname,'沈阳铸锻工业有限公司',''),'分公司','') bname 
+                                                        FROM {0}.dbo.BCODE WHERE LEN(BCODE)=4 AND BCODE BETWEEN 103 AND 130",
+                                                    COMN.MyVars.CWDB);
+            System.Data.DataTable dt = DBHelper.ExecuteDataTable(sql);
+            JArray jArr1 = new JArray();
+            jArr1.Add("上月余额");
+            jArr1.Add("本月余额");
+            JArray jArr2 = new JArray();
+            JArray jArr3 = new JArray();
+
+            foreach (System.Data.DataRow r in dt_company.Rows)
+            {
+                //公司列表 X轴
+                jArr2.Add(r["bname"].ToString());
+                string stackname = "余额";
+                //上月余额
+                JObject jo1 = new JObject();
+                jo1.Add("name", "上月余额");
+                jo1.Add("type", "bar");
+                jo1.Add("stack", stackname);
+                JObject jo11 = new JObject();
+                jo11.Add("normal", new JObject(new JProperty[] { new JProperty("show", true), new JProperty("position", "inside") }));
+                jo1.Add("itemStyle", jo11);
+                JArray jArrData1 = new JArray();
+                foreach (System.Data.DataRow r1 in dt_company.Rows)
+                {
+                    // TODO 随机数测试
+                    Random rd = new Random();
+                    int a = rd.Next(500);
+                    jArrData1.Add(a);
+                }
+                jo1.Add("data", jArrData1);
+                jArr3.Add(jo1);
+                //本月余额
+                JObject jo2 = new JObject();
+                jo2.Add("name", "本月余额");
+                jo2.Add("type", "bar");
+                jo2.Add("stack", stackname);
+                JObject jo22 = new JObject();
+                jo22.Add("normal", new JObject(new JProperty[] { new JProperty("show", true), new JProperty("position", "inside") }));
+                jo2.Add("itemStyle", jo22);
+                JArray jArrData2 = new JArray();
+                foreach (System.Data.DataRow r1 in dt_company.Rows)
+                {
+                    // TODO 随机数测试
+                    Random rd = new Random();
+                    int a = rd.Next(500);
+                    jArrData2.Add(a);
+                }
+                jo2.Add("data", jArrData2);
+                jArr3.Add(jo2);
+            }
+
+            foreach (System.Data.DataRow r in dtn_code.Rows)
+            {
+                //资金类型 图例列表
+                jArr1.Add(r["nname"].ToString());
+                string stackname = "发生额";
+                JObject jo1 = new JObject();
+                jo1.Add("name", r["nname"].ToString());
+                jo1.Add("type", "bar");
+                jo1.Add("stack", stackname);
+                JObject jo11 = new JObject();
+                jo11.Add("normal", new JObject(new JProperty[] { new JProperty("show", true), new JProperty("position", "inside") }));
+                jo1.Add("itemStyle", jo11);
+                JArray jArrData1 = new JArray();
+                foreach (System.Data.DataRow r1 in dt_company.Rows)
+                {
+                    if (r["ncode"].ToString().StartsWith("01"))
+                    {
+                        // TODO 随机数测试
+                        Random rd = new Random();
+                        int a = rd.Next(500);
+                        jArrData1.Add(a);
+                    }
+                    else
+                    {
+                        // TODO 随机数测试
+                        Random rd = new Random();
+                        int a = rd.Next(500);
+                        jArrData1.Add(-1 * a);
+                    }
+                }
+                jo1.Add("data", jArrData1);
+                jArr3.Add(jo1);
+            }
+            JObject data = new JObject();
+            data.Add("list1", jArr1);
+            data.Add("list2", jArr2);
+            data.Add("list3", jArr3);
+            return new Tools.JsonResponse() { Code = "0", Msg = "收支情况图按月拟", Data = data };
+        }
     }
 }

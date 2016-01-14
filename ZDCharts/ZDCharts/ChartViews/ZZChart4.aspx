@@ -24,17 +24,6 @@
                 loadchart();
                 doagain();
             });
-            $.ajax({
-                type: 'POST',
-                url: '/Handlers/sys.ashx',
-                data: { Action: "GetContractTpyeList" },
-                success: function suc(result) {
-                    for (var i = 0; i < result.data.length; i++) {
-                        $("#contracttype").append(" <option>" + result.data[i].LID + "-" + result.data[i].LNAME + "</option>");
-                    }
-                },
-                dataType: 'JSON'
-            });
             $('#collapse1').collapse('toggle');
         });
         function loadchart() {
@@ -44,40 +33,39 @@
             myChart.showLoading();
             // 指定图表的配置项和数据
             option = {
-                title: { text: '合同付款审批情况', subtext: '按公司' },
-                tooltip: { trigger: 'axis' },
-                legend: { data: ['现金', '票据', '合计'] },
+                title: { text: '', subtext: '样例，数据虚拟' },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
                 toolbox: {
                     show: true,
                     feature: {
                         mark: { show: true },
                         dataView: { show: true, readOnly: false },
-                        magicType: { show: true, type: ['line', 'bar'] },
+                        magicType: { show: true, type: ['line', 'bar', 'stack', 'tiled'] },
                         restore: { show: true },
                         saveAsImage: { show: true }
                     }
                 },
-                calculable: true,
-                xAxis: [{
-                    type: 'category', data: [], axisLabel: {
-                        interval: 0,
-                        formatter: function (val) {
-                            return val.split("").join("\n");
-                        }
-                    }
-                }],
-                yAxis: [{ type: 'value' }], series: [{ name: '现金', type: 'bar', data: [] }, { name: '票据', type: 'bar', data: [] }, { name: '合计', type: 'bar', data: [] }]
+                legend: { top: '8%', data: [] },
+                grid: { top: '18%', left: '3%', right: '4%', bottom: '3%', containLabel: true },
+                xAxis: [{ type: 'value' }],
+                yAxis: [{ type: 'category', axisTick: { show: false }, data: [] }],
+                series: []
             };
 
             $.ajax({
                 type: 'POST',
                 url: '/Handlers/Charts.ashx',
-                data: { Action: "GetData1", year: $("#year").find("option:selected").text(), month: $("#month").find("option:selected").text() },
+                data: { Action: "GetData4", year: $("#year").find("option:selected").text(), month: $("#month").find("option:selected").text() },
                 success: function suc(result) {
-                    option.xAxis[0].data = result.data.list1;
-                    option.series[0].data = result.data.list2;
-                    option.series[1].data = result.data.list3;
-                    option.series[2].data = result.data.list4;
+                    option.title.text = result.msg;
+                    option.legend.data = result.data.list1;
+                    option.yAxis[0].data = result.data.list2;
+                    option.series = result.data.list3;
                     myChart.setOption(option);
                     myChart.hideLoading();
                 },
@@ -121,11 +109,6 @@
                 <option>10</option>
                 <option>11</option>
                 <option>12</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="control-label">合同类型</label>
-            <select id="contracttype" data-width="100%" class="form-control" style="width: '100%'; height: '100%'">
             </select>
         </div>
         <button id="btn" class="btn  btn-info btn-lg btn-block">查询</button>
