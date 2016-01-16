@@ -52,8 +52,8 @@
                 },
                 legend: { top: '8%', data: [] },
                 grid: { top: '18%', left: '3%', right: '4%', bottom: '3%', containLabel: true },
-                xAxis: [{ type: 'value' }],
-                yAxis: [{ type: 'category', axisTick: { show: false }, data: [] }],
+                xAxis: [{ type: 'category', axisTick: { show: false }, data: [] }],
+                yAxis: [{ type: 'value' }],
                 series: []
             };
 
@@ -64,7 +64,7 @@
                 success: function suc(result) {
                     option.title.text = result.msg;
                     option.legend.data = result.data.list1;
-                    option.yAxis[0].data = result.data.list2;
+                    option.xAxis[0].data = result.data.list2;
                     option.series = result.data.list3;
                     myChart.setOption(option);
                     myChart.hideLoading();
