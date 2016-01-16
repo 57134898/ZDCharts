@@ -66,6 +66,19 @@
                     option.legend.data = result.data.list1;
                     option.xAxis[0].data = result.data.list2;
                     option.series = result.data.list3;
+                    for (var i = 0; i < option.series.length; i++) {
+                    //    option.series[i].markPoint = {
+                    //        data: [
+                    //            { type: 'max', name: '最大值' },
+                    //            { type: 'min', name: '最小值' }
+                    //        ]
+                    //    };
+                    //    option.series[i].markLine = {
+                    //        data: [
+                    //            { type: 'average', name: '平均值' }
+                    //        ]
+                    //    };
+                    //}
                     myChart.setOption(option);
                     myChart.hideLoading();
                 },
