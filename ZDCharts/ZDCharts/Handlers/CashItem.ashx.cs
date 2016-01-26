@@ -392,7 +392,7 @@ namespace ZDCharts.Handlers
                     decimal mRmb = decimal.Zero;
                     //退款合同对象
                     var mh1 = list.FirstOrDefault();
-                    if (cashItem.Cash <= 0)
+                    if (cashItem.Cash < 0)
                     {
                         mRmb += (cashItem.Cash * -1);
                         string _sql1 = string.Empty;
