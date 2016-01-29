@@ -293,6 +293,7 @@
     <Content Include="LogInPage.html" />
     <Content Include="LogInPagePc.aspx" />
     <Content Include="LogInPagePc.html" />
+    <Content Include="logo114.ico" />
     <Content Include="logo144.ico" />
     <Content Include="logo72.ico" />
     <Content Include="packages.config" />
