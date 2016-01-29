@@ -40,13 +40,13 @@
         <div class="form-group">
             <label for="usernameInput">用户名</label>
             <div>
-                <input type="text" class="form-control" id="usernameInput" placeholder="输入用户名" value="0001" runat="server" />
+                <input type="text" class="form-control" id="usernameInput" placeholder="输入用户名" value="" runat="server" />
             </div>
         </div>
         <div class="form-group">
             <label for="pswInput">密码</label>
             <div>
-                <input type="password" class="form-control" id="pswInput" placeholder="输入密码" value="123" runat="server" />
+                <input type="password" class="form-control" id="pswInput" placeholder="输入密码" value="" runat="server" />
             </div>
         </div>
         <div id="errormsg" runat="server"></div>
