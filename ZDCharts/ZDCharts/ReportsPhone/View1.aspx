@@ -158,7 +158,7 @@
                             shtml = shtml.concat("<div class='panel" + titlecss + "'>");
                             shtml = shtml.concat("<div class='panel-heading'> <span class='glyphicon glyphicon-asterisk' aria-hidden='true'></span>&nbsp;" + resp.data[i].Expenses.CompanyName + "</div>");
                             shtml = shtml.concat("<div class='panel-body'>");
-                            shtml = shtml.concat("<table class='table  table-striped'>");
+                            shtml = shtml.concat("<table class='table  table-striped'>");  
                             shtml = shtml.concat("<tr><td>摘要:</td><td class='numFormat'>" + resp.data[i].Expenses.FName + "</td></tr>");
                             shtml = shtml.concat("<tr><td>金额:</td><td class='numFormat'>" + resp.data[i].Expenses.Rmb + "</td></tr>");
                             shtml = shtml.concat("<tr><td>审批日期:</td><td class='numFormat'>" + resp.data[i].Nodes.CreatedDate + "</td></tr>");

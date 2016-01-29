@@ -125,7 +125,16 @@ namespace ZDCharts.Handlers
                                       })
                                       .OrderBy(p => p.CompanyID)
                                       .ToList();
-                    return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
+
+                    if (this.UserInfo.RoleID == "01")
+                    {
+                        return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
+                    }
+                    else
+                    {
+                        return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list.Where(p => p.CompanyID == UserInfo.CompanyID) };
+                    }
+
                 }
                 else
                 {
@@ -148,7 +157,14 @@ namespace ZDCharts.Handlers
                                       })
                                       .OrderBy(p => p.CompanyID)
                                       .ToList();
-                    return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
+                    if (this.UserInfo.RoleID == "01")
+                    {
+                        return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list };
+                    }
+                    else
+                    {
+                        return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list.Where(p => p.CompanyID == UserInfo.CompanyID) };
+                    }
                 }
             }
         }
