@@ -154,23 +154,20 @@
                             shtml = shtml.concat("<div class='panel-footer'>");
                             shtml = shtml.concat("</div></div></a>");
                         } else {
-                            shtml = shtml.concat("<a class='list-group-item'>");
+                            shtml = shtml.concat("<a class='list-group-item'><span class='badge'>" + resp.data[i].Expenses.Rmb + "</span>" + resp.data[i].Expenses.FName);
+                            shtml = shtml.concat("<div class='collapse'>");
+                            shtml = shtml.concat("<br/>");
                             shtml = shtml.concat("<div class='panel" + titlecss + "'>");
                             shtml = shtml.concat("<div class='panel-heading'> <span class='glyphicon glyphicon-asterisk' aria-hidden='true'></span>&nbsp;" + resp.data[i].Expenses.CompanyName + "</div>");
                             shtml = shtml.concat("<div class='panel-body'>");
                             shtml = shtml.concat("<table class='table  table-striped'>");
                             shtml = shtml.concat("<tr><td>摘要:</td><td class='numFormat'>" + resp.data[i].Expenses.FName + "</td></tr>");
                             shtml = shtml.concat("<tr><td>金额:</td><td class='numFormat'>" + resp.data[i].Expenses.Rmb + "</td></tr>");
-                            shtml = shtml.concat("</table>");
-                            shtml = shtml.concat("<div class='collapse'>");
-                            shtml = shtml.concat("<table class='table  table-striped'>");
                             shtml = shtml.concat("<tr><td>审批日期:</td><td class='numFormat'>" + resp.data[i].Nodes.CreatedDate + "</td></tr>");
                             shtml = shtml.concat("<tr><td>状态:</td><td class='numFormat'>" + resp.data[i].Expenses.ApprovalStatusName + "</td></tr>");
                             shtml = shtml.concat("<tr><td>类型:</td><td class='numFormat'>" + resp.data[i].Expenses.RmbType + "</td></tr>");
                             shtml = shtml.concat("<tr><td>审批人:</td><td class='numFormat'>" + resp.data[i].Emp.EmpName + "</td></tr>");
-                            shtml = shtml.concat("</table>");
-                            shtml = shtml.concat("</div>");
-                            shtml = shtml.concat("</div>");
+                            shtml = shtml.concat("</div></div>");
                             //shtml = shtml.concat("<div class='panel-footer'>");
                             shtml = shtml.concat("</div></div></a>");
                         }
