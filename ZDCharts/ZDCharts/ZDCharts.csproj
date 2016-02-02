@@ -306,6 +306,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Handlers\Report1.ashx" />
+    <Content Include="ReportsPhone\Report1.aspx" />
+    <Content Include="ReportsPhone\ReprotList.aspx" />
     <Content Include="ReportsPhone\View1.aspx" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.js.map" />
@@ -347,6 +349,7 @@
     <Content Include="Handlers\Quary1.ashx" />
     <Content Include="Handlers\Charts.ashx" />
     <Content Include="Handlers\Test.ashx" />
+    <Content Include="Handlers\Reoprts.ashx" />
     <None Include="Properties\PublishProfiles\conf.pubxml" />
     <None Include="Properties\PublishProfiles\rmb.pubxml" />
     <None Include="Web.Debug.config">
@@ -562,6 +565,9 @@
     <Compile Include="Handlers\Quary1.ashx.cs">
       <DependentUpon>Quary1.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\Reoprts.ashx.cs">
+      <DependentUpon>Reoprts.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handlers\Report1.ashx.cs">
       <DependentUpon>Report1.ashx</DependentUpon>
     </Compile>
@@ -609,6 +615,20 @@
       <DependentUpon>LogInPagePc.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportsPhone\Report1.aspx.cs">
+      <DependentUpon>Report1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportsPhone\Report1.aspx.designer.cs">
+      <DependentUpon>Report1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportsPhone\ReprotList.aspx.cs">
+      <DependentUpon>ReprotList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportsPhone\ReprotList.aspx.designer.cs">
+      <DependentUpon>ReprotList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ReportsPhone\View1.aspx.cs">
       <DependentUpon>View1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
