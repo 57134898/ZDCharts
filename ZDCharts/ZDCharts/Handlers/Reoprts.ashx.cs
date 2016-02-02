@@ -51,7 +51,7 @@ GROUP BY I.BCODE,B.BNAME,SUBSTRING(I.ACODE,1,6),A.ANAME
             {
                 JObject jo = new JObject();
                 jo.Add("bcode", item.bcode);
-                jo.Add("bname", item.bcode);
+                jo.Add("bname", item.bname);
                 jo.Add("total", item.total.ToString("N"));
                 jo.Add("cash", listBal.SingleOrDefault(p => p.bcode == item.bcode && p.acode == "122101").balrmb.ToString("N"));
                 jo.Add("note", listBal.SingleOrDefault(p => p.bcode == item.bcode && p.acode == "122102").balrmb.ToString("N"));

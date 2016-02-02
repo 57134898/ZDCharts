@@ -47,7 +47,7 @@
             var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('table'));
             $.ajax({
                 type: 'POST',
-                url: '/Handlers/Reoprts.ashx',
+                url: '/Handlers/Reoprts.ashx',//注意单词Reoprts不是Reports，拼写错误，懒得改了
                 data: { action: 'GetData1' },
                 success: function suc(result) {
                     $("#tablebody").empty();
