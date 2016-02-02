@@ -212,7 +212,7 @@
             <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>图表
         </a>
         <br />
-        <a href="ReprotList.aspx" class="btn btn-danger btn-lg btn-block">
+        <a href="ReprotList.aspx" class="btn btn-success btn-lg btn-block">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>报表
         </a>
         <div id="msg" runat="server"></div>

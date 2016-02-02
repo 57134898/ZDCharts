@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bal.cs" />
     <Compile Include="CashDraft.cs" />
     <Compile Include="CashItem.cs" />
     <Compile Include="Expense.cs" />
