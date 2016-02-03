@@ -11,38 +11,71 @@
     <script src="/Scripts/bootstrap.min.js"></script>
     <script src="../Scripts/spin.min.js"></script>
     <script src="/Scripts/myjs.js"></script>
+    <script src="/dist/echarts3-0.min.js"></script>
     <script type="text/javascript">
-        //重查
-        function addKannma(number) {
-            var num = number + "";
-            num = num.replace(new RegExp(",", "g"), "");
-            // 正负号处理   
-            var symble = "";
-            if (/^([-+]).*$/.test(num)) {
-                symble = num.replace(/^([-+]).*$/, "$1");
-                num = num.replace(/^([-+])(.*)$/, "$2");
-            }
 
-            if (/^[0-9]+(\.[0-9]+)?$/.test(num)) {
-                var num = num.replace(new RegExp("^[0]+", "g"), "");
-                if (/^\./.test(num)) {
-                    num = "0" + num;
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                 }
-
-                var decimal = num.replace(/^[0-9]+(\.[0-9]+)?$/, "$1");
-                var integer = num.replace(/^([0-9]+)(\.[0-9]+)?$/, "$1");
-
-                var re = /(\d+)(\d{3})/;
-
-                while (re.test(integer)) {
-                    integer = integer.replace(re, "$1,$2");
+            },
+            legend: {
+                data: ['合计', '现汇', '票据']
+            },
+            grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+            xAxis: [{ type: 'value' }],
+            yAxis: [
+                {
+                    type: 'category',
+                    axisTick: { show: false },
+                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
                 }
-                return symble + integer + decimal;
-
-            } else {
-                return number;
-            }
-        }
+            ],
+            series: [
+                {
+                    name: '合计',
+                    type: 'bar',
+                    itemStyle: {
+                        normal: {
+                            label: { show: true, position: 'inside' }
+                        }
+                    },
+                    data: [200, 170, 240, 244, 200, 220, 210]
+                },
+                {
+                    name: '现汇',
+                    type: 'bar',
+                    stack: '总量',
+                    itemStyle: {
+                        normal: {
+                            label: { show: true }
+                        }
+                    },
+                    data: [320, 302, 341, 374, 390, 450, 420]
+                },
+                {
+                    name: '票据',
+                    type: 'bar',
+                    stack: '总量',
+                    itemStyle: {
+                        normal: {
+                            label: { show: true, position: 'left' }
+                        }
+                    },
+                    data: [-120, -132, -101, -134, -190, -230, -210]
+                }
+            ]
+        };
+        function loadchart() {
+            $("#main").width($(document).width() * 0.9);
+            $("#main").height(1000);
+            var myChart = echarts.init(document.getElementById('main'));
+            myChart.showLoading();
+            myChart.setOption(option);
+            myChart.hideLoading();
+        };
         $(function () {
             var spinner1 = new Spinner(getSpinOpts()).spin(document.getElementById('table'));
             $.ajax({
@@ -63,6 +96,11 @@
                         $("#tablebody").append(shtml);
                         spinner1.stop();
                     }
+                    option.yAxis[0].data = result.data0;
+                    option.series[0].data = result.data1.list1;
+                    option.series[1].data = result.data1.list2;
+                    option.series[2].data = result.data1.list3;
+                    loadchart();
                 },
                 dataType: 'JSON'
             });
@@ -71,7 +109,9 @@
     <script src="/dist/echarts.js"></script>
 </head>
 <body>
-    <br />
+    <div class="page-header">
+        <h3 style="text-align: center">资金余额表<small style="text-align: right">&nbsp;&nbsp;&nbsp;单位(万元)</small></h3>
+    </div>
     <table id="table" class="table table-bordered">
         <thead>
             <tr class="info">
@@ -99,5 +139,6 @@
             <td style="text-align: right">32455454</td>
         </tr>--%>
     </table>
+    <div id="main"></div>
 </body>
 </html>
