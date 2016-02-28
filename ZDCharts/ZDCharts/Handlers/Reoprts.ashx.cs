@@ -14,7 +14,60 @@ namespace ZDCharts.Handlers
 
         public Tools.JsonResponse GetData1()
         {
+            int year1 = 0;
+            int month1 = 0;
+            if (DateTime.Now.Month==1)
+            {
+                year1 = DateTime.Now.Year - 1;
+                month1 = 12;
+            }
+            else
+            {
+                year1 = DateTime.Now.Year ;
+                month1 = DateTime.Now.Month - 1;
+            }
+            int year2 = DateTime.Now.Year;
+            int month2 = DateTime.Now.Month;
             string sql = string.Format(@"
+SELECT t.bcode bcode,
+       REPLACE(REPLACE(REPLACE(B.BNAME, '沈阳铸锻工业有限公司', ''), '分公司', ''),'（原模型公司）','') bname,
+       t.acode acode,
+       a.aname aname,
+       t.balrmb balrmb
+FROM
+  (SELECT SUBSTRING(acode,1,6) acode,
+          bcode,
+          SUM(rmbbalance) balrmb
+   FROM
+     (SELECT nbal.acode,
+             nbal.bcode,
+             SUM(nbal.rmbbalance*na.dc) AS rmbbalance
+      FROM {0}.dbo.balance nbal,
+           {0}.dbo.acode na
+      WHERE nbal.acode=na.acode
+        AND YEAR={1}
+        AND MONTH={2}
+        AND (nbal.acode LIKE '122101%'
+             OR nbal.acode LIKE '122102%')
+      GROUP BY nbal.acode,
+               nbal.bcode
+      UNION ALL
+        (SELECT nivou.acode,
+                nivou.bcode,
+                SUM(nivou.rmb*vdc) AS rmbbalance
+         FROM {0}.dbo.ivoucher nivou
+         WHERE YEAR={3}
+           AND nivou.month={4}
+           AND (nivou.acode LIKE '122101%'
+                OR nivou.acode LIKE '122102%')
+         GROUP BY nivou.acode,
+                  nivou.bcode)) T0
+   GROUP BY SubSTRING(acode,1,6),
+            bcode) T
+INNER JOIN {0}.dbo.ACODE A ON T.ACODE =A.ACODE
+INNER JOIN {0}.dbo.BCODE B ON.T.BCODE =B.BCODE
+", new string[] { COMN.MyVars.CWDB, year1.ToString(), month1.ToString(), year2.ToString(), month2.ToString() });
+            string sql1 = string.Format(@"
 DECLARE @MYEAR INT
 DECLARE @MMONTH INT
 DECLARE @BCODE VARCHAR(10)
