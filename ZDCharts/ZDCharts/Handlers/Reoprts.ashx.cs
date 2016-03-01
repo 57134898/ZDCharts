@@ -46,7 +46,7 @@ FROM
            {0}.dbo.acode na
       WHERE nbal.acode=na.acode
         AND YEAR={1}
-        AND MONTH={2}
+        AND MONTH =  {2}
         AND (nbal.acode LIKE '122101%'
              OR nbal.acode LIKE '122102%')
       GROUP BY nbal.acode,
@@ -57,7 +57,7 @@ FROM
                 SUM(nivou.rmb*vdc) AS rmbbalance
          FROM {0}.dbo.ivoucher nivou
          WHERE YEAR={3}
-           AND nivou.month={4}
+           AND nivou.month BETWEEN 1 AND {4}
            AND (nivou.acode LIKE '122101%'
                 OR nivou.acode LIKE '122102%')
          GROUP BY nivou.acode,
@@ -66,7 +66,7 @@ FROM
             bcode) T
 INNER JOIN {0}.dbo.ACODE A ON T.ACODE =A.ACODE
 INNER JOIN {0}.dbo.BCODE B ON.T.BCODE =B.BCODE
-", new string[] { COMN.MyVars.CWDB, year1.ToString(), month1.ToString(), year2.ToString(), month2.ToString() });
+", new string[] { COMN.MyVars.CWDB, year1.ToString(), "0", year2.ToString(), month2.ToString() });
             string sql1 = string.Format(@"
 DECLARE @MYEAR INT
 DECLARE @MMONTH INT
