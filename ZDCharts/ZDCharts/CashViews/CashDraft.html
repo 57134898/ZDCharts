@@ -352,7 +352,8 @@
                             _total += Number(_rmb);
                         }
                         if (Number($(item).find("td").eq(2).html()) < Number(_rmb)) {
-                            errormsg += "合同[" + $(item).find("td").eq(0).html() + "]付款金额[" + _rmb + "]大于未付款金额[" + $(item).find("td").eq(2).html() + "]<br/>";
+                           //修改时暂时不验证金额是否 超出合同未付款 ，因为验证了 未付款为0时 修改资金项目无法保存
+                           //  errormsg += "合同[" + $(item).find("td").eq(0).html() + "]付款金额[" + _rmb + "]大于未付款金额[" + $(item).find("td").eq(2).html() + "]<br/>";
                         }
                     });
                     if (isNaN($("#Rmb").val()) || isNaN($("#Note").val())) {
@@ -424,6 +425,7 @@
                     //alert(JSON.stringify(paym));
                 });
             });
+            //*************************************************************************************************表格内按钮点击事件 修改记录
             //刷新按钮
             $('#toolbtn_refresh').click(function () {
                 location.reload();
@@ -599,6 +601,7 @@
                             _total += Number(_rmb);
                         }
                         if (Number($(item).find("td").eq(2).html()) < Number(_rmb)) {
+
                             errormsg += "合同[" + $(item).find("td").eq(0).html() + "]付款金额[" + _rmb + "]大于未付款金额[" + $(item).find("td").eq(2).html() + "]<br/>";
                         }
                     });

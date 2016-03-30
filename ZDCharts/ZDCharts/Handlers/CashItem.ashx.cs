@@ -47,7 +47,7 @@ namespace ZDCharts.Handlers
                     //权限控制 0199 为资金池李慧 01 和02 为副总
                     if (user.RoleID == "0199" || user.RoleID == "01" || user.RoleID == "02")
                     {
-                        tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status && p.CNAME.IndexOf(searchTxt) >= 0 && p.Hdw == user.CompanyID);
+                        tempList = db.V_CashItem.Where(p => p.ApprovalStatus == status && p.CNAME.IndexOf(searchTxt) >= 0 && p.Hdw.IndexOf(user.CompanyID) >= 0);
                     }
                     else
                     {
