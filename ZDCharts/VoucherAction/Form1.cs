@@ -77,7 +77,7 @@ namespace VoucherAction
                             }
                             #endregion
                         }
-                        //合同费用凭证
+                        //合同票据凭证
                         if (r["id"].ToString() == r1["NoteVoucherID"].ToString())
                         {
                             #region 生成凭证
@@ -134,6 +134,7 @@ namespace VoucherAction
                             {
                                 string vid = obj.ToString().PadLeft(16, '0');
                                 string sql_expense = string.Empty;
+                                string sql_expense_RMB = string.Empty;
                                 foreach (DataRow r4 in flow4list.Rows)
                                 {
                                     sql_expense += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
@@ -155,7 +156,10 @@ namespace VoucherAction
                                     ,r["vdate"].ToString()
                                     ,vid
                                     ,""});
+
+                                    sql_expense_RMB = string.Format(" UPDATE WF_Flow4 SET VoucherRowID ='{0}' WHERE ID= {1}", ino, r["ID"].ToString());
                                     ino += 100;
+
                                 }
 
                                 sql_expense += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
@@ -178,8 +182,10 @@ namespace VoucherAction
                                     ,vid
                                     ,""});
                                 int result = DBHelper1.ExecuteNonQuery(sql_expense);
+
+                                int result1 = DBHelper.ExecuteNonQuery(sql_expense_RMB);
                                 Console.WriteLine(sql_expense);
-                                File.AppendAllText(Environment.CurrentDirectory + @"\log.txt", sql_expense + Environment.NewLine);
+                                File.AppendAllText(Environment.CurrentDirectory + @"\log.txt", sql_expense + Environment.NewLine + sql_expense_RMB + Environment.NewLine);
                             }
                             #endregion
                         }
@@ -190,7 +196,7 @@ namespace VoucherAction
             catch (Exception ex)
             {
                 //this.timer1.Stop();
-                //MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.ToString());
             }
         }
 
