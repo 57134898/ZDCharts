@@ -39,10 +39,10 @@
                                 { "data": "CreatedDate" },
                                 { "data": "RName" },
                                 { "data": "ApprovalStatusName" },
-                                { "data": null, defaultContent: (state != 10000 ? "<button class='btn btn-default btn-block btn-sm' mark='4'>取消</button>" : "") },
-                                { "data": null, defaultContent: (0 == 0 ? "<button class='btn btn-default btn-block' mark='3'>修改</button>" : "") },
+                                { "data": null, defaultContent: (state != 10000 ? "<button class='btn btn-default btn-block btn-sm' mark='4'>取消</button>" : ""), "orderable": false },
+                                { "data": null, defaultContent: (0 == 0 ? "<button class='btn btn-default btn-block' mark='3'>修改</button>" : ""), "orderable": false },
 
-                                { "data": null, defaultContent: "<button class='btn btn-default btn-block' mark='2'>查询</button>" }
+                                { "data": null, defaultContent: "<button class='btn btn-default btn-block' mark='2'>查询</button>", "orderable": false }
                     ],
                     //汉化
                     "language":

@@ -157,7 +157,7 @@ namespace VoucherAction
                                     ,vid
                                     ,""});
 
-                                    sql_expense_RMB = string.Format(" UPDATE WF_Flow4 SET VoucherRowID ='{0}' WHERE ID= {1}", ino, r["ID"].ToString());
+                                    sql_expense_RMB += string.Format(" UPDATE WF_Flow4 SET VoucherRowID ='{0}' WHERE ID= {1}", ino, r4["ID"].ToString());
                                     ino += 100;
 
                                 }

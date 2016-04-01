@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomerExtensionMethod.cs" />
     <Compile Include="MyFuncs.cs" />
     <Compile Include="MyVars.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web;
+using COMN;
 
 namespace ZDCharts.Handlers
 {
@@ -67,8 +69,14 @@ namespace ZDCharts.Handlers
 
                     if (tempList.Count() > 0)
                     {
-                        var pageList = tempList.OrderBy(p => p.FID).Skip(pStart).Take(pLength).ToList();
-                        jo.Add("data", JToken.FromObject(pageList));
+                        var jOrder = pJArr.SingleOrDefault(p => p["name"].ToString() == "order");
+                        var keySelector = int.Parse(jOrder["value"][0]["column"].ToString());
+
+                        var cols = pJArr.SingleOrDefault(p => p["name"].ToString() == "columns");
+                        var proName = cols["value"][keySelector]["data"].ToString();
+                        var pageList = tempList.OrderByPropertName(proName, jOrder["value"][0]["dir"].ToString() == "asc").Skip(pStart).Take(pLength);
+                        jo.Add("data", JToken.FromObject(pageList.ToList()));
+
                     }
                     else
                     {
