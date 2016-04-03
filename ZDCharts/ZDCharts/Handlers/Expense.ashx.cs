@@ -82,8 +82,6 @@ namespace ZDCharts.Handlers
                     {
                         jo.Add("data", string.Empty);
                     }
-
-
                     //业务逻辑代码 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
                     pageTotal = tempList.Count();
                     jo.Add("recordsTotal", pageTotal);
@@ -92,6 +90,8 @@ namespace ZDCharts.Handlers
                 }
             }
         }
+
+ 
         public Tools.JsonResponse Commit()
         {
             string jsonStr = context.Request.Form["formdata"];
