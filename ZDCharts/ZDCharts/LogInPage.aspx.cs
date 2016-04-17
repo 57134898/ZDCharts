@@ -29,14 +29,15 @@ namespace ZDCharts
                         {
                             UserID = emp.EmpID,
                             UserName = emp.EmpName,
-                            CompanyID = emp.CompanyID,
+                            CompanyID = "0" + this.accountBookInput.Value + emp.CompanyID.Substring(2),
                             CompanyName = emp.CompanyName,
                             RoleID = emp.RoleID,
                             RoleName = emp.RoleName,
                             DeptID = emp.DeptID,
-                            DeptName = emp.DeptName
+                            DeptName = emp.DeptName,
+                            AccountBook = this.accountBookInput.Value,
+                            AccountBookName = this.accountBookInput.Items[this.accountBookInput.SelectedIndex].Text
                         };
-
                         Session["user"] = userinfo;
                         Response.Redirect("Index.aspx");
                     }

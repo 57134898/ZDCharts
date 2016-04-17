@@ -17,5 +17,7 @@ namespace MODEL
         public string DeptName { get; set; }
         public string CompanyName { get; set; }
         public string Psw { get; set; }
+        public string AccountBook { get; set; }
+        public string AccountBookName { get; set; }
     }
 }

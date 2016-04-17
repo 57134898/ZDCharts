@@ -22,6 +22,15 @@ namespace ZDCharts {
         protected global::System.Web.UI.HtmlControls.HtmlForm loginform;
         
         /// <summary>
+        /// accountBookInput 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect accountBookInput;
+        
+        /// <summary>
         /// usernameInput 控件。
         /// </summary>
         /// <remarks>
