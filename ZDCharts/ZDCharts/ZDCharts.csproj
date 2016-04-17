@@ -348,6 +348,7 @@
     <Content Include="Handlers\Reoprts.ashx" />
     <None Include="Properties\PublishProfiles\conf.pubxml" />
     <None Include="Properties\PublishProfiles\rmb.pubxml" />
+    <None Include="Properties\PublishProfiles\rmbtest.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
