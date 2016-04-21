@@ -265,7 +265,7 @@ namespace ZDCharts.Handlers
                                     ,DateTime.Now.Month
                                     ,3
                                     ,vno
-                                    ,wf2.Hdw
+                                    ,wf2.Hdw.Substring(0,2)
                                     ,DateTime.Now.ToShortDateString()
                                     ,0
                                     ,wf.Creater
@@ -341,7 +341,7 @@ namespace ZDCharts.Handlers
                                     ,DateTime.Now.Month
                                     ,4
                                     ,vno_1
-                                    ,wf2.Hdw
+                                    ,wf2.Hdw.Substring(0,2)
                                     ,DateTime.Now.ToShortDateString()
                                     ,0
                                     ,wf.Creater
