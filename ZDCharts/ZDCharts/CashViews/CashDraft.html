@@ -360,7 +360,7 @@
                         errormsg += "金额必须为数字!<br/>";
                     }
                     var _total1 = Number(Subtr(Number($("#Rmb").val()) + Number($("#Note").val()), Number($("#MNote").val())));
-                    if (_total != _total1) {
+                    if (Math.abs(_total - _total1) > 0.0001) {
                         errormsg += "总金额与合同分配金额不相等!<br/>";
                     }
                     if ($("#nocdec").attr("code") == "" && $("#Rmb").val() != "") {
@@ -614,7 +614,7 @@
 
                     //alert(Number(''));
                     // alert(_total1);
-                    if (_total != _total1) {
+                    if (Math.abs(_total - _total1) > 0.0001) {
                         errormsg += "总金额与合同分配金额不相等!<br/>";
                     }
 
