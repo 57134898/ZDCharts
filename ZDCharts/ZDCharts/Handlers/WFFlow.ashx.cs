@@ -58,7 +58,7 @@ namespace ZDCharts.Handlers
                 //根据公司角色查找用户可以审批的节点 01与02与集团 可以看所有
                 if (user.RoleID == "01" || user.RoleID == "02")
                 {
-                    var fList = db.V_Flow_GB_Company.Where(p => p.RoleID == user.RoleID).ToList();
+                    var fList = db.V_Flow_GB_Company.Where(p => p.RoleID == user.RoleID && p.CompanyID.StartsWith("0" + user.AccountBook)).ToList();
                     return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = fList };
                 }
                 else
