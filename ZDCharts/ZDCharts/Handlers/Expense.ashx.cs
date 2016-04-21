@@ -46,7 +46,7 @@ namespace ZDCharts.Handlers
                     {
                         if (user.RoleID == "0199" || user.RoleID == "01" || user.RoleID == "02")
                         {
-                            tempList = db.V_Expense.Where(p => p.ApprovalStatus == status);
+                            tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && p.CompanyID.StartsWith("0" + user.AccountBook));
                         }
                         else
                         {
@@ -58,7 +58,7 @@ namespace ZDCharts.Handlers
                     {
                         if (user.RoleID == "0199" || user.RoleID == "01" || user.RoleID == "02")
                         {
-                            tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && (p.CompanyName.IndexOf(searchTxt) >= 0 || p.FName.IndexOf(searchTxt) >= 0));
+                            tempList = db.V_Expense.Where(p => p.ApprovalStatus == status && p.CompanyID.StartsWith("0" + user.AccountBook) && (p.CompanyName.IndexOf(searchTxt) >= 0 || p.FName.IndexOf(searchTxt) >= 0));
                         }
                         else
                         {
@@ -91,7 +91,7 @@ namespace ZDCharts.Handlers
             }
         }
 
- 
+
         public Tools.JsonResponse Commit()
         {
             string jsonStr = context.Request.Form["formdata"];
