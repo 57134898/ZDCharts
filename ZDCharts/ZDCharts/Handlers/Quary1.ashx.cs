@@ -108,7 +108,7 @@ namespace ZDCharts.Handlers
                 {
                     var list = db.WF_Nodes
                                       .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
-                                      .Join(db.V_CashItem
+                                      .Join(db.V_CashItem.Where(p => p.Hdw.StartsWith("0" + UserInfo.AccountBook))
                                       , p => p.FlowID
                                       , q => q.FlowID,
                                       (p, q) => new
@@ -140,7 +140,7 @@ namespace ZDCharts.Handlers
                 {
                     var list = db.WF_Nodes
                                       .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
-                                      .Join(db.V_Expense
+                                      .Join(db.V_Expense.Where(p => p.CompanyID.StartsWith("0" + UserInfo.AccountBook))
                                       , p => p.FlowID
                                       , q => q.FID,
                                       (p, q) => new
@@ -208,7 +208,7 @@ namespace ZDCharts.Handlers
                 {
                     var list = db.WF_Nodes
                                       .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
-                                      .Join(db.V_CashItem.Where(p => p.Ccode == id)
+                                      .Join(db.V_CashItem.Where(p => p.Ccode == id && p.Hdw.StartsWith("0" + UserInfo.AccountBook))
                                       , p => p.FlowID
                                       , q => q.FlowID,
                                       (p, q) => new
