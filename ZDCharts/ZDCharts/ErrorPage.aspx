@@ -48,7 +48,7 @@
         <div>
             <br />
             <p>
-                <a href="Index.html">
+                <a href="LogInPage.aspx">
                     <h3>返回首页</h3>
                 </a>
                 <br />
