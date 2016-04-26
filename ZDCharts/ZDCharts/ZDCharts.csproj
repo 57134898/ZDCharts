@@ -286,13 +286,9 @@
     <Content Include="Images\bg.png" />
     <Content Include="Images\crying.png" />
     <Content Include="Images\loading.gif" />
-    <Content Include="Index.html" />
     <Content Include="IndexPC.aspx" />
-    <Content Include="IndexPC.html" />
     <Content Include="LogInPage.aspx" />
-    <Content Include="LogInPage.html" />
     <Content Include="LogInPagePc.aspx" />
-    <Content Include="LogInPagePc.html" />
     <Content Include="logo114.ico" />
     <Content Include="logo144.ico" />
     <Content Include="logo72.ico" />
@@ -352,6 +348,7 @@
     <Content Include="Handlers\Reoprts.ashx" />
     <None Include="Properties\PublishProfiles\conf.pubxml" />
     <None Include="Properties\PublishProfiles\rmb.pubxml" />
+    <None Include="Properties\PublishProfiles\rmbtest.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

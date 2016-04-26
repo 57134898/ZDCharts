@@ -202,7 +202,7 @@ namespace VoucherAction
             catch (Exception ex)
             {
                 //this.timer1.Stop();
-                MessageBox.Show(ex.ToString());
+                //MessageBox.Show(ex.ToString());
             }
         }
 

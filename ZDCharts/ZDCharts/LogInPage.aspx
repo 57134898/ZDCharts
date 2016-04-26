@@ -38,6 +38,13 @@
     <br />
     <form action="LogInPage.aspx" method="post" id="loginform" runat="server" style="margin-right: 10%; margin-left: 10%">
         <div class="form-group">
+            <label class="control-label">账套</label>
+            <select id="accountBookInput" data-width="100%" class="form-control" runat="server">
+                <option value="1">铸锻公司</option>
+                <option value="2">独立分公司</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="usernameInput">用户名</label>
             <div>
                 <input type="text" class="form-control" id="usernameInput" placeholder="输入用户名" value="" runat="server" />

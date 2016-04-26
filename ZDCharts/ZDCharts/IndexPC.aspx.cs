@@ -20,6 +20,7 @@ namespace ZDCharts
                 this.dept.InnerText = user.DeptName;
                 this.role.InnerText = user.RoleName;
                 this.name.InnerText = user.UserName;
+                this.account.InnerText = user.AccountBookName;
             }
 
         }

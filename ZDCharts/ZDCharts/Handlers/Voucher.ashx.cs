@@ -63,7 +63,7 @@ namespace ZDCharts.Handlers
                                     ,DateTime.Now.Month
                                     ,vtype
                                     ,vno
-                                    ,"01"
+                                    ,flow.CompanyID
                                     ,DateTime.Now.ToShortDateString()
                                     ,0
                                     ,wf.Creater
@@ -72,53 +72,53 @@ namespace ZDCharts.Handlers
                                     ,DateTime.Now.ToShortDateString(),emp.EmpName});
                 #endregion
                 #region 添加凭证行
-//                int mark = 0;
-//                int ino = 100;
-//                foreach (var item in fowRows)
-//                {
-//                    var wf4 = db.WF_Flow4.SingleOrDefault(p => p.ID == item.WF4RowID);
-//                    wf4.VoucherRowID = ino;
-//                    sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
-//                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
-//                     new object[] { COMN.MyVars.CWDB 
-//                                    ,hid
-//                                    ,ino
-//                                    ,DateTime.Now.Year
-//                                    ,DateTime.Now.Month
-//                                    ,vtype
-//                                    ,vno
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,item.Todo
-//                                    ,-1
-//                                    ,acode_cr
-//                                    ,flow.CompanyID
-//                                    ,item.NCode
-//                                    ,item.WF4RowRmb
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,(vid+mark++).ToString().PadLeft(16, '0')
-//                                    ,""});
-//                    ino += 100;
-//                }
+                //                int mark = 0;
+                //                int ino = 100;
+                //                foreach (var item in fowRows)
+                //                {
+                //                    var wf4 = db.WF_Flow4.SingleOrDefault(p => p.ID == item.WF4RowID);
+                //                    wf4.VoucherRowID = ino;
+                //                    sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
+                //                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
+                //                     new object[] { COMN.MyVars.CWDB 
+                //                                    ,hid
+                //                                    ,ino
+                //                                    ,DateTime.Now.Year
+                //                                    ,DateTime.Now.Month
+                //                                    ,vtype
+                //                                    ,vno
+                //                                    ,DateTime.Now.ToShortDateString()
+                //                                    ,item.Todo
+                //                                    ,-1
+                //                                    ,acode_cr
+                //                                    ,flow.CompanyID
+                //                                    ,item.NCode
+                //                                    ,item.WF4RowRmb
+                //                                    ,DateTime.Now.ToShortDateString()
+                //                                    ,(vid+mark++).ToString().PadLeft(16, '0')
+                //                                    ,""});
+                //                    ino += 100;
+                //                }
 
-//                sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
-//                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
-//                    new object[] { COMN.MyVars.CWDB 
-//                                    ,hid
-//                                    ,ino
-//                                    ,DateTime.Now.Year
-//                                    ,DateTime.Now.Month
-//                                    ,vtype
-//                                    ,vno
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,flow.FName
-//                                    ,1
-//                                    ,acode_dr
-//                                    ,flow.CompanyID
-//                                    ,""// 借方NCODE 为空 待议
-//                                    ,wf3.Rmb
-//                                    ,DateTime.Now.ToShortDateString()
-//                                    ,(vid+mark).ToString().PadLeft(16, '0')
-//                                    ,""});
+                //                sql += string.Format(@"  INSERT INTO {0}.dbo.ivoucher([hid] ,[ino] ,[year] ,[month] ,[vtype] ,[vno] ,[vdate] ,[expl] ,[vdc] ,[acode] ,[bcode] ,[ncode] ,[rmb] ,[odate] ,[id],qtyunit)
+                //                                               VALUES('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13},'{14}','{15}','{16}');",
+                //                    new object[] { COMN.MyVars.CWDB 
+                //                                    ,hid
+                //                                    ,ino
+                //                                    ,DateTime.Now.Year
+                //                                    ,DateTime.Now.Month
+                //                                    ,vtype
+                //                                    ,vno
+                //                                    ,DateTime.Now.ToShortDateString()
+                //                                    ,flow.FName
+                //                                    ,1
+                //                                    ,acode_dr
+                //                                    ,flow.CompanyID
+                //                                    ,""// 借方NCODE 为空 待议
+                //                                    ,wf3.Rmb
+                //                                    ,DateTime.Now.ToShortDateString()
+                //                                    ,(vid+mark).ToString().PadLeft(16, '0')
+                //                                    ,""});
                 #endregion
 
 
