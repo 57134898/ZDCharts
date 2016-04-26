@@ -31,9 +31,15 @@ namespace VoucherAction
             this.button1.Enabled = true;
             this.timer1.Stop();
         }
-
+        int m = 0;
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (DateTime.Now.Hour < this.numericUpDown2.Value || DateTime.Now.Hour > this.numericUpDown3.Value)
+            {
+                this.textBox1.Text = "返回" + m++.ToString();
+                return;
+            }
+            this.textBox1.Text = "执行" + m++.ToString();
             Application.DoEvents();
             if (this.progressBar1.Value == 10)
             {
