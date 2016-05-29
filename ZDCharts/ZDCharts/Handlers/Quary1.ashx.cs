@@ -93,6 +93,7 @@ namespace ZDCharts.Handlers
             }
             string ctype = jo["ctype"].ToString();
             string cstatus = jo["cstatus"].ToString();
+            string accountBook = jo["accountBook"].ToString();
             string result = string.Empty;
             if (cstatus == "同意")
             {
@@ -108,7 +109,7 @@ namespace ZDCharts.Handlers
                 {
                     var list = db.WF_Nodes
                                       .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
-                                      .Join(db.V_CashItem.Where(p => p.Hdw.StartsWith("0" + UserInfo.AccountBook))
+                                      .Join(db.V_CashItem.Where(p => p.Hdw.StartsWith("0" + accountBook))
                                       , p => p.FlowID
                                       , q => q.FlowID,
                                       (p, q) => new
@@ -132,7 +133,7 @@ namespace ZDCharts.Handlers
                     }
                     else
                     {
-                        return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list.Where(p => p.CompanyID == UserInfo.CompanyID) };
+                        return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list.Where(p => p.CompanyID == "0" + accountBook + UserInfo.CompanyID.Substring(2, 2)) };
                     }
 
                 }
@@ -140,7 +141,7 @@ namespace ZDCharts.Handlers
                 {
                     var list = db.WF_Nodes
                                       .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
-                                      .Join(db.V_Expense.Where(p => p.CompanyID.StartsWith("0" + UserInfo.AccountBook))
+                                      .Join(db.V_Expense.Where(p => p.CompanyID.StartsWith("0" + accountBook))
                                       , p => p.FlowID
                                       , q => q.FID,
                                       (p, q) => new
@@ -163,7 +164,7 @@ namespace ZDCharts.Handlers
                     }
                     else
                     {
-                        return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list.Where(p => p.CompanyID == UserInfo.CompanyID) };
+                        return new Tools.JsonResponse() { Code = "0", Msg = "操作成功", Data = list.Where(p => p.CompanyID == "0" + accountBook + UserInfo.CompanyID.Substring(2, 2)) };
                     }
                 }
             }
@@ -191,6 +192,7 @@ namespace ZDCharts.Handlers
             {
                 date2 = DateTime.Parse(jo["date1"].ToString());
             }
+            string accountBook = jo["accountBook"].ToString();
             string ctype = jo["ctype"].ToString();
             string cstatus = jo["cstatus"].ToString();
             string result = string.Empty;
@@ -208,7 +210,7 @@ namespace ZDCharts.Handlers
                 {
                     var list = db.WF_Nodes
                                       .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
-                                      .Join(db.V_CashItem.Where(p => p.Ccode == id && p.Hdw.StartsWith("0" + UserInfo.AccountBook))
+                                      .Join(db.V_CashItem.Where(p => p.Ccode == id && p.Hdw.StartsWith("0" + accountBook))
                                       , p => p.FlowID
                                       , q => q.FlowID,
                                       (p, q) => new
@@ -231,7 +233,7 @@ namespace ZDCharts.Handlers
                 {
                     var list = db.WF_Nodes
                                       .Where(p => p.TemRowID == 20 && p.Result == result && p.CreatedDate >= date1 && p.CreatedDate <= date2)
-                                      .Join(db.V_Expense.Where(p => p.CompanyID == id)
+                                      .Join(db.V_Expense.Where(p => p.CompanyID == "0" + accountBook + id.Substring(2, 2))
                                       , p => p.FlowID
                                       , q => q.FID,
                                       (p, q) => new

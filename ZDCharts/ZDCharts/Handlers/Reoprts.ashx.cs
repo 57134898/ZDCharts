@@ -16,14 +16,14 @@ namespace ZDCharts.Handlers
         {
             int year1 = 0;
             int month1 = 0;
-            if (DateTime.Now.Month==1)
+            if (DateTime.Now.Month == 1)
             {
                 year1 = DateTime.Now.Year - 1;
                 month1 = 12;
             }
             else
             {
-                year1 = DateTime.Now.Year ;
+                year1 = DateTime.Now.Year;
                 month1 = DateTime.Now.Month - 1;
             }
             int year2 = DateTime.Now.Year;
@@ -138,10 +138,24 @@ GROUP BY I.BCODE,B.BNAME,SUBSTRING(I.ACODE,1,6),A.ANAME
                 jo.Add("bcode", item.bcode);
                 jo.Add("bname", item.bname);
                 jo.Add("total", item.total.ToString("N"));
-                var cash = listBal.SingleOrDefault(p => p.bcode == item.bcode && p.acode == "122101").balrmb;
-                var note = listBal.SingleOrDefault(p => p.bcode == item.bcode && p.acode == "122102").balrmb;
-                jo.Add("cash", cash.ToString("N"));
-                jo.Add("note", note.ToString("N"));
+                var c = listBal.SingleOrDefault(p => p.bcode == item.bcode && p.acode == "122101");
+                decimal cash = decimal.Zero;
+                decimal note = decimal.Zero;
+                if (c != null)
+                {
+                    cash = c.balrmb;
+                    jo.Add("cash", cash.ToString("N"));
+                }
+
+                var n = listBal.SingleOrDefault(p => p.bcode == item.bcode && p.acode == "122102");
+                if (n != null)
+                {
+                    note = n.balrmb;
+                    jo.Add("note", note.ToString("N"));
+                }
+
+
+
                 jArr.Add(jo);
                 if (item.bcode != "0101")
                 {

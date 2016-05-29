@@ -33,6 +33,7 @@
             filter.date2 = $("#date2").val();
             filter.ctype = $("#ctype").val();
             filter.cstatus = $("#cstatus").val();
+            filter.accountBook = $("#accountBookInput").val();
             var titlecss = "";
             if ($("#cstatus").val() == "同意") {
                 titlecss = " panel-success";
@@ -115,6 +116,7 @@
             filter.date2 = $("#date2").val();
             filter.ctype = $("#ctype").val();
             filter.cstatus = $("#cstatus").val();
+            filter.accountBook = $("#accountBookInput").val();
             var titlecss = "";
             if ($("#cstatus").val() == "同意") {
                 titlecss = " panel-success";
@@ -126,7 +128,7 @@
                 "type": "POST",
                 "url": "/handlers/Quary1.ashx",
                 "dataType": "json",
-                "data": { Action: 'GetContractCashList', filter: JSON.stringify(filter), id: id }, // 以json格式传递
+                "data": { Action: 'GetContractCashList', filter: JSON.stringify(filter), id: id}, // 以json格式传递
                 "success": function (resp) {
                     $("#listdiv").empty();
                     $("#listdiv").append("<a href='javascript: loadcompany()' class='list-group-item list-group-item-success'>返回</a>");
@@ -184,6 +186,13 @@
 </head>
 <body style="margin: 1px">
     <div class="collapse" id="collapse1">
+        <div class="form-group">
+            <label class="control-label">账套</label>
+            <select id="accountBookInput" data-width="100%" class="form-control" runat="server">
+                <option value="1">铸锻公司</option>
+                <option value="2">独立分公司</option>
+            </select>
+        </div>
         <div class="form-group">
             <label for="date1">开始日期(不填默认3天前)</label>
             <input type="date" class="form-control" id="date1" placeholder="密码" runat="server" />
