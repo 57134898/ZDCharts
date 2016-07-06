@@ -226,7 +226,8 @@
             loadcompany();
 
             //commit按钮事件
-            $("#commitBtn").click(function commit() {
+            $("#commitBtn").click(function commit() {                
+                $("#commitBtn").button('loading');
                 var pendingdata = $("#curnodeid").val();
                 var spinner2 = new Spinner(getSpinOpts()).spin(document.getElementById('agreebtn'));
                 $.ajax({
@@ -294,7 +295,7 @@
                 </div>
                 <div class="modal-body">
                     <input id="curnodeid" type="hidden" />
-                    <button id="commitBtn" type="button" class="btn btn-success btn-lg btn-block">确定</button>
+                    <button id="commitBtn" type="button"  data-loading-text=" 执行中，请稍后..." autocomplete="off"  class="btn btn-success btn-lg btn-block">确定</button>
                     <br />
                     <button id="cannelBtn" type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal">取消</button>
                 </div>
