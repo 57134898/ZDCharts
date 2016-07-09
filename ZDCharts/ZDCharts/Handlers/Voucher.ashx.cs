@@ -63,7 +63,7 @@ namespace ZDCharts.Handlers
                                     ,DateTime.Now.Month
                                     ,vtype
                                     ,vno
-                                    ,flow.CompanyID.Substring(0,2)
+                                    ,"0"//flow.CompanyID.Substring(0,2)
                                     ,DateTime.Now.ToShortDateString()
                                     ,0
                                     ,wf.Creater
