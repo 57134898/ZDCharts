@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -195,7 +196,14 @@ namespace ZDCharts.Handlers
                     }
                 }
                 //flow1.Rmb=db.WF_Flow2
+
+                string txtPath = context.Server.MapPath("~\\") + "dblog.txt";
+                StreamWriter sw = new StreamWriter(txtPath, false, System.Text.Encoding.Default);
+                sw.WriteLine("**********************************************************************************************"); //输出空行 
+                db.Database.Log = txt => sw.WriteLine(txt);
                 db.SaveChanges();
+                sw.WriteLine("***********************************************************************************************"); //输出空行 
+                sw.Close();
                 return new Tools.JsonResponse() { Code = "0", Msg = "操作成功" };
             }
         }

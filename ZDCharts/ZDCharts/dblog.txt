@@ -1,0 +1,75 @@
+*******************************
+Opened connection at 2016/7/13 21:37:50 +08:00
+
+Started transaction at 2016/7/13 21:37:50 +08:00
+
+UPDATE [dbo].[WF_Flow1]
+SET [Rmb] = @0, [HCode] = @1, [FlowID] = @2, [CashID] = @3, [XSHcode] = @4, [Result] = @5
+WHERE ([FID] = @6)
+
+-- @0: '1.00' (Type = Decimal, Precision = 18, Scale = 2)
+
+-- @1: 'XS2012-020W' (Type = AnsiString, Size = 50)
+
+-- @2: '4a032211-ebd5-4cc5-ab3d-c33641a1f52d' (Type = Guid)
+
+-- @3: '12bf209b-3a6c-4016-80f0-7d60a8d66d54' (Type = Guid)
+
+-- @4: 'XS2012-020' (Type = String, Size = 50)
+
+-- @5: 'Y' (Type = AnsiString, Size = 1)
+
+-- @6: '3088' (Type = Int32)
+
+-- Executing at 2016/7/13 21:37:50 +08:00
+
+-- Completed in 27 ms with result: 1
+
+
+
+UPDATE [dbo].[WF_Flows]
+SET [CurNode] = @0, [Result] = @1, [ApprovalStatus] = @2
+WHERE ([FID] = @3)
+
+-- @0: '20' (Type = Int32)
+
+-- @1: 'Y' (Type = AnsiString, Size = 1)
+
+-- @2: '100' (Type = Int32)
+
+-- @3: '4a032211-ebd5-4cc5-ab3d-c33641a1f52d' (Type = Guid)
+
+-- Executing at 2016/7/13 21:37:50 +08:00
+
+-- Completed in 21 ms with result: 1
+
+
+
+INSERT [dbo].[WF_Nodes]([TemRowID], [Result], [CreatedDate], [EmpID], [FlowID])
+VALUES (@0, @1, @2, @3, @4)
+SELECT [NID]
+FROM [dbo].[WF_Nodes]
+WHERE @@ROWCOUNT > 0 AND [NID] = scope_identity()
+
+
+-- @0: '10' (Type = Int32)
+
+-- @1: 'Y' (Type = AnsiString, Size = 1)
+
+-- @2: '2016/7/13 21:37:50' (Type = DateTime2)
+
+-- @3: '0137' (Type = AnsiString, Size = 50)
+
+-- @4: '4a032211-ebd5-4cc5-ab3d-c33641a1f52d' (Type = Guid)
+
+-- Executing at 2016/7/13 21:37:50 +08:00
+
+-- Completed in 22 ms with result: SqlDataReader
+
+
+
+Committed transaction at 2016/7/13 21:37:50 +08:00
+
+Closed connection at 2016/7/13 21:37:50 +08:00
+
+*******************************

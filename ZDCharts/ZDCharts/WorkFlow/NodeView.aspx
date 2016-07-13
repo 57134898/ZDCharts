@@ -226,6 +226,7 @@
             loadcompany();
 
             //commit按钮事件
+            $("#commitBtn").unbind();
             $("#commitBtn").click(function commit() {                
                 $("#commitBtn").button('loading');
                 var pendingdata = $("#curnodeid").val();
