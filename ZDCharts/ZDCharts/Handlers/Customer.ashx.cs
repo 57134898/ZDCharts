@@ -69,11 +69,11 @@ namespace ZDCharts.Handlers
                 IQueryable<DAL.ACLIENTS> tempList;
                 if (string.IsNullOrEmpty(searchTxt))
                 {
-                    tempList = db.ACLIENTS.Where(p => p.CCODE.StartsWith("03" + companycusotmerid) || p.CCODE.StartsWith("02" + companycusotmerid) || p.CCODE.StartsWith("01") || p.CCODE.StartsWith("05"));
+                    tempList = db.ACLIENTS.Where(p => p.CCODE.StartsWith("03" + companycusotmerid) || p.CCODE.StartsWith("02" + companycusotmerid) || p.CCODE.StartsWith("01") || p.CCODE.StartsWith("05") || p.CCODE.StartsWith("11"));
                 }
                 else
                 {
-                    tempList = db.ACLIENTS.Where(p => (p.CCODE.StartsWith("03" + companycusotmerid) || p.CCODE.StartsWith("02" + companycusotmerid) || p.CCODE.StartsWith("01") || p.CCODE.StartsWith("05"))
+                    tempList = db.ACLIENTS.Where(p => (p.CCODE.StartsWith("03" + companycusotmerid) || p.CCODE.StartsWith("02" + companycusotmerid) || p.CCODE.StartsWith("01") || p.CCODE.StartsWith("05") || p.CCODE.StartsWith("11"))
                         && (p.CNAME.IndexOf(searchTxt) >= 0 || p.CCODE.IndexOf(searchTxt) >= 0));
                     //tempList = db.ACLIENTS.Where(p => p.CCODE.StartsWith("02" + companycusotmerid) && (p.CNAME.IndexOf(searchTxt) >= 0 || p.CCODE.IndexOf(searchTxt) >= 0));
                 }
