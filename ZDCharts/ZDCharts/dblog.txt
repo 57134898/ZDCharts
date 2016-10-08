@@ -1,7 +1,7 @@
-*******************************
-Opened connection at 2016/7/13 21:37:50 +08:00
+**********************************************************************************************
+Opened connection at 2016/10/8 20:49:51 +08:00
 
-Started transaction at 2016/7/13 21:37:50 +08:00
+Started transaction at 2016/10/8 20:49:51 +08:00
 
 UPDATE [dbo].[WF_Flow1]
 SET [Rmb] = @0, [HCode] = @1, [FlowID] = @2, [CashID] = @3, [XSHcode] = @4, [Result] = @5
@@ -9,21 +9,21 @@ WHERE ([FID] = @6)
 
 -- @0: '1.00' (Type = Decimal, Precision = 18, Scale = 2)
 
--- @1: 'XS2012-020W' (Type = AnsiString, Size = 50)
+-- @1: 'XS2013-170W' (Type = AnsiString, Size = 50)
 
--- @2: '4a032211-ebd5-4cc5-ab3d-c33641a1f52d' (Type = Guid)
+-- @2: '426e473f-0bf9-442d-aa00-3ba9f4ed6781' (Type = Guid)
 
--- @3: '12bf209b-3a6c-4016-80f0-7d60a8d66d54' (Type = Guid)
+-- @3: '616aba2d-ba11-4917-b6be-e3a53cfd2915' (Type = Guid)
 
--- @4: 'XS2012-020' (Type = String, Size = 50)
+-- @4: 'XS2013-170' (Type = String, Size = 50)
 
 -- @5: 'Y' (Type = AnsiString, Size = 1)
 
--- @6: '3088' (Type = Int32)
+-- @6: '4356' (Type = Int32)
 
--- Executing at 2016/7/13 21:37:50 +08:00
+-- Executing at 2016/10/8 20:49:51 +08:00
 
--- Completed in 27 ms with result: 1
+-- Completed in 82 ms with result: 1
 
 
 
@@ -37,11 +37,11 @@ WHERE ([FID] = @3)
 
 -- @2: '100' (Type = Int32)
 
--- @3: '4a032211-ebd5-4cc5-ab3d-c33641a1f52d' (Type = Guid)
+-- @3: '426e473f-0bf9-442d-aa00-3ba9f4ed6781' (Type = Guid)
 
--- Executing at 2016/7/13 21:37:50 +08:00
+-- Executing at 2016/10/8 20:49:51 +08:00
 
--- Completed in 21 ms with result: 1
+-- Completed in 30 ms with result: 1
 
 
 
@@ -56,20 +56,20 @@ WHERE @@ROWCOUNT > 0 AND [NID] = scope_identity()
 
 -- @1: 'Y' (Type = AnsiString, Size = 1)
 
--- @2: '2016/7/13 21:37:50' (Type = DateTime2)
+-- @2: '2016/10/8 20:49:51' (Type = DateTime2)
 
 -- @3: '0137' (Type = AnsiString, Size = 50)
 
--- @4: '4a032211-ebd5-4cc5-ab3d-c33641a1f52d' (Type = Guid)
+-- @4: '426e473f-0bf9-442d-aa00-3ba9f4ed6781' (Type = Guid)
 
--- Executing at 2016/7/13 21:37:50 +08:00
+-- Executing at 2016/10/8 20:49:51 +08:00
 
--- Completed in 22 ms with result: SqlDataReader
+-- Completed in 21 ms with result: SqlDataReader
 
 
 
-Committed transaction at 2016/7/13 21:37:50 +08:00
+Committed transaction at 2016/10/8 20:49:52 +08:00
 
-Closed connection at 2016/7/13 21:37:50 +08:00
+Closed connection at 2016/10/8 20:49:52 +08:00
 
-*******************************
+***********************************************************************************************

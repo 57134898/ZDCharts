@@ -244,6 +244,7 @@
                         loadcompany();
                         $("#curnodeid").val("");
                         $(window.parent.document).find("#pendspan").text("");
+                        $("#commitBtn").button('reset');
                         spinner2.stop();
                         $('#myModal').modal('hide');
                     },
