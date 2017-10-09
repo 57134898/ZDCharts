@@ -397,6 +397,7 @@
             //工具栏按钮tooltip设置
             $('[data-toggle="tooltip"]').tooltip();
             //commitBtn事件
+            $("#commitBtn").unbind()
             $("#commitBtn").click(function () {
                 //var id = $("#dvtable  tr.selected td:eq(0)").text()
                 //if (id == "") {

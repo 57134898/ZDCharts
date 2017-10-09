@@ -499,7 +499,7 @@
                 $('#dvtable').dataTable().fnDestroy()
                 loadData($(this).attr("sid"));
             });
-            //$("#commitBtn").unbind()
+            $("#commitBtn").unbind();
             $("#commitBtn").click(function () {
                 //var id = $("#dvtable  tr.selected td:eq(0)").text()
                 //if (id == "") {
